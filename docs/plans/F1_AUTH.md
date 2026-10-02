@@ -115,6 +115,60 @@ Copying session or `/me` into Zustand would create a second source of truth that
 
 Shared components built here (text field, password field, button, alert, auth layout) become the base for every later screen, so step 2 starts with them.
 
+## 7b. Build plan (designs approved 2026-10-02)
+
+Approved screens: `design/stitch/{s5-sign-in, s6-sign-up, s7-check-email, s8a-forgot-password, s8b-reset-password, s9-complete-profile, account-unavailable, f1-auth-states}` — each `REVIEW.md` has implementation notes. Branch: `feature/f1-auth`.
+
+### Task 1 — Shared UI primitives (`ui-builder`)
+The base every later screen reuses, so it is built and reviewed first.
+
+| Component | File | Notes |
+|---|---|---|
+| `Button` | `src/components/ui/Button.tsx` | variants `primary` / `secondary` / `ghost` / `danger`; `loading` (spinner + `aria-busy`, blocks double submit); 48px height; full-width option |
+| `TextField` | `src/components/ui/TextField.tsx` | label above, hint and error below (error has icon + `aria-describedby`/`aria-invalid`); `dir` prop (`ltr` for email/phone/password); passes `autocomplete` |
+| `PasswordField` | `src/components/ui/PasswordField.tsx` | `TextField` + show/hide toggle with switching `aria-label`; toggle on the end side without covering text |
+| `Alert` | `src/components/ui/Alert.tsx` | `danger` / `warning` / `success` / `info`, icon + text, optional action slot; `role="alert"` for errors, `role="status"` otherwise |
+| `AuthLayout` | `src/features/auth/AuthLayout.tsx` | brand monogram + name from `src/brand`, centered card (max 440px, `p-6 sm:p-9`), no sidebar |
+| `TextLink` | `src/components/ui/TextLink.tsx` | router `Link` styled per design |
+
+Icons: **`lucide-react`** (outline, tree-shakable; mail, eye, eye-off, alert-circle, alert-triangle, clock, user-x). Directional icons mirror with `rtl:-scale-x-100`.
+
+### Task 2 — Auth logic (`ui-builder`, `src/features/auth/`)
+- `session.ts` — `useSession()` (`useSyncExternalStore` over `auth.onAuthStateChange`); on `SIGNED_OUT` clear the query cache.
+- `me.ts` — `ensureMe(queryClient)` using `meControllerGetOptions`; maps 403 `ACCOUNT_SUSPENDED`/`ACCOUNT_DELETED` to sign-out + `/account-unavailable`.
+- `gotrue-errors.ts` — GoTrue `error.code` → `authErrors.*` i18n key (§5); unknown → network/unexpected.
+- `validation.ts` — name (trimmed, 1–100), email, password (≥ 8), password match; returns i18n keys.
+- `redirect.ts` — accept `?redirect=` only for internal paths (starts with `/`, not `//`).
+- `pending-email.ts` — the address for «تحقق من بريدك» kept in memory (module state), never in the URL; after a reload the page shows the generic copy without the address.
+- `useCooldown(seconds)` — resend countdown (60 s).
+- GoTrue calls: `signInWithPassword`, `signUp` (with `full_name`, `emailRedirectTo: ${origin}/auth/callback`), `resend({ type: 'signup' })`, `resetPasswordForEmail(email, { redirectTo: ${origin}/reset-password })`, `updateUser({ password })`, `signOut`.
+
+### Task 3 — Routes (`ui-builder`)
+| File | Guard |
+|---|---|
+| `routes/_guest.tsx` + `_guest.sign-in.tsx`, `_guest.sign-up.tsx`, `_guest.forgot-password.tsx` | signed-in users → `/chat` |
+| `routes/check-email.tsx`, `routes/account-unavailable.tsx` | public |
+| `routes/auth.callback.tsx` | reads the link result: success → `ensureMe` → destination; `error_code=otp_expired` → expired state |
+| `routes/reset-password.tsx` | needs a recovery session (`PASSWORD_RECOVERY`), else expired state |
+| `routes/_authed.tsx` | session required (→ `/sign-in?redirect=`), then `ensureMe`: no name → `/complete-profile` |
+| `routes/_authed.complete-profile.tsx` | session required; skips the name check |
+| `routes/_authed.chat.tsx` | **empty route** (renders nothing) as the post-sign-in destination until F2 builds the chat |
+
+### Task 4 — Copy (`ui-builder`)
+All strings in `src/i18n/ar.json` (+ `en.json`) under `auth.*` and `authErrors.*`, using the approved copy from §5 and the screens' REVIEW.md. Brand name via `{{brandName}}`.
+
+### Task 5 — Tests (`test-engineer`)
+- Install `@playwright/test` + `@axe-core/playwright` (dev).
+- MSW handlers for GoTrue (`/token`, `/signup`, `/resend`, `/recover`, `/user`, `/logout`) and `GET`/`PATCH /me`.
+- Component tests for every state on the states board plus success paths; validation helper and redirect helper unit tests.
+- One Playwright flow against the local stack: sign up → read the confirmation link from Mailpit's API (`http://localhost:8025/api/v1/...`) → callback → complete profile (with and without phone) → lands on `/chat`. Axe check on each auth page; RTL check.
+
+### Task 6 — Review and finish
+`frontend-reviewer` (both checklists) → fixes → I run the flows manually against local GoTrue + Mailpit → commit on `feature/f1-auth`.
+
+### Order
+Task 1 → review of primitives → Tasks 2–4 (one `ui-builder` run) → Task 5 → Task 6. Tasks 1 and 2–4 are separate runs so the primitives can be checked before pages depend on them.
+
 ## 8. Decisions (2026-10-02)
 
 1. **Terms and privacy:** legal pages come later. No checkbox in sign-up for now; add it (with brand-config links) before launch.
