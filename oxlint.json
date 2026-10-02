@@ -1,0 +1,13 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "react", "jsx-a11y", "import"],
+  "env": { "browser": true },
+  "ignorePatterns": ["src/api/generated/**", "src/routeTree.gen.ts"],
+  "rules": {
+    "@typescript-eslint/no-explicit-any": "error",
+    "react/jsx-key": "error",
+    "jsx-a11y/alt-text": "error",
+    "jsx-a11y/anchor-has-content": "error",
+    "no-restricted-globals": ["error", "parseFloat"]
+  }
+}

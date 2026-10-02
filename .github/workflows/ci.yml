@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    env:
+      VITE_API_ORIGIN: http://localhost:3000
+      VITE_GOTRUE_URL: http://localhost:9999
+      VITE_BRAND: bayan
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build
+
+  # Fails when src/api/generated or the error catalogs are out of date with the
+  # backend's committed OpenAPI export. Needs read access to the backend repo:
+  # add a fine-grained token with "Contents: read" as the BACKEND_REPO_TOKEN secret.
+  api-contract:
+    runs-on: ubuntu-latest
+    env:
+      HAS_TOKEN: ${{ secrets.BACKEND_REPO_TOKEN != '' }}
+      BACKEND_DIR: backend
+    steps:
+      - if: env.HAS_TOKEN != 'true'
+        run: echo "::warning::BACKEND_REPO_TOKEN not set; API contract drift check skipped."
+      - if: env.HAS_TOKEN == 'true'
+        uses: actions/checkout@v4
+      - if: env.HAS_TOKEN == 'true'
+        uses: actions/checkout@v4
+        with:
+          repository: seifomran132/SuperAI_Backend
+          ref: main
+          token: ${{ secrets.BACKEND_REPO_TOKEN }}
+          path: backend
+          sparse-checkout: openapi
+      - if: env.HAS_TOKEN == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - if: env.HAS_TOKEN == 'true'
+        run: npm ci
+      - if: env.HAS_TOKEN == 'true'
+        run: npm run api:check

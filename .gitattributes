@@ -1,0 +1,9 @@
+# Always LF in the repo and working tree, matching Prettier (endOfLine: lf).
+# Prevents core.autocrlf=true on Windows from producing CRLF checkouts.
+* text=auto eol=lf
+
+# Binary files: never touch line endings.
+*.png binary
+*.jpg binary
+*.ico binary
+*.pdf binary

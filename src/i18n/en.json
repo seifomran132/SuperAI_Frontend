@@ -1,0 +1,8 @@
+{
+  "common": {
+    "loading": "Loading…",
+    "retry": "Try again",
+    "unexpectedError": "Something went wrong. Try again.",
+    "networkError": "Couldn't connect. Check your connection and try again."
+  }
+}

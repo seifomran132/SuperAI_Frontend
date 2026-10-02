@@ -1,0 +1,89 @@
+@import 'tailwindcss';
+
+/* Tokens from design/DESIGN.md (Bayan Design System v2). Components use these
+   utilities only; no raw hex values in components. Brand values are overridden
+   per customer in src/brand/<name>/theme.css. */
+@theme {
+  --font-sans: 'IBM Plex Sans Arabic', 'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+  /* Brand layer (default: Bayan) */
+  --color-brand: #1e293b;
+  --color-brand-hover: #0f172a;
+  --color-on-brand: #ffffff;
+
+  /* Neutrals */
+  --color-canvas: #f8fafc;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f1f5f9;
+  --color-fg: #0f172a;
+  --color-fg-muted: #475569;
+  --color-fg-subtle: #64748b;
+  --color-border-subtle: #e2e8f0;
+  --color-border-control: #8b95a7;
+
+  /* Modes (fixed layer; assigned by mode key) */
+  --color-mode-1: #0f766e;
+  --color-mode-1-container: #f0fdfa;
+  --color-mode-1-border: #99f6e4;
+  --color-mode-2: #4f46e5;
+  --color-mode-2-container: #eef2ff;
+  --color-mode-2-border: #c7d2fe;
+
+  /* Status (fixed layer) */
+  --color-success: #15803d;
+  --color-success-container: #f0fdf4;
+  --color-warning: #b45309;
+  --color-warning-container: #fffbeb;
+  --color-warning-border: #fde68a;
+  --color-danger: #be123c;
+  --color-danger-container: #fff1f2;
+  --color-danger-border: #fecdd3;
+  --color-focus: #4f46e5;
+
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+
+  --text-body: 1rem;
+  --text-body--line-height: 1.75;
+}
+
+@layer base {
+  html {
+    background-color: var(--color-canvas);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    font-size: 100%;
+    line-height: 1.75;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* Arabic must never be letter-spaced or italicised (breaks letter joining). */
+  :lang(ar) {
+    letter-spacing: normal;
+    font-style: normal;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  pre,
+  code {
+    direction: ltr;
+    text-align: left;
+    font-family: var(--font-mono);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
