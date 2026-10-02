@@ -101,7 +101,7 @@ Copying session or `/me` into Zustand would create a second source of truth that
 - Route guards in `beforeLoad`: `_authed` layout (needs session + profile complete) and `_guest` layout (redirects signed-in users).
 - Email links: `emailRedirectTo` / `redirectTo` point to `${origin}/auth/callback` and `${origin}/reset-password`. Recovery is detected from the `PASSWORD_RECOVERY` event.
 - **Auth flow type (decision):** keep auth-js's default implicit flow, so a confirmation link opened on another device (sign up on laptop, open email on phone) still signs the user in there. PKCE is stricter but fails in that cross-device case; revisit with the security review (P0-17).
-- Forms: plain controlled forms with a small validation helper (no form library yet); server field errors from `details`.
+- Forms: react-hook-form + zod (see §7b); server field errors from `details` are set with `setError`.
 
 ## 7. Work breakdown
 
@@ -119,25 +119,38 @@ Shared components built here (text field, password field, button, alert, auth la
 
 Approved screens: `design/stitch/{s5-sign-in, s6-sign-up, s7-check-email, s8a-forgot-password, s8b-reset-password, s9-complete-profile, account-unavailable, f1-auth-states}` — each `REVIEW.md` has implementation notes. Branch: `feature/f1-auth`.
 
-### Task 1 — Shared UI primitives (`ui-builder`)
+### Task 1 — Shared UI base: shadcn/ui adapted to DESIGN.md (`ui-builder`)
 The base every later screen reuses, so it is built and reviewed first.
 
-| Component | File | Notes |
-|---|---|---|
-| `Button` | `src/components/ui/Button.tsx` | variants `primary` / `secondary` / `ghost` / `danger`; `loading` (spinner + `aria-busy`, blocks double submit); 48px height; full-width option |
-| `TextField` | `src/components/ui/TextField.tsx` | label above, hint and error below (error has icon + `aria-describedby`/`aria-invalid`); `dir` prop (`ltr` for email/phone/password); passes `autocomplete` |
-| `PasswordField` | `src/components/ui/PasswordField.tsx` | `TextField` + show/hide toggle with switching `aria-label`; toggle on the end side without covering text |
-| `Alert` | `src/components/ui/Alert.tsx` | `danger` / `warning` / `success` / `info`, icon + text, optional action slot; `role="alert"` for errors, `role="status"` otherwise |
-| `AuthLayout` | `src/features/auth/AuthLayout.tsx` | brand monogram + name from `src/brand`, centered card (max 440px, `p-6 sm:p-9`), no sidebar |
-| `TextLink` | `src/components/ui/TextLink.tsx` | router `Link` styled per design |
+**Libraries (decided 2026-10-02):** **shadcn/ui** on Radix (components are copied into `src/components/ui` and owned by us), **react-hook-form + zod** for forms, **lucide-react** for icons, **sonner** for toasts. Full styled kits (MUI, Mantine, Ant Design) are out: they fight Tailwind and the white-label tokens.
 
-Icons: **`lucide-react`** (outline, tree-shakable; mail, eye, eye-off, alert-circle, alert-triangle, clock, user-x). Directional icons mirror with `rtl:-scale-x-100`.
+Setup:
+- `npx shadcn@latest init` with Tailwind v4, aliases on `~/` (`~/components`, `~/components/ui`, `~/lib/utils`), CSS in `src/styles/app.css`. shadcn's generated theme variables are **mapped onto our DESIGN.md tokens** (`--primary` → brand, `--destructive` → danger, `--border`, `--input` → `border-control`, `--ring` → focus, `--radius` 0.5rem, …); no second palette.
+- Wrap the app in Radix `DirectionProvider dir="rtl"` (follows the i18n direction) in `__root.tsx`.
+- Every added component is converted to logical classes (`ms-/me-/ps-/pe-/start-/end-`), uses our tokens only, and has no letter-spacing on text.
+
+Components:
+
+| Component | Source | Adaptation |
+|---|---|---|
+| `Button` | shadcn `button` | variants mapped to `primary` / `secondary` / `ghost` / `danger`; add `loading` (spinner + `aria-busy`, blocks double submit); 48px height |
+| `Input`, `Label` | shadcn `input`, `label` | 48px, `border-control`, focus ring token; `dir` passthrough (`ltr` for email/phone/password) |
+| `Form` | shadcn `form` (react-hook-form) | label above, hint and error below with icon; `aria-invalid` / `aria-describedby`; error text from i18n keys |
+| `PasswordInput` | built on `Input` | show/hide toggle on the end side with switching `aria-label`; text never under the toggle |
+| `Alert` | shadcn `alert` | `danger` / `warning` / `success` / `info`, icon + text, optional action; `role="alert"` for errors |
+| `Toaster` | shadcn `sonner` | RTL position, tokens |
+| `TextLink` | small wrapper on router `Link` | per design |
+| `AuthLayout` | `src/features/auth/AuthLayout.tsx` | brand monogram + name from `src/brand`, centered card (max 440px, `p-6 sm:p-9`), no sidebar |
+
+Icons: lucide-react (mail, eye, eye-off, circle-alert, triangle-alert, clock, user-x). Directional icons mirror with `rtl:-scale-x-100`.
+
+A temporary, dev-only gallery route `routes/dev.ui.tsx` renders every component and state for review (all variants, error, loading, RTL). It is excluded from production builds and deleted after F1 review.
 
 ### Task 2 — Auth logic (`ui-builder`, `src/features/auth/`)
 - `session.ts` — `useSession()` (`useSyncExternalStore` over `auth.onAuthStateChange`); on `SIGNED_OUT` clear the query cache.
 - `me.ts` — `ensureMe(queryClient)` using `meControllerGetOptions`; maps 403 `ACCOUNT_SUSPENDED`/`ACCOUNT_DELETED` to sign-out + `/account-unavailable`.
 - `gotrue-errors.ts` — GoTrue `error.code` → `authErrors.*` i18n key (§5); unknown → network/unexpected.
-- `validation.ts` — name (trimmed, 1–100), email, password (≥ 8), password match; returns i18n keys.
+- `schemas.ts` — zod schemas per form (name trimmed 1–100, email, password ≥ 8, password match, optional phone) whose messages are i18n keys; used with react-hook-form's zod resolver.
 - `redirect.ts` — accept `?redirect=` only for internal paths (starts with `/`, not `//`).
 - `pending-email.ts` — the address for «تحقق من بريدك» kept in memory (module state), never in the URL; after a reload the page shows the generic copy without the address.
 - `useCooldown(seconds)` — resend countdown (60 s).

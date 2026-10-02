@@ -26,7 +26,10 @@ Binding rules from the backend contract:
 | UI state | Zustand (small: selected mode, drafts, sidebar) | As in RADIO |
 | API client | **HeyAPI** (`@hey-api/openapi-ts`) from `../SuperAI_Backend/openapi/openapi.json`, plugins: `@hey-api/client-fetch`, `@hey-api/typescript`, `@hey-api/sdk`, `@tanstack/react-query` (optionally `zod` for response validation in dev) | Generates the SDK, types and ready-made `queryOptions` / `mutationOptions` / `queryKey` helpers for every endpoint; RADIO already names HeyAPI. The chat SSE endpoint is still hand-written (API_CONTRACT §6 can't be expressed in OpenAPI). |
 | Streaming | `fetch` + `ReadableStream` SSE parser (or `@microsoft/fetch-event-source`) | `EventSource` can't POST or send headers |
-| Styling | Tailwind CSS v4 with **logical properties only** (`ms-`/`me-`/`ps-`/`start-`), shadcn/ui (Radix) primitives | RTL-safe, accessible primitives |
+| Styling | Tailwind CSS v4 with **logical properties only** (`ms-`/`me-`/`ps-`/`start-`), shadcn/ui (Radix) components copied into `src/components/ui` and mapped to DESIGN.md tokens, Radix `DirectionProvider` for RTL | RTL-safe, accessible, owned code (white-label friendly) |
+| Forms | react-hook-form + zod | Shared validation, server `details` mapped onto fields |
+| Icons / toasts | lucide-react, sonner | |
+| Later | react-markdown + remark-gfm + shiki (F2 chat), @tanstack/react-virtual (F2 lists), @tanstack/react-table (F4 admin) | Added when their milestone starts |
 | i18n | i18next / react-i18next, `ar` default with `dir="rtl"`, `en` scaffolded | Arabic first, English later without code changes |
 | Money | `decimal.js` (or string formatting only) + `Intl.NumberFormat('ar', {currency:'USD'})` | No float arithmetic |
 | Markdown | `react-markdown` + `remark-gfm`, sanitized, `dir="auto"` per block | Mixed Arabic/English/code answers |

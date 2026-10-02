@@ -17,7 +17,9 @@ Arabic-first, right-to-left web app for the SuperCardAI chat platform, sold unde
 - Build screens only after their Stitch design is approved.
 
 ## Stack
-TanStack Start in **SPA mode** (client-only; `dist/client/_shell.html` serves every route) · TanStack Router (file routes in `src/routes`) · TanStack Query · HeyAPI client · `@supabase/auth-js` (GoTrue) · Tailwind CSS v4 · i18next · decimal.js · Vitest + Testing Library · MSW · oxlint · Prettier.
+TanStack Start in **SPA mode** (client-only; `dist/client/_shell.html` serves every route) · TanStack Router (file routes in `src/routes`) · TanStack Query · HeyAPI client · `@supabase/auth-js` (GoTrue) · Tailwind CSS v4 · **shadcn/ui** (Radix; owned code in `src/components/ui`, mapped to our tokens) · react-hook-form + zod · lucide-react · sonner · i18next · decimal.js · Vitest + Testing Library · MSW · oxlint · Prettier.
+
+shadcn components are ours once added: keep them on DESIGN.md tokens and logical (start/end) classes. Never re-run `shadcn add` over an existing component without re-applying those adaptations.
 
 Never use Start server functions or server routes: the browser calls the API and GoTrue directly with a bearer token, and hosting stays static.
 
