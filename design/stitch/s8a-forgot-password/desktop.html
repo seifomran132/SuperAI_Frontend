@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>نسيت كلمة المرور - بيان</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'IBM Plex Sans Arabic', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-[#F8FAFC] min-h-screen text-[#0F172A] flex flex-col justify-center items-center p-6 antialiased selection:bg-[#1E293B] selection:text-white">
+
+  <!-- Centered Content Column (max 440px) -->
+  <main class="w-full max-w-[440px] flex flex-col items-center">
+    
+    <!-- Brand Block -->
+    <header class="flex flex-col items-center mb-8">
+      <div class="w-12 h-12 rounded-xl bg-[#1E293B] flex items-center justify-center text-white text-xl font-bold shadow-sm select-none">
+        ب
+      </div>
+      <span class="mt-3 text-lg font-semibold text-[#0F172A]">بيان</span>
+    </header>
+
+    <!-- White Card -->
+    <section class="w-full bg-white rounded-2xl border border-[#E2E8F0] p-6 sm:p-9 shadow-[0_4px_6px_-1px_rgba(15,23,42,0.04)]">
+      
+      <!-- Card Header -->
+      <div class="text-start">
+        <h1 class="text-[24px] font-semibold text-[#0F172A] leading-tight">
+          نسيت كلمة المرور؟
+        </h1>
+        <p class="mt-2 text-[14px] leading-relaxed text-[#475569]">
+          أدخل بريدك الإلكتروني وسنرسل لك رابطًا لإعادة تعيين كلمة المرور.
+        </p>
+      </div>
+
+      <!-- Reset Form -->
+      <form class="mt-7 flex flex-col gap-5" onsubmit="event.preventDefault();">
+        
+        <!-- Email Field -->
+        <div class="flex flex-col gap-2">
+          <label for="email" class="text-[14px] font-medium text-[#0F172A] text-start">
+            البريد الإلكتروني
+          </label>
+          <input 
+            type="email" 
+            id="email" 
+            name="email"
+            dir="ltr"
+            placeholder="name@example.com"
+            class="w-full h-12 px-3.5 rounded-lg border border-[#8B95A7] text-[15px] text-[#0F172A] placeholder-[#64748B] focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent transition-all duration-150 text-start bg-white"
+            autocomplete="email"
+            required
+          />
+        </div>
+
+        <!-- Submit Button -->
+        <button 
+          type="submit"
+          class="w-full h-12 mt-2 bg-[#1E293B] hover:bg-[#0F172A] active:bg-[#020617] text-white text-[15px] font-medium rounded-lg transition-colors duration-150 flex items-center justify-center cursor-pointer shadow-sm"
+        >
+          إرسال رابط إعادة التعيين
+        </button>
+
+        <!-- Back to Sign-in link (with RTL mirrored arrow pointing right/start) -->
+        <div class="pt-2 text-center">
+          <a 
+            href="#" 
+            class="inline-flex items-center justify-center gap-2 text-[14px] font-medium text-[#0F172A] hover:text-[#475569] transition-colors duration-150"
+          >
+            <!-- RTL Back Arrow pointing to the right (start) -->
+            <svg class="w-4 h-4 rtl:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            <span>العودة لتسجيل الدخول</span>
+          </a>
+        </div>
+
+      </form>
+
+    </section>
+
+  </main>
+
+</body>
+</html>

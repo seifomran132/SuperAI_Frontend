@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تم إيقاف حسابك مؤقتًا - بيان</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'IBM Plex Sans Arabic', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-[#F8FAFC] text-[#0F172A] min-h-screen flex flex-col items-center justify-center p-6 selection:bg-[#1E293B] selection:text-white">
+
+  <!-- Centered container max 440px -->
+  <div class="w-full max-w-[440px] flex flex-col items-center">
+    
+    <!-- Brand Block -->
+    <div class="flex flex-col items-center mb-8">
+      <div class="w-12 h-12 rounded-xl bg-[#1E293B] flex items-center justify-center text-white text-2xl font-bold shadow-sm">
+        ب
+      </div>
+      <span class="mt-2.5 text-lg font-bold text-[#0F172A]">بيان</span>
+    </div>
+
+    <!-- White Card -->
+    <div class="w-full bg-white border border-[#E2E8F0] rounded-[16px] p-6 sm:p-9 text-center shadow-[0_4px_6px_-1px_rgba(15,23,42,0.03)]">
+      
+      <!-- Warning / Pause Icon Circle -->
+      <div class="w-14 h-14 rounded-full bg-[#FFFBEB] flex items-center justify-center mx-auto mb-6">
+        <svg class="w-6 h-6 text-[#B45309]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="6" y="4" width="4" height="16" rx="1"></rect>
+          <rect x="14" y="4" width="4" height="16" rx="1"></rect>
+        </svg>
+      </div>
+
+      <!-- Title -->
+      <h1 class="text-[24px] font-semibold text-[#0F172A] leading-tight mb-3">
+        تم إيقاف حسابك مؤقتًا
+      </h1>
+
+      <!-- Description Paragraph -->
+      <p class="text-[16px] text-[#475569] leading-[1.75] mb-6">
+        لا يمكنك استخدام بيان حاليًا. تواصل معنا لمعرفة السبب أو لإعادة تفعيل الحساب.
+      </p>
+
+      <!-- Contact Section -->
+      <div class="text-start w-full mb-6">
+        <span class="block text-[14px] font-medium text-[#0F172A] mb-2.5">
+          طرق التواصل
+        </span>
+
+        <div class="space-y-2.5">
+          <!-- Mail Row -->
+          <div class="h-11 bg-[#F1F5F9] rounded-[8px] px-3.5 flex items-center gap-3 text-[14px] text-[#475569]">
+            <svg class="w-4 h-4 text-[#64748B] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+            </svg>
+            <span class="font-normal select-all">[البريد الإلكتروني للدعم]</span>
+          </div>
+
+          <!-- Chat / Link Row -->
+          <div class="h-11 bg-[#F1F5F9] rounded-[8px] px-3.5 flex items-center gap-3 text-[14px] text-[#475569]">
+            <svg class="w-4 h-4 text-[#64748B] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path>
+            </svg>
+            <span class="font-normal select-all">[رقم أو رابط التواصل]</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Button -->
+      <button type="button" class="w-full h-12 bg-[#1E293B] hover:bg-[#0F172A] text-white text-[15px] font-medium rounded-[8px] transition-colors duration-150 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:ring-offset-2">
+        العودة
+      </button>
+
+    </div>
+
+  </div>
+
+</body>
+</html>

@@ -7,3 +7,7 @@
 *.jpg binary
 *.ico binary
 *.pdf binary
+
+# Stitch HTML exports are design references, not source: collapse in diffs and
+# exclude from language stats.
+design/stitch/**/*.html linguist-generated=true

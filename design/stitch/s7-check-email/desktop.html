@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تحقق من بريدك - بيان</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"IBM Plex Sans Arabic"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              DEFAULT: '#1E293B',
+              hover: '#0F172A',
+            },
+            canvas: '#F8FAFC',
+            surface: {
+              DEFAULT: '#FFFFFF',
+              muted: '#F1F5F9',
+            },
+            'on-surface': {
+              DEFAULT: '#0F172A',
+              muted: '#475569',
+              subtle: '#64748B',
+            },
+            border: {
+              subtle: '#E2E8F0',
+              control: '#8B95A7',
+            }
+          },
+          boxShadow: {
+            soft: '0 4px 6px -1px rgba(15, 23, 42, 0.04), 0 2px 4px -2px rgba(15, 23, 42, 0.04)',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'IBM Plex Sans Arabic', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+  </style>
+</head>
+<body class="min-h-full bg-canvas text-on-surface flex flex-col justify-center items-center py-12 px-4 sm:px-6">
+
+  <!-- Container (Centered Column Max 440px) -->
+  <div class="w-full max-w-[440px] flex flex-col items-center">
+
+    <!-- Brand Header Block (matches sign-in screen exactly) -->
+    <div class="flex flex-col items-center mb-8">
+      <div class="w-12 h-12 bg-brand rounded-xl flex items-center justify-center shadow-sm select-none">
+        <span class="text-white text-2xl font-bold leading-none pt-0.5">ب</span>
+      </div>
+      <h1 class="text-on-surface font-semibold text-[20px] leading-relaxed mt-3">بيان</h1>
+    </div>
+
+    <!-- Main Card -->
+    <div class="w-full bg-surface border border-border-subtle rounded-2xl p-6 sm:p-9 shadow-soft flex flex-col items-center text-center">
+
+      <!-- Envelope Icon in 56px circular container -->
+      <div class="w-14 h-14 rounded-full bg-surface-muted flex items-center justify-center mb-6">
+        <svg class="w-7 h-7 text-brand" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+        </svg>
+      </div>
+
+      <!-- Title -->
+      <h2 class="text-on-surface text-[24px] font-semibold leading-snug mb-3">
+        تحقق من بريدك الإلكتروني
+      </h2>
+
+      <!-- Confirmation Notice & Target Email -->
+      <p class="text-on-surface-muted text-[16px] leading-relaxed">
+        أرسلنا رابط التأكيد إلى
+      </p>
+      <div class="my-1.5">
+        <bdi dir="ltr" class="text-on-surface font-semibold text-[16px] select-all">name@example.com</bdi>
+      </div>
+
+      <!-- Explanatory Instructions -->
+      <p class="text-on-surface-muted text-[16px] leading-relaxed mt-2 mb-8">
+        افتح الرسالة واضغط على الرابط لتفعيل حسابك. إن لم تجدها، تحقق من البريد غير المرغوب فيه.
+      </p>
+
+      <!-- Action Button: Resend (Secondary style, white, 48px, 1px border #8B95A7) -->
+      <button type="button" class="w-full h-12 rounded-lg bg-surface border border-border-control text-on-surface font-medium text-[15px] hover:bg-surface-muted transition-colors focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:ring-offset-2">
+        إعادة الإرسال
+      </button>
+
+      <!-- Return to Login Link (navy with mirrored RTL right arrow) -->
+      <div class="mt-6 flex items-center justify-center">
+        <a href="#" class="inline-flex items-center text-brand hover:text-brand-hover text-[14px] font-medium transition-colors group">
+          <svg class="w-4 h-4 me-1.5 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <!-- Mirrored for RTL back action: arrow points to the right -->
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+          </svg>
+          <span>العودة لتسجيل الدخول</span>
+        </a>
+      </div>
+
+    </div>
+
+  </div>
+
+</body>
+</html>

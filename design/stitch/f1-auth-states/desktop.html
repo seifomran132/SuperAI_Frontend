@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>حالات صفحات المصادقة</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: {
+      fontFamily: { sans: ['"IBM Plex Sans Arabic"', 'sans-serif'] },
+      colors: {
+        brand: { DEFAULT: '#1E293B', hover: '#0F172A' },
+        canvas: '#F8FAFC', surface: '#FFFFFF', 'surface-muted': '#F1F5F9',
+        ink: '#0F172A', muted: '#475569',
+        'border-card': '#E2E8F0', 'border-control': '#8B95A7',
+        'focus-ring': '#4F46E5',
+        danger: '#BE123C', 'danger-container': '#FFF1F2', 'danger-border': '#FECDD3',
+        warning: '#B45309', 'warning-container': '#FFFBEB', 'warning-border': '#FDE68A'
+      },
+      boxShadow: { subtle: '0 4px 6px -1px rgba(15,23,42,0.03), 0 2px 4px -2px rgba(15,23,42,0.03)' }
+    } } };
+  </script>
+  <style>
+    * { letter-spacing: 0 !important; }
+    input:focus, button:focus, a:focus { outline: 2px solid #4F46E5; outline-offset: 2px; }
+  </style>
+</head>
+<body class="bg-canvas text-ink font-sans antialiased p-10">
+
+  <header class="max-w-[1600px] mx-auto mb-8">
+    <h1 class="text-[24px] leading-[40px] font-semibold">حالات صفحات المصادقة</h1>
+    <p class="text-[16px] leading-[28px] text-muted">الحالات الرئيسية غير الافتراضية، كل حالة داخل بطاقة بنفس تخطيط الصفحة الأصلية.</p>
+  </header>
+
+  <main class="max-w-[1600px] mx-auto grid grid-cols-4 gap-x-6 gap-y-10">
+
+    <!-- 1. Sign in: wrong credentials -->
+    <section>
+      <p class="text-[14px] leading-[22px] font-medium text-muted mb-3">تسجيل الدخول: بيانات غير صحيحة</p>
+      <div class="bg-surface border border-border-card rounded-[16px] p-6 shadow-subtle">
+        <h2 class="text-[18px] leading-[30px] font-semibold mb-5">تسجيل الدخول</h2>
+        <div role="alert" class="flex items-start gap-2 bg-danger-container border border-danger-border text-danger rounded-[8px] p-3 mb-5 text-[14px] leading-[22px]">
+          <svg class="w-5 h-5 shrink-0 mt-px" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" d="M12 7.5v5M12 16h.01"/></svg>
+          <span>البريد الإلكتروني أو كلمة المرور غير صحيحة.</span>
+        </div>
+        <div class="space-y-4">
+          <div class="flex flex-col gap-2"><label class="text-[14px] font-medium leading-[22px]">البريد الإلكتروني</label>
+            <input dir="ltr" value="name@example.com" class="w-full h-11 px-4 rounded-[8px] border border-border-control bg-surface text-start text-[15px]" readonly></div>
+          <div class="flex flex-col gap-2"><label class="text-[14px] font-medium leading-[22px]">كلمة المرور</label>
+            <div class="relative"><input dir="ltr" type="password" value="password1" class="w-full h-11 pe-4 ps-12 rounded-[8px] border border-border-control bg-surface text-start text-[15px]" readonly>
+            <button type="button" aria-label="إظهار كلمة المرور" class="absolute end-0 top-0 h-11 w-11 flex items-center justify-center text-muted"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M2.04 12.32a1 1 0 010-.64C3.42 7.51 7.36 4.5 12 4.5s8.57 3 9.96 7.18a1 1 0 010 .64C20.58 16.49 16.64 19.5 12 19.5s-8.57-3-9.96-7.18z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
+        </div>
+        <button class="mt-5 w-full h-12 rounded-[8px] bg-brand text-white text-[16px] font-semibold">تسجيل الدخول</button>
+      </div>
+    </section>
+
+    <!-- 2. Sign in: email not confirmed -->
+    <section>
+      <p class="text-[14px] leading-[22px] font-medium text-muted mb-3">تسجيل الدخول: البريد غير مؤكد</p>
+      <div class="bg-surface border border-border-card rounded-[16px] p-6 shadow-subtle">
+        <h2 class="text-[18px] leading-[30px] font-semibold mb-5">تسجيل الدخول</h2>
+        <div role="alert" class="flex items-start gap-2 bg-warning-container border border-warning-border text-warning rounded-[8px] p-3 mb-5 text-[14px] leading-[22px]">
+          <svg class="w-5 h-5 shrink-0 mt-px" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 3.5h.01M10.3 4.3L2.6 17.5A2 2 0 004.3 20.5h15.4a2 2 0 001.7-3L13.7 4.3a2 2 0 00-3.4 0z"/></svg>
+          <span>لم تؤكد بريدك الإلكتروني بعد. أرسلنا لك رابط التأكيد.</span>
+        </div>
+        <div class="space-y-4">
+          <div class="flex flex-col gap-2"><label class="text-[14px] font-medium leading-[22px]">البريد الإلكتروني</label>
+            <input dir="ltr" value="name@example.com" class="w-full h-11 px-4 rounded-[8px] border border-border-control bg-surface text-start text-[15px]" readonly></div>
+          <div class="flex flex-col gap-2"><label class="text-[14px] font-medium leading-[22px]">كلمة المرور</label>
+            <div class="relative"><input dir="ltr" type="password" value="password1" class="w-full h-11 pe-4 ps-12 rounded-[8px] border border-border-control bg-surface text-start text-[15px]" readonly>
+            <button type="button" aria-label="إظهار كلمة المرور" class="absolute end-0 top-0 h-11 w-11 flex items-center justify-center text-muted"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M2.04 12.32a1 1 0 010-.64C3.42 7.51 7.36 4.5 12 4.5s8.57 3 9.96 7.18a1 1 0 010 .64C20.58 16.49 16.64 19.5 12 19.5s-8.57-3-9.96-7.18z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
+        </div>
+        <button class="mt-5 w-full h-12 rounded-[8px] bg-brand text-white text-[16px] font-semibold">تسجيل الدخول</button>
+        <button class="mt-3 w-full h-12 rounded-[8px] bg-surface border border-border-control text-ink text-[15px] font-medium">إعادة إرسال رابط التأكيد</button>
+      </div>
+    </section>
+
+    <!-- 3. Sign up: field errors -->
+    <section>
+      <p class="text-[14px] leading-[22px] font-medium text-muted mb-3">إنشاء حساب: أخطاء الحقول</p>
+      <div class="bg-surface border border-border-card rounded-[16px] p-6 shadow-subtle">
+        <h2 class="text-[18px] leading-[30px] font-semibold mb-5">إنشاء حساب</h2>
+        <div class="space-y-4">
+          <div class="flex flex-col gap-2"><label class="text-[14px] font-medium leading-[22px]">الاسم الكامل</label>
+            <input aria-invalid="true" placeholder="مثال: أحمد محمد" class="w-full h-11 px-4 rounded-[8px] border-2 border-danger bg-surface text-[15px] placeholder-[#64748B]" readonly>
+            <p class="flex items-center gap-1.5 text-danger text-[14px] leading-[22px]"><svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" d="M12 7.5v5M12 16h.01"/></svg>أدخل اسمك الكامل.</p></div>
+          <div class="flex flex-col gap-2"><label class="text-[14px] font-medium leading-[22px]">البريد الإلكتروني</label>
+            <input dir="ltr" aria-invalid="true" value="abc" class="w-full h-11 px-4 rounded-[8px] border-2 border-danger bg-surface text-start text-[15px]" readonly>
+            <p class="flex items-center gap-1.5 text-danger text-[14px] leading-[22px]"><svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" d="M12 7.5v5M12 16h.01"/></svg>أدخل بريدًا إلكترونيًا صحيحًا.</p></div>
+          <div class="flex flex-col gap-2"><label class="text-[14px] font-medium leading-[22px]">كلمة المرور</label>
+            <div class="relative"><input dir="ltr" type="password" aria-invalid="true" value="abcd" class="w-full h-11 pe-4 ps-12 rounded-[8px] border-2 border-danger bg-surface text-start text-[15px]" readonly>
+            <button type="button" aria-label="إظهار كلمة المرور" class="absolute end-0 top-0 h-11 w-11 flex items-center justify-center text-muted"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M2.04 12.32a1 1 0 010-.64C3.42 7.51 7.36 4.5 12 4.5s8.57 3 9.96 7.18a1 1 0 010 .64C20.58 16.49 16.64 19.5 12 19.5s-8.57-3-9.96-7.18z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+            <p class="flex items-start gap-1.5 text-danger text-[14px] leading-[22px]"><svg class="w-4 h-4 shrink-0 mt-[3px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" d="M12 7.5v5M12 16h.01"/></svg>كلمة المرور قصيرة. استخدم 8 أحرف على الأقل.</p></div>
+        </div>
+        <button class="mt-5 w-full h-12 rounded-[8px] bg-brand text-white text-[16px] font-semibold">إنشاء حساب</button>
+      </div>
+    </section>
+
+    <!-- 4. Check email: resend cooldown -->
+    <section>
+      <p class="text-[14px] leading-[22px] font-medium text-muted mb-3">تحقق من بريدك: مهلة إعادة الإرسال</p>
+      <div class="bg-surface border border-border-card rounded-[16px] p-6 shadow-subtle flex flex-col items-center text-center">
+        <div class="w-14 h-14 rounded-full bg-surface-muted flex items-center justify-center mb-5"><svg class="w-7 h-7 text-brand" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0l-9.75 6-9.75-6"/></svg></div>
+        <h2 class="text-[18px] leading-[30px] font-semibold mb-2">تحقق من بريدك الإلكتروني</h2>
+        <p class="text-[16px] leading-[28px] text-muted">أرسلنا رابط التأكيد إلى</p>
+        <bdi dir="ltr" class="font-semibold text-[16px] my-1">name@example.com</bdi>
+        <button disabled class="mt-6 w-full h-12 rounded-[8px] bg-surface-muted border border-border-card text-muted text-[15px] font-medium cursor-not-allowed">إعادة الإرسال بعد <span class="tabular-nums">45</span> ثانية</button>
+        <a href="#" class="mt-5 inline-flex items-center gap-2 text-brand text-[14px] font-medium"><svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>العودة لتسجيل الدخول</a>
+      </div>
+    </section>
+
+    <!-- 5. Reset password: link expired -->
+    <section>
+      <p class="text-[14px] leading-[22px] font-medium text-muted mb-3">تعيين كلمة المرور: الرابط منتهي</p>
+      <div class="bg-surface border border-border-card rounded-[16px] p-6 shadow-subtle flex flex-col items-center text-center">
+        <div class="w-14 h-14 rounded-full bg-warning-container flex items-center justify-center mb-5"><svg class="w-7 h-7 text-warning" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 7v5l3 2"/></svg></div>
+        <h2 class="text-[18px] leading-[30px] font-semibold mb-2">انتهت صلاحية الرابط</h2>
+        <p class="text-[16px] leading-[28px] text-muted">انتهت صلاحية الرابط أو استُخدم من قبل. اطلب رابطًا جديدًا.</p>
+        <button class="mt-6 w-full h-12 rounded-[8px] bg-brand text-white text-[16px] font-semibold">طلب رابط جديد</button>
+      </div>
+    </section>
+
+    <!-- 6. Network error -->
+    <section>
+      <p class="text-[14px] leading-[22px] font-medium text-muted mb-3">خطأ في الاتصال</p>
+      <div class="bg-surface border border-border-card rounded-[16px] p-6 shadow-subtle">
+        <h2 class="text-[18px] leading-[30px] font-semibold mb-5">تسجيل الدخول</h2>
+        <div role="alert" class="flex items-start gap-2 bg-danger-container border border-danger-border text-danger rounded-[8px] p-3 mb-5 text-[14px] leading-[22px]">
+          <svg class="w-5 h-5 shrink-0 mt-px" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" d="M12 7.5v5M12 16h.01"/></svg>
+          <span>تعذّر الاتصال. تحقق من اتصالك وحاول مرة أخرى.</span>
+        </div>
+        <div class="space-y-4">
+          <div class="flex flex-col gap-2"><label class="text-[14px] font-medium leading-[22px]">البريد الإلكتروني</label>
+            <input dir="ltr" value="name@example.com" class="w-full h-11 px-4 rounded-[8px] border border-border-control bg-surface text-start text-[15px]" readonly></div>
+          <div class="flex flex-col gap-2"><label class="text-[14px] font-medium leading-[22px]">كلمة المرور</label>
+            <div class="relative"><input dir="ltr" type="password" value="password1" class="w-full h-11 pe-4 ps-12 rounded-[8px] border border-border-control bg-surface text-start text-[15px]" readonly>
+            <button type="button" aria-label="إظهار كلمة المرور" class="absolute end-0 top-0 h-11 w-11 flex items-center justify-center text-muted"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M2.04 12.32a1 1 0 010-.64C3.42 7.51 7.36 4.5 12 4.5s8.57 3 9.96 7.18a1 1 0 010 .64C20.58 16.49 16.64 19.5 12 19.5s-8.57-3-9.96-7.18z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
+        </div>
+        <button class="mt-5 w-full h-12 rounded-[8px] bg-brand text-white text-[16px] font-semibold">إعادة المحاولة</button>
+      </div>
+    </section>
+
+    <!-- 7. Too many attempts -->
+    <section>
+      <p class="text-[14px] leading-[22px] font-medium text-muted mb-3">محاولات كثيرة</p>
+      <div class="bg-surface border border-border-card rounded-[16px] p-6 shadow-subtle">
+        <h2 class="text-[18px] leading-[30px] font-semibold mb-5">تسجيل الدخول</h2>
+        <div role="alert" class="flex items-start gap-2 bg-warning-container border border-warning-border text-warning rounded-[8px] p-3 mb-5 text-[14px] leading-[22px]">
+          <svg class="w-5 h-5 shrink-0 mt-px" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 3.5h.01M10.3 4.3L2.6 17.5A2 2 0 004.3 20.5h15.4a2 2 0 001.7-3L13.7 4.3a2 2 0 00-3.4 0z"/></svg>
+          <span>محاولات كثيرة. انتظر قليلًا ثم حاول مرة أخرى.</span>
+        </div>
+        <div class="space-y-4">
+          <div class="flex flex-col gap-2"><label class="text-[14px] font-medium leading-[22px]">البريد الإلكتروني</label>
+            <input dir="ltr" value="name@example.com" class="w-full h-11 px-4 rounded-[8px] border border-border-control bg-surface text-start text-[15px]" readonly></div>
+          <div class="flex flex-col gap-2"><label class="text-[14px] font-medium leading-[22px]">كلمة المرور</label>
+            <div class="relative"><input dir="ltr" type="password" value="password1" class="w-full h-11 pe-4 ps-12 rounded-[8px] border border-border-control bg-surface text-start text-[15px]" readonly>
+            <button type="button" aria-label="إظهار كلمة المرور" class="absolute end-0 top-0 h-11 w-11 flex items-center justify-center text-muted"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M2.04 12.32a1 1 0 010-.64C3.42 7.51 7.36 4.5 12 4.5s8.57 3 9.96 7.18a1 1 0 010 .64C20.58 16.49 16.64 19.5 12 19.5s-8.57-3-9.96-7.18z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
+        </div>
+        <button class="mt-5 w-full h-12 rounded-[8px] bg-brand text-white text-[16px] font-semibold">تسجيل الدخول</button>
+      </div>
+    </section>
+
+  </main>
+</body>
+</html>

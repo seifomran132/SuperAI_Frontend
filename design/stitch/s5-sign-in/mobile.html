@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تسجيل الدخول - بيان</title>
+  <!-- Google Fonts: IBM Plex Sans Arabic -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"IBM Plex Sans Arabic"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              DEFAULT: '#1E293B',
+              hover: '#0F172A',
+            },
+            canvas: '#F8FAFC',
+            surface: '#FFFFFF',
+            'surface-muted': '#F1F5F9',
+            'text-primary': '#0F172A',
+            'text-secondary': '#475569',
+            'border-card': '#E2E8F0',
+            'border-control': '#8B95A7',
+            'focus-ring': '#4F46E5',
+          },
+          boxShadow: {
+            subtle: '0 4px 6px -1px rgba(15, 23, 42, 0.03), 0 2px 4px -2px rgba(15, 23, 42, 0.03)',
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    * {
+      letter-spacing: 0 !important;
+      font-feature-settings: "tnum" on, "cv01" on;
+    }
+    input:focus, button:focus, a:focus {
+      outline: 2px solid #4F46E5;
+      outline-offset: 2px;
+    }
+    /* Western digits enforcement */
+    .numeric {
+      font-variant-numeric: tabular-nums;
+    }
+  </style>
+</head>
+<body class="h-full bg-canvas text-text-primary font-sans antialiased flex flex-col justify-center items-center p-6 selection:bg-brand selection:text-white">
+
+  <!-- Centered Container (Max 440px) -->
+  <div class="w-full max-w-[440px] flex flex-col items-center">
+    
+    <!-- 1. Brand Block Above Card -->
+    <div class="flex flex-col items-center gap-3 mb-8">
+      <div class="w-12 h-12 rounded-xl bg-brand flex items-center justify-center shadow-sm select-none">
+        <span class="text-white text-2xl font-bold leading-none select-none">ب</span>
+      </div>
+      <h1 class="text-text-primary text-[20px] font-semibold leading-[34px]">بيان</h1>
+    </div>
+
+    <!-- 2. The Auth Card -->
+    <div class="w-full bg-surface border border-border-card rounded-[16px] p-6 sm:p-[36px] shadow-subtle">
+      
+      <!-- Title & Subtitle -->
+      <div class="text-start mb-8">
+        <h2 class="text-text-primary text-[24px] font-semibold leading-[40px] mb-2">تسجيل الدخول</h2>
+        <p class="text-text-secondary text-[16px] font-normal leading-[28px]">مرحبًا بعودتك. أدخل بياناتك للمتابعة.</p>
+      </div>
+
+      <!-- Form -->
+      <form class="space-y-6" onsubmit="event.preventDefault();">
+        
+        <!-- Field 1: Email -->
+        <div class="flex flex-col gap-2">
+          <label for="email" class="text-start text-text-primary text-[14px] font-medium leading-[22px]">
+            البريد الإلكتروني
+          </label>
+          <input 
+            type="email" 
+            id="email" 
+            name="email"
+            autocomplete="email"
+            dir="ltr"
+            placeholder="name@example.com"
+            class="w-full h-12 px-4 rounded-[8px] border border-border-control bg-surface text-text-primary text-start text-[15px] placeholder-[#64748B] transition-colors focus:border-focus-ring"
+            required
+          />
+        </div>
+
+        <!-- Field 2: Password -->
+        <div class="flex flex-col gap-2">
+          <div class="flex items-center justify-between">
+            <label for="password" class="text-text-primary text-[14px] font-medium leading-[22px]">
+              كلمة المرور
+            </label>
+            <a href="#" class="text-brand text-[14px] font-medium leading-[22px] hover:underline focus:rounded-sm">
+              نسيت كلمة المرور؟
+            </a>
+          </div>
+
+          <div class="relative w-full">
+            <input 
+              type="password" 
+              id="password" 
+              name="password"
+              autocomplete="current-password"
+              dir="ltr"
+              placeholder="••••••••"
+              class="w-full h-12 pe-4 ps-12 rounded-[8px] border border-border-control bg-surface text-text-primary text-start text-[16px] placeholder-[#64748B] transition-colors focus:border-focus-ring"
+              required
+            />
+            <!-- Show/Hide Toggle: positioned at the left edge (visual end in RTL / start in LTR) -->
+            <button 
+              type="button" 
+              id="togglePassword"
+              aria-label="إظهار كلمة المرور"
+              class="absolute end-0 top-0 h-12 w-11 flex items-center justify-center text-text-secondary hover:text-text-primary transition-colors rounded-e-[8px]"
+            >
+              <!-- Eye Icon (20x20) -->
+              <svg id="eyeIcon" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <!-- Eye Slash Icon (hidden by default) -->
+              <svg id="eyeSlashIcon" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Primary Action Button -->
+        <button 
+          type="submit" 
+          class="w-full h-12 rounded-[8px] bg-brand hover:bg-brand-hover text-white text-[16px] font-semibold leading-[28px] transition-colors shadow-sm active:scale-[0.99]"
+        >
+          تسجيل الدخول
+        </button>
+
+      </form>
+
+      <!-- Bottom link: Sign Up -->
+      <div class="mt-8 text-center text-[14px] font-normal text-text-secondary leading-[22px]">
+        <span>ليس لديك حساب؟</span>
+        <a href="#" class="text-brand font-semibold ms-1 hover:underline focus:rounded-sm">
+          إنشاء حساب
+        </a>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    // Password toggle functionality
+    const toggleBtn = document.getElementById('togglePassword');
+    const pwdInput = document.getElementById('password');
+    const eyeIcon = document.getElementById('eyeIcon');
+    const eyeSlashIcon = document.getElementById('eyeSlashIcon');
+
+    toggleBtn.addEventListener('click', () => {
+      const isPassword = pwdInput.type === 'password';
+      pwdInput.type = isPassword ? 'text' : 'password';
+      toggleBtn.setAttribute('aria-label', isPassword ? 'إخفاء كلمة المرور' : 'إظهار كلمة المرور');
+      eyeIcon.classList.toggle('hidden', isPassword);
+      eyeSlashIcon.classList.toggle('hidden', !isPassword);
+      pwdInput.focus();
+    });
+  </script>
+
+</body>
+</html>
