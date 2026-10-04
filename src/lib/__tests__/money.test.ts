@@ -1,4 +1,4 @@
-import { formatUsd } from './money';
+import { formatUsd } from '~/lib/money';
 
 describe('formatUsd', () => {
   it('formats API decimal strings with two decimals', () => {

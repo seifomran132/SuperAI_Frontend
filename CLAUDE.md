@@ -39,17 +39,36 @@ Local setup: Node 22+, `npm install`, `cp .env.example .env`, backend running (`
 src/
   api/          client.ts (auth + session handling), query-client.ts, errors.ts, hey-api.ts
   api/generated/  HeyAPI output — never edit by hand; run `npm run api:sync`
-  auth/         GoTrue client, sign-up helper
   brand/        BrandConfig per customer (name, monogram, brand colors, contact, legal)
-  components/   shared components (Money, …)
-  features/     feature folders: chat, balance, account, auth, plans, admin
+  components/   shared components (Money, RouteError, TextLink, …); ui/ = shadcn base
+  features/     product features: auth, chat, balance, account, plans, admin
   i18n/         ar.json (default), en.json, errors.{ar,en}.json (generated)
-  lib/          env, money
+  lib/          env, money, utils; lib/auth/ = GoTrue client and email-link parsing (infrastructure)
+  mocks/        MSW handlers shared by tests
   platform/     web/mobile adapters: storage, stream transport (Capacitor-ready)
-  routes/       file routes (__root.tsx sets lang/dir/brand)
+  routes/       file routes (directories; see below)
   styles/app.css  tokens from DESIGN.md (@theme)
+  test/         test setup and harness (render-app, helpers, repo-wide checks)
+tests/          Playwright end-to-end tests (`npm run test:e2e`, needs the local stack)
 design/         DESIGN.md and Stitch exports
 ```
+
+### Feature folders
+Every feature in `src/features/<name>/` has the same shape:
+```
+features/<name>/
+  index.ts        public API — the only file imported from outside the feature
+  pages/          one component per screen (rendered by a route)
+  components/     UI used only inside this feature
+  model/          logic without JSX: hooks, schemas, guards, API/auth calls, state
+  <folder>/__tests__/   tests for that folder, e.g. pages/__tests__/SignInPage.test.tsx
+```
+- Inside a feature, import with relative paths (`../model/schemas`). Outside it, import only `~/features/<name>`.
+- Code shared by two features moves to `src/components` or `src/lib`, not into another feature.
+
+### Routes
+- Directory routes: `_guest/route.tsx` (layout + guard) with `_guest/sign-in.tsx`; `_authed/route.tsx` with its children; `(group)/` folders organise files without changing URLs (e.g. `(auth)/check-email.tsx` → `/check-email`).
+- Route files stay thin: `validateSearch`, guards in `beforeLoad`, and rendering a page from the feature's `index.ts`. No UI or business logic in routes.
 
 ## Conventions
 
@@ -90,7 +109,7 @@ design/         DESIGN.md and Stitch exports
 ### Code style
 - Imports via the `~/` alias. TypeScript strict; no `any`.
 - Comments explain why, not what. Match the surrounding code.
-- Tests live next to the code (`*.test.ts(x)`).
+- Unit and component tests live in a `__tests__/` folder inside the folder they test (`model/__tests__/guards.test.tsx`); end-to-end tests live in the top-level `tests/`.
 
 ## Agents (`.claude/agents/`)
 `stitch-designer` (design one screen in Stitch) → user approves → `ui-builder` / `chat-engineer` (build) → `test-engineer` (tests) → `frontend-reviewer` (read-only review) → commit. `contract-sync` runs after backend API changes. Agents never commit.

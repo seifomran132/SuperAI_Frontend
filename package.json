@@ -14,6 +14,7 @@
     "format": "prettier --write .",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:e2e": "playwright test",
     "api:sync": "openapi-ts && node scripts/sync-error-catalog.mjs",
     "api:check": "npm run api:sync && git diff --exit-code -- src/api/generated src/i18n/errors.ar.json src/i18n/errors.en.json"
   },
@@ -39,7 +40,9 @@
     "zustand": "^5.0.15"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@hey-api/openapi-ts": "^0.99.0",
+    "@playwright/test": "^1.63.0",
     "@tailwindcss/vite": "^4.3.3",
     "@testing-library/dom": "^10.4.2",
     "@testing-library/jest-dom": "^7.0.1",

@@ -18,7 +18,8 @@ You review changes; you never edit files. Use Bash only for read-only commands (
 5. **No provider or model names** in user-facing UI, copy or mocks shown to users.
 6. **White-label:** no hard-coded brand name, logo or brand color; brand comes from config and tokens.
 7. **Generated code** (`src/api/generated/`) not hand-edited.
-8. Typecheck, lint and tests pass.
+8. **Structure:** feature-folder shape from CLAUDE.md (`index.ts`, `pages/`, `components/`, `model/`, tests in `__tests__/`); nothing outside a feature imports its internals; route files stay thin.
+9. Typecheck, lint and tests pass.
 
 ## Checklist B — UI and design
 1. **RTL:** only logical utilities (flag `ml-|mr-|pl-|pr-|left-|right-|text-left|text-right|rounded-l|rounded-r|border-l|border-r` in changed lines); sidebar first in DOM and on the right; directional icons mirror.

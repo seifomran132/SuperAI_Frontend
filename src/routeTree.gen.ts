@@ -10,43 +10,165 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as DevUiRouteImport } from './routes/dev.ui'
+import { Route as AuthedRouteRouteImport } from './routes/_authed/route'
+import { Route as GuestRouteRouteImport } from './routes/_guest/route'
+import { Route as authAccountUnavailableRouteImport } from './routes/(auth)/account-unavailable'
+import { Route as authCheckEmailRouteImport } from './routes/(auth)/check-email'
+import { Route as authResetPasswordRouteImport } from './routes/(auth)/reset-password'
+import { Route as AuthedChatRouteImport } from './routes/_authed/chat'
+import { Route as AuthedCompleteProfileRouteImport } from './routes/_authed/complete-profile'
+import { Route as GuestForgotPasswordRouteImport } from './routes/_guest/forgot-password'
+import { Route as GuestSignInRouteImport } from './routes/_guest/sign-in'
+import { Route as GuestSignUpRouteImport } from './routes/_guest/sign-up'
+import { Route as authAuthCallbackRouteImport } from './routes/(auth)/auth/callback'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DevUiRoute = DevUiRouteImport.update({
-  id: '/dev/ui',
-  path: '/dev/ui',
+const AuthedRouteRoute = AuthedRouteRouteImport.update({
+  id: '/_authed',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuestRouteRoute = GuestRouteRouteImport.update({
+  id: '/_guest',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const authAccountUnavailableRoute = authAccountUnavailableRouteImport.update({
+  id: '/(auth)/account-unavailable',
+  path: '/account-unavailable',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const authCheckEmailRoute = authCheckEmailRouteImport.update({
+  id: '/(auth)/check-email',
+  path: '/check-email',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const authResetPasswordRoute = authResetPasswordRouteImport.update({
+  id: '/(auth)/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthedChatRoute = AuthedChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
+  getParentRoute: () => AuthedRouteRoute,
+} as any)
+const AuthedCompleteProfileRoute = AuthedCompleteProfileRouteImport.update({
+  id: '/complete-profile',
+  path: '/complete-profile',
+  getParentRoute: () => AuthedRouteRoute,
+} as any)
+const GuestForgotPasswordRoute = GuestForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => GuestRouteRoute,
+} as any)
+const GuestSignInRoute = GuestSignInRouteImport.update({
+  id: '/sign-in',
+  path: '/sign-in',
+  getParentRoute: () => GuestRouteRoute,
+} as any)
+const GuestSignUpRoute = GuestSignUpRouteImport.update({
+  id: '/sign-up',
+  path: '/sign-up',
+  getParentRoute: () => GuestRouteRoute,
+} as any)
+const authAuthCallbackRoute = authAuthCallbackRouteImport.update({
+  id: '/(auth)/auth/callback',
+  path: '/auth/callback',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/dev/ui': typeof DevUiRoute
+  '/account-unavailable': typeof authAccountUnavailableRoute
+  '/check-email': typeof authCheckEmailRoute
+  '/reset-password': typeof authResetPasswordRoute
+  '/chat': typeof AuthedChatRoute
+  '/complete-profile': typeof AuthedCompleteProfileRoute
+  '/forgot-password': typeof GuestForgotPasswordRoute
+  '/sign-in': typeof GuestSignInRoute
+  '/sign-up': typeof GuestSignUpRoute
+  '/auth/callback': typeof authAuthCallbackRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/dev/ui': typeof DevUiRoute
+  '/account-unavailable': typeof authAccountUnavailableRoute
+  '/check-email': typeof authCheckEmailRoute
+  '/reset-password': typeof authResetPasswordRoute
+  '/chat': typeof AuthedChatRoute
+  '/complete-profile': typeof AuthedCompleteProfileRoute
+  '/forgot-password': typeof GuestForgotPasswordRoute
+  '/sign-in': typeof GuestSignInRoute
+  '/sign-up': typeof GuestSignUpRoute
+  '/auth/callback': typeof authAuthCallbackRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/dev/ui': typeof DevUiRoute
+  '/_authed': typeof AuthedRouteRouteWithChildren
+  '/_guest': typeof GuestRouteRouteWithChildren
+  '/(auth)/account-unavailable': typeof authAccountUnavailableRoute
+  '/(auth)/check-email': typeof authCheckEmailRoute
+  '/(auth)/reset-password': typeof authResetPasswordRoute
+  '/_authed/chat': typeof AuthedChatRoute
+  '/_authed/complete-profile': typeof AuthedCompleteProfileRoute
+  '/_guest/forgot-password': typeof GuestForgotPasswordRoute
+  '/_guest/sign-in': typeof GuestSignInRoute
+  '/_guest/sign-up': typeof GuestSignUpRoute
+  '/(auth)/auth/callback': typeof authAuthCallbackRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dev/ui'
+  fullPaths:
+    | '/'
+    | '/account-unavailable'
+    | '/check-email'
+    | '/reset-password'
+    | '/chat'
+    | '/complete-profile'
+    | '/forgot-password'
+    | '/sign-in'
+    | '/sign-up'
+    | '/auth/callback'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dev/ui'
-  id: '__root__' | '/' | '/dev/ui'
+  to:
+    | '/'
+    | '/account-unavailable'
+    | '/check-email'
+    | '/reset-password'
+    | '/chat'
+    | '/complete-profile'
+    | '/forgot-password'
+    | '/sign-in'
+    | '/sign-up'
+    | '/auth/callback'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authed'
+    | '/_guest'
+    | '/(auth)/account-unavailable'
+    | '/(auth)/check-email'
+    | '/(auth)/reset-password'
+    | '/_authed/chat'
+    | '/_authed/complete-profile'
+    | '/_guest/forgot-password'
+    | '/_guest/sign-in'
+    | '/_guest/sign-up'
+    | '/(auth)/auth/callback'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  DevUiRoute: typeof DevUiRoute
+  AuthedRouteRoute: typeof AuthedRouteRouteWithChildren
+  GuestRouteRoute: typeof GuestRouteRouteWithChildren
+  authAccountUnavailableRoute: typeof authAccountUnavailableRoute
+  authCheckEmailRoute: typeof authCheckEmailRoute
+  authResetPasswordRoute: typeof authResetPasswordRoute
+  authAuthCallbackRoute: typeof authAuthCallbackRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -58,19 +180,124 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/dev/ui': {
-      id: '/dev/ui'
-      path: '/dev/ui'
-      fullPath: '/dev/ui'
-      preLoaderRoute: typeof DevUiRouteImport
+    '/_authed': {
+      id: '/_authed'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_guest': {
+      id: '/_guest'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof GuestRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(auth)/account-unavailable': {
+      id: '/(auth)/account-unavailable'
+      path: '/account-unavailable'
+      fullPath: '/account-unavailable'
+      preLoaderRoute: typeof authAccountUnavailableRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(auth)/check-email': {
+      id: '/(auth)/check-email'
+      path: '/check-email'
+      fullPath: '/check-email'
+      preLoaderRoute: typeof authCheckEmailRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(auth)/reset-password': {
+      id: '/(auth)/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof authResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authed/chat': {
+      id: '/_authed/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof AuthedChatRouteImport
+      parentRoute: typeof AuthedRouteRoute
+    }
+    '/_authed/complete-profile': {
+      id: '/_authed/complete-profile'
+      path: '/complete-profile'
+      fullPath: '/complete-profile'
+      preLoaderRoute: typeof AuthedCompleteProfileRouteImport
+      parentRoute: typeof AuthedRouteRoute
+    }
+    '/_guest/forgot-password': {
+      id: '/_guest/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof GuestForgotPasswordRouteImport
+      parentRoute: typeof GuestRouteRoute
+    }
+    '/_guest/sign-in': {
+      id: '/_guest/sign-in'
+      path: '/sign-in'
+      fullPath: '/sign-in'
+      preLoaderRoute: typeof GuestSignInRouteImport
+      parentRoute: typeof GuestRouteRoute
+    }
+    '/_guest/sign-up': {
+      id: '/_guest/sign-up'
+      path: '/sign-up'
+      fullPath: '/sign-up'
+      preLoaderRoute: typeof GuestSignUpRouteImport
+      parentRoute: typeof GuestRouteRoute
+    }
+    '/(auth)/auth/callback': {
+      id: '/(auth)/auth/callback'
+      path: '/auth/callback'
+      fullPath: '/auth/callback'
+      preLoaderRoute: typeof authAuthCallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
 }
 
+interface AuthedRouteRouteChildren {
+  AuthedChatRoute: typeof AuthedChatRoute
+  AuthedCompleteProfileRoute: typeof AuthedCompleteProfileRoute
+}
+
+const AuthedRouteRouteChildren: AuthedRouteRouteChildren = {
+  AuthedChatRoute: AuthedChatRoute,
+  AuthedCompleteProfileRoute: AuthedCompleteProfileRoute,
+}
+
+const AuthedRouteRouteWithChildren = AuthedRouteRoute._addFileChildren(
+  AuthedRouteRouteChildren,
+)
+
+interface GuestRouteRouteChildren {
+  GuestForgotPasswordRoute: typeof GuestForgotPasswordRoute
+  GuestSignInRoute: typeof GuestSignInRoute
+  GuestSignUpRoute: typeof GuestSignUpRoute
+}
+
+const GuestRouteRouteChildren: GuestRouteRouteChildren = {
+  GuestForgotPasswordRoute: GuestForgotPasswordRoute,
+  GuestSignInRoute: GuestSignInRoute,
+  GuestSignUpRoute: GuestSignUpRoute,
+}
+
+const GuestRouteRouteWithChildren = GuestRouteRoute._addFileChildren(
+  GuestRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  DevUiRoute: DevUiRoute,
+  AuthedRouteRoute: AuthedRouteRouteWithChildren,
+  GuestRouteRoute: GuestRouteRouteWithChildren,
+  authAccountUnavailableRoute: authAccountUnavailableRoute,
+  authCheckEmailRoute: authCheckEmailRoute,
+  authResetPasswordRoute: authResetPasswordRoute,
+  authAuthCallbackRoute: authAuthCallbackRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

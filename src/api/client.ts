@@ -1,4 +1,4 @@
-import { auth, getAccessToken } from '~/auth/client';
+import { auth, getAccessToken } from '~/lib/auth/client';
 import { client } from './generated/client.gen';
 
 let installed = false;

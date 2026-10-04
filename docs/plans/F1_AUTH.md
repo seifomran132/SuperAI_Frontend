@@ -144,7 +144,7 @@ Components:
 
 Icons: lucide-react (mail, eye, eye-off, circle-alert, triangle-alert, clock, user-x). Directional icons mirror with `rtl:-scale-x-100`.
 
-A temporary, dev-only gallery route `routes/dev.ui.tsx` renders every component and state for review (all variants, error, loading, RTL). It is excluded from production builds and deleted after F1 review.
+A temporary, dev-only gallery route `routes/dev.ui.tsx` renders every component and state for review (all variants, error, loading, RTL). It returned not-found outside development and was deleted after the F1 review (2026-10-04).
 
 ### Task 2 — Auth logic (`ui-builder`, `src/features/auth/`)
 - `session.ts` — `useSession()` (`useSyncExternalStore` over `auth.onAuthStateChange`); on `SIGNED_OUT` clear the query cache.
@@ -187,5 +187,7 @@ Task 1 → review of primitives → Tasks 2–4 (one `ui-builder` run) → Task 
 1. **Terms and privacy:** legal pages come later. No checkbox in sign-up for now; add it (with brand-config links) before launch.
 2. **Phone number:** not in sign-up; optional field on Complete profile (S9).
 3. **Email templates:** GoTrue's English defaults for now; Arabic templates before launch (backend 10.7).
-4. **Auth flow type:** implicit (works when the email link is opened on another device); revisit in the security review.
+4. **Auth flow type:** implicit (works when the email link is opened on another device); revisit in the security review. Known trade-off found in review: auth-js clears the token hash with `location.hash = ''`, which adds a history entry, so the tokenized URL stays one step back in session history (PKCE uses `replaceState`). Take this to the P0-17 security review.
 5. **State:** session in auth-js, user info in TanStack Query, no Zustand for either (§6).
+6. **Extra copy approved (2026-10-04):** the build added strings beyond §5 and the REVIEW.md files, all approved as written in `src/i18n/ar.json`: generic check-email text after a reload, «resent» note, callback «checking», «تم حفظ كلمة المرور.» toast, validation (name too long, password required, invalid phone), contact labels, and the expired sign-up hint «سجّل الدخول ثم اضغط «إعادة إرسال رابط التأكيد».».
+7. **Buttons use `cursor: pointer`** (global base rule in `app.css`; Tailwind v4 preflight resets it to default).

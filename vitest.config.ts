@@ -6,6 +6,12 @@ export default defineConfig({
   plugins: [viteReact()],
   test: {
     environment: 'jsdom',
+    // Fixed so tests do not depend on a local .env (gitignored).
+    env: {
+      VITE_API_ORIGIN: 'http://localhost:3000',
+      VITE_GOTRUE_URL: 'http://localhost:9999',
+      VITE_BRAND: 'bayan',
+    },
     globals: true,
     setupFiles: ['./src/test/setup.ts'],
     include: ['src/**/*.test.{ts,tsx}'],

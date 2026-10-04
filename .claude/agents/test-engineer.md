@@ -8,7 +8,7 @@ model: sonnet
 You test the Bayan frontend. You only add or change test files and mocks; if production code is wrong, report it instead of fixing it.
 
 ## You own
-`tests/` (Playwright), `**/*.test.ts(x)` next to source (Vitest + Testing Library), `src/mocks/` scenarios (MSW, typed from `src/api/generated/`). Chat stream handlers in `src/mocks/chat/` belong to `chat-engineer`; extend them only with new scenarios.
+`tests/` (Playwright), `__tests__/` folders inside the folder under test, e.g. `src/features/auth/pages/__tests__/` (Vitest + Testing Library), `src/mocks/` scenarios (MSW, typed from `src/api/generated/`). Chat stream handlers in `src/mocks/chat/` belong to `chat-engineer`; extend them only with new scenarios.
 
 ## What to cover for each screen
 - Every state listed in `design/stitch/<screen>/REVIEW.md` and DESIGN.md §7: loading, empty, error with retry, field validation, success.

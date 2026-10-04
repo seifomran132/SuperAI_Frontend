@@ -8,5 +8,104 @@
     "hidePassword": "Hide password",
     "notifications": "Notifications",
     "closeNotification": "Close notification"
+  },
+  "auth": {
+    "fields": {
+      "fullName": "Full name",
+      "fullNamePlaceholder": "For example: Ahmed Mohamed",
+      "email": "Email",
+      "emailPlaceholder": "name@example.com",
+      "password": "Password",
+      "newPassword": "New password",
+      "confirmPassword": "Confirm password",
+      "phone": "Phone number",
+      "phoneExample": "+966 50 123 4567",
+      "optional": "Optional",
+      "passwordHint": "At least 8 characters"
+    },
+    "backToSignIn": "Back to sign in",
+    "signIn": {
+      "title": "Sign in",
+      "subtitle": "Welcome back. Enter your details to continue.",
+      "forgotPassword": "Forgot your password?",
+      "submit": "Sign in",
+      "noAccount": "Don't have an account?",
+      "signUpLink": "Create account",
+      "resendConfirmation": "Resend confirmation link"
+    },
+    "signUp": {
+      "title": "Create account",
+      "subtitle": "Start using {{brandName}} in minutes.",
+      "submit": "Create account",
+      "haveAccount": "Already have an account?",
+      "signInLink": "Sign in"
+    },
+    "checkEmail": {
+      "title": "Check your email",
+      "signupSentTo": "We sent the confirmation link to",
+      "signupSent": "We sent the confirmation link to your email.",
+      "signupNext": "Open the message and select the link to activate your account. If you can't find it, check your spam folder.",
+      "resetSentTo": "We sent a password reset link to",
+      "resetSent": "We sent a password reset link to your email.",
+      "resetNext": "Open the message and select the link to choose a new password. If you can't find it, check your spam folder.",
+      "resend": "Resend",
+      "resendIn": "Resend in {{seconds}} seconds",
+      "resent": "The link was sent again."
+    },
+    "forgotPassword": {
+      "title": "Forgot your password?",
+      "subtitle": "Enter your email and we'll send you a link to reset your password.",
+      "submit": "Send reset link"
+    },
+    "resetPassword": {
+      "title": "Set a new password",
+      "subtitle": "Choose a new password for your account.",
+      "submit": "Save password",
+      "saved": "Password saved."
+    },
+    "linkExpired": {
+      "title": "The link has expired",
+      "newLink": "Request a new link",
+      "signupHint": "Sign in, then select \"Resend confirmation link\"."
+    },
+    "callback": {
+      "checking": "Checking the link…"
+    },
+    "completeProfile": {
+      "title": "Complete your profile",
+      "subtitle": "Complete your profile before you start chatting.",
+      "phoneHint": "In international format, for example:",
+      "submit": "Continue"
+    },
+    "accountUnavailable": {
+      "suspendedTitle": "Your account is temporarily suspended",
+      "suspendedBody": "You can't use {{brandName}} right now. Contact us to find out why or to reactivate your account.",
+      "deletedTitle": "This account was deleted",
+      "deletedBody": "This account is no longer available. Contact us if you think this is a mistake.",
+      "back": "Back"
+    },
+    "validation": {
+      "nameRequired": "Enter your full name.",
+      "nameTooLong": "The name is too long. The maximum is 100 characters.",
+      "emailInvalid": "Enter a valid email address.",
+      "passwordRequired": "Enter your password.",
+      "passwordTooShort": "The password is too short. Use at least 8 characters.",
+      "passwordMismatch": "The passwords don't match.",
+      "phoneInvalid": "Enter a valid phone number in international format."
+    }
+  },
+  "contact": {
+    "title": "Contact options",
+    "whatsapp": "WhatsApp",
+    "email": "Email",
+    "phone": "Phone"
+  },
+  "authErrors": {
+    "invalidCredentials": "The email or password is incorrect.",
+    "emailNotConfirmed": "You haven't confirmed your email yet. We sent you the confirmation link.",
+    "weakPassword": "The password is too weak. Use at least 8 characters.",
+    "rateLimited": "Too many attempts. Wait a moment and try again.",
+    "otpExpired": "The link has expired or was already used. Request a new one.",
+    "samePassword": "The new password is the same as the old one. Choose a different password."
   }
 }

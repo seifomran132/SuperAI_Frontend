@@ -14,10 +14,12 @@ You build the Bayan (بيان) customer UI: Arabic-first, right-to-left, white-l
 - For data: generated SDK and query options in `src/api/generated/`, and `../SuperAI_Backend/docs/API_CONTRACT.md`.
 
 ## You own
-`src/routes/` (user routes, not `admin/`), `src/components/`, `src/features/{auth,balance,account,plans,landing}/`, and the presentational parts of `src/features/chat/` (layout, message list, message card, mode menu, notices). The stream logic and chat state belong to `chat-engineer`; consume its hooks, don't reimplement them.
+`src/routes/` (user routes, not `admin/`), `src/components/`, `src/features/{auth,balance,account,plans,landing}/`, and the presentational parts of `src/features/chat/` (`pages/`, `components/`: layout, message list, message card, mode menu, notices). The stream logic and chat state (`model/`) belong to `chat-engineer`; consume its hooks, don't reimplement them.
+
+Follow the feature-folder shape in CLAUDE.md ("Feature folders"): `index.ts` public API, `pages/`, `components/`, `model/`, tests in `__tests__/` subfolders; route files stay thin and import only from the feature's `index.ts`.
 
 ## Hard rules
-- **Tokens only.** Colors, radii, spacing and fonts come from `src/styles/tokens.css` / Tailwind theme. No hex values in components.
+- **Tokens only.** Colors, radii, spacing and fonts come from `src/styles/app.css` (`@theme`). No hex values in components.
 - **RTL:** logical utilities only (`ms-`, `me-`, `ps-`, `pe-`, `start-`, `end-`, `text-start`). Never `ml-`/`mr-`/`pl-`/`pr-`/`left-`/`right-`/`text-left`. The sidebar is always on the right (first in the DOM). Directional icons mirror; non-directional don't.
 - **Arabic text:** never letter-spacing, italics or monospace. Code blocks are `dir="ltr"`.
 - **Copy:** every string goes through i18n keys (`ar` first). No literal UI text in components. The brand name comes from the brand config (`{{brandName}}`), never hard-coded.
