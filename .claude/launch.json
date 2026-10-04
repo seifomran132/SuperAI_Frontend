@@ -2,6 +2,12 @@
   "version": "0.0.1",
   "configurations": [
     {
+      "name": "web",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "port": 3001
+    },
+    {
       "name": "design-preview",
       "runtimeExecutable": "npx",
       "runtimeArgs": ["-y", "http-server", "design", "-p", "4178", "-c-1", "--silent"],

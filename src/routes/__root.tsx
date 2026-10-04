@@ -7,7 +7,9 @@ import {
   Scripts,
   createRootRouteWithContext,
 } from '@tanstack/react-router';
+import { Direction } from 'radix-ui';
 import { brand, brandStyle } from '~/brand';
+import { Toaster } from '~/components/ui/sonner';
 import { defaultLanguage, directionOf } from '~/i18n';
 import appCss from '~/styles/app.css?url';
 
@@ -39,9 +41,12 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   return (
     <RootDocument>
-      <QueryClientProvider client={queryClient}>
-        <Outlet />
-      </QueryClientProvider>
+      <Direction.DirectionProvider dir={directionOf(defaultLanguage)}>
+        <QueryClientProvider client={queryClient}>
+          <Outlet />
+          <Toaster />
+        </QueryClientProvider>
+      </Direction.DirectionProvider>
     </RootDocument>
   );
 }
