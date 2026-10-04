@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>محادثة جديدة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = { theme: { extend: {
+  fontFamily: { sans: ['"IBM Plex Sans Arabic"', 'sans-serif'], mono: ['"IBM Plex Mono"', 'monospace'] },
+  colors: {
+    brand: { DEFAULT: '#1E293B', hover: '#0F172A' },
+    canvas: '#F8FAFC', surface: '#FFFFFF', 'surface-muted': '#F1F5F9',
+    ink: '#0F172A', muted: '#475569', faint: '#64748B',
+    'border-card': '#E2E8F0', 'border-control': '#8B95A7', 'focus-ring': '#4F46E5',
+    fast: '#0F766E', 'fast-bg': '#F0FDFA', 'fast-border': '#99F6E4',
+    pro: '#4F46E5', 'pro-bg': '#EEF2FF', 'pro-border': '#C7D2FE',
+    success: '#15803D', 'success-bg': '#F0FDF4',
+    danger: '#BE123C', 'danger-bg': '#FFF1F2', 'danger-border': '#FECDD3',
+    warning: '#B45309', 'warning-bg': '#FFFBEB', 'warning-border': '#FDE68A'
+  },
+  boxShadow: { box: '0 4px 6px -1px rgba(15,23,42,.04), 0 2px 4px -2px rgba(15,23,42,.03)', menu: '0 10px 24px -6px rgba(15,23,42,.14), 0 2px 6px rgba(15,23,42,.06)' }
+} } };
+</script>
+<style>
+  * { letter-spacing: 0 !important; font-style: normal !important; }
+  body { font-family: 'IBM Plex Sans Arabic', sans-serif; background:#F8FAFC; color:#0F172A; -webkit-font-smoothing: antialiased; }
+  .ltr { direction: ltr; text-align: left; }
+  .code { direction: ltr; text-align: left; font-family: 'IBM Plex Mono', monospace; }
+  :focus-visible { outline: 2px solid #4F46E5; outline-offset: 2px; }
+  .ic { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+  .ic-sm { width: 16px; height: 16px; }
+  .ic-xs { width: 14px; height: 14px; }
+  .dot { width: 8px; height: 8px; border-radius: 9999px; background:#475569; display:inline-block; }
+  .dot:nth-child(1){opacity:.4} .dot:nth-child(2){opacity:.7} .dot:nth-child(3){opacity:1}
+  .caret { display:inline-block; width:2px; height:20px; background:#1E293B; vertical-align:-4px; margin-inline-start:2px; }
+  @media (prefers-reduced-motion: no-preference) {
+    .dot { animation: pulse 1.2s ease-in-out infinite; } .dot:nth-child(2){animation-delay:.15s} .dot:nth-child(3){animation-delay:.3s}
+    .caret { animation: blink 1s step-end infinite; }
+    @keyframes pulse { 0%,100%{transform:scale(.8);opacity:.4} 50%{transform:scale(1);opacity:1} }
+    @keyframes blink { 50%{opacity:0} }
+  }
+  .sk { background:#F1F5F9; border-radius:8px; }
+  @media (prefers-reduced-motion: no-preference) { .sk { animation: skp 1.4s ease-in-out infinite; } @keyframes skp { 50%{opacity:.55} } }
+</style>
+</head>
+<body class="h-screen">
+<div class="h-screen flex overflow-hidden"><aside class="w-[280px] bg-white border-e border-border-card flex flex-col h-full shrink-0"><div class="h-16 px-5 flex items-center gap-3 border-b border-border-card/60 shrink-0"><div class="w-9 h-9 rounded-xl bg-brand text-white flex items-center justify-center text-[17px] font-bold">ب</div><span class="text-[20px] font-bold">بيان</span></div><div class="p-4 shrink-0"><button type="button" class="w-full flex items-center justify-center gap-2 h-11 bg-brand text-white text-[15px] font-medium rounded-lg"><svg class="ic ic-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>محادثة جديدة</span></button></div><div class="flex-1 overflow-y-auto px-3 py-2"><div class="px-3 pb-2 text-[12px] font-semibold text-faint">المحادثات الأخيرة</div><nav class="space-y-1"><div class="relative flex items-center justify-between gap-2 px-3 min-h-[44px] rounded-md text-[#334155]"><span class="text-[14px] truncate ">ملخص عقد الإيجار</span><span class="text-[12px] text-faint shrink-0">الآن</span></div><div class="relative flex items-center justify-between gap-2 px-3 min-h-[44px] rounded-md text-[#334155]"><span class="text-[14px] truncate ">خطة تسويق لمتجر إلكتروني</span><span class="text-[12px] text-faint shrink-0">أمس</span></div><div class="relative flex items-center justify-between gap-2 px-3 min-h-[44px] rounded-md text-[#334155]"><span class="text-[14px] truncate ">ترجمة رسالة رسمية</span><span class="text-[12px] text-faint shrink-0">أمس</span></div><div class="relative flex items-center justify-between gap-2 px-3 min-h-[44px] rounded-md text-[#334155]"><span class="text-[14px] truncate ">أفكار لعرض تقديمي</span><span class="text-[12px] text-faint shrink-0">منذ 3 أيام</span></div><div class="relative flex items-center justify-between gap-2 px-3 min-h-[44px] rounded-md text-[#334155]"><span class="text-[14px] truncate ">شرح دالة في بايثون</span><span class="text-[12px] text-faint shrink-0">منذ أسبوع</span></div></nav></div><div class="p-3 border-t border-border-card space-y-1 shrink-0"><a href="#" class="flex items-center gap-3 px-3 min-h-[44px] rounded-lg text-[#334155] hover:bg-surface-muted"><svg class="ic text-faint" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg><span class="text-[14px] font-medium">الرصيد</span></a><a href="#" class="flex items-center gap-3 px-3 min-h-[44px] rounded-lg text-[#334155] hover:bg-surface-muted"><svg class="ic text-faint" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg><span class="text-[14px] font-medium">الحساب</span></a></div></aside><main class="flex-1 flex flex-col min-w-0 relative bg-canvas"><header class="h-16 bg-white border-b border-border-card px-8 flex items-center justify-between shrink-0"><div></div><div class="flex items-center gap-3"><a href="#" class="inline-flex items-center gap-1.5 px-3.5 h-9 rounded-full bg-surface-muted border border-border-card text-[14px] font-medium"><span class="text-muted">الرصيد</span><span class="font-semibold"><bdi dir="ltr">14.48$</bdi></span></a><button type="button" aria-haspopup="menu" aria-expanded="false" aria-label="قائمة الحساب" class="flex items-center gap-1 h-11 ps-1 pe-2 rounded-full "><span class="w-9 h-9 rounded-full bg-brand text-white flex items-center justify-center text-[13px] font-semibold">س ع</span><svg class="ic ic-sm text-muted" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></div></header><div class="flex-1 flex flex-col items-center justify-center px-6 pb-40">
+  <div class="w-14 h-14 rounded-2xl bg-brand text-white flex items-center justify-center text-[26px] font-bold">ب</div>
+  <h2 class="text-[24px] leading-[40px] font-semibold mt-5">كيف أساعدك اليوم؟</h2>
+  <p class="text-[16px] text-muted mt-1">اكتب سؤالك أو اختر فكرة للبدء.</p>
+  <div class="grid grid-cols-2 gap-3 mt-8 w-full max-w-[640px]"><button type="button" class="min-h-[64px] px-4 py-3 bg-white border border-border-card rounded-2xl text-[15px] text-ink text-start hover:border-border-control">لخّص لي نصًا طويلًا في نقاط</button><button type="button" class="min-h-[64px] px-4 py-3 bg-white border border-border-card rounded-2xl text-[15px] text-ink text-start hover:border-border-control">اكتب رسالة رسمية باحترافية</button><button type="button" class="min-h-[64px] px-4 py-3 bg-white border border-border-card rounded-2xl text-[15px] text-ink text-start hover:border-border-control">اشرح لي مفهومًا بطريقة بسيطة</button><button type="button" class="min-h-[64px] px-4 py-3 bg-white border border-border-card rounded-2xl text-[15px] text-ink text-start hover:border-border-control">ساعدني في كتابة كود بايثون</button></div>
+</div><div class="absolute bottom-0 inset-x-0 px-6 pb-5 pt-6 bg-gradient-to-t from-canvas via-canvas to-transparent"><div class="max-w-[860px] mx-auto"><div class="bg-white border-border-control border rounded-[24px] shadow-box p-3"><div class="px-2 py-1 text-[16px] leading-[26px] text-faint" style="min-height:56px">اكتب رسالتك…</div><div class="flex items-center justify-between pt-2"><span class="inline-flex items-center gap-2 px-3 h-9 rounded-full text-[13px] font-medium bg-fast-bg text-fast border border-fast-border"><svg class="ic ic-xs" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="currentColor"/></svg>سريع<svg class="ic ic-xs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span><span class="w-10 h-10 rounded-full bg-brand text-white flex items-center justify-center"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5m7-7l-7 7 7 7"/></svg></span></div></div><p class="text-center text-[13px] text-faint mt-2">تُحتسب تكلفة كل رد من رصيدك حسب الوضع المستخدم.</p></div></div></main></div>
+</body>
+</html>

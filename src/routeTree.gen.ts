@@ -15,12 +15,16 @@ import { Route as GuestRouteRouteImport } from './routes/_guest/route'
 import { Route as authAccountUnavailableRouteImport } from './routes/(auth)/account-unavailable'
 import { Route as authCheckEmailRouteImport } from './routes/(auth)/check-email'
 import { Route as authResetPasswordRouteImport } from './routes/(auth)/reset-password'
-import { Route as AuthedChatRouteImport } from './routes/_authed/chat'
+import { Route as AuthedAppRouteRouteImport } from './routes/_authed/_app/route'
 import { Route as AuthedCompleteProfileRouteImport } from './routes/_authed/complete-profile'
 import { Route as GuestForgotPasswordRouteImport } from './routes/_guest/forgot-password'
 import { Route as GuestSignInRouteImport } from './routes/_guest/sign-in'
 import { Route as GuestSignUpRouteImport } from './routes/_guest/sign-up'
 import { Route as authAuthCallbackRouteImport } from './routes/(auth)/auth/callback'
+import { Route as AuthedAppAccountRouteImport } from './routes/_authed/_app/account'
+import { Route as AuthedAppBalanceRouteImport } from './routes/_authed/_app/balance'
+import { Route as AuthedAppChatIndexRouteImport } from './routes/_authed/_app/chat/index'
+import { Route as AuthedAppChatConversationIdRouteImport } from './routes/_authed/_app/chat/$conversationId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -50,9 +54,8 @@ const authResetPasswordRoute = authResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthedChatRoute = AuthedChatRouteImport.update({
-  id: '/chat',
-  path: '/chat',
+const AuthedAppRouteRoute = AuthedAppRouteRouteImport.update({
+  id: '/_app',
   getParentRoute: () => AuthedRouteRoute,
 } as any)
 const AuthedCompleteProfileRoute = AuthedCompleteProfileRouteImport.update({
@@ -80,45 +83,76 @@ const authAuthCallbackRoute = authAuthCallbackRouteImport.update({
   path: '/auth/callback',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthedAppAccountRoute = AuthedAppAccountRouteImport.update({
+  id: '/account',
+  path: '/account',
+  getParentRoute: () => AuthedAppRouteRoute,
+} as any)
+const AuthedAppBalanceRoute = AuthedAppBalanceRouteImport.update({
+  id: '/balance',
+  path: '/balance',
+  getParentRoute: () => AuthedAppRouteRoute,
+} as any)
+const AuthedAppChatIndexRoute = AuthedAppChatIndexRouteImport.update({
+  id: '/chat/',
+  path: '/chat/',
+  getParentRoute: () => AuthedAppRouteRoute,
+} as any)
+const AuthedAppChatConversationIdRoute =
+  AuthedAppChatConversationIdRouteImport.update({
+    id: '/chat/$conversationId',
+    path: '/chat/$conversationId',
+    getParentRoute: () => AuthedAppRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/account-unavailable': typeof authAccountUnavailableRoute
   '/check-email': typeof authCheckEmailRoute
   '/reset-password': typeof authResetPasswordRoute
-  '/chat': typeof AuthedChatRoute
   '/complete-profile': typeof AuthedCompleteProfileRoute
   '/forgot-password': typeof GuestForgotPasswordRoute
   '/sign-in': typeof GuestSignInRoute
   '/sign-up': typeof GuestSignUpRoute
   '/auth/callback': typeof authAuthCallbackRoute
+  '/account': typeof AuthedAppAccountRoute
+  '/balance': typeof AuthedAppBalanceRoute
+  '/chat/$conversationId': typeof AuthedAppChatConversationIdRoute
+  '/chat/': typeof AuthedAppChatIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/account-unavailable': typeof authAccountUnavailableRoute
   '/check-email': typeof authCheckEmailRoute
   '/reset-password': typeof authResetPasswordRoute
-  '/chat': typeof AuthedChatRoute
   '/complete-profile': typeof AuthedCompleteProfileRoute
   '/forgot-password': typeof GuestForgotPasswordRoute
   '/sign-in': typeof GuestSignInRoute
   '/sign-up': typeof GuestSignUpRoute
   '/auth/callback': typeof authAuthCallbackRoute
+  '/account': typeof AuthedAppAccountRoute
+  '/balance': typeof AuthedAppBalanceRoute
+  '/chat/$conversationId': typeof AuthedAppChatConversationIdRoute
+  '/chat': typeof AuthedAppChatIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authed': typeof AuthedRouteRouteWithChildren
   '/_guest': typeof GuestRouteRouteWithChildren
+  '/_authed/_app': typeof AuthedAppRouteRouteWithChildren
   '/(auth)/account-unavailable': typeof authAccountUnavailableRoute
   '/(auth)/check-email': typeof authCheckEmailRoute
   '/(auth)/reset-password': typeof authResetPasswordRoute
-  '/_authed/chat': typeof AuthedChatRoute
   '/_authed/complete-profile': typeof AuthedCompleteProfileRoute
   '/_guest/forgot-password': typeof GuestForgotPasswordRoute
   '/_guest/sign-in': typeof GuestSignInRoute
   '/_guest/sign-up': typeof GuestSignUpRoute
   '/(auth)/auth/callback': typeof authAuthCallbackRoute
+  '/_authed/_app/account': typeof AuthedAppAccountRoute
+  '/_authed/_app/balance': typeof AuthedAppBalanceRoute
+  '/_authed/_app/chat/$conversationId': typeof AuthedAppChatConversationIdRoute
+  '/_authed/_app/chat/': typeof AuthedAppChatIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -127,38 +161,48 @@ export interface FileRouteTypes {
     | '/account-unavailable'
     | '/check-email'
     | '/reset-password'
-    | '/chat'
     | '/complete-profile'
     | '/forgot-password'
     | '/sign-in'
     | '/sign-up'
     | '/auth/callback'
+    | '/account'
+    | '/balance'
+    | '/chat/$conversationId'
+    | '/chat/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/account-unavailable'
     | '/check-email'
     | '/reset-password'
-    | '/chat'
     | '/complete-profile'
     | '/forgot-password'
     | '/sign-in'
     | '/sign-up'
     | '/auth/callback'
+    | '/account'
+    | '/balance'
+    | '/chat/$conversationId'
+    | '/chat'
   id:
     | '__root__'
     | '/'
     | '/_authed'
     | '/_guest'
+    | '/_authed/_app'
     | '/(auth)/account-unavailable'
     | '/(auth)/check-email'
     | '/(auth)/reset-password'
-    | '/_authed/chat'
     | '/_authed/complete-profile'
     | '/_guest/forgot-password'
     | '/_guest/sign-in'
     | '/_guest/sign-up'
     | '/(auth)/auth/callback'
+    | '/_authed/_app/account'
+    | '/_authed/_app/balance'
+    | '/_authed/_app/chat/$conversationId'
+    | '/_authed/_app/chat/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -215,11 +259,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authed/chat': {
-      id: '/_authed/chat'
-      path: '/chat'
-      fullPath: '/chat'
-      preLoaderRoute: typeof AuthedChatRouteImport
+    '/_authed/_app': {
+      id: '/_authed/_app'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthedAppRouteRouteImport
       parentRoute: typeof AuthedRouteRoute
     }
     '/_authed/complete-profile': {
@@ -257,16 +301,62 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authAuthCallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authed/_app/account': {
+      id: '/_authed/_app/account'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof AuthedAppAccountRouteImport
+      parentRoute: typeof AuthedAppRouteRoute
+    }
+    '/_authed/_app/balance': {
+      id: '/_authed/_app/balance'
+      path: '/balance'
+      fullPath: '/balance'
+      preLoaderRoute: typeof AuthedAppBalanceRouteImport
+      parentRoute: typeof AuthedAppRouteRoute
+    }
+    '/_authed/_app/chat/': {
+      id: '/_authed/_app/chat/'
+      path: '/chat'
+      fullPath: '/chat/'
+      preLoaderRoute: typeof AuthedAppChatIndexRouteImport
+      parentRoute: typeof AuthedAppRouteRoute
+    }
+    '/_authed/_app/chat/$conversationId': {
+      id: '/_authed/_app/chat/$conversationId'
+      path: '/chat/$conversationId'
+      fullPath: '/chat/$conversationId'
+      preLoaderRoute: typeof AuthedAppChatConversationIdRouteImport
+      parentRoute: typeof AuthedAppRouteRoute
+    }
   }
 }
 
+interface AuthedAppRouteRouteChildren {
+  AuthedAppAccountRoute: typeof AuthedAppAccountRoute
+  AuthedAppBalanceRoute: typeof AuthedAppBalanceRoute
+  AuthedAppChatConversationIdRoute: typeof AuthedAppChatConversationIdRoute
+  AuthedAppChatIndexRoute: typeof AuthedAppChatIndexRoute
+}
+
+const AuthedAppRouteRouteChildren: AuthedAppRouteRouteChildren = {
+  AuthedAppAccountRoute: AuthedAppAccountRoute,
+  AuthedAppBalanceRoute: AuthedAppBalanceRoute,
+  AuthedAppChatConversationIdRoute: AuthedAppChatConversationIdRoute,
+  AuthedAppChatIndexRoute: AuthedAppChatIndexRoute,
+}
+
+const AuthedAppRouteRouteWithChildren = AuthedAppRouteRoute._addFileChildren(
+  AuthedAppRouteRouteChildren,
+)
+
 interface AuthedRouteRouteChildren {
-  AuthedChatRoute: typeof AuthedChatRoute
+  AuthedAppRouteRoute: typeof AuthedAppRouteRouteWithChildren
   AuthedCompleteProfileRoute: typeof AuthedCompleteProfileRoute
 }
 
 const AuthedRouteRouteChildren: AuthedRouteRouteChildren = {
-  AuthedChatRoute: AuthedChatRoute,
+  AuthedAppRouteRoute: AuthedAppRouteRouteWithChildren,
   AuthedCompleteProfileRoute: AuthedCompleteProfileRoute,
 }
 

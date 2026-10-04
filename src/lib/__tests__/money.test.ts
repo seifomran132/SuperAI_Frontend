@@ -24,4 +24,12 @@ describe('formatUsd', () => {
     expect(formatUsd('12345678901.995000000')).toBe('12,345,678,902.00$');
     expect(formatUsd('0.105000000')).toBe('0.11$');
   });
+
+  it('cost kind keeps four decimals below 1 USD and two from 1 USD', () => {
+    expect(formatUsd('0.012000000', 'ar', { kind: 'cost' })).toBe('0.0120$');
+    expect(formatUsd('0.003000000', 'en', { kind: 'cost' })).toBe('$0.0030');
+    expect(formatUsd('0.500000000', 'ar', { kind: 'cost' })).toBe('0.5000$');
+    expect(formatUsd('1.000000000', 'ar', { kind: 'cost' })).toBe('1.00$');
+    expect(formatUsd('0.012000000')).toBe('0.01$');
+  });
 });

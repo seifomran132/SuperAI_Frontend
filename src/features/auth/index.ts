@@ -16,3 +16,4 @@ export { redirectIfSignedIn, requireProfile } from './model/guards';
 export { hasName, type UnavailableReason } from './model/me';
 export { isInternalPath, safeRedirect } from './model/redirect';
 export { installSessionSync } from './model/session';
+export { signOut } from './model/actions';

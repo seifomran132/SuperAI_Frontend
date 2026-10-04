@@ -15,7 +15,10 @@ import { PasswordField } from '../components/fields';
 import { FormAlert } from '../components/FormAlert';
 import { LinkExpired } from '../components/LinkExpired';
 import { defaultAfterAuthPath } from '../model/redirect';
-import { resetPasswordSchema, type ResetPasswordValues } from '../model/schemas';
+import {
+  resetPasswordSchema,
+  type ResetPasswordValues,
+} from '../model/schemas';
 import { clearRecoverySession, hasRecoverySession } from '../model/session';
 
 type LinkState = 'checking' | 'ready' | 'expired';

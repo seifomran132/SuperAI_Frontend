@@ -87,13 +87,13 @@
 <!-- ========================================== -->
 <!-- MAIN CONTENT AREA (Left side in RTL) -->
 <!-- ========================================== -->
-<aside class="w-[280px] bg-white border-l border-[#E2E8F0] flex flex-col h-full shrink-0 z-20">
+<aside class="w-[280px] bg-white border-e border-[#E2E8F0] flex flex-col h-full shrink-0 z-20">
 <!-- Top Header in Sidebar: Monogram + Product Name -->
 <div class="h-16 px-5 flex items-center gap-3 border-b border-[#E2E8F0]/60 shrink-0">
 <div class="w-9 h-9 rounded-xl bg-[#1E293B] text-white flex items-center justify-center text-[17px] font-bold shadow-sm">
         ب
       </div>
-<span class="text-[20px] font-bold text-[#0F172A] tracking-normal">بيان</span>
+<span class="text-[20px] font-bold text-[#0F172A]">بيان</span>
 </div>
 <!-- New Chat Primary Button -->
 <div class="p-4 shrink-0">
@@ -107,15 +107,15 @@
 </div>
 <!-- Recent Conversations Section -->
 <div class="flex-1 overflow-y-auto px-3 py-2">
-<div class="px-3 pb-2 text-[12px] font-semibold text-[#64748B] tracking-normal">
+<div class="px-3 pb-2 text-[12px] font-semibold text-[#64748B]">
         المحادثات الأخيرة
       </div>
 <nav class="space-y-1">
 <!-- Conversation 1: Active -->
 <a class="group relative flex items-center justify-between px-3 py-2.5 rounded-md bg-[#F1F5F9] text-[#0F172A] transition-colors" href="#">
 <!-- Active 3px right indicator bar -->
-<span class="absolute right-0 top-1.5 bottom-1.5 w-[3px] bg-[#1E293B] rounded-l-full"></span>
-<span class="text-[14px] font-semibold truncate pr-1">ملخص عقد الإيجار</span>
+<span class="absolute start-0 top-1.5 bottom-1.5 w-[3px] bg-[#1E293B] rounded-e-full"></span>
+<span class="text-[14px] font-semibold truncate ps-1">ملخص عقد الإيجار</span>
 <span class="text-[12px] text-[#64748B] shrink-0 font-medium">الآن</span>
 </a>
 <!-- Conversation 2 -->
@@ -175,12 +175,13 @@
 <!-- Balance chip: Neutral pill showing USD balance -->
 <a class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#F1F5F9] hover:bg-[#E2E8F0] transition-colors text-[14px] font-medium text-[#0F172A] border border-[#E2E8F0]" href="#balance">
 <span class="text-[#475569]">الرصيد</span>
-<span class="font-semibold">14.48$</span>
+<span class="font-semibold"><bdi dir="ltr">14.48$</bdi></span>
 </a>
 <!-- Account Avatar -->
-<div class="w-9 h-9 rounded-full bg-[#1E293B] text-white flex items-center justify-center text-[13px] font-semibold tracking-normal cursor-pointer hover:bg-[#0F172A] transition-colors" title="حساب المستخدم">
-          س ع
-        </div>
+<button type="button" aria-haspopup="menu" aria-expanded="false" aria-label="قائمة الحساب" class="flex items-center gap-1 h-11 ps-1 pe-2 rounded-full hover:bg-[#F1F5F9] transition-colors">
+<span class="w-9 h-9 rounded-full bg-[#1E293B] text-white flex items-center justify-center text-[13px] font-semibold">س ع</span>
+<svg aria-hidden="true" class="w-4 h-4 text-[#475569]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
 </div>
 </header>
 <!-- Chat Messages Scroll Area -->
@@ -208,7 +209,7 @@
 <!-- White Card Message Container -->
 <div class="w-full bg-white border border-[#E2E8F0] rounded-2xl p-6 shadow-sm">
 <h2 class="text-[18px] font-bold text-[#0F172A] mb-3">أهم البنود</h2>
-<ol class="list-decimal pr-5 space-y-2 text-[16px] leading-[28px] text-[#0F172A] mb-6">
+<ol class="list-decimal ps-5 space-y-2 text-[16px] leading-[28px] text-[#0F172A] mb-6">
 <li>مدة العقد سنة واحدة تبدأ من 1 يناير 2026.</li>
 <li>الإيجار الشهري 4,500 ريال يُدفع مقدمًا في بداية كل شهر تقويمي.</li>
 <li>تأمين مسترد بقيمة إيجار شهر واحد (4,500 ريال) يُعاد عند تسليم الوحدة بحالتها الأصلية.</li>
@@ -220,8 +221,8 @@
 <table class="w-full border-collapse border border-[#E2E8F0] text-[15px] rounded-lg overflow-hidden">
 <thead>
 <tr class="bg-[#F8FAFC] border-b border-[#E2E8F0]">
-<th class="py-2.5 px-4 text-right font-semibold text-[#0F172A] w-2/3">البند</th>
-<th class="py-2.5 px-4 text-right font-semibold text-[#0F172A] w-1/3">المبلغ</th>
+<th class="py-2.5 px-4 text-start font-semibold text-[#0F172A] w-2/3">البند</th>
+<th class="py-2.5 px-4 text-start font-semibold text-[#0F172A] w-1/3">المبلغ</th>
 </tr>
 </thead>
 <tbody class="divide-y divide-[#E2E8F0]">
@@ -242,9 +243,9 @@
 </div>
 <!-- Assistant Card Footer: Cost info & copy action -->
 <div class="pt-3 border-t border-[#E2E8F0] flex items-center justify-between text-[13px] text-[#64748B]">
-<div class="flex items-center gap-1.5 font-medium"><span>التكلفة 0.0015$</span>
+<div class="flex items-center gap-1.5 font-medium"><span>التكلفة <bdi dir="ltr">0.0015$</bdi></span>
 <span>·</span>
-<span>الرصيد المتبقي 14.48$</span></div>
+<span>الرصيد المتبقي <bdi dir="ltr">14.48$</bdi></span></div>
 <button class="inline-flex items-center gap-1.5 text-[#475569] hover:text-[#0F172A] p-1 rounded hover:bg-[#F1F5F9] transition-colors" title="نسخ الرد" type="button">
 <svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
 <path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
@@ -299,9 +300,9 @@
 <!-- Assistant Card Footer: Cost info & copy action -->
 <div class="pt-3 border-t border-[#E2E8F0] flex items-center justify-between text-[13px] text-[#64748B]">
 <div class="flex items-center gap-1.5 font-medium">
-<span>التكلفة 0.0042$</span>
+<span>التكلفة <bdi dir="ltr">0.0042$</bdi></span>
 <span>·</span>
-<span>الرصيد المتبقي 14.48$</span>
+<span>الرصيد المتبقي <bdi dir="ltr">14.48$</bdi></span>
 </div>
 <button class="inline-flex items-center gap-1.5 text-[#475569] hover:text-[#0F172A] p-1 rounded hover:bg-[#F1F5F9] transition-colors" title="نسخ الرد" type="button">
 <svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">

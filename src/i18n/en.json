@@ -107,5 +107,81 @@
     "rateLimited": "Too many attempts. Wait a moment and try again.",
     "otpExpired": "The link has expired or was already used. Request a new one.",
     "samePassword": "The new password is the same as the old one. Choose a different password."
+  },
+  "shell": {
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "sidebarTitle": "Sidebar",
+    "newChat": "New chat",
+    "recent": "Recent chats",
+    "balance": "Balance",
+    "account": "Account",
+    "accountMenu": "Account menu",
+    "signOut": "Sign out",
+    "writing": "Typing…",
+    "list": {
+      "loading": "Loading chats",
+      "loadingMore": "Loading more",
+      "emptyTitle": "No chats yet",
+      "emptyBody": "Start your first chat and it will show up here.",
+      "error": "Couldn't load your chats. Try again.",
+      "moreError": "Couldn't load more."
+    }
+  },
+  "chat": {
+    "balanceChip": "Balance",
+    "empty": {
+      "title": "How can I help you today?",
+      "subtitle": "Type a question or pick an idea to start.",
+      "chip1": "Summarize a long text in bullet points",
+      "chip2": "Write a professional formal message",
+      "chip3": "Explain a concept in simple terms",
+      "chip4": "Help me write Python code"
+    },
+    "composer": {
+      "label": "Your message",
+      "placeholder": "Type your message…",
+      "send": "Send",
+      "stop": "Stop",
+      "helper": "Each answer is charged to your balance by the mode used.",
+      "mode": "Mode",
+      "modeMenu": "Choose a mode",
+      "noModes": "No modes available"
+    },
+    "message": {
+      "preparing": "Getting ready…",
+      "writing": "Writing the answer…",
+      "cut": "The answer stopped before it was finished",
+      "failed": "Couldn't finish the answer. Try again.",
+      "retry": "Try again",
+      "copy": "Copy",
+      "copied": "Copied",
+      "copyCode": "Copy code",
+      "cost": "Cost <cost/>",
+      "costWithBalance": "Cost <cost/> · Remaining balance <balance/>"
+    },
+    "list": {
+      "loading": "Loading messages",
+      "error": "Couldn't load messages. Try again.",
+      "loadingOlder": "Loading older messages",
+      "olderError": "Couldn't load older messages."
+    },
+    "notFound": {
+      "action": "Start a new chat"
+    },
+    "notice": {
+      "insufficient": "Your balance is too low for this message in “{{mode}}” mode (expected cost <estimate/>, your balance <balance/>).",
+      "switchTo": "Switch to “{{mode}}” (about <estimate/>)",
+      "requestBalance": "Contact us to add balance",
+      "contactUs": "Contact us",
+      "busy": "The previous answer is still being written.",
+      "rateLimited": "You sent too many messages. Try again in {{seconds}} seconds.",
+      "rateLimitedStatic": "You sent too many messages. Try again in {{seconds}} seconds."
+    },
+    "requestBalance": {
+      "title": "Request balance",
+      "body": "Our team adds balance and activates plans. Contact us in one of these ways and we will help.",
+      "close": "Close"
+    }
   }
 }

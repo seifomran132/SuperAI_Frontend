@@ -135,3 +135,12 @@ Checked 2026-10-04: `GET /modes` returns `fast` and `professional`; the local te
 3. **Code highlighting:** approved — `shiki`, lazy-loaded with a small language set (js/ts, python, json, bash, sql, html/css).
 4. ~~Backend gap 1~~ — **decided: deferred.** The cost line shows only for answers sent in the current session.
 5. **System prompt:** approved and applied locally (§6.3).
+6. **Designs approved (D1, 2026-10-04)** with all proposed copy: `design/stitch/{s1-chat-workspace, f2-chat-states, s2-new-chat, f2-menus, s14-request-balance, s3-chat-mobile, s4-conversation-list}`. Only S1 went through Stitch; the rest are hand-built HTML in our tokens (Stitch timed out) and are the build reference.
+7. **Sign out on mobile/tablet:** «تسجيل الخروج» at the bottom of the drawer; on desktop it's in the account menu.
+8. **Failed answers** show the catalog message for the error code (`errors:<CODE>`), falling back to «تعذّر إكمال الرد. حاول مرة أخرى.».
+9. **Tablet:** below 1024px the sidebar is the same right-side drawer as mobile (no 72px icon rail at launch).
+10. **«يكتب…» indicator:** neutral `fg-muted` with animated dots, not a mode colour.
+11. **No empty conversations from refused sends** (found in B1; the API needs the conversation before the first send):
+    - **Pre-check:** when `GET /me/subscription` has no active subscription, the composer shows the «ليست لديك باقة نشطة…» notice with «تواصل معنا» up front and Send is disabled, so no conversation is created for a send that would be refused.
+    - **Hide empty conversations:** conversations without a title (no messages yet) are left out of the sidebar list.
+12. **Backend notes (not blocking):** expose `Retry-After` via CORS (`exposedHeaders`), since the browser can't read it today (we use `data.retryAfterSeconds`); `PROVIDER_UNAVAILABLE` can arrive as a pre-stream 409 (handled generically); `done.finishReason` may be null.

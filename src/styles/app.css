@@ -41,6 +41,30 @@
   --color-danger-border: #fecdd3;
   --color-focus: #4f46e5;
 
+  /* Code blocks (dark surface, fixed layer) */
+  --color-code-bg: #0f172a;
+  --color-code-fg: #f8fafc;
+  --color-code-muted: #94a3b8;
+  --color-code-border: #1e293b;
+
+  --animate-dot: dot-pulse 1.2s ease-in-out infinite;
+  --animate-caret: caret-blink 1s steps(2, start) infinite;
+  @keyframes dot-pulse {
+    0%,
+    80%,
+    100% {
+      opacity: 0.3;
+    }
+    40% {
+      opacity: 1;
+    }
+  }
+  @keyframes caret-blink {
+    to {
+      visibility: hidden;
+    }
+  }
+
   --radius: 0.5rem; /* shadcn base radius = radius-md */
   --radius-sm: 0.25rem;
   --radius-md: 0.5rem;
@@ -113,7 +137,21 @@
     *::before,
     *::after {
       animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
     }
+  }
+
+  /* Streaming caret: at the end of the last text block of the answer. */
+  .md-streaming > :last-child:not(ul, ol, pre, div, table, hr)::after,
+  .md-streaming > :is(ul, ol):last-child > li:last-child::after {
+    content: '';
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    margin-inline-start: 2px;
+    vertical-align: text-bottom;
+    background: var(--color-fg);
+    animation: var(--animate-caret);
   }
 }

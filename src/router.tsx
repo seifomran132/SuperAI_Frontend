@@ -3,12 +3,14 @@ import { setupApiClient } from './api/client';
 import { createQueryClient } from './api/query-client';
 import { RouteError } from './components/RouteError';
 import { installSessionSync } from '~/features/auth';
+import { installChatSessionReset } from '~/features/chat';
 import { routeTree } from './routeTree.gen';
 
 export function getRouter() {
   setupApiClient();
   const queryClient = createQueryClient();
   installSessionSync(queryClient);
+  installChatSessionReset();
   return createRouter({
     routeTree,
     context: { queryClient },

@@ -11,7 +11,10 @@ import { BackToSignIn } from '../components/BackToSignIn';
 import { EmailField } from '../components/fields';
 import { FormAlert } from '../components/FormAlert';
 import { setPendingEmail } from '../model/pending-email';
-import { forgotPasswordSchema, type ForgotPasswordValues } from '../model/schemas';
+import {
+  forgotPasswordSchema,
+  type ForgotPasswordValues,
+} from '../model/schemas';
 
 export function ForgotPasswordPage() {
   const { t } = useTranslation();

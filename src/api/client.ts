@@ -17,8 +17,14 @@ export function setupApiClient() {
       const { data } = await auth.refreshSession();
       if (!data.session) await auth.signOut({ scope: 'local' });
     } else if (response.status === 403) {
-      const body = (await response.clone().json().catch(() => null)) as { code?: string } | null;
-      if (body?.code === 'ACCOUNT_SUSPENDED' || body?.code === 'ACCOUNT_DELETED') {
+      const body = (await response
+        .clone()
+        .json()
+        .catch(() => null)) as { code?: string } | null;
+      if (
+        body?.code === 'ACCOUNT_SUSPENDED' ||
+        body?.code === 'ACCOUNT_DELETED'
+      ) {
         await auth.signOut({ scope: 'local' });
       }
     }
