@@ -1,0 +1,67 @@
+# F5 — Hardening and launch
+
+**Goal:** test, fix and deploy what F1–F4 built. No new features. Landing page comes after F5.
+
+**Branch:** `feature/f5-hardening` from `dev` (after F4b is merged).
+
+## 1. Decisions
+
+| # | Decision |
+|---|---|
+| 1 | Host on the team's Linux VPS (3 vCPU, 8 GB RAM, 100 GB). Frontend, API, GoTrue, Postgres and Redis on the same server, in Docker Compose. |
+| 2 | Caddy in front: automatic HTTPS, one origin per environment. `/` → static frontend, `/api/*` → NestJS, `/auth/*` → GoTrue. Same origin means no CORS and no preflight on chat sends. |
+| 3 | Staging is a second, smaller stack on the same VPS. Until a domain exists it runs on `<server-ip>.sslip.io` (real certificate, no DNS purchase). |
+| 4 | No error monitoring for launch. Errors show the recoverable UI; Caddy and API logs stay on the server. |
+| 5 | Arabic copy is reviewed by the team; F5b produces the string table to review. |
+| 6 | Branding stays config (`src/brand/<key>.ts`, `VITE_BRAND`, domain in deploy env). Placeholders are fine for staging; production needs the inputs in §6. |
+| 7 | Backend production setup (compose, Caddyfile, GoTrue env, backups) is prepared in the backend repo as files plus a deploy guide; secrets never enter git. |
+
+## 2. F5a — Browser tests (local stack, Playwright + axe)
+- Chat: new chat, send, streamed answer and cost, Stop, retry, mode switch, conversation list paging, mobile drawer, sign-out → next user sees nothing.
+- Chat errors (mocked): `INSUFFICIENT_BALANCE` alternatives (never auto-send), rate limit, network drop mid-stream.
+- Balance/account/plans: activity paging, profile edit, request-balance dialog, `/plans` signed out.
+- Admin happy path: find user → add funds with reason → ledger shows it → restore. Uses the test admin from `../SuperAI_Backend/bruno/.env`.
+- Sweep every route at 375 / 768 / 1280: `dir=rtl`, no serious axe violations, no horizontal scroll.
+- Unit tests skipped earlier: list loading/empty/error states, drawer, sign-out reset.
+
+## 3. F5b — Quality passes
+- Root error boundary; stale chunk after a deploy → "new version, reload" instead of a blank page; offline banner.
+- Accessibility: streamed answer announced once (polite live region, not per chunk), focus return after dialogs/drawer, contrast of both mode palettes, reduced motion.
+- Responsive: admin tables on tablet, chat with on-screen keyboard, long Arabic words and long numbers.
+- Bundle: visualizer + size budget in CI; admin and shiki stay in lazy chunks. Lighthouse on `/plans` and `/chat`.
+- Arabic copy: export `ar.json` + `errors.ar.json` grouped by screen into `docs/copy/AR_COPY_REVIEW.md` for the team.
+
+## 4. F5c — Launch configuration
+**Frontend repo**
+- `.env.staging` / `.env.production` templates; `src/lib/env.ts` fails the build when a required value is missing. Same-origin values: `VITE_API_ORIGIN=` and `VITE_GOTRUE_URL=/auth` resolved against `location.origin`.
+- Caddy site block (in the backend deploy folder, frontend part owned here):
+  - SPA fallback to `_shell.html`; `/plans` serves its prerendered page.
+  - `assets/*` → `Cache-Control: public, max-age=31536000, immutable`; HTML → `no-cache`.
+  - Headers: CSP (`default-src 'self'`, fonts.googleapis/gstatic, `img-src 'self' data:`, `frame-ancestors 'none'`), HSTS, `Referrer-Policy: strict-origin-when-cross-origin`, `X-Content-Type-Options: nosniff`.
+  - Chat stream route: `flush_interval -1` (no buffering), long read timeout.
+- Production build check: fails when the brand has no contact channel or still has a `[placeholder]` tagline (staging allows both).
+- Brand assets per brand: favicon, `<meta description>` from tagline, `robots.txt` (staging: disallow all).
+- GitHub Actions `deploy.yml`: build per environment → rsync to `/srv/bayan/<env>/web/releases/<sha>` → switch the `current` symlink → keep 5 releases. `dev` → staging, `main` → production (manual approval). Smoke e2e against staging after deploy.
+
+**Backend repo (prepared, not committed without approval)**
+- `deploy/compose.prod.yml`, `deploy/Caddyfile`, `.env.prod.example`.
+- GoTrue: `SITE_URL`, `URI_ALLOW_LIST`, `API_EXTERNAL_URL=<origin>/auth`, real SMTP.
+- `CORS_ORIGINS` unchanged in practice (same origin); `Retry-After` readable without CORS.
+- Server: ufw (22/80/443), SSH keys only, non-root deploy user, unattended security upgrades.
+- Backups: nightly `pg_dump`, kept 14 days and copied off the server (the database holds balance and payment records).
+
+## 5. F5d — Staging gate
+Deploy to staging → run the P0 completion gate and `docs/testing/MANUAL_TEST_CASES.md` → fix → `frontend-reviewer` final review → user approves production.
+
+## 6. Brand inputs needed before production
+| Input | Where | Required |
+|---|---|---|
+| Contact channels (WhatsApp / email / phone) | `src/brand/<key>.ts` `contact` | **Yes** — the only way to get a plan or balance |
+| Tagline (ar/en) | `tagline` | Yes |
+| Domain | deploy env (`APP_DOMAIN`) | Yes |
+| Logo, favicon | `logoUrl`, `public/brands/<key>/` | No (monogram fallback) |
+| Brand colors | `colors` | No (navy default) |
+| Terms / privacy URLs | `legal` | No (legal pages are deferred; nothing renders them yet) |
+
+## 7. Agents
+`test-engineer` (F5a), `frontend-reviewer` (F5b audits, F5d), `ui-builder` (fixes). At most two at once; tests time-boxed.

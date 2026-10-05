@@ -119,7 +119,8 @@ export function ConversationList({ onNavigate }: { onNavigate?: () => void }) {
   if (status === 'pending') {
     return <Skeleton label={t('shell.list.loading')} />;
   }
-  if (status === 'error') {
+  // A failed next page keeps the loaded rows; its own retry shows below them.
+  if (status === 'error' && !isFetchNextPageError) {
     return (
       <Alert
         variant="danger"

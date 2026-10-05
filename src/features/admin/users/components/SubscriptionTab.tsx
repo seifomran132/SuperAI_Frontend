@@ -132,7 +132,12 @@ export function SubscriptionTab({
             body={t('admin.subscription.historyEmptyBody')}
           />
         ) : items.length > 0 ? (
-          <div className="-mx-5 -mb-5 overflow-x-auto">
+          <div
+            role="region"
+            tabIndex={0}
+            aria-label={t('admin.subscription.history')}
+            className="focus-visible:outline-focus relative -mx-5 -mb-5 overflow-x-auto outline-hidden focus-visible:outline-solid focus-visible:outline-2 focus-visible:-outline-offset-2"
+          >
             <table
               aria-label={t('admin.subscription.history')}
               className="w-full min-w-[720px] border-collapse"

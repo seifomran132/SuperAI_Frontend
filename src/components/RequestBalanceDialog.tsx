@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { X } from 'lucide-react';
 import { Dialog } from 'radix-ui';
 import { useTranslation } from 'react-i18next';
@@ -19,12 +20,27 @@ export function RequestBalanceDialog({
   onOpenChange: (open: boolean) => void;
 }) {
   const { t } = useTranslation();
+  // Radix returns focus only to a Dialog.Trigger; callers open this from their
+  // own buttons, so remember what had focus when it opened.
+  const opener = useRef<HTMLElement | null>(null);
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
         <Dialog.Overlay className="bg-fg/45 fixed inset-0 z-50" />
         <Dialog.Content
-          onCloseAutoFocus={onCloseAutoFocus}
+          onOpenAutoFocus={() => {
+            opener.current =
+              document.activeElement instanceof HTMLElement
+                ? document.activeElement
+                : null;
+          }}
+          onCloseAutoFocus={
+            onCloseAutoFocus ??
+            ((event) => {
+              event.preventDefault();
+              if (opener.current?.isConnected) opener.current.focus();
+            })
+          }
           className="bg-surface fixed inset-0 m-auto h-fit z-50 flex max-h-[calc(100dvh-2rem)] w-[calc(100vw-2rem)] max-w-[480px] flex-col gap-4 overflow-y-auto rounded-xl p-6 shadow-lg"
         >
           <div className="flex items-start justify-between gap-3">

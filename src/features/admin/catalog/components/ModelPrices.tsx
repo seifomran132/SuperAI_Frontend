@@ -185,7 +185,7 @@ export function ModelPrices({ model }: { model: ModelDto }) {
             {t('admin.models.pricesEmpty')}
           </p>
         ) : (
-          <div className="overflow-x-auto">
+          <div className="relative overflow-x-auto">
             <table
               aria-label={t('admin.models.pricesTitle')}
               className="w-full min-w-[800px] border-collapse"

@@ -75,7 +75,7 @@ export function TableCard({
           <p className="text-fg-muted mt-1">{empty.body}</p>
         </div>
       ) : (
-        <div className="overflow-x-auto">{children}</div>
+        <div className="relative overflow-x-auto">{children}</div>
       )}
     </section>
   );

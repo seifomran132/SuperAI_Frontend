@@ -148,7 +148,7 @@ export function BalanceTab({
           />
         ) : (
           <div className="-mx-5 -mb-5">
-            <div className="overflow-x-auto">
+            <div className="relative overflow-x-auto">
               <table
                 aria-label={t('admin.balance.ledger')}
                 className="w-full min-w-[900px] border-collapse"

@@ -73,7 +73,7 @@ export function UsersTable({ users }: { users: AdminUserDto[] }) {
     yesterday: t('balance.activity.yesterday'),
   };
   return (
-    <div className="overflow-x-auto">
+    <div className="relative overflow-x-auto">
       <table
         aria-label={t('admin.users.tableLabel')}
         className="w-full min-w-[880px] border-collapse"

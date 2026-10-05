@@ -60,7 +60,8 @@ export function ActivityList() {
   let body;
   if (status === 'pending') {
     body = <Skeleton rows={4} label={t('balance.activity.loading')} />;
-  } else if (status === 'error') {
+  } else if (status === 'error' && !isFetchNextPageError) {
+    // A failed next page keeps the loaded rows; its own retry shows below them.
     body = (
       <div className="p-4">
         <RetryAlert onRetry={() => void refetch()}>
