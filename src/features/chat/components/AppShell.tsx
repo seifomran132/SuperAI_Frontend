@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import type { ReactNode } from 'react';
 import { Outlet, useRouterState } from '@tanstack/react-router';
 import { X } from 'lucide-react';
 import { Dialog } from 'radix-ui';
@@ -13,7 +14,7 @@ import { Sidebar } from './Sidebar';
  * right-to-left row it sits on the right: fixed at 280px from 1024px up, a
  * right-side drawer below that.
  */
-export function AppShell() {
+export function AppShell({ children }: { children?: ReactNode }) {
   const { t } = useTranslation();
   const drawerOpen = useChatStore((s) => s.drawerOpen);
   const setDrawerOpen = useChatStore((s) => s.setDrawerOpen);
@@ -81,9 +82,7 @@ export function AppShell() {
 
       <div className="flex min-w-0 flex-1 flex-col">
         <ChatHeader />
-        <main className="min-h-0 flex-1">
-          <Outlet />
-        </main>
+        <main className="min-h-0 flex-1">{children ?? <Outlet />}</main>
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 # Manual test cases — F1 (auth) and F2 (chat)
 
-**Covers:** everything built so far on `feature/f2-chat` (auth pages, guards, chat workspace, streaming, refusals, sidebar, menus, mobile drawer).
-**Not covered yet (expected to be empty or missing):** Balance and Account pages (F3 — the links open empty pages), Plans page, landing page, admin console.
+**Covers:** everything built so far (F1 auth, F2 chat, F3 balance, account and plans).
+**Not covered yet:** landing page, admin console.
 **How to record results:** tick each case ✅ / ❌; for ❌ note the browser, screen width, steps and a screenshot.
 
 ---
@@ -146,7 +146,7 @@ Setup: clear B's or A's name: `PATCH /api/v1/me { "fullName": null }` with that 
 |---|---|---|
 | SH-07 | Avatar initials | First letter of the first and last name (e.g. «سيف عمران» → «سع») |
 | SH-08 | Open the account menu (click and keyboard Enter) | Name, email, «الرصيد» with amount, «الحساب», «تسجيل الخروج»; arrow keys move between items; Esc closes and returns focus |
-| SH-09 | «الرصيد» / «الحساب» (menu and sidebar) | Open empty pages (F3 not built yet) inside the shell; the active link is highlighted |
+| SH-09 | «الرصيد» / «الحساب» (menu and sidebar) | Open the Balance and Account pages (§3b); the active link is highlighted |
 | SH-10 | «تسجيل الخروج» from the menu and from the drawer | `/sign-in`; signing in as another user shows none of the previous user's conversations or drafts |
 | SH-11 | Balance chip as B | Shows `1.00$` style (2 decimals), dollar after the number |
 
@@ -238,6 +238,47 @@ Restore balances and modes after this section.
 
 ---
 
+## 3b. Balance, Account and Plans (F3)
+
+### Balance — `/balance`
+
+| ID | Setup / steps | Expected |
+|---|---|---|
+| BA-01 | Account **B** (plan + balance) | Large spendable balance (same as the header chip), «طلب رصيد», plan name and «ينتهي رصيدك بانتهاء الباقة في {date}» |
+| BA-02 | B's activity list | Newest first; each row: type label + icon, signed amount (+ green, − neutral, e.g. `−0.0015$`), «الرصيد بعد العملية», «اليوم/أمس HH:mm» or full date |
+| BA-03 | Labels | Plan credit «رصيد الباقة», admin adjustment «تعديل من الفريق», chat use «استخدام المحادثة» (plus «إضافة رصيد», «انتهاء الرصيد», «استرداد», «رصيد قسيمة» when present) |
+| BA-04 | Send a chat message, return to `/balance` | New «استخدام المحادثة» row; balance equals the header chip |
+| BA-05 | Account with > 30 activity rows, scroll down | Older rows load; on failure, retry button |
+| BA-06 | Account **C** (no plan) | No-plan notice with «تواصل معنا»; «لا توجد عمليات بعد» for a new account |
+| BA-07 | «طلب رصيد» / «تواصل معنا» | Request-balance dialog; Esc returns focus |
+| BA-08 | 390px | Rows show amount + date only; no horizontal scroll |
+
+### Account — `/account`
+
+| ID | Setup / steps | Expected |
+|---|---|---|
+| AC-01 | Open as B | Profile (name, phone optional LTR, email read-only with lock and note), plan card (name, start/end dates, «مجاني» when price 0, mode chips), change password, session card |
+| AC-02 | Change name, «حفظ» | Toast «تم حفظ التغييرات.»; the account menu / avatar initials update without reload |
+| AC-03 | Clear the name, save | «أدخل اسمك الكامل.»; nothing saved |
+| AC-04 | Clear the phone, save | Saved as empty; `abc` as phone → server field error |
+| AC-05 | Change password: mismatch / short / same as current | Matching errors; nothing changed |
+| AC-06 | Change password: valid | Success; you stay signed in; sign out and sign in with the new password works |
+| AC-07 | «تسجيل الخروج» on the session card | Signed out to `/sign-in` |
+| AC-08 | Account **C** | Plan card shows the no-plan notice; «تواصل معنا» opens the dialog |
+| AC-09 | 390px | Order: profile → plan → password → session (sign-out last) |
+
+### Plans — `/plans`
+
+| ID | Setup / steps | Expected |
+|---|---|---|
+| PL-01 | Signed out, open `/plans` | Header with «تسجيل الدخول» / «إنشاء حساب»; plan cards from the backend (name, description, price or «مجاني», modes with descriptions); expiry note; «تواصل معنا للاشتراك» opens the dialog |
+| PL-02 | A plan with 0 included balance | No «الرصيد الحالي» line on that card |
+| PL-03 | Signed in as B | Page inside the app shell; B's plan marked «باقتك الحالية» |
+| PL-04 | Signed in as C (no subscription) | No card marked «باقتك الحالية» |
+| PL-05 | View source of `/plans` (signed out) | Page content is present in the HTML (prerendered) |
+
+---
+
 ## 4. Cross-cutting checks
 
 | ID | Check | Expected |
@@ -260,7 +301,7 @@ Restore balances and modes after this section.
 ## 5. Known limitations (not bugs)
 
 - The per-answer cost line disappears after a reload (backend doesn't store the cost on messages yet — deferred).
-- «الرصيد» and «الحساب» open empty pages until F3.
+
 - Confirmation and reset emails are in English (GoTrue defaults) until the backend adds Arabic templates.
 - No terms/privacy checkbox on sign-up until the legal pages exist.
 - Contact channels in the request-balance dialog are empty until the brand config has them.

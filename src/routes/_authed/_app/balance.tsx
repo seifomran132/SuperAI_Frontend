@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
+import { BalancePage } from '~/features/balance';
 
-// Intentionally empty: F3 builds the balance page.
 export const Route = createFileRoute('/_authed/_app/balance')({
-  component: () => null,
+  component: BalancePage,
 });

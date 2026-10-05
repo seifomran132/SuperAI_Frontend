@@ -14,7 +14,7 @@ import {
 import { Composer } from '../components/Composer';
 import { EmptyState } from '../components/EmptyState';
 import { MessageList } from '../components/MessageList';
-import { RequestBalanceDialog } from '../components/RequestBalanceDialog';
+import { RequestBalanceDialog } from '~/components/RequestBalanceDialog';
 import { useNoPlan } from '../components/useNoPlan';
 import { NEW_CHAT, useChatStore } from '../model/chat-store';
 import {

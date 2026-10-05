@@ -13,6 +13,9 @@ export default defineConfig({
     tailwindcss(),
     tanstackStart({
       spa: { enabled: true },
+      pages: [{ path: '/plans' }],
+      // Only listed pages: crawling would prerender the _guest pages too.
+      prerender: { crawlLinks: false },
     }),
     viteReact(),
   ],

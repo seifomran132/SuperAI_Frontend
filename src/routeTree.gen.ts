@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthedRouteRouteImport } from './routes/_authed/route'
 import { Route as GuestRouteRouteImport } from './routes/_guest/route'
+import { Route as PlansRouteImport } from './routes/plans'
 import { Route as authAccountUnavailableRouteImport } from './routes/(auth)/account-unavailable'
 import { Route as authCheckEmailRouteImport } from './routes/(auth)/check-email'
 import { Route as authResetPasswordRouteImport } from './routes/(auth)/reset-password'
@@ -37,6 +38,11 @@ const AuthedRouteRoute = AuthedRouteRouteImport.update({
 } as any)
 const GuestRouteRoute = GuestRouteRouteImport.update({
   id: '/_guest',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlansRoute = PlansRouteImport.update({
+  id: '/plans',
+  path: '/plans',
   getParentRoute: () => rootRouteImport,
 } as any)
 const authAccountUnavailableRoute = authAccountUnavailableRouteImport.update({
@@ -107,6 +113,7 @@ const AuthedAppChatConversationIdRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/plans': typeof PlansRoute
   '/account-unavailable': typeof authAccountUnavailableRoute
   '/check-email': typeof authCheckEmailRoute
   '/reset-password': typeof authResetPasswordRoute
@@ -122,6 +129,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/plans': typeof PlansRoute
   '/account-unavailable': typeof authAccountUnavailableRoute
   '/check-email': typeof authCheckEmailRoute
   '/reset-password': typeof authResetPasswordRoute
@@ -140,6 +148,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authed': typeof AuthedRouteRouteWithChildren
   '/_guest': typeof GuestRouteRouteWithChildren
+  '/plans': typeof PlansRoute
   '/_authed/_app': typeof AuthedAppRouteRouteWithChildren
   '/(auth)/account-unavailable': typeof authAccountUnavailableRoute
   '/(auth)/check-email': typeof authCheckEmailRoute
@@ -158,6 +167,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/plans'
     | '/account-unavailable'
     | '/check-email'
     | '/reset-password'
@@ -173,6 +183,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/plans'
     | '/account-unavailable'
     | '/check-email'
     | '/reset-password'
@@ -190,6 +201,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_authed'
     | '/_guest'
+    | '/plans'
     | '/_authed/_app'
     | '/(auth)/account-unavailable'
     | '/(auth)/check-email'
@@ -209,6 +221,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthedRouteRoute: typeof AuthedRouteRouteWithChildren
   GuestRouteRoute: typeof GuestRouteRouteWithChildren
+  PlansRoute: typeof PlansRoute
   authAccountUnavailableRoute: typeof authAccountUnavailableRoute
   authCheckEmailRoute: typeof authCheckEmailRoute
   authResetPasswordRoute: typeof authResetPasswordRoute
@@ -236,6 +249,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof GuestRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/plans': {
+      id: '/plans'
+      path: '/plans'
+      fullPath: '/plans'
+      preLoaderRoute: typeof PlansRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(auth)/account-unavailable': {
@@ -384,6 +404,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthedRouteRoute: AuthedRouteRouteWithChildren,
   GuestRouteRoute: GuestRouteRouteWithChildren,
+  PlansRoute: PlansRoute,
   authAccountUnavailableRoute: authAccountUnavailableRoute,
   authCheckEmailRoute: authCheckEmailRoute,
   authResetPasswordRoute: authResetPasswordRoute,

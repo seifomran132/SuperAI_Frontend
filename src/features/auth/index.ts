@@ -17,3 +17,14 @@ export { hasName, type UnavailableReason } from './model/me';
 export { isInternalPath, safeRedirect } from './model/redirect';
 export { installSessionSync } from './model/session';
 export { signOut } from './model/actions';
+export { updatePassword } from './model/actions';
+export {
+  completeProfileSchema,
+  fieldErrorsFromDetails,
+  resetPasswordSchema,
+  toProfilePayload,
+  type CompleteProfileValues,
+  type ResetPasswordValues,
+} from './model/schemas';
+export { PasswordField } from './components/fields';
+export { FormAlert } from './components/FormAlert';

@@ -183,5 +183,87 @@
       "body": "Our team adds balance and activates plans. Contact us in one of these ways and we will help.",
       "close": "Close"
     }
+  },
+  "balance": {
+    "title": "Balance",
+    "available": "Available balance",
+    "note": "Each answer is charged from this balance according to the mode used.",
+    "request": "Request balance",
+    "plan": "Your plan: {{name}}",
+    "expiry": "Your balance expires when the plan ends on {{date}}",
+    "noPlan": "You have no active plan. Contact us to subscribe.",
+    "contactUs": "Contact us",
+    "balanceError": "Could not load your balance. Check your connection and try again.",
+    "activity": {
+      "title": "Activity",
+      "balanceAfter": "Balance after",
+      "emptyTitle": "No activity yet",
+      "emptyBody": "Your balance and usage activity will show up here.",
+      "error": "Could not load your activity. Check your connection and try again.",
+      "moreError": "Could not load more activity.",
+      "loading": "Loading activity",
+      "loadingMore": "Loading more",
+      "today": "Today",
+      "yesterday": "Yesterday",
+      "types": {
+        "subscription_credit": "Plan balance",
+        "purchase": "Balance added",
+        "usage_charge": "Chat usage",
+        "voucher_credit": "Voucher balance",
+        "refund": "Refund",
+        "adjustment": "Adjustment by the team",
+        "expiry": "Balance expired"
+      }
+    }
+  },
+  "account": {
+    "title": "Account",
+    "loadError": "Could not load your account. Check your connection and try again.",
+    "profile": {
+      "title": "Profile",
+      "optional": "(optional)",
+      "emailNote": "The email address cannot be changed here.",
+      "save": "Save",
+      "saved": "Changes saved.",
+      "failed": "Could not save the changes. Try again."
+    },
+    "plan": {
+      "title": "Plan",
+      "start": "Start date",
+      "end": "End date",
+      "price": "Price",
+      "free": "Free",
+      "perMonth": "/ month",
+      "modes": "Available modes",
+      "expiryNote": "Your balance expires when the plan ends. Contact us to change or renew it.",
+      "noPlan": "You have no active plan. Contact us to subscribe.",
+      "contact": "Contact us",
+      "viewPlans": "View plans",
+      "error": "Could not load your plan. Try again."
+    },
+    "password": {
+      "title": "Change password",
+      "save": "Save password",
+      "saved": "Password changed."
+    },
+    "session": {
+      "title": "Session",
+      "body": "Sign out on this device.",
+      "signOut": "Sign out"
+    }
+  },
+  "plans": {
+    "title": "Plans",
+    "intro": "One shared balance for all modes. Each answer is charged by mode and actual use. Plans and balance are added by our team.",
+    "free": "Free",
+    "perMonth": "/ month",
+    "currentBalance": "Current balance:",
+    "duration": "A plan lasts one month from activation, and the balance expires when it ends.",
+    "current": "Your current plan",
+    "subscribe": "Contact us to subscribe",
+    "emptyTitle": "No plans available right now",
+    "emptyBody": "Contact us to learn about the options.",
+    "error": "Could not load the plans. Try again.",
+    "loading": "Loading plans"
   }
 }

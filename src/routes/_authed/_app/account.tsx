@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
+import { AccountPage } from '~/features/account';
 
-// Intentionally empty: F3 builds the account page.
 export const Route = createFileRoute('/_authed/_app/account')({
-  component: () => null,
+  component: AccountPage,
 });

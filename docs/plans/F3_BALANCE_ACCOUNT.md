@@ -79,3 +79,4 @@ States: loading, error with retry, no-plan variant, save pending/success/failure
 2. **Plans page:** public and prerendered for signed-out visitors; inside the app shell for signed-in users.
 3. **Landing page (S13):** not now — finish the app functionality first.
 4. **Activity type labels:** approved as in §2.
+5. **Designs approved (2026-10-04)** with all proposed copy: `design/stitch/{s10-balance, s11-account, s12-plans, f3-states, f3-mobile}`. Copy change by the user: plan cards use «الرصيد الحالي» instead of «الرصيد المضمّن». Also: keep «سجّل خروجك من هذا الجهاز.»; hide the balance line on a plan card when it is 0; mobile activity rows show amount + date only; `<Money signed>` for activity amounts (U+2212 minus).
