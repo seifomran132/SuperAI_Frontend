@@ -28,3 +28,4 @@ export {
 } from './model/schemas';
 export { PasswordField } from './components/fields';
 export { FormAlert } from './components/FormAlert';
+export { ensureMe } from './model/me';

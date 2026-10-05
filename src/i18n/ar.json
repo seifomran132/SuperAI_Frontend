@@ -7,7 +7,9 @@
     "showPassword": "إظهار كلمة المرور",
     "hidePassword": "إخفاء كلمة المرور",
     "notifications": "الإشعارات",
-    "closeNotification": "إغلاق الإشعار"
+    "closeNotification": "إغلاق الإشعار",
+    "notFound": "الصفحة غير موجودة",
+    "backHome": "العودة إلى الرئيسية"
   },
   "auth": {
     "fields": {
@@ -265,5 +267,238 @@
     "emptyBody": "تواصل معنا لمعرفة الخيارات المتاحة.",
     "error": "تعذّر تحميل الباقات. حاول مرة أخرى.",
     "loading": "جاري تحميل الباقات"
+  },
+  "admin": {
+    "nav": {
+      "users": "المستخدمون",
+      "plans": "الباقات",
+      "providers": "المزوّدون",
+      "models": "النماذج",
+      "modes": "الأوضاع",
+      "settings": "الإعدادات",
+      "soon": "قريبًا",
+      "backToApp": "العودة إلى التطبيق",
+      "panel": "لوحة الإدارة",
+      "menu": "قائمة الإدارة",
+      "openMenu": "فتح قائمة الإدارة",
+      "closeMenu": "إغلاق القائمة"
+    },
+    "titles": {
+      "users": "المستخدمون",
+      "userDetail": "تفاصيل المستخدم"
+    },
+    "entry": "لوحة الإدارة",
+    "common": {
+      "cancel": "إلغاء",
+      "loading": "جاري التحميل",
+      "system": "النظام",
+      "none": "-",
+      "copy": "نسخ",
+      "copied": "تم النسخ"
+    },
+    "users": {
+      "search": "ابحث بالبريد الإلكتروني أو الاسم",
+      "searchLabel": "بحث عن مستخدم",
+      "statusFilter": "الحالة",
+      "roleFilter": "الصلاحية",
+      "all": "الكل",
+      "status": {
+        "active": "نشط",
+        "suspended": "موقوف",
+        "deleted": "محذوف"
+      },
+      "role": {
+        "admin": "مسؤول",
+        "user": "مستخدم"
+      },
+      "columns": {
+        "email": "البريد الإلكتروني",
+        "name": "الاسم",
+        "status": "الحالة",
+        "role": "الصلاحية",
+        "lastSignIn": "آخر دخول",
+        "createdAt": "تاريخ التسجيل",
+        "actions": "إجراءات"
+      },
+      "rowActions": "إجراءات المستخدم",
+      "open": "فتح",
+      "activatePlan": "تفعيل باقة",
+      "addFunds": "إضافة رصيد",
+      "unnamed": "بدون اسم",
+      "neverSignedIn": "لم يسجّل الدخول",
+      "emptyTitle": "لا يوجد مستخدمون مطابقون",
+      "emptyBody": "غيّر البحث أو المرشحات وحاول مرة أخرى.",
+      "error": "تعذّر تحميل المستخدمين.",
+      "range": "<n>{{from}}–{{to}}</n> من <n>{{total}}</n>",
+      "pageOf": "الصفحة {{page}} من {{pages}}",
+      "prev": "الصفحة السابقة",
+      "next": "الصفحة التالية",
+      "tableLabel": "جدول المستخدمين"
+    },
+    "detail": {
+      "breadcrumb": "مسار التنقل",
+      "emailConfirmed": "البريد مؤكد",
+      "emailUnconfirmed": "البريد غير مؤكد",
+      "tabsLabel": "أقسام المستخدم",
+      "tabs": {
+        "overview": "نظرة عامة",
+        "subscription": "الاشتراك",
+        "balance": "الرصيد"
+      },
+      "notFoundTitle": "لم يتم العثور على المستخدم",
+      "backToUsers": "العودة إلى المستخدمين",
+      "error": "تعذّر تحميل المستخدم."
+    },
+    "overview": {
+      "facts": "بيانات الحساب",
+      "email": "البريد الإلكتروني",
+      "name": "الاسم",
+      "phone": "رقم الجوال",
+      "status": "الحالة",
+      "role": "الصلاحية",
+      "createdAt": "تاريخ التسجيل",
+      "lastSignIn": "آخر دخول",
+      "userId": "المعرّف",
+      "actions": "إجراءات الحساب",
+      "suspend": "إيقاف الحساب",
+      "reactivate": "إعادة التفعيل",
+      "grantAdmin": "منح صلاحية مسؤول",
+      "removeAdmin": "إزالة الصلاحية",
+      "suspendBody": "يخرج المستخدم من حسابه ولا يستطيع الدخول حتى تعيد تفعيله.",
+      "reactivateBody": "يستعيد المستخدم الدخول إلى حسابه.",
+      "grantBody": "يستطيع المسؤول الدخول إلى لوحة الإدارة وتغيير الباقات والأرصدة.",
+      "removeBody": "يفقد المستخدم الدخول إلى لوحة الإدارة.",
+      "suspendTitle": "إيقاف الحساب",
+      "reactivateTitle": "إعادة تفعيل الحساب",
+      "grantTitle": "منح صلاحية مسؤول",
+      "removeTitle": "إزالة صلاحية المسؤول",
+      "done": {
+        "suspended": "تم إيقاف الحساب",
+        "active": "تمت إعادة تفعيل الحساب",
+        "granted": "تم منح صلاحية المسؤول",
+        "removed": "تمت إزالة صلاحية المسؤول",
+        "unchanged": "لا تغيير: القيمة محدّثة بالفعل"
+      }
+    },
+    "subscription": {
+      "current": "الباقة الحالية",
+      "none": "لا توجد باقة نشطة",
+      "noneBody": "يستخدم هذا المستخدم الباقة الافتراضية.",
+      "periodEnd": "ينتهي في",
+      "noEnd": "بدون تاريخ انتهاء",
+      "included": "الرصيد المضمّن",
+      "price": "السعر الشهري",
+      "activate": "تفعيل باقة",
+      "end": "إنهاء الباقة",
+      "history": "سجل الاشتراكات",
+      "historyEmptyTitle": "لا يوجد سجل اشتراكات",
+      "historyEmptyBody": "ستظهر هنا الباقات التي فُعّلت لهذا المستخدم.",
+      "columns": {
+        "plan": "الباقة",
+        "status": "الحالة",
+        "source": "المصدر",
+        "started": "بدأت",
+        "end": "تنتهي / انتهت",
+        "included": "الرصيد المضمّن"
+      },
+      "status": {
+        "active": "نشطة",
+        "replaced": "استُبدلت",
+        "cancelled": "أُنهيت",
+        "expired": "انتهت"
+      },
+      "source": {
+        "admin": "مسؤول",
+        "payment": "دفعة",
+        "system": "النظام"
+      },
+      "error": "تعذّر تحميل الاشتراكات.",
+      "activateTitle": "تفعيل باقة",
+      "planLabel": "الباقة",
+      "planPlaceholder": "اختر الباقة",
+      "planRequired": "اختر الباقة",
+      "plansError": "تعذّر تحميل الباقات.",
+      "noPlans": "لا توجد باقات نشطة",
+      "endDateLabel": "تاريخ الانتهاء (اختياري)",
+      "endDateHint": "شهر واحد افتراضيًا",
+      "endDatePast": "اختر تاريخًا في المستقبل",
+      "activateSubmit": "تفعيل الباقة",
+      "endTitle": "إنهاء الباقة",
+      "endSubmit": "إنهاء الباقة",
+      "endWarning": "سينتهي كل رصيد المستخدم فورًا",
+      "endWarningBody": "لا يمكن التراجع عن هذا الإجراء.",
+      "activated": "تم تفعيل الباقة",
+      "ended": "تم إنهاء الباقة",
+      "credited": "أُضيف إلى الرصيد"
+    },
+    "balance": {
+      "available": "المتاح للإنفاق",
+      "total": "الرصيد الكلي",
+      "reserved": "محجوز لردود جارية",
+      "error": "تعذّر تحميل الرصيد.",
+      "ledger": "سجل العمليات",
+      "ledgerEmptyTitle": "لا توجد عمليات بعد",
+      "ledgerEmptyBody": "ستظهر هنا كل حركة على رصيد المستخدم.",
+      "ledgerError": "تعذّر تحميل السجل.",
+      "loadMore": "تحميل المزيد",
+      "loadMoreError": "تعذّر تحميل المزيد.",
+      "adjust": "إضافة أو خصم رصيد",
+      "recordPayment": "تسجيل دفعة",
+      "columns": {
+        "type": "النوع",
+        "amount": "المبلغ",
+        "after": "الرصيد بعد العملية",
+        "actor": "المنفّذ",
+        "reason": "السبب",
+        "reference": "المرجع",
+        "date": "التاريخ"
+      },
+      "actor": {
+        "admin": "مسؤول",
+        "system": "النظام",
+        "user": "المستخدم",
+        "cli": "سطر الأوامر"
+      },
+      "adjustTitle": "إضافة أو خصم رصيد",
+      "amountLabel": "المبلغ",
+      "amountHint": "استخدم - للخصم",
+      "currency": "USD",
+      "amountInvalidSigned": "أدخل مبلغًا صحيحًا مثل 5.00 أو -2.50",
+      "amountInvalid": "أدخل مبلغًا صحيحًا مثل 5.00",
+      "amountZero": "يجب ألا يكون المبلغ صفرًا",
+      "amountTooLarge": "الحد الأقصى 10,000 دولار",
+      "adjustSubmit": "تنفيذ",
+      "adjusted": "تم تعديل الرصيد",
+      "paymentTitle": "تسجيل دفعة",
+      "referenceLabel": "مرجع الدفعة",
+      "referenceHint": "رقم الحوالة أو الفاتورة. لا يمكن تسجيل المرجع نفسه مرتين.",
+      "referenceRequired": "مرجع الدفعة مطلوب",
+      "paymentSubmit": "تسجيل الدفعة",
+      "recorded": "تم تسجيل الدفعة",
+      "replayed": "هذه الدفعة مسجّلة من قبل، ولم يتغيّر الرصيد",
+      "types": {
+        "subscription_credit": "رصيد الباقة",
+        "purchase": "تسجيل دفعة",
+        "usage_charge": "استخدام المحادثة",
+        "voucher_credit": "رصيد قسيمة",
+        "refund": "استرداد",
+        "adjustment": "تعديل يدوي",
+        "expiry": "انتهاء الرصيد"
+      }
+    },
+    "dialog": {
+      "user": "المستخدم: {{name}}",
+      "reason": "السبب",
+      "reasonHint": "يُسجَّل في سجل التدقيق",
+      "required": "مطلوب",
+      "close": "إغلاق",
+      "reasonRequired": "السبب مطلوب",
+      "reasonShort": "اكتب 3 أحرف على الأقل",
+      "reasonLong": "الحد الأقصى 500 حرف",
+      "failed": "تعذّر تنفيذ الإجراء",
+      "fieldInvalid": "القيمة غير صحيحة",
+      "submit": "تنفيذ",
+      "keyReused": "تم تغيير بيانات العملية. أعد الإرسال لاستخدام مفتاح جديد."
+    }
   }
 }

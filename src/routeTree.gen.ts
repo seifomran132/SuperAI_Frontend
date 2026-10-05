@@ -17,6 +17,7 @@ import { Route as authAccountUnavailableRouteImport } from './routes/(auth)/acco
 import { Route as authCheckEmailRouteImport } from './routes/(auth)/check-email'
 import { Route as authResetPasswordRouteImport } from './routes/(auth)/reset-password'
 import { Route as AuthedAppRouteRouteImport } from './routes/_authed/_app/route'
+import { Route as AuthedAdminRouteRouteImport } from './routes/_authed/admin/route'
 import { Route as AuthedCompleteProfileRouteImport } from './routes/_authed/complete-profile'
 import { Route as GuestForgotPasswordRouteImport } from './routes/_guest/forgot-password'
 import { Route as GuestSignInRouteImport } from './routes/_guest/sign-in'
@@ -24,8 +25,11 @@ import { Route as GuestSignUpRouteImport } from './routes/_guest/sign-up'
 import { Route as authAuthCallbackRouteImport } from './routes/(auth)/auth/callback'
 import { Route as AuthedAppAccountRouteImport } from './routes/_authed/_app/account'
 import { Route as AuthedAppBalanceRouteImport } from './routes/_authed/_app/balance'
+import { Route as AuthedAdminIndexRouteImport } from './routes/_authed/admin/index'
 import { Route as AuthedAppChatIndexRouteImport } from './routes/_authed/_app/chat/index'
 import { Route as AuthedAppChatConversationIdRouteImport } from './routes/_authed/_app/chat/$conversationId'
+import { Route as AuthedAdminUsersIndexRouteImport } from './routes/_authed/admin/users/index'
+import { Route as AuthedAdminUsersUserIdRouteImport } from './routes/_authed/admin/users/$userId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -64,6 +68,11 @@ const AuthedAppRouteRoute = AuthedAppRouteRouteImport.update({
   id: '/_app',
   getParentRoute: () => AuthedRouteRoute,
 } as any)
+const AuthedAdminRouteRoute = AuthedAdminRouteRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthedRouteRoute,
+} as any)
 const AuthedCompleteProfileRoute = AuthedCompleteProfileRouteImport.update({
   id: '/complete-profile',
   path: '/complete-profile',
@@ -99,6 +108,11 @@ const AuthedAppBalanceRoute = AuthedAppBalanceRouteImport.update({
   path: '/balance',
   getParentRoute: () => AuthedAppRouteRoute,
 } as any)
+const AuthedAdminIndexRoute = AuthedAdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthedAdminRouteRoute,
+} as any)
 const AuthedAppChatIndexRoute = AuthedAppChatIndexRouteImport.update({
   id: '/chat/',
   path: '/chat/',
@@ -110,10 +124,21 @@ const AuthedAppChatConversationIdRoute =
     path: '/chat/$conversationId',
     getParentRoute: () => AuthedAppRouteRoute,
   } as any)
+const AuthedAdminUsersIndexRoute = AuthedAdminUsersIndexRouteImport.update({
+  id: '/users/',
+  path: '/users/',
+  getParentRoute: () => AuthedAdminRouteRoute,
+} as any)
+const AuthedAdminUsersUserIdRoute = AuthedAdminUsersUserIdRouteImport.update({
+  id: '/users/$userId',
+  path: '/users/$userId',
+  getParentRoute: () => AuthedAdminRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/plans': typeof PlansRoute
+  '/admin': typeof AuthedAdminRouteRouteWithChildren
   '/account-unavailable': typeof authAccountUnavailableRoute
   '/check-email': typeof authCheckEmailRoute
   '/reset-password': typeof authResetPasswordRoute
@@ -124,8 +149,11 @@ export interface FileRoutesByFullPath {
   '/auth/callback': typeof authAuthCallbackRoute
   '/account': typeof AuthedAppAccountRoute
   '/balance': typeof AuthedAppBalanceRoute
+  '/admin/': typeof AuthedAdminIndexRoute
   '/chat/$conversationId': typeof AuthedAppChatConversationIdRoute
+  '/admin/users/$userId': typeof AuthedAdminUsersUserIdRoute
   '/chat/': typeof AuthedAppChatIndexRoute
+  '/admin/users/': typeof AuthedAdminUsersIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -140,8 +168,11 @@ export interface FileRoutesByTo {
   '/auth/callback': typeof authAuthCallbackRoute
   '/account': typeof AuthedAppAccountRoute
   '/balance': typeof AuthedAppBalanceRoute
+  '/admin': typeof AuthedAdminIndexRoute
   '/chat/$conversationId': typeof AuthedAppChatConversationIdRoute
+  '/admin/users/$userId': typeof AuthedAdminUsersUserIdRoute
   '/chat': typeof AuthedAppChatIndexRoute
+  '/admin/users': typeof AuthedAdminUsersIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -150,6 +181,7 @@ export interface FileRoutesById {
   '/_guest': typeof GuestRouteRouteWithChildren
   '/plans': typeof PlansRoute
   '/_authed/_app': typeof AuthedAppRouteRouteWithChildren
+  '/_authed/admin': typeof AuthedAdminRouteRouteWithChildren
   '/(auth)/account-unavailable': typeof authAccountUnavailableRoute
   '/(auth)/check-email': typeof authCheckEmailRoute
   '/(auth)/reset-password': typeof authResetPasswordRoute
@@ -160,14 +192,18 @@ export interface FileRoutesById {
   '/(auth)/auth/callback': typeof authAuthCallbackRoute
   '/_authed/_app/account': typeof AuthedAppAccountRoute
   '/_authed/_app/balance': typeof AuthedAppBalanceRoute
+  '/_authed/admin/': typeof AuthedAdminIndexRoute
   '/_authed/_app/chat/$conversationId': typeof AuthedAppChatConversationIdRoute
+  '/_authed/admin/users/$userId': typeof AuthedAdminUsersUserIdRoute
   '/_authed/_app/chat/': typeof AuthedAppChatIndexRoute
+  '/_authed/admin/users/': typeof AuthedAdminUsersIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/plans'
+    | '/admin'
     | '/account-unavailable'
     | '/check-email'
     | '/reset-password'
@@ -178,8 +214,11 @@ export interface FileRouteTypes {
     | '/auth/callback'
     | '/account'
     | '/balance'
+    | '/admin/'
     | '/chat/$conversationId'
+    | '/admin/users/$userId'
     | '/chat/'
+    | '/admin/users/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -194,8 +233,11 @@ export interface FileRouteTypes {
     | '/auth/callback'
     | '/account'
     | '/balance'
+    | '/admin'
     | '/chat/$conversationId'
+    | '/admin/users/$userId'
     | '/chat'
+    | '/admin/users'
   id:
     | '__root__'
     | '/'
@@ -203,6 +245,7 @@ export interface FileRouteTypes {
     | '/_guest'
     | '/plans'
     | '/_authed/_app'
+    | '/_authed/admin'
     | '/(auth)/account-unavailable'
     | '/(auth)/check-email'
     | '/(auth)/reset-password'
@@ -213,8 +256,11 @@ export interface FileRouteTypes {
     | '/(auth)/auth/callback'
     | '/_authed/_app/account'
     | '/_authed/_app/balance'
+    | '/_authed/admin/'
     | '/_authed/_app/chat/$conversationId'
+    | '/_authed/admin/users/$userId'
     | '/_authed/_app/chat/'
+    | '/_authed/admin/users/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -286,6 +332,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthedAppRouteRouteImport
       parentRoute: typeof AuthedRouteRoute
     }
+    '/_authed/admin': {
+      id: '/_authed/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthedAdminRouteRouteImport
+      parentRoute: typeof AuthedRouteRoute
+    }
     '/_authed/complete-profile': {
       id: '/_authed/complete-profile'
       path: '/complete-profile'
@@ -335,6 +388,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthedAppBalanceRouteImport
       parentRoute: typeof AuthedAppRouteRoute
     }
+    '/_authed/admin/': {
+      id: '/_authed/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AuthedAdminIndexRouteImport
+      parentRoute: typeof AuthedAdminRouteRoute
+    }
     '/_authed/_app/chat/': {
       id: '/_authed/_app/chat/'
       path: '/chat'
@@ -348,6 +408,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/chat/$conversationId'
       preLoaderRoute: typeof AuthedAppChatConversationIdRouteImport
       parentRoute: typeof AuthedAppRouteRoute
+    }
+    '/_authed/admin/users/': {
+      id: '/_authed/admin/users/'
+      path: '/users'
+      fullPath: '/admin/users/'
+      preLoaderRoute: typeof AuthedAdminUsersIndexRouteImport
+      parentRoute: typeof AuthedAdminRouteRoute
+    }
+    '/_authed/admin/users/$userId': {
+      id: '/_authed/admin/users/$userId'
+      path: '/users/$userId'
+      fullPath: '/admin/users/$userId'
+      preLoaderRoute: typeof AuthedAdminUsersUserIdRouteImport
+      parentRoute: typeof AuthedAdminRouteRoute
     }
   }
 }
@@ -370,13 +444,30 @@ const AuthedAppRouteRouteWithChildren = AuthedAppRouteRoute._addFileChildren(
   AuthedAppRouteRouteChildren,
 )
 
+interface AuthedAdminRouteRouteChildren {
+  AuthedAdminIndexRoute: typeof AuthedAdminIndexRoute
+  AuthedAdminUsersUserIdRoute: typeof AuthedAdminUsersUserIdRoute
+  AuthedAdminUsersIndexRoute: typeof AuthedAdminUsersIndexRoute
+}
+
+const AuthedAdminRouteRouteChildren: AuthedAdminRouteRouteChildren = {
+  AuthedAdminIndexRoute: AuthedAdminIndexRoute,
+  AuthedAdminUsersUserIdRoute: AuthedAdminUsersUserIdRoute,
+  AuthedAdminUsersIndexRoute: AuthedAdminUsersIndexRoute,
+}
+
+const AuthedAdminRouteRouteWithChildren =
+  AuthedAdminRouteRoute._addFileChildren(AuthedAdminRouteRouteChildren)
+
 interface AuthedRouteRouteChildren {
   AuthedAppRouteRoute: typeof AuthedAppRouteRouteWithChildren
+  AuthedAdminRouteRoute: typeof AuthedAdminRouteRouteWithChildren
   AuthedCompleteProfileRoute: typeof AuthedCompleteProfileRoute
 }
 
 const AuthedRouteRouteChildren: AuthedRouteRouteChildren = {
   AuthedAppRouteRoute: AuthedAppRouteRouteWithChildren,
+  AuthedAdminRouteRoute: AuthedAdminRouteRouteWithChildren,
   AuthedCompleteProfileRoute: AuthedCompleteProfileRoute,
 }
 

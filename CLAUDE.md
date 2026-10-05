@@ -115,6 +115,10 @@ features/<name>/
 ## Agents (`.claude/agents/`)
 `stitch-designer` (design one screen in Stitch) → user approves → `ui-builder` / `chat-engineer` (build) → `test-engineer` (tests) → `frontend-reviewer` (read-only review) → commit. `contract-sync` runs after backend API changes. Agents never commit.
 
+## Processes
+- Never stop processes by name (`taskkill /IM node.exe`, `pkill node`, `killall`): the user's backend and dev servers run on the same machine. Stop only processes you started, by PID.
+- Run tests with a time limit (`npx vitest run <files> --testTimeout=10000`); if a run hangs, stop that run's PID and report it.
+
 ## Git
 - Default branch `main`. Commit only when asked. Line endings are LF (`.gitattributes`).
 - Generated files (`src/api/generated/`, `src/i18n/errors.*.json`, `src/routeTree.gen.ts`) are committed.

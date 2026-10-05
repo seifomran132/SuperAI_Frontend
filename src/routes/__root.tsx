@@ -9,6 +9,7 @@ import {
 } from '@tanstack/react-router';
 import { Direction } from 'radix-ui';
 import { brand, brandStyle } from '~/brand';
+import { NotFound } from '~/components/NotFound';
 import { Toaster } from '~/components/ui/sonner';
 import { defaultLanguage, directionOf } from '~/i18n';
 import appCss from '~/styles/app.css?url';
@@ -42,6 +43,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
     ],
   }),
   component: RootComponent,
+  notFoundComponent: NotFound,
 });
 
 function RootComponent() {

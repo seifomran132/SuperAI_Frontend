@@ -7,7 +7,9 @@
     "showPassword": "Show password",
     "hidePassword": "Hide password",
     "notifications": "Notifications",
-    "closeNotification": "Close notification"
+    "closeNotification": "Close notification",
+    "notFound": "Page not found",
+    "backHome": "Back to home"
   },
   "auth": {
     "fields": {
@@ -265,5 +267,238 @@
     "emptyBody": "Contact us to learn about the options.",
     "error": "Could not load the plans. Try again.",
     "loading": "Loading plans"
+  },
+  "admin": {
+    "nav": {
+      "users": "Users",
+      "plans": "Plans",
+      "providers": "Providers",
+      "models": "Models",
+      "modes": "Modes",
+      "settings": "Settings",
+      "soon": "Soon",
+      "backToApp": "Back to the app",
+      "panel": "Admin panel",
+      "menu": "Admin menu",
+      "openMenu": "Open admin menu",
+      "closeMenu": "Close menu"
+    },
+    "titles": {
+      "users": "Users",
+      "userDetail": "User details"
+    },
+    "entry": "Admin panel",
+    "common": {
+      "cancel": "Cancel",
+      "loading": "Loading",
+      "system": "System",
+      "none": "-",
+      "copy": "Copy",
+      "copied": "Copied"
+    },
+    "users": {
+      "search": "Search by email or name",
+      "searchLabel": "Search users",
+      "statusFilter": "Status",
+      "roleFilter": "Role",
+      "all": "All",
+      "status": {
+        "active": "Active",
+        "suspended": "Suspended",
+        "deleted": "Deleted"
+      },
+      "role": {
+        "admin": "Admin",
+        "user": "User"
+      },
+      "columns": {
+        "email": "Email",
+        "name": "Name",
+        "status": "Status",
+        "role": "Role",
+        "lastSignIn": "Last sign-in",
+        "createdAt": "Created",
+        "actions": "Actions"
+      },
+      "rowActions": "User actions",
+      "open": "Open",
+      "activatePlan": "Activate plan",
+      "addFunds": "Add funds",
+      "unnamed": "No name",
+      "neverSignedIn": "Never signed in",
+      "emptyTitle": "No matching users",
+      "emptyBody": "Change the search or filters and try again.",
+      "error": "Couldn't load users.",
+      "range": "<n>{{from}}–{{to}}</n> of <n>{{total}}</n>",
+      "pageOf": "Page {{page}} of {{pages}}",
+      "prev": "Previous page",
+      "next": "Next page",
+      "tableLabel": "Users table"
+    },
+    "detail": {
+      "breadcrumb": "Breadcrumb",
+      "emailConfirmed": "Email confirmed",
+      "emailUnconfirmed": "Email not confirmed",
+      "tabsLabel": "User sections",
+      "tabs": {
+        "overview": "Overview",
+        "subscription": "Subscription",
+        "balance": "Balance"
+      },
+      "notFoundTitle": "User not found",
+      "backToUsers": "Back to users",
+      "error": "Couldn't load the user."
+    },
+    "overview": {
+      "facts": "Account details",
+      "email": "Email",
+      "name": "Name",
+      "phone": "Phone",
+      "status": "Status",
+      "role": "Role",
+      "createdAt": "Created",
+      "lastSignIn": "Last sign-in",
+      "userId": "ID",
+      "actions": "Account actions",
+      "suspend": "Suspend account",
+      "reactivate": "Reactivate",
+      "grantAdmin": "Grant admin role",
+      "removeAdmin": "Remove admin role",
+      "suspendBody": "The user is signed out and cannot sign in until you reactivate the account.",
+      "reactivateBody": "The user can sign in again.",
+      "grantBody": "An admin can open the admin panel and change plans and balances.",
+      "removeBody": "The user loses access to the admin panel.",
+      "suspendTitle": "Suspend account",
+      "reactivateTitle": "Reactivate account",
+      "grantTitle": "Grant admin role",
+      "removeTitle": "Remove admin role",
+      "done": {
+        "suspended": "Account suspended",
+        "active": "Account reactivated",
+        "granted": "Admin role granted",
+        "removed": "Admin role removed",
+        "unchanged": "No change: already set"
+      }
+    },
+    "subscription": {
+      "current": "Current plan",
+      "none": "No active plan",
+      "noneBody": "This user is on the default plan.",
+      "periodEnd": "Ends on",
+      "noEnd": "No end date",
+      "included": "Included balance",
+      "price": "Monthly price",
+      "activate": "Activate plan",
+      "end": "End plan",
+      "history": "Subscription history",
+      "historyEmptyTitle": "No subscription history",
+      "historyEmptyBody": "Plans activated for this user appear here.",
+      "columns": {
+        "plan": "Plan",
+        "status": "Status",
+        "source": "Source",
+        "started": "Started",
+        "end": "Ends / ended",
+        "included": "Included balance"
+      },
+      "status": {
+        "active": "Active",
+        "replaced": "Replaced",
+        "cancelled": "Ended",
+        "expired": "Expired"
+      },
+      "source": {
+        "admin": "Admin",
+        "payment": "Payment",
+        "system": "System"
+      },
+      "error": "Couldn't load subscriptions.",
+      "activateTitle": "Activate plan",
+      "planLabel": "Plan",
+      "planPlaceholder": "Choose a plan",
+      "planRequired": "Choose a plan",
+      "plansError": "Couldn't load plans.",
+      "noPlans": "No active plans",
+      "endDateLabel": "End date (optional)",
+      "endDateHint": "One month by default",
+      "endDatePast": "Choose a future date",
+      "activateSubmit": "Activate plan",
+      "endTitle": "End plan",
+      "endSubmit": "End plan",
+      "endWarning": "All of the user's balance expires immediately",
+      "endWarningBody": "This cannot be undone.",
+      "activated": "Plan activated",
+      "ended": "Plan ended",
+      "credited": "Added to balance"
+    },
+    "balance": {
+      "available": "Spendable",
+      "total": "Total balance",
+      "reserved": "Held for answers in progress",
+      "error": "Couldn't load the balance.",
+      "ledger": "Ledger",
+      "ledgerEmptyTitle": "No entries yet",
+      "ledgerEmptyBody": "Every change to the user's balance appears here.",
+      "ledgerError": "Couldn't load the ledger.",
+      "loadMore": "Load more",
+      "loadMoreError": "Couldn't load more.",
+      "adjust": "Add or remove funds",
+      "recordPayment": "Record payment",
+      "columns": {
+        "type": "Type",
+        "amount": "Amount",
+        "after": "Balance after",
+        "actor": "By",
+        "reason": "Reason",
+        "reference": "Reference",
+        "date": "Date"
+      },
+      "actor": {
+        "admin": "Admin",
+        "system": "System",
+        "user": "User",
+        "cli": "Command line"
+      },
+      "adjustTitle": "Add or remove funds",
+      "amountLabel": "Amount",
+      "amountHint": "Use - to remove",
+      "currency": "USD",
+      "amountInvalidSigned": "Enter a valid amount such as 5.00 or -2.50",
+      "amountInvalid": "Enter a valid amount such as 5.00",
+      "amountZero": "The amount cannot be zero",
+      "amountTooLarge": "Maximum is 10,000 USD",
+      "adjustSubmit": "Apply",
+      "adjusted": "Balance updated",
+      "paymentTitle": "Record payment",
+      "referenceLabel": "Payment reference",
+      "referenceHint": "Transfer or invoice number. The same reference cannot be recorded twice.",
+      "referenceRequired": "The payment reference is required",
+      "paymentSubmit": "Record payment",
+      "recorded": "Payment recorded",
+      "replayed": "This payment was already recorded; the balance did not change",
+      "types": {
+        "subscription_credit": "Plan balance",
+        "purchase": "Payment recorded",
+        "usage_charge": "Chat usage",
+        "voucher_credit": "Voucher credit",
+        "refund": "Refund",
+        "adjustment": "Manual adjustment",
+        "expiry": "Balance expiry"
+      }
+    },
+    "dialog": {
+      "user": "User: {{name}}",
+      "reason": "Reason",
+      "reasonHint": "Saved in the audit log",
+      "required": "required",
+      "close": "Close",
+      "reasonRequired": "The reason is required",
+      "reasonShort": "Write at least 3 characters",
+      "reasonLong": "Maximum 500 characters",
+      "failed": "The action failed",
+      "fieldInvalid": "This value is not valid",
+      "submit": "Confirm",
+      "keyReused": "The action details changed. Submit again to use a new key."
+    }
   }
 }

@@ -1,6 +1,12 @@
 import { Link } from '@tanstack/react-router';
 import { useQuery } from '@tanstack/react-query';
-import { ChevronDown, CreditCard, LogOut, User } from 'lucide-react';
+import {
+  ChevronDown,
+  CreditCard,
+  LogOut,
+  ShieldCheck,
+  User,
+} from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { meControllerGetOptions } from '~/api/generated/@tanstack/react-query.gen';
 import { Money } from '~/components/Money';
@@ -91,6 +97,17 @@ export function AccountMenu() {
             {t('shell.account')}
           </Link>
         </DropdownMenuItem>
+        {me?.isAdmin ? (
+          <DropdownMenuItem asChild>
+            <Link to="/admin">
+              <ShieldCheck
+                aria-hidden="true"
+                className="text-fg-muted size-5"
+              />
+              {t('admin.entry')}
+            </Link>
+          </DropdownMenuItem>
+        ) : null}
         <DropdownMenuSeparator />
         <DropdownMenuItem disabled={pending} onSelect={() => void signOut()}>
           <LogOut
