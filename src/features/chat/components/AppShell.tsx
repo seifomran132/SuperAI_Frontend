@@ -4,6 +4,7 @@ import { Outlet, useRouterState } from '@tanstack/react-router';
 import { X } from 'lucide-react';
 import { Dialog } from 'radix-ui';
 import { useTranslation } from 'react-i18next';
+import { OfflineBanner } from '~/components/OfflineBanner';
 import { Button } from '~/components/ui/button';
 import { useChatStore } from '../model/chat-store';
 import { ChatHeader } from './ChatHeader';
@@ -82,6 +83,7 @@ export function AppShell({ children }: { children?: ReactNode }) {
 
       <div className="flex min-w-0 flex-1 flex-col">
         <ChatHeader />
+        <OfflineBanner />
         <main className="min-h-0 flex-1">{children ?? <Outlet />}</main>
       </div>
     </div>

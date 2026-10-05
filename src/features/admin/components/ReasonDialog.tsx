@@ -1,4 +1,4 @@
-import { useId, useState, type FormEvent, type ReactNode } from 'react';
+import { useId, useRef, useState, type FormEvent, type ReactNode } from 'react';
 import { X } from 'lucide-react';
 import { Dialog } from 'radix-ui';
 import { useTranslation } from 'react-i18next';
@@ -47,11 +47,31 @@ export interface ReasonDialogProps {
  */
 export function ReasonDialog(props: ReasonDialogProps) {
   const { t } = useTranslation();
+  // Opened from state, not a Trigger: Radix has nothing to return focus to.
+  const opener = useRef<HTMLElement | null>(null);
   return (
     <Dialog.Root open={props.open} onOpenChange={props.onOpenChange}>
       <Dialog.Portal>
         <Dialog.Overlay className="bg-fg/45 fixed inset-0 z-50" />
         <Dialog.Content
+          onOpenAutoFocus={() => {
+            opener.current =
+              document.activeElement instanceof HTMLElement &&
+              document.activeElement !== document.body
+                ? document.activeElement
+                : null;
+          }}
+          onCloseAutoFocus={(event) => {
+            event.preventDefault();
+            // The opener can be gone (End subscription removes its button):
+            // fall back to the first section heading on the page.
+            const was = opener.current;
+            if (!was) return;
+            (was.isConnected
+              ? was
+              : document.querySelector<HTMLElement>('[data-section-heading]')
+            )?.focus();
+          }}
           aria-describedby={
             props.userName || props.description ? undefined : ''
           }

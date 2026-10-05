@@ -1,6 +1,7 @@
 import {
   useEffect,
   useLayoutEffect,
+  useRef,
   type KeyboardEvent,
   type RefObject,
 } from 'react';
@@ -8,6 +9,7 @@ import { ArrowRight, Square } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '~/components/ui/button';
 import { cn } from '~/lib/utils';
+import { useOnline } from '~/lib/useOnline';
 import { useChatStore, type ConversationKey } from '../model/chat-store';
 import type { Refusal } from '../model/refusals';
 import type { useSendMessage } from '../model/useSendMessage';
@@ -46,8 +48,13 @@ export function Composer({
   );
   const fieldError = isFieldRefusal(refusal);
 
+  const online = useOnline();
   const canSubmit =
-    draft.trim() !== '' && send.canSend && !noPlan && modeKey !== null;
+    online &&
+    draft.trim() !== '' &&
+    send.canSend &&
+    !noPlan &&
+    modeKey !== null;
 
   // Grows with the text up to a cap, then scrolls.
   useLayoutEffect(() => {
@@ -61,6 +68,20 @@ export function Composer({
   useEffect(() => {
     if (refusal && draft) textareaRef.current?.focus();
   }, [refusal]);
+
+  // Stop becomes a disabled Send when the answer ends: keep keyboard users in the box.
+  const actionRef = useRef<HTMLButtonElement>(null);
+  const wasBusy = useRef(send.isBusy);
+  useEffect(() => {
+    if (
+      wasBusy.current &&
+      !send.isBusy &&
+      document.activeElement === actionRef.current
+    ) {
+      textareaRef.current?.focus();
+    }
+    wasBusy.current = send.isBusy;
+  }, [send.isBusy, textareaRef]);
 
   const submit = () => {
     if (!canSubmit || modeKey === null) return;
@@ -103,27 +124,32 @@ export function Composer({
         />
         <div className="flex items-center justify-between gap-3">
           <ModeSelector modes={modes} modeKey={modeKey} onSelect={setMode} />
-          {send.isBusy ? (
-            <Button
-              type="button"
-              size="sm"
-              onClick={send.stop}
-              aria-label={t('chat.composer.stop')}
-            >
-              <Square aria-hidden="true" className="size-3.5 fill-current" />
-              {t('chat.composer.stop')}
-            </Button>
-          ) : (
-            <Button
-              type="submit"
-              size="icon"
-              disabled={!canSubmit}
-              aria-label={t('chat.composer.send')}
-              className="rounded-full"
-            >
+          {/* One button for both roles: swapping elements would drop focus to the page. */}
+          <Button
+            ref={actionRef}
+            type={send.isBusy ? 'button' : 'submit'}
+            size={send.isBusy ? 'sm' : 'icon'}
+            onClick={send.isBusy ? send.stop : undefined}
+            disabled={!send.isBusy && !canSubmit}
+            aria-label={
+              send.isBusy ? t('chat.composer.stop') : t('chat.composer.send')
+            }
+            title={
+              !send.isBusy && !online
+                ? t('chat.composer.sendOffline')
+                : undefined
+            }
+            className={send.isBusy ? undefined : 'rounded-full'}
+          >
+            {send.isBusy ? (
+              <>
+                <Square aria-hidden="true" className="size-3.5 fill-current" />
+                {t('chat.composer.stop')}
+              </>
+            ) : (
               <ArrowRight aria-hidden="true" className="rtl:-scale-x-100" />
-            </Button>
-          )}
+            )}
+          </Button>
         </div>
       </form>
       {refusal && fieldError ? (

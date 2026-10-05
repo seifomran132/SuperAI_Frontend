@@ -1,8 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
-import {
-  AccountUnavailablePage,
-  type UnavailableReason,
-} from '~/features/auth';
+import { type UnavailableReason } from '~/features/auth';
+import { AccountUnavailablePage } from '~/features/auth/ui';
 
 export const Route = createFileRoute('/(auth)/account-unavailable')({
   validateSearch: (

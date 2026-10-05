@@ -53,9 +53,17 @@ export function CodeBlock({
             {copied ? t('chat.message.copied') : t('chat.message.copyCode')}
           </span>
         </button>
+        <span role="status" className="sr-only">
+          {copied ? t('chat.message.copied') : ''}
+        </span>
         {language ? <span className="font-mono">{language}</span> : null}
       </div>
-      <pre className="overflow-x-auto p-4 text-sm leading-6">
+      <pre
+        tabIndex={0}
+        role="region"
+        aria-label={t('chat.message.codeRegion')}
+        className="focus-visible:outline-focus outline-hidden focus-visible:outline-solid focus-visible:outline-2 focus-visible:-outline-offset-2 overflow-x-auto p-4 text-sm leading-6"
+      >
         <code className="font-mono">
           {tokens
             ? tokens.map((line, i) => (

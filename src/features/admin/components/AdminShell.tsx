@@ -5,6 +5,7 @@ import { Menu, X } from 'lucide-react';
 import { Dialog } from 'radix-ui';
 import { useTranslation } from 'react-i18next';
 import { meControllerGetOptions } from '~/api/generated/@tanstack/react-query.gen';
+import { OfflineBanner } from '~/components/OfflineBanner';
 import { Button } from '~/components/ui/button';
 import { AdminSidebar } from './AdminSidebar';
 
@@ -51,6 +52,16 @@ export function AdminShell() {
           <Dialog.Overlay className="bg-fg/45 fixed inset-0 z-40 lg:hidden" />
           <Dialog.Content
             aria-describedby={undefined}
+            onCloseAutoFocus={(event) => {
+              // Opened from state, not a Trigger: hand focus back to the menu button.
+              const opener = document.querySelector<HTMLElement>(
+                '[data-drawer-opener]',
+              );
+              if (opener) {
+                event.preventDefault();
+                opener.focus();
+              }
+            }}
             className="bg-surface fixed inset-y-0 start-0 z-50 flex w-[min(320px,85vw)] flex-col shadow-lg outline-hidden lg:hidden"
           >
             <Dialog.Title className="sr-only">
@@ -77,6 +88,7 @@ export function AdminShell() {
             variant="ghost"
             size="icon"
             className="lg:hidden"
+            data-drawer-opener
             aria-label={t('admin.nav.openMenu')}
             onClick={() => setDrawerOpen(true)}
           >
@@ -94,6 +106,7 @@ export function AdminShell() {
             </bdi>
           ) : null}
         </header>
+        <OfflineBanner />
         <main className="min-h-0 flex-1 overflow-y-auto">
           <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-6 px-4 py-6 sm:px-8">
             <Outlet />

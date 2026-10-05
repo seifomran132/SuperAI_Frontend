@@ -75,4 +75,25 @@ describe('users list', () => {
     expect(here()).toBe('/admin/users?page=2');
     expect(adminCalls('users:list').at(-1)?.query?.page).toBe('2');
   });
+
+  it('moves focus to Previous when Next becomes disabled on the last page', async () => {
+    adminMock.users = Array.from({ length: 45 }, (_, i) => ({
+      ...sara,
+      id: `00000000-0000-4000-8000-${String(i).padStart(12, '0')}`,
+      email: `user${i}@example.com`,
+    }));
+    await renderApp('/admin/users');
+    await screen.findByText('1–20');
+
+    const next = screen.getByRole('button', { name: users.next });
+    next.focus();
+    fireEvent.click(next);
+    await screen.findByText('21–40');
+    next.focus();
+    fireEvent.click(next);
+    await screen.findByText('41–45');
+    await waitFor(() =>
+      expect(screen.getByRole('button', { name: users.prev })).toHaveFocus(),
+    );
+  });
 });

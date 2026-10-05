@@ -9,7 +9,18 @@
     "notifications": "Notifications",
     "closeNotification": "Close notification",
     "notFound": "Page not found",
-    "backHome": "Back to home"
+    "backHome": "Back to home",
+    "reload": "Reload",
+    "goToChat": "Go to conversations",
+    "offline": "You are offline. Your message stays saved; try again when the connection is back.",
+    "crash": {
+      "title": "Something unexpected happened",
+      "body": "This page could not be shown. Reload it, or go back to your conversations if it keeps happening."
+    },
+    "newVersion": {
+      "title": "A new version is available",
+      "body": "The app was updated. Reload to continue."
+    }
   },
   "auth": {
     "fields": {
@@ -144,11 +155,18 @@
       "label": "Your message",
       "placeholder": "Type your message…",
       "send": "Send",
+      "sendOffline": "No internet connection",
       "stop": "Stop",
       "helper": "Each answer is charged to your balance by the mode used.",
       "mode": "Mode",
       "modeMenu": "Choose a mode",
       "noModes": "No modes available"
+    },
+    "announce": {
+      "done": "Answer complete",
+      "stopped": "Answer stopped",
+      "cut": "Answer was cut short",
+      "error": "The answer could not be completed"
     },
     "message": {
       "preparing": "Getting ready…",
@@ -159,6 +177,8 @@
       "copy": "Copy",
       "copied": "Copied",
       "copyCode": "Copy code",
+      "codeRegion": "Code block (scrollable)",
+      "tableRegion": "Table (scrollable)",
       "cost": "Cost <cost/>",
       "costWithBalance": "Cost <cost/> · Remaining balance <balance/>"
     },

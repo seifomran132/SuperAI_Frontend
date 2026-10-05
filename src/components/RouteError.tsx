@@ -1,14 +1,44 @@
+import { useEffect } from 'react';
 import { useRouter } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import { errorMessageKey, isApiError } from '~/api/errors';
+import { AppErrorScreen } from '~/components/AppErrorScreen';
 import { Alert } from '~/components/ui/alert';
 import { Button } from '~/components/ui/button';
+import {
+  chunkReloadAlreadyTried,
+  isChunkLoadError,
+  reloadOnceForChunkError,
+} from '~/lib/chunk-error';
+import { isNetworkError } from '~/lib/network-error';
 
-/** Default recoverable error for a route whose loader/guard failed. */
+/**
+ * Router and root error screen. API and network failures stay a recoverable
+ * alert; a stale chunk reloads once, then asks the user to; anything else is a
+ * full-page screen (no message or stack is ever shown).
+ */
 export function RouteError({ error }: { error: unknown }) {
+  const chunk = isChunkLoadError(error);
+  const reloading = chunk && !chunkReloadAlreadyTried();
+
+  useEffect(() => {
+    if (reloading) reloadOnceForChunkError();
+  }, [reloading]);
+
+  useEffect(() => {
+    if (import.meta.env.DEV) console.error(error);
+  }, [error]);
+
+  if (chunk) return reloading ? null : <AppErrorScreen variant="newVersion" />;
+  if (isApiError(error) || isNetworkError(error)) {
+    return <RecoverableError error={error} />;
+  }
+  return <AppErrorScreen variant="unexpected" />;
+}
+
+function RecoverableError({ error }: { error: unknown }) {
   const { t } = useTranslation();
   const router = useRouter();
-  // Non-API failures here are almost always the network.
   const key = isApiError(error)
     ? errorMessageKey(error)
     : 'common.networkError';

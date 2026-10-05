@@ -46,7 +46,7 @@ export function UserDetailPage() {
           <p className="text-fg-muted">{t(errorMessageKey(query.error))}</p>
           <Link
             to="/admin/users"
-            className="text-brand font-semibold underline underline-offset-4"
+            className="text-brand inline-flex min-h-11 items-center font-semibold underline underline-offset-4"
           >
             {t('admin.detail.backToUsers')}
           </Link>
@@ -80,7 +80,10 @@ export function UserDetailPage() {
         <nav aria-label={t('admin.detail.breadcrumb')}>
           <ol className="text-fg-muted flex items-center gap-2 text-sm">
             <li>
-              <Link to="/admin/users" className="hover:text-fg hover:underline">
+              <Link
+                to="/admin/users"
+                className="hover:text-fg inline-flex min-h-11 items-center hover:underline"
+              >
                 {t('admin.nav.users')}
               </Link>
             </li>
@@ -93,9 +96,11 @@ export function UserDetailPage() {
           </ol>
         </nav>
         <div className="flex flex-wrap items-center gap-3">
-          <h2 className="text-fg text-3xl font-bold">{name}</h2>
+          <h2 className="text-fg min-w-0 text-3xl font-bold wrap-anywhere">
+            {name}
+          </h2>
           {user.email ? (
-            <bdi dir="ltr" className="text-fg-muted text-base">
+            <bdi dir="ltr" className="text-fg-muted text-base break-all">
               {user.email}
             </bdi>
           ) : null}

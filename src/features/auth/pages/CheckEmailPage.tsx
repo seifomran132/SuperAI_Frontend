@@ -69,7 +69,9 @@ export function CheckEmailPage({ reason }: { reason: CheckEmailReason }) {
             <>
               <p>{sentTo}</p>
               <p className="text-fg font-semibold">
-                <bdi dir="ltr">{email}</bdi>
+                <bdi dir="ltr" className="break-all">
+                  {email}
+                </bdi>
               </p>
             </>
           ) : (

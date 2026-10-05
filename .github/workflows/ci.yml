@@ -27,6 +27,7 @@ jobs:
       - run: npm run lint
       - run: npm test
       - run: npm run build
+      - run: npm run size
 
   # Fails when src/api/generated or the error catalogs are out of date with the
   # backend's committed OpenAPI export. Needs read access to the backend repo:

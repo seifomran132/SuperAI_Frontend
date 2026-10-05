@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { SignInPage, isInternalPath } from '~/features/auth';
+import { isInternalPath } from '~/features/auth';
+import { SignInPage } from '~/features/auth/ui';
 
 export const Route = createFileRoute('/_guest/sign-in')({
   // Only internal paths survive; anything else is dropped (open-redirect guard).

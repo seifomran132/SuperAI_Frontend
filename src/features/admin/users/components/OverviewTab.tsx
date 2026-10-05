@@ -41,7 +41,9 @@ export function OverviewTab({ user }: { user: AdminUserDto }) {
       <Section title={t('admin.overview.facts')}>
         <dl className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           <Fact label={t('admin.overview.email')}>
-            <bdi dir="ltr">{user.email ?? '-'}</bdi>
+            <bdi dir="ltr" className="break-all">
+              {user.email ?? '-'}
+            </bdi>
           </Fact>
           <Fact label={t('admin.overview.name')}>
             {user.fullName ?? t('admin.users.unnamed')}

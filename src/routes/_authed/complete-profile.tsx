@@ -1,10 +1,6 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
-import {
-  CompleteProfilePage,
-  hasName,
-  isInternalPath,
-  safeRedirect,
-} from '~/features/auth';
+import { hasName, isInternalPath, safeRedirect } from '~/features/auth';
+import { CompleteProfilePage } from '~/features/auth/ui';
 
 export const Route = createFileRoute('/_authed/complete-profile')({
   validateSearch: (search: Record<string, unknown>): { redirect?: string } =>

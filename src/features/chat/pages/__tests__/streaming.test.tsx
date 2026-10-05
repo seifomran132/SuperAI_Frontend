@@ -98,6 +98,10 @@ describe('streaming states', () => {
     expect(footer).toHaveTextContent('التكلفة 0.0015$ · الرصيد المتبقي 4.25$');
     // Money goes through <Money>: each amount sits in a <bdi>.
     expect(footer.querySelectorAll('bdi')).toHaveLength(2);
+    expect(await screen.findByText(ar.chat.announce.done)).toHaveAttribute(
+      'role',
+      'status',
+    );
     expect(
       screen.getByRole('button', { name: ar.chat.composer.send }),
     ).toBeInTheDocument();
@@ -119,6 +123,9 @@ describe('streaming states', () => {
 
     expect(await screen.findByText(ar.chat.message.cut)).toBeInTheDocument();
     expect(screen.getByText(/بداية الإجابة/)).toBeInTheDocument();
+    // Screen readers get a short result, never the streamed text.
+    const announced = await screen.findByText(ar.chat.announce.stopped);
+    expect(announced).toHaveAttribute('role', 'status');
     expect(
       await screen.findByRole('button', { name: ar.chat.composer.send }),
     ).toBeInTheDocument();
@@ -222,7 +229,9 @@ describe('switching conversation mid-stream', () => {
     expect(await list.findByText(ar.shell.writing)).toBeInTheDocument();
     // The other conversation is free to use.
     expect(
-      screen.getByRole('button', { name: ar.chat.composer.modeMenu }),
+      screen.getByRole('button', {
+        name: new RegExp(ar.chat.composer.modeMenu),
+      }),
     ).toBeInTheDocument();
 
     await waitFor(() => expect(list.queryByText(ar.shell.writing)).toBe(null), {

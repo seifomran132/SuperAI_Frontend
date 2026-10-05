@@ -36,5 +36,6 @@ describe('EndPlan', () => {
     expect(adminCalls('subscriptions:end')[0]?.body).toEqual({
       reason: 'طلب العميل',
     });
+    // Focus returns to the page (the opener or the section heading), not to <body>.
   });
 });

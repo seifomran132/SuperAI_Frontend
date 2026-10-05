@@ -1,6 +1,6 @@
 import { createRef } from 'react';
 import { QueryClientProvider } from '@tanstack/react-query';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import '~/i18n';
 import { createQueryClient } from '~/api/query-client';
@@ -107,6 +107,55 @@ describe('composer', () => {
     expect(
       screen.queryByRole('button', { name: ar.chat.composer.send }),
     ).not.toBeInTheDocument();
+  });
+
+  it('keeps focus on the action button when Send becomes Stop, and moves it to the box when the answer ends', () => {
+    const qc = createQueryClient();
+    qc.setQueryData(modesKey(), [modeFast, modeProfessional]);
+    const textareaRef = createRef<HTMLTextAreaElement>();
+    const view = (send: Send) => (
+      <QueryClientProvider client={qc}>
+        <Composer
+          storeKey={NEW_CHAT}
+          send={send}
+          noPlan={false}
+          textareaRef={textareaRef}
+        />
+      </QueryClientProvider>
+    );
+    const { rerender } = render(view(fakeSend()));
+    fireEvent.change(screen.getByLabelText(ar.chat.composer.label), {
+      target: { value: 'مرحبا' },
+    });
+    screen.getByRole('button', { name: ar.chat.composer.send }).focus();
+    rerender(view(fakeSend({ isBusy: true, status: 'streaming' })));
+    const stop = screen.getByRole('button', { name: ar.chat.composer.stop });
+    expect(stop).toHaveFocus();
+    rerender(view(fakeSend()));
+    expect(screen.getByLabelText(ar.chat.composer.label)).toHaveFocus();
+  });
+
+  it('is disabled while offline, keeps the draft, and does not auto-send when back online', () => {
+    const send = fakeSend();
+    const box = setup(send);
+    fireEvent.change(box, { target: { value: 'مرحبا' } });
+    const spy = vi.spyOn(navigator, 'onLine', 'get').mockReturnValue(false);
+    act(() => {
+      window.dispatchEvent(new Event('offline'));
+    });
+    const button = screen.getByRole('button', { name: ar.chat.composer.send });
+    expect(button).toBeDisabled();
+    expect(button).toHaveAttribute('title', ar.chat.composer.sendOffline);
+    fireEvent.keyDown(box, { key: 'Enter' });
+    expect(send.send).not.toHaveBeenCalled();
+    expect(box).toHaveValue('مرحبا');
+    spy.mockReturnValue(true);
+    act(() => {
+      window.dispatchEvent(new Event('online'));
+    });
+    expect(button).toBeEnabled();
+    expect(send.send).not.toHaveBeenCalled();
+    spy.mockRestore();
   });
 
   it('keeps the draft in the store', () => {

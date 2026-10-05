@@ -1,4 +1,4 @@
-import { useEffect, useState, type ComponentProps } from 'react';
+import { useEffect, useRef, useState, type ComponentProps } from 'react';
 import { useNavigate, useSearch } from '@tanstack/react-router';
 import { ChevronLeft, ChevronRight, Search } from 'lucide-react';
 import { Trans, useTranslation } from 'react-i18next';
@@ -61,6 +61,17 @@ export function UsersPage() {
   const page = search.page ?? 1;
   const data = users.data;
   const pages = data ? Math.max(1, Math.ceil(data.total / USERS_PAGE_SIZE)) : 1;
+
+  // The clicked pager button disables itself on the first/last page: hand focus to the other one.
+  const prevButton = useRef<HTMLButtonElement>(null);
+  const nextButton = useRef<HTMLButtonElement>(null);
+  const clicked = useRef<'prev' | 'next' | null>(null);
+  useEffect(() => {
+    if (clicked.current === 'prev' && page <= 1) nextButton.current?.focus();
+    if (clicked.current === 'next' && page >= pages)
+      prevButton.current?.focus();
+    clicked.current = null;
+  }, [page, pages]);
   const role =
     search.isAdmin === undefined ? '' : search.isAdmin ? 'admin' : 'user';
 
@@ -166,21 +177,23 @@ export function UsersPage() {
                   variant="secondary"
                   size="icon"
                   aria-label={t('admin.users.prev')}
+                  ref={prevButton}
                   disabled={page <= 1}
-                  onClick={() =>
+                  onClick={() => {
+                    clicked.current = 'prev';
                     void navigate({
                       to: '/admin/users',
                       search: (prev) =>
                         validateUsersSearch({ ...prev, page: page - 1 }),
-                    })
-                  }
+                    });
+                  }}
                 >
                   <ChevronLeft
                     aria-hidden="true"
                     className="rtl:-scale-x-100"
                   />
                 </Button>
-                <span className="text-fg-muted text-sm">
+                <span aria-live="polite" className="text-fg-muted text-sm">
                   {t('admin.users.pageOf', { page, pages })}
                 </span>
                 <Button
@@ -188,14 +201,16 @@ export function UsersPage() {
                   variant="secondary"
                   size="icon"
                   aria-label={t('admin.users.next')}
+                  ref={nextButton}
                   disabled={page >= pages}
-                  onClick={() =>
+                  onClick={() => {
+                    clicked.current = 'next';
                     void navigate({
                       to: '/admin/users',
                       search: (prev) =>
                         validateUsersSearch({ ...prev, page: page + 1 }),
-                    })
-                  }
+                    });
+                  }}
                 >
                   <ChevronRight
                     aria-hidden="true"

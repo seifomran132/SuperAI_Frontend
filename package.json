@@ -16,7 +16,10 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "api:sync": "openapi-ts && node scripts/sync-error-catalog.mjs",
-    "api:check": "npm run api:sync && git diff --exit-code -- src/api/generated src/i18n/errors.ar.json src/i18n/errors.en.json"
+    "api:check": "npm run api:sync && git diff --exit-code -- src/api/generated src/i18n/errors.ar.json src/i18n/errors.en.json",
+    "analyze": "vite build --mode analyze",
+    "size": "node scripts/check-bundle.mjs",
+    "copy:table": "node scripts/copy-table.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.9.1",
@@ -58,6 +61,7 @@
     "msw": "^3.0.1",
     "oxlint": "^1.86.0",
     "prettier": "^3.9.9",
+    "rollup-plugin-visualizer": "^7.1.1",
     "tailwindcss": "^4.3.3",
     "typescript": "^6.0.3",
     "vite": "^8.3.2",

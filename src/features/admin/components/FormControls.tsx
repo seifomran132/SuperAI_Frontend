@@ -123,7 +123,10 @@ export function CheckField({
 }) {
   const id = useId();
   return (
-    <div className="flex min-h-11 items-start gap-3">
+    <label
+      htmlFor={id}
+      className="flex min-h-11 cursor-pointer items-start gap-3"
+    >
       <input
         id={id}
         type="checkbox"
@@ -133,17 +136,15 @@ export function CheckField({
         onChange={(event) => onChange(event.target.checked)}
         className="accent-brand focus-visible:outline-focus mt-3 size-5 shrink-0 outline-hidden focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2"
       />
-      <div className="grid py-2.5">
-        <label htmlFor={id} className="text-fg text-base">
-          {label}
-        </label>
+      <span className="grid py-2.5">
+        <span className="text-fg text-base">{label}</span>
         {description ? (
-          <p id={`${id}-d`} className="text-fg-muted text-sm">
+          <span id={`${id}-d`} className="text-fg-muted text-sm">
             {description}
-          </p>
+          </span>
         ) : null}
-      </div>
-    </div>
+      </span>
+    </label>
   );
 }
 

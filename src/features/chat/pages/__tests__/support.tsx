@@ -29,7 +29,9 @@ export async function readyComposer() {
   const box = await screen.findByLabelText(ar.chat.composer.label);
   await waitFor(() =>
     expect(
-      screen.getByRole('button', { name: ar.chat.composer.modeMenu }),
+      screen.getByRole('button', {
+        name: new RegExp(ar.chat.composer.modeMenu),
+      }),
     ).toHaveTextContent('سريع'),
   );
   return box;

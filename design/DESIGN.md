@@ -12,7 +12,7 @@ colors:
   on-surface: '#0F172A'
   on-surface-muted: '#475569'
   border-subtle: '#E2E8F0'
-  border-control: '#8B95A7'
+  border-control: '#7C8799'
   # Modes (fixed layer; assigned per mode key)
   mode-fast: '#0F766E'
   mode-fast-container: '#F0FDFA'
@@ -120,7 +120,7 @@ Never write the brand name into reusable component text; screens show the config
 
 - **Brand (`#1E293B` navy ink):** primary buttons, active navigation, the send button, headings accents. White text on it (14.6:1).
 - **Canvas `#F8FAFC`, surfaces `#FFFFFF`, muted surface `#F1F5F9`.** Text `#0F172A` (17:1); secondary text `#475569` (7.2:1).
-- **Borders:** `#E2E8F0` for decorative card edges only; `#8B95A7` for anything interactive (inputs, select, checkbox), which meets the 3:1 non-text contrast rule.
+- **Borders:** `#E2E8F0` for decorative card edges only; `#7C8799` for anything interactive (inputs, select, checkbox), which meets the 3:1 non-text contrast rule.
 - **Modes.** Each mode the admin creates gets a color pair from the mode palette. The first two:
   - Fast (سريع): text/icon `#0F766E` on `#F0FDFA`, border `#99F6E4` (5.3:1).
   - Professional (احترافي): text/icon `#4F46E5` on `#EEF2FF`, border `#C7D2FE` (5.6:1).
@@ -155,7 +155,7 @@ Never write the brand name into reusable component text; screens show the config
 ## 6. Elevation and shape
 
 - Depth by tonal layers and hairline borders, not heavy shadows.
-- Assistant message: white card, `#E2E8F0` border. User message: `#F1F5F9`, no border. Message box: white, `#8B95A7` border, soft shadow `0 4px 6px -1px rgba(15,23,42,.04)`.
+- Assistant message: white card, `#E2E8F0` border. User message: `#F1F5F9`, no border. Message box: white, `#7C8799` border, soft shadow `0 4px 6px -1px rgba(15,23,42,.04)`.
 - Dialogs: white, radius 24px, backdrop `rgba(15,23,42,.45)`.
 - Radius: 8px buttons and inputs, 16px cards and message bubbles, 24px dialogs and message box, full pills for badges and mode chips.
 
@@ -197,7 +197,7 @@ Appears above the message box only when sending is refused. Warning container (a
 Brand monogram and name at the top, «محادثة جديدة» primary button, list of recent conversations (title, relative time), then at the bottom: navigation to الرصيد (balance) and الحساب (account). Active conversation: `#F1F5F9` background with a 3px brand bar on the right edge.
 
 ### Buttons
-Primary: brand fill, white text. Secondary: white with `#8B95A7` border. Ghost: text only. Destructive: danger text, confirmation dialog required. One primary button per view.
+Primary: brand fill, white text. Secondary: white with `#7C8799` border. Ghost: text only. Destructive: danger text, confirmation dialog required. One primary button per view.
 
 ### Forms
 Label above the field, helper/error text below, error in danger color with an icon. Visible focus ring: 2px `#4F46E5` with 2px offset on every interactive element.

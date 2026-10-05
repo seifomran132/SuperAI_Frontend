@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { CheckEmailPage, type CheckEmailReason } from '~/features/auth';
+import { CheckEmailPage, type CheckEmailReason } from '~/features/auth/ui';
 
 // The address is deliberately not in the URL; only the variant is.
 export const Route = createFileRoute('/(auth)/check-email')({

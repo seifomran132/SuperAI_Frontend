@@ -50,7 +50,7 @@ async function refuseWith(refusal: Refuse) {
 }
 
 const modeChip = () =>
-  screen.getByRole('button', { name: ar.chat.composer.modeMenu });
+  screen.getByRole('button', { name: new RegExp(ar.chat.composer.modeMenu) });
 
 describe('refusals keep the draft and show the right notice', () => {
   it('INSUFFICIENT_BALANCE: switch button changes only the mode and never sends', async () => {

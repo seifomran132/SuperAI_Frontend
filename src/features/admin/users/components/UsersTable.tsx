@@ -113,7 +113,7 @@ export function UsersTable({ users }: { users: AdminUserDto[] }) {
                   to="/admin/users/$userId"
                   params={{ userId: user.id }}
                   search={{ tab: 'overview' }}
-                  className="text-fg focus-visible:outline-focus rounded-sm underline-offset-4 outline-hidden hover:underline focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2"
+                  className="text-fg focus-visible:outline-focus inline-flex min-h-11 items-center rounded-sm underline-offset-4 outline-hidden hover:underline focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2"
                 >
                   <bdi dir="ltr">{user.email ?? user.id}</bdi>
                 </Link>

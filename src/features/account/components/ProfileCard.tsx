@@ -29,7 +29,7 @@ import {
   fieldErrorsFromDetails,
   toProfilePayload,
   type CompleteProfileValues,
-} from '~/features/auth';
+} from '~/features/auth/ui';
 import { Card } from './Card';
 
 function ProfileForm({ me }: { me: MeResponse }) {

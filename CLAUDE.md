@@ -64,7 +64,7 @@ features/<name>/
   <folder>/__tests__/   tests for that folder, e.g. pages/__tests__/SignInPage.test.tsx
 ```
 - Inside a feature, import with relative paths (`../model/schemas`). Outside it, import only `~/features/<name>`.
-- Large screens loaded by routes may be exported from a second entry, `ui.ts`, imported **only by route files**, so they stay in a lazily loaded chunk (e.g. `~/features/chat/ui` for `AppShell`, `ChatPage`). Everything else uses `index.ts`.
+- Screens and form parts may be exported from a second entry, `ui.ts`, so they stay in lazily loaded chunks (e.g. `~/features/chat/ui` for `AppShell`, `ChatPage`; `~/features/auth/ui` for auth pages and the password/profile form parts). Import `ui.ts` only from route files and from other features' screens, never from `index.ts`, `model/`, guards or `src/router.tsx`. Everything else uses `index.ts`. `npm run size` fails CI if the first-screen bundle grows past its budget.
 - Code shared by two features moves to `src/components` or `src/lib`, not into another feature.
 
 ### Routes

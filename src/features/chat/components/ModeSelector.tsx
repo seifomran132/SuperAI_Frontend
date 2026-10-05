@@ -35,7 +35,6 @@ export function ModeSelector({
     <DropdownMenu>
       <DropdownMenuTrigger
         disabled={modes.length === 0}
-        aria-label={t('chat.composer.modeMenu')}
         data-mode-position={position}
         className={cn(
           'focus-visible:outline-focus inline-flex h-11 items-center gap-1.5 rounded-full border px-3.5 text-sm font-semibold outline-hidden focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-60',
@@ -52,6 +51,8 @@ export function ModeSelector({
         ) : (
           t(modes.length === 0 ? 'chat.composer.noModes' : 'chat.composer.mode')
         )}
+        {/* After the visible label, so the accessible name starts with it (WCAG 2.5.3). */}
+        <span className="sr-only">{t('chat.composer.modeMenu')}</span>
         <ChevronDown aria-hidden="true" className="size-4" />
       </DropdownMenuTrigger>
       <DropdownMenuContent

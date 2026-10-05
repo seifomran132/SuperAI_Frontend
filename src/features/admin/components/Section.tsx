@@ -17,7 +17,12 @@ export function Section({
       className="bg-surface border-border-subtle grid content-start gap-4 rounded-lg border p-5"
     >
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h3 id={id} className="text-fg text-lg font-bold">
+        <h3
+          id={id}
+          tabIndex={-1}
+          data-section-heading
+          className="text-fg text-lg font-bold outline-hidden"
+        >
           {title}
         </h3>
         {actions ? <div className="flex flex-wrap gap-3">{actions}</div> : null}

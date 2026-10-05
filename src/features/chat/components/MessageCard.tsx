@@ -219,6 +219,9 @@ export const AssistantMessage = memo(function AssistantMessage({
               )}
               {copied ? t('chat.message.copied') : t('chat.message.copy')}
             </button>
+            <span role="status" className="sr-only">
+              {copied ? t('chat.message.copied') : ''}
+            </span>
           </footer>
         ) : null}
       </div>

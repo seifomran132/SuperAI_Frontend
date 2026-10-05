@@ -48,7 +48,7 @@ function Row({
       <span dir="auto" className="min-w-0 flex-1 truncate text-start">
         {conversation.title}
       </span>
-      <span className="text-fg-subtle shrink-0 text-xs tabular-nums">
+      <span className="text-fg-muted shrink-0 text-xs tabular-nums">
         {writing ? (
           <span className="text-fg-muted inline-flex items-center gap-1.5">
             <TypingDots />

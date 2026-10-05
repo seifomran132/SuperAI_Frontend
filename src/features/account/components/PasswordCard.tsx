@@ -9,9 +9,9 @@ import {
   FormAlert,
   PasswordField,
   resetPasswordSchema,
-  updatePassword,
   type ResetPasswordValues,
-} from '~/features/auth';
+} from '~/features/auth/ui';
+import { updatePassword } from '~/features/auth';
 import { Card } from './Card';
 
 /** Same rules and GoTrue errors as the reset-password page. */

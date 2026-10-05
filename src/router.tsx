@@ -2,12 +2,14 @@ import { createRouter } from '@tanstack/react-router';
 import { setupApiClient } from './api/client';
 import { createQueryClient } from './api/query-client';
 import { RouteError } from './components/RouteError';
+import { installChunkErrorReload } from '~/lib/chunk-error';
 import { installSessionSync } from '~/features/auth';
 import { installChatSessionReset } from '~/features/chat';
 import { routeTree } from './routeTree.gen';
 
 export function getRouter() {
   setupApiClient();
+  installChunkErrorReload();
   const queryClient = createQueryClient();
   installSessionSync(queryClient);
   installChatSessionReset();

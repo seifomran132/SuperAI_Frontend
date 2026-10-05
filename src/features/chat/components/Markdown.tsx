@@ -7,6 +7,7 @@ import {
   type ComponentProps,
   type ReactNode,
 } from 'react';
+import { useTranslation } from 'react-i18next';
 import ReactMarkdown, { type Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { CodeBlock } from './CodeBlock';
@@ -71,6 +72,20 @@ function CodeFromPre({ children }: { children?: ReactNode }) {
   return <CodeBlock code={code} language={language} streaming={streaming} />;
 }
 
+function TableRegion({ children }: { children: ReactNode }) {
+  const { t } = useTranslation();
+  return (
+    <div
+      tabIndex={0}
+      role="region"
+      aria-label={t('chat.message.tableRegion')}
+      className="focus-visible:outline-focus outline-hidden focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 border-border-subtle my-4 overflow-x-auto rounded-md border"
+    >
+      {children}
+    </div>
+  );
+}
+
 const components: Components = {
   p: block('p', 'my-3 first:mt-0 last:mb-0'),
   h1: block('h2', 'mt-6 mb-3 text-xl leading-8 font-bold first:mt-0'),
@@ -119,9 +134,9 @@ const components: Components = {
   ),
   del: ({ node: _n, ...props }) => <del {...props} />,
   table: ({ node: _n, ...props }) => (
-    <div className="border-border-subtle my-4 overflow-x-auto rounded-md border">
+    <TableRegion>
       <table dir="auto" className="w-full border-collapse text-sm" {...props} />
-    </div>
+    </TableRegion>
   ),
   thead: ({ node: _n, ...props }) => (
     <thead className="bg-surface-muted" {...props} />

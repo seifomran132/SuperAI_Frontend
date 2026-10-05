@@ -17,6 +17,7 @@ import { MessageList } from '../components/MessageList';
 import { RequestBalanceDialog } from '~/components/RequestBalanceDialog';
 import { useNoPlan } from '../components/useNoPlan';
 import { NEW_CHAT, useChatStore } from '../model/chat-store';
+import { messageState } from '../model/message-state';
 import {
   useBalance,
   useConversation,
@@ -86,6 +87,12 @@ export function ChatPage({ conversationId }: { conversationId?: string }) {
   });
   useResumeRefresh(conversationId);
 
+  // A first send in a new chat remounts this page under /chat/:id: keep the keyboard in the box.
+  useEffect(() => {
+    if (send.isBusy) textarea.current?.focus();
+    // Mount only: no focus stealing otherwise.
+  }, []);
+
   const refusal = send.refusal;
   useEffect(() => {
     if (refusal?.code === 'PROFILE_INCOMPLETE') {
@@ -117,6 +124,48 @@ export function ChatPage({ conversationId }: { conversationId?: string }) {
       },
     ];
   }, [conversationId, send.pending, messagesQuery.messages]);
+
+  // Short result text for screen readers when an answer ends; never the answer itself.
+  const [announcement, setAnnouncement] = useState('');
+  const lastAssistant = [...messages]
+    .reverse()
+    .find((m) => m.role === 'assistant');
+  // The answer shown when the send began; a new one must replace it to count.
+  const before = useRef<string | null>(
+    send.isBusy ? null : (lastAssistant?.id ?? null),
+  );
+  const awaiting = useRef(false);
+  const wasBusy = useRef(send.isBusy);
+  useEffect(() => {
+    if (send.isBusy) {
+      if (!wasBusy.current) before.current = lastAssistant?.id ?? null;
+      awaiting.current = false;
+      setAnnouncement('');
+    } else if (wasBusy.current) {
+      awaiting.current = true;
+    }
+    wasBusy.current = send.isBusy;
+    // Only the busy flag starts a send; message updates are handled below.
+  }, [send.isBusy]);
+  // The final message lands a moment after the stream ends: wait for it.
+  useEffect(() => {
+    if (!awaiting.current || !lastAssistant) return;
+    if (lastAssistant.id === before.current) return;
+    const state = messageState(lastAssistant);
+    const key =
+      state === 'complete'
+        ? 'done'
+        : state === 'stopped'
+          ? 'stopped'
+          : state === 'cut'
+            ? 'cut'
+            : state === 'failed' || state === 'partial'
+              ? 'error'
+              : null;
+    if (!key) return;
+    awaiting.current = false;
+    setAnnouncement(t('chat.announce.' + key));
+  }, [lastAssistant, send.isBusy, t]);
 
   const notFound =
     Boolean(conversationId) &&
@@ -203,6 +252,9 @@ export function ChatPage({ conversationId }: { conversationId?: string }) {
 
   return (
     <div className="flex h-full flex-col">
+      <p role="status" aria-live="polite" className="sr-only">
+        {announcement}
+      </p>
       <div className="min-h-0 flex-1">{body}</div>
       {notFound ? null : (
         <div className="shrink-0 px-4 pt-2 pb-[max(1rem,env(safe-area-inset-bottom))] sm:px-6">
