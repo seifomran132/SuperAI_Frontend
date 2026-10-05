@@ -16,13 +16,21 @@ import { cn } from '~/lib/utils';
 const item =
   'flex min-h-11 items-center gap-3 rounded-md px-3 text-sm outline-hidden focus-visible:outline-solid focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus';
 
-// F4b screens are listed but disabled until their pages exist.
-const soonItems: { key: string; Icon: LucideIcon }[] = [
-  { key: 'plans', Icon: CreditCard },
-  { key: 'providers', Icon: Menu },
-  { key: 'models', Icon: Boxes },
-  { key: 'modes', Icon: SlidersHorizontal },
-  { key: 'settings', Icon: Settings },
+const sections: {
+  key: string;
+  to:
+    | '/admin/plans'
+    | '/admin/providers'
+    | '/admin/models'
+    | '/admin/modes'
+    | '/admin/settings';
+  Icon: LucideIcon;
+}[] = [
+  { key: 'plans', to: '/admin/plans', Icon: CreditCard },
+  { key: 'providers', to: '/admin/providers', Icon: Menu },
+  { key: 'models', to: '/admin/models', Icon: Boxes },
+  { key: 'modes', to: '/admin/modes', Icon: SlidersHorizontal },
+  { key: 'settings', to: '/admin/settings', Icon: Settings },
 ];
 
 /** Admin navigation: brand, sections, and the way back to the app. */
@@ -62,16 +70,23 @@ export function AdminSidebar({ onNavigate }: { onNavigate?: () => void }) {
               {t('admin.nav.users')}
             </Link>
           </li>
-          {soonItems.map(({ key, Icon }) => (
+          {sections.map(({ key, to, Icon }) => (
             <li key={key}>
-              <span
-                aria-disabled="true"
-                className={cn(item, 'text-fg-subtle cursor-not-allowed')}
+              <Link
+                to={to}
+                onClick={onNavigate}
+                className={cn(
+                  item,
+                  'text-fg-muted hover:bg-surface-muted hover:text-fg',
+                )}
+                activeProps={{
+                  className: 'bg-surface-muted text-fg font-semibold',
+                  'aria-current': 'page',
+                }}
               >
                 <Icon aria-hidden="true" className="size-5" />
-                <span className="flex-1">{t(`admin.nav.${key}`)}</span>
-                <span className="text-xs">{t('admin.nav.soon')}</span>
-              </span>
+                {t(`admin.nav.${key}`)}
+              </Link>
             </li>
           ))}
         </ul>

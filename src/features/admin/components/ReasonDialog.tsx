@@ -15,7 +15,10 @@ export interface ReasonDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   title: string;
-  userName: string;
+  /** Who the action is about (user screens). */
+  userName?: string;
+  /** Description under the title when there is no user. */
+  description?: string;
   submitLabel: string;
   /** Destructive confirmation (red button). */
   danger?: boolean;
@@ -48,7 +51,12 @@ export function ReasonDialog(props: ReasonDialogProps) {
     <Dialog.Root open={props.open} onOpenChange={props.onOpenChange}>
       <Dialog.Portal>
         <Dialog.Overlay className="bg-fg/45 fixed inset-0 z-50" />
-        <Dialog.Content className="bg-surface fixed inset-0 z-50 m-auto flex h-fit max-h-[calc(100dvh-2rem)] w-[calc(100vw-2rem)] max-w-[480px] flex-col gap-4 overflow-y-auto rounded-xl p-6 shadow-lg outline-hidden">
+        <Dialog.Content
+          aria-describedby={
+            props.userName || props.description ? undefined : ''
+          }
+          className="bg-surface fixed inset-0 z-50 m-auto flex h-fit max-h-[calc(100dvh-2rem)] w-[calc(100vw-2rem)] max-w-[480px] flex-col gap-4 overflow-y-auto rounded-xl p-6 shadow-lg outline-hidden"
+        >
           <div className="flex items-start justify-between gap-3">
             <Dialog.Title className="text-fg text-xl leading-8 font-bold">
               {props.title}
@@ -64,9 +72,13 @@ export function ReasonDialog(props: ReasonDialogProps) {
               </Button>
             </Dialog.Close>
           </div>
-          <Dialog.Description className="text-fg-muted -mt-2 text-sm">
-            {t('admin.dialog.user', { name: props.userName })}
-          </Dialog.Description>
+          {props.userName || props.description ? (
+            <Dialog.Description className="text-fg-muted -mt-2 text-sm">
+              {props.userName
+                ? t('admin.dialog.user', { name: props.userName })
+                : props.description}
+            </Dialog.Description>
+          ) : null}
           <ReasonForm {...props} />
         </Dialog.Content>
       </Dialog.Portal>

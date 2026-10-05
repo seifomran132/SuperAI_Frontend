@@ -1,7 +1,7 @@
 # Manual test cases — F1 (auth) and F2 (chat)
 
-**Covers:** everything built so far (F1 auth, F2 chat, F3 balance, account and plans).
-**Not covered yet:** landing page, admin console.
+**Covers:** everything built so far (F1 auth, F2 chat, F3 balance, account and plans, F4 admin console).
+**Not covered yet:** landing page.
 **How to record results:** tick each case ✅ / ❌; for ❌ note the browser, screen width, steps and a screenshot.
 
 ---
@@ -276,6 +276,54 @@ Restore balances and modes after this section.
 | PL-03 | Signed in as B | Page inside the app shell; B's plan marked «باقتك الحالية» |
 | PL-04 | Signed in as C (no subscription) | No card marked «باقتك الحالية» |
 | PL-05 | View source of `/plans` (signed out) | Page content is present in the HTML (prerendered) |
+
+---
+
+## 3c. Admin console (F4) — sign in as the admin account
+
+Every write asks for a reason (3–500 characters). Use a **test** user as the target; restore what you change.
+
+### Access and users
+
+| ID | Steps | Expected |
+|---|---|---|
+| AD-01 | Signed in as a normal user, open `/admin/users` | «الصفحة غير موجودة»; account menu has no «لوحة الإدارة» |
+| AD-02 | As admin, account menu → «لوحة الإدارة» | Admin shell with its own right-side sidebar; «العودة إلى التطبيق» goes to `/chat` |
+| AD-03 | Users: search by part of an email/name, filter status and role, page | Results update; filters stay in the URL (reload keeps them); «1–20 من N» |
+| AD-04 | Row menu → «تفعيل باقة» / «إضافة رصيد» | Opens that user with the dialog open |
+| AD-05 | `/admin/users/<unknown id>` | User not found state |
+
+### User detail
+
+| ID | Steps | Expected |
+|---|---|---|
+| AD-06 | Overview → suspend a test user with a reason | Status «موقوف»; that user is signed out on their next request (AU-40); reactivate restores it |
+| AD-07 | Try to suspend yourself / remove admin from the only admin | «لا يمكنك تنفيذ هذا الإجراء على حسابك.» / «لا يمكن إزالة آخر مسؤول.» |
+| AD-08 | Subscription → «تفعيل باقة» (no end date) | Active, ends one month later; included balance credited (see Balance tab) |
+| AD-09 | Activate with a custom end date | That end date shown |
+| AD-10 | «إنهاء الباقة» | Danger confirm with «سينتهي كل رصيد المستخدم فورًا»; after it, the user's balance is 0 and the ledger shows «انتهاء الرصيد» |
+| AD-11 | Balance → «إضافة أو خصم رصيد» `0.5` then `-0.2` | Balance +0.50 then −0.20; ledger rows «تعديل يدوي» with your email and reason; the user's own Balance page matches |
+| AD-12 | Amount `abc`, `1.2.3`, empty reason | Field errors; nothing sent |
+| AD-13 | «تسجيل دفعة» amount + reference `INV-TEST-1` | Ledger «تسجيل دفعة»; repeating the same reference with a different amount → «رقم الدفعة هذا مسجّل بالفعل…» |
+| AD-14 | Ledger reference / actor ids | Shortened to 8 characters, full value on hover, copy button works |
+| AD-15 | Adjust your **own** balance as admin, then open `/balance` | Customer balance already updated (no reload needed) |
+
+### Catalog and settings
+
+| ID | Steps | Expected |
+|---|---|---|
+| AD-16 | Plans list | Price, included balance, mode **labels**, active/public/default, subscriber count |
+| AD-17 | Create a test plan (key `qa-plan`), set its modes; try key `new` and a duplicate key | Created and listed; `/plans` (customer) shows it if public; `new` rejected; duplicate → «توجد باقة بهذا المفتاح بالفعل.» |
+| AD-18 | Make the default plan non-default with no other default | «يجب أن تكون هناك باقة افتراضية دائمًا.» |
+| AD-19 | Providers | Keys only as `••••1234` or «لا يوجد مفتاح»; mock/dev providers visible to admins only |
+| AD-20 | Set a provider key that is invalid (e.g. `invalid-key-123`) | «رفض المزوّد مفتاح الواجهة البرمجية.»; the field is cleared; the key never appears again |
+| AD-21 | Models list at 1440px | All columns visible incl. current price; margin like `40%`; mode labels |
+| AD-22 | Model detail → schedule a price in the future; then one overlapping an existing period | Listed in history with date and time; overlap → «يتعارض هذا السعر مع سعر آخر مجدول.» |
+| AD-23 | Model test: prompt > 500 chars or tokens > 256 | Blocked before the paid confirmation |
+| AD-24 | Model test with a short prompt, confirm the paid-request dialog | Reply, finish reason, usage, timings, provider cost and customer charge with full precision (e.g. `0.000092$`) — **costs real money** |
+| AD-25 | Modes list | «جاهز» or the not-ready reason; disable a mode → customers lose it in the mode menu (RF-09); re-enable |
+| AD-26 | Mode own system prompt / Settings default prompt | Counter, max 10,000; empty default prompt rejected; text `dir="auto"` |
+| AD-27 | Settings → margin `35` | Saved; models list margin and customer `/modes` prices reflect it; **restore 40** |
 
 ---
 

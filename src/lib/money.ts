@@ -15,7 +15,7 @@ export function toDecimal(value: MoneyString): Decimal {
  */
 export interface FormatUsdOptions {
   /** `cost`: per-answer costs and estimates, 4 decimals below 1 USD. Default: balances. */
-  kind?: 'balance' | 'cost';
+  kind?: 'balance' | 'cost' | 'exact';
 }
 
 export function formatUsd(
@@ -33,9 +33,11 @@ export function formatUsd(
       : abs.isZero() || abs.gte('0.01')
         ? 2
         : 4;
-  const fixed = abs
-    .toDecimalPlaces(decimals, Decimal.ROUND_HALF_UP)
-    .toFixed(decimals);
+  // `exact` (rates, provider costs): every significant decimal up to 9, trailing zeros trimmed.
+  const fixed =
+    options.kind === 'exact'
+      ? abs.toDecimalPlaces(9, Decimal.ROUND_HALF_UP).toFixed()
+      : abs.toDecimalPlaces(decimals, Decimal.ROUND_HALF_UP).toFixed(decimals);
   const [whole = '0', fraction] = fixed.split('.');
   const grouped = whole.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   const number = fraction ? `${grouped}.${fraction}` : grouped;

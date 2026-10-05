@@ -33,3 +33,14 @@ describe('formatUsd', () => {
     expect(formatUsd('0.012000000')).toBe('0.01$');
   });
 });
+
+describe('formatUsd exact', () => {
+  it('keeps up to 9 decimals and trims trailing zeros', () => {
+    expect(formatUsd('2.500000000', 'ar', { kind: 'exact' })).toBe('2.5$');
+    expect(formatUsd('0.000092000', 'en', { kind: 'exact' })).toBe('$0.000092');
+    expect(formatUsd('10.000000000', 'ar', { kind: 'exact' })).toBe('10$');
+    expect(formatUsd('0.123456789', 'ar', { kind: 'exact' })).toBe(
+      '0.123456789$',
+    );
+  });
+});

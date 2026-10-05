@@ -8,6 +8,18 @@ import { meControllerGetOptions } from '~/api/generated/@tanstack/react-query.ge
 import { Button } from '~/components/ui/button';
 import { AdminSidebar } from './AdminSidebar';
 
+/** Title key (admin.titles.*) for an admin path. */
+function titleKey(pathname: string): string {
+  const [, , area, rest] = pathname.split('/');
+  if (area === 'plans' || area === 'models' || area === 'modes') {
+    const one =
+      area === 'plans' ? 'plan' : area === 'models' ? 'model' : 'mode';
+    return !rest ? area : rest === 'new' ? `${one}New` : `${one}Detail`;
+  }
+  if (area === 'providers' || area === 'settings') return area;
+  return area === 'users' && rest ? 'userDetail' : 'users';
+}
+
 /**
  * Admin frame: its own sidebar (first in the DOM, so on the right in RTL) from
  * 1024px, a right-side drawer below that, and a header with the page title and
@@ -23,9 +35,7 @@ export function AdminShell() {
     setDrawerOpen(false);
   }, [pathname]);
 
-  const title = /^\/admin\/users\/[^/]+/.test(pathname)
-    ? t('admin.titles.userDetail')
-    : t('admin.titles.users');
+  const title = t(`admin.titles.${titleKey(pathname)}`);
 
   return (
     <div className="bg-canvas flex h-dvh overflow-hidden">
