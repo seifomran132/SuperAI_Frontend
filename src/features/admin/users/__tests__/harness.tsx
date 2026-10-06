@@ -23,6 +23,10 @@ export const reasonField = () => screen.getByLabelText(/^السبب/);
 export const click = (name: string) =>
   fireEvent.click(screen.getByRole('button', { name }));
 
+/** For the first action on a tab: its data loads after the page heading, so wait for the button. */
+export const clickWhenReady = async (name: string) =>
+  fireEvent.click(await screen.findByRole('button', { name }));
+
 export async function openUser(tab: 'overview' | 'subscription' | 'balance') {
   await renderApp(`/admin/users/${sara.id}?tab=${tab}`);
   await screen.findByRole('heading', { name: sara.fullName! });

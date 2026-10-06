@@ -2,7 +2,14 @@ import { fireEvent, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import errors from '~/i18n/errors.ar.json';
 import { adminCalls, adminMock } from '~/mocks/admin';
-import { useAdminSession, a, click, reasonField, openUser } from './harness';
+import {
+  useAdminSession,
+  a,
+  click,
+  clickWhenReady,
+  reasonField,
+  openUser,
+} from './harness';
 
 useAdminSession();
 
@@ -10,7 +17,7 @@ useAdminSession();
 describe('RecordPayment', () => {
   it('shows the API error by code in the payment dialog and keeps the input', async () => {
     await openUser('balance');
-    click(a.balance.recordPayment);
+    await clickWhenReady(a.balance.recordPayment);
     fireEvent.change(await screen.findByLabelText(/^المبلغ/), {
       target: { value: '10.00' },
     });

@@ -2,7 +2,14 @@ import { fireEvent, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import errors from '~/i18n/errors.ar.json';
 import { adminCalls, adminMock } from '~/mocks/admin';
-import { useAdminSession, a, click, reasonField, openUser } from './harness';
+import {
+  useAdminSession,
+  a,
+  click,
+  clickWhenReady,
+  reasonField,
+  openUser,
+} from './harness';
 
 useAdminSession();
 
@@ -10,7 +17,7 @@ useAdminSession();
 describe('SuspendUser', () => {
   it('shows CANNOT_MODIFY_SELF when suspending, and the status after success', async () => {
     await openUser('overview');
-    click(a.overview.suspend);
+    await clickWhenReady(a.overview.suspend);
     fireEvent.change(reasonField(), { target: { value: 'سبب كاف' } });
 
     adminMock.fail = { status: 409, code: 'CANNOT_MODIFY_SELF' };

@@ -1,14 +1,21 @@
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { adminCalls, adminMock } from '~/mocks/admin';
-import { a, click, openUser, reasonField, useAdminSession } from './harness';
+import {
+  a,
+  click,
+  clickWhenReady,
+  openUser,
+  reasonField,
+  useAdminSession,
+} from './harness';
 
 useAdminSession();
 
 describe('IDEMPOTENCY_KEY_REUSED', () => {
   it('shows admin text and retries with a fresh key', async () => {
     await openUser('balance');
-    click(a.balance.adjust);
+    await clickWhenReady(a.balance.adjust);
     fireEvent.change(await screen.findByLabelText(/^المبلغ/), {
       target: { value: '5.00' },
     });

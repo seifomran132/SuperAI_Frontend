@@ -2,7 +2,14 @@ import { fireEvent, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import errors from '~/i18n/errors.ar.json';
 import { adminCalls, adminMock, sara } from '~/mocks/admin';
-import { useAdminSession, a, click, reasonField, openUser } from './harness';
+import {
+  useAdminSession,
+  a,
+  click,
+  clickWhenReady,
+  reasonField,
+  openUser,
+} from './harness';
 
 useAdminSession();
 
@@ -11,7 +18,7 @@ describe('RemoveAdmin', () => {
   it('shows LAST_ADMIN when removing the admin role', async () => {
     adminMock.users = [{ ...sara, isAdmin: true }];
     await openUser('overview');
-    click(a.overview.removeAdmin);
+    await clickWhenReady(a.overview.removeAdmin);
     fireEvent.change(reasonField(), { target: { value: 'سبب كاف' } });
     adminMock.fail = { status: 409, code: 'LAST_ADMIN' };
     click(a.overview.removeAdmin);

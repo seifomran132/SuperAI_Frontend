@@ -7,6 +7,7 @@ import {
   a,
   activeSub,
   click,
+  clickWhenReady,
   reasonField,
   openUser,
 } from './harness';
@@ -18,7 +19,7 @@ describe('EndPlan', () => {
   it('asks for confirmation with a warning before ending the plan', async () => {
     adminMock.subscriptions = [activeSub];
     await openUser('subscription');
-    click(a.subscription.end);
+    await clickWhenReady(a.subscription.end);
     expect(
       await screen.findByText(a.subscription.endWarning),
     ).toBeInTheDocument();

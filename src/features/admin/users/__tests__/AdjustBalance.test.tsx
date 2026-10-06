@@ -2,7 +2,14 @@ import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
 import { adminCalls } from '~/mocks/admin';
-import { useAdminSession, a, click, reasonField, openUser } from './harness';
+import {
+  useAdminSession,
+  a,
+  click,
+  clickWhenReady,
+  reasonField,
+  openUser,
+} from './harness';
 
 useAdminSession();
 
@@ -10,7 +17,7 @@ useAdminSession();
 describe('AdjustBalance', () => {
   it('validates amounts as text and sends the signed string untouched', async () => {
     await openUser('balance');
-    click(a.balance.adjust);
+    await clickWhenReady(a.balance.adjust);
     const amount = await screen.findByLabelText(/^المبلغ/);
     fireEvent.change(reasonField(), { target: { value: 'تصحيح' } });
 

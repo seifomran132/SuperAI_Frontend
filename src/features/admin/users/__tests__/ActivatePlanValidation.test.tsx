@@ -2,7 +2,7 @@ import { screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
 import { adminCalls } from '~/mocks/admin';
-import { useAdminSession, a, click, openUser } from './harness';
+import { useAdminSession, a, click, clickWhenReady, openUser } from './harness';
 
 useAdminSession();
 
@@ -10,7 +10,7 @@ useAdminSession();
 describe('ActivatePlanValidation', () => {
   it('requires a plan and a reason before calling the API', async () => {
     await openUser('subscription');
-    click(a.subscription.activate);
+    await clickWhenReady(a.subscription.activate);
     await screen.findByRole('combobox');
     click(a.subscription.activateSubmit);
     expect(
