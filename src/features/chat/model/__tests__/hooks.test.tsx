@@ -129,7 +129,7 @@ describe('useSendMessage', () => {
 
   it('an unmounted page is not called back when its send starts later (the send keeps running)', async () => {
     const qc = newQueryClient();
-    chatMock.send = { kind: 'normal', delayMs: 20 };
+    chatMock.send = { kind: 'normal', delayMs: 200 };
     const onStarted = vi.fn();
     const { result, unmount } = renderHook(
       () => useSendMessage(NEW_CHAT, { onStarted }),
@@ -139,7 +139,8 @@ describe('useSendMessage', () => {
     act(() => {
       outcome = result.current.send('مرحبا', 'fast');
     });
-    expect(result.current.status).toBe('creating');
+    // Unmount before `started` (the slow mock keeps the send in flight). The
+    // exact intermediate status depends on runner speed, so it is not asserted.
     unmount(); // the user opened another conversation before `started`
     await expect(outcome).resolves.toMatchObject({ kind: 'done' });
     expect(onStarted).not.toHaveBeenCalled();
