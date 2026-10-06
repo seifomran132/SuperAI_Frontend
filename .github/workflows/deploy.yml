@@ -1,0 +1,103 @@
+# Check → build (with .env.production) → upload a new release → switch
+# `current` atomically → reload Caddy (picks up this release's CSP).
+# Runs on every push to main, or by hand from any branch (Actions → Deploy web
+# → Run workflow) during pre-launch. The deploy job waits for approval in the
+# `production` environment. Deploy the API first when a release needs it.
+#
+# Secrets (repo or `production` environment):
+#   DEPLOY_SSH_KEY   private key of the `deploy` user (lam7a_deploy)
+#   DEPLOY_HOST      server IP (80.209.232.164)
+name: Deploy web
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-web
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm test
+        env:
+          # Unit tests talk to MSW mocks on these origins, not the real API.
+          VITE_API_ORIGIN: http://localhost:3000
+          VITE_GOTRUE_URL: http://localhost:9999
+      # Production values come from .env.production (api.lam7ai.com).
+      - run: npm run build
+      - run: npm run size
+      - uses: actions/upload-artifact@v4
+        with:
+          name: web
+          path: dist/client
+          include-hidden-files: true
+          retention-days: 7
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://lam7ai.com
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: web
+          path: web
+
+      - name: SSH key
+        env:
+          SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          HOST: ${{ secrets.DEPLOY_HOST }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -t ed25519 "$HOST" >> ~/.ssh/known_hosts
+
+      - name: Upload release
+        env:
+          HOST: ${{ secrets.DEPLOY_HOST }}
+        run: |
+          rsync -az --delete web/ "deploy@$HOST:/srv/lam7a/web/releases/${{ github.sha }}/"
+
+      - name: Activate release
+        env:
+          HOST: ${{ secrets.DEPLOY_HOST }}
+        run: |
+          ssh "deploy@$HOST" bash -s -- '${{ github.sha }}' <<'EOF'
+          set -euo pipefail
+          cd /srv/lam7a/web
+          # Relative link so it also resolves inside the Caddy container.
+          ln -sfn "releases/$1" current.next
+          mv -T current.next current
+          # Keep the 5 newest releases (never the active one).
+          active=$(readlink current)
+          ls -1t releases | tail -n +6 | while read -r old; do
+            [ "releases/$old" = "$active" ] || rm -rf "releases/$old"
+          done
+          # Reload so Caddy imports this release's CSP (skipped before the API stack exists).
+          if [ -n "$(docker ps -q -f name=lam7a-caddy)" ]; then
+            /srv/lam7a/app/deploy/run.sh reload-caddy
+          fi
+          echo "Active release: $active"
+          EOF
+
+      - name: Smoke check from outside
+        run: |
+          # Pre-launch answers 401 (site password); after launch, 200.
+          code=$(curl -s -o /dev/null -w '%{http_code}' https://lam7ai.com/)
+          echo "https://lam7ai.com/ -> $code"
+          [ "$code" = 200 ] || [ "$code" = 401 ]
