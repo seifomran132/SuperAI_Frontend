@@ -6,7 +6,7 @@ export const lam7a: BrandConfig = {
   tagline: { ar: '[وصف قصير للمساعد]', en: '[Short assistant description]' },
   monogram: 'ل',
   colors: { brand: '#1e293b', brandHover: '#0f172a', onBrand: '#ffffff' },
-  // [Placeholders until the team confirms contact channels and legal pages]
-  contact: {},
+  contact: { email: 'contact@lam7ai.com', phone: '+972 56-751-8888' },
+  // [Placeholder until the legal pages exist]
   legal: {},
 };
