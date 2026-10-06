@@ -38,7 +38,7 @@ Public on `lam7ai.com` + `api.lam7ai.com`, real email through Brevo, indexed by 
 | # | Item | Owner | Status |
 |---|---|---|---|
 | 1.1 | Brand **لمحة AI / Lam7a AI**; domain **lam7ai.com** (app) + **api.lam7ai.com** (API), used from pre-launch | You | [x] |
-| 1.2 | Brevo: account created; SMTP `smtp-relay.brevo.com:587` (STARTTLS), login `bcc942001@smtp-brevo.com` (goes in `deploy/config.env`). DNS verified public: `brevo-code` TXT ✓, DKIM `brevo1`/`brevo2` ✓, DMARC `p=none` ✓; SPF to merge (`include:spf.brevo.com` into the existing record). Still to do: sender `no-reply@lam7ai.com`, new SMTP key (server `.env` as `GOTRUE_SMTP_PASS`), click tracking off | You | [~] |
+| 1.2 | Brevo: account created; SMTP `smtp-relay.brevo.com:587` (STARTTLS), login `bcc942001@smtp-brevo.com` (goes in `deploy/config.env`). DNS verified public: `brevo-code` TXT ✓, DKIM `brevo1`/`brevo2` ✓, DMARC `p=none` ✓; SPF to merge (`include:spf.brevo.com` into the existing record). Still to do: sender `noreply@lam7ai.com`, new SMTP key (server `.env` as `GOTRUE_SMTP_PASS`), click tracking off | You | [~] |
 | 1.3 | Contact channels: `contact@lam7ai.com`, phone `+972 56-751-8888` (in `src/brand/lam7a.ts`); `contact@` must deliver (Namecheap email forwarding) | You | [x] |
 | 1.4 | Tagline (ar + en) — optional: not shown in the app yet | You | [ ] |
 | 1.5 | Logo / favicon (optional; monogram works) | You | [ ] |
@@ -65,7 +65,7 @@ Public on `lam7ai.com` + `api.lam7ai.com`, real email through Brevo, indexed by 
 | 2.7 | `deploy/compose.yml` — caddy, postgres, db-init, redis (password), gotrue, api, mailpit (`prelaunch` profile); size-limited logs; healthchecks; only Caddy publishes ports | Claude | [~] written, `compose config` valid |
 | 2.8 | `deploy/Caddyfile` — `/api` (no buffering), `/auth` (prefix stripped), `/health`, assets cached forever + real 404, shell `no-cache`, `/plans` prerendered, security headers, per-release CSP import; `prelaunch` snippet: basic auth (site only, not API/auth), `noindex`, robots, `/mail` → Mailpit | Claude | [~] written, not validated |
 | 2.9 | GoTrue env: `API_EXTERNAL_URL=https://<API_DOMAIN>/auth`, JWT issuer the same, `SITE_URL`, `URI_ALLOW_LIST`, SMTP (Mailpit → Brevo), email confirmation on, pinned `v2.197.0` | Claude | [~] written (in compose.yml) |
-| 2.9b | Branded auth emails: sender `لمحة AI <no-reply@lam7ai.com>`, Arabic subjects (`GOTRUE_MAILER_SUBJECTS_*`), RTL HTML templates for confirm / recovery / email change served from the frontend (`/email-templates/*.html`, `GOTRUE_MAILER_TEMPLATES_*`) | Claude | [~] written: 3 Arabic RTL templates in `public/email-templates/`, subjects in `config.env` |
+| 2.9b | Branded auth emails: sender `لمحة AI <noreply@lam7ai.com>`, Arabic subjects (`GOTRUE_MAILER_SUBJECTS_*`), RTL HTML templates for confirm / recovery / email change served from the frontend (`/email-templates/*.html`, `GOTRUE_MAILER_TEMPLATES_*`) | Claude | [~] written: 3 Arabic RTL templates in `public/email-templates/`, subjects in `config.env` |
 | 2.9c | Migration placeholder prompt says Lam7a AI (fresh databases only) | Claude | [ ] |
 | 2.10 | `deploy/.env.example` (secret names, no values) + `deploy/config.env` (plain settings: domain, mode, SMTP, image) | Claude | [~] written |
 | 2.10b | `deploy/gen-secrets.sh` — fills missing secrets with random values (`chmod 600`, single-quoted), never prints or overwrites; asks for the site password and stores only its bcrypt hash | Claude | [~] written |
@@ -120,7 +120,7 @@ Public on `lam7ai.com` + `api.lam7ai.com`, real email through Brevo, indexed by 
 
 | # | Item | Owner | Status |
 |---|---|---|---|
-| 6.0 | **Blockers before the first deploy:** Brevo sender `no-reply@lam7ai.com` + new SMTP key in the server `.env` (`GOTRUE_SMTP_PASS`) + click tracking off (1.2) | You | [ ] |
+| 6.0 | **Blockers before the first deploy:** Brevo sender `noreply@lam7ai.com` + new SMTP key in the server `.env` (`GOTRUE_SMTP_PASS`) + click tracking off (1.2) | You | [ ] |
 | 6.1 | Backend deploy (approve in GitHub); `https://api.lam7ai.com/health/ready` is 200 | You + Claude | [ ] |
 | 6.2 | Frontend deploy; HTTPS certificates for `lam7ai.com`, `www`, `api` issued; `/email-templates/*.html` reachable | You + Claude | [ ] |
 | 6.3 | Sign up with your real email: Arabic confirmation email arrives via Brevo (inbox, not spam); link opens the app | You | [ ] |
