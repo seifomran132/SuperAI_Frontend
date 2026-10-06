@@ -10,7 +10,7 @@ export default defineConfig({
     env: {
       VITE_API_ORIGIN: 'http://localhost:3000',
       VITE_GOTRUE_URL: 'http://localhost:9999',
-      VITE_BRAND: 'bayan',
+      VITE_BRAND: 'lam7a',
     },
     globals: true,
     setupFiles: ['./src/test/setup.ts'],

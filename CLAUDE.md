@@ -1,6 +1,6 @@
-# Bayan frontend (SuperAI_frontend)
+# Lam7a AI frontend (SuperAI_frontend)
 
-Arabic-first, right-to-left web app for the SuperCardAI chat platform, sold under the **بيان (Bayan)** brand and white-label ready. The backend is the sibling repo `../SuperAI_Backend` (NestJS).
+Arabic-first, right-to-left web app for the SuperCardAI chat platform, sold under the **لمحة AI (Lam7a AI)** brand at lam7ai.com and white-label ready. The backend is the sibling repo `../SuperAI_Backend` (NestJS).
 
 ## Read first
 - [docs/FRONTEND_PLAN.md](docs/FRONTEND_PLAN.md) — scope, stack, routes, milestones, agents, open backend gaps
@@ -82,7 +82,7 @@ features/<name>/
 
 ### Tokens and brand
 - Colors, radii and fonts come from `src/styles/app.css` (`bg-brand`, `text-fg-muted`, `border-border-control`, `bg-mode-1-container`, `text-danger`, …). No hex values in components.
-- Brand name, monogram, brand colors and contact channels come from `src/brand`; copy uses `{{brandName}}`. Never hard-code "بيان" in components.
+- Brand name, monogram, brand colors and contact channels come from `src/brand`; copy uses `{{brandName}}`. Never hard-code the brand name ("لمحة AI") in components.
 - Mode colors are assigned by position from the mode palette (`mode-1`, `mode-2`, …), not by mode name.
 
 ### Text

@@ -10,11 +10,11 @@
 |---|---|
 | 1 | Host on the team's Linux VPS (3 vCPU, 8 GB RAM, 100 GB). Frontend, API, GoTrue, Postgres and Redis on the same server, in Docker Compose. |
 | 2 | Caddy in front: automatic HTTPS, one origin per environment. `/` → static frontend, `/api/*` → NestJS, `/auth/*` → GoTrue. Same origin means no CORS and no preflight on chat sends. |
-| 3 | Staging is a second, smaller stack on the same VPS. Until a domain exists it runs on `<server-ip>.sslip.io` (real certificate, no DNS purchase). |
+| 3 | **Production only** at the start, no staging. Before launch it runs privately (pre-launch: `<server-ip>.sslip.io`, basic auth, `noindex`, Mailpit for email) and its test data is wiped at launch. Email at launch: Brevo. |
 | 4 | No error monitoring for launch. Errors show the recoverable UI; Caddy and API logs stay on the server. |
 | 5 | Arabic copy is reviewed by the team; F5b produces the string table to review. |
-| 6 | Branding stays config (`src/brand/<key>.ts`, `VITE_BRAND`, domain in deploy env). Placeholders are fine for staging; production needs the inputs in §6. |
-| 7 | Backend production setup (compose, Caddyfile, GoTrue env, backups) is prepared in the backend repo as files plus a deploy guide; secrets never enter git. |
+| 6 | Branding stays config (`src/brand/<key>.ts`, `VITE_BRAND`, domain in deploy env). Placeholders are fine in pre-launch; going public needs the inputs in §6. |
+| 7 | Backend production setup (compose, Caddyfile, GoTrue env, backups) is prepared in the backend repo as files plus a deploy guide. Secrets live in **Bitwarden Secrets Manager** (project `superai-prod`), read on the server with a read-only machine token via `bws run`; no secret values in git, GitHub or `.env` files on the server. Checklist: [docs/deploy/DEPLOY_CHECKLIST.md](../deploy/DEPLOY_CHECKLIST.md). |
 
 ## 2. F5a — Browser tests (local stack, Playwright + axe)
 - Chat: new chat, send, streamed answer and cost, Stop, retry, mode switch, conversation list paging, mobile drawer, sign-out → next user sees nothing.
@@ -33,15 +33,15 @@
 
 ## 4. F5c — Launch configuration
 **Frontend repo**
-- `.env.staging` / `.env.production` templates; `src/lib/env.ts` fails the build when a required value is missing. Same-origin values: `VITE_API_ORIGIN=` and `VITE_GOTRUE_URL=/auth` resolved against `location.origin`.
+- `.env.production` template; `src/lib/env.ts` fails the build when a required value is missing. Same-origin values: `VITE_API_ORIGIN=` and `VITE_GOTRUE_URL=/auth` resolved against `location.origin`.
 - Caddy site block (in the backend deploy folder, frontend part owned here):
   - SPA fallback to `_shell.html`; `/plans` serves its prerendered page.
   - `assets/*` → `Cache-Control: public, max-age=31536000, immutable`; HTML → `no-cache`.
   - Headers: CSP (`default-src 'self'`, fonts.googleapis/gstatic, `img-src 'self' data:`, `frame-ancestors 'none'`), HSTS, `Referrer-Policy: strict-origin-when-cross-origin`, `X-Content-Type-Options: nosniff`.
   - Chat stream route: `flush_interval -1` (no buffering), long read timeout.
-- Production build check: fails when the brand has no contact channel or still has a `[placeholder]` tagline (staging allows both).
-- Brand assets per brand: favicon, `<meta description>` from tagline, `robots.txt` (staging: disallow all).
-- GitHub Actions `deploy.yml`: build per environment → rsync to `/srv/bayan/<env>/web/releases/<sha>` → switch the `current` symlink → keep 5 releases. `dev` → staging, `main` → production (manual approval). Smoke e2e against staging after deploy.
+- Production build check: fails when the brand has no contact channel or still has a `[placeholder]` tagline (pre-launch builds allow both).
+- Brand assets per brand: favicon, `<meta description>` from tagline, `robots.txt` (pre-launch: disallow all).
+- GitHub Actions `deploy.yml`: on `main` with approval → build → rsync to `/srv/lam7a/web/releases/<sha>` → switch the `current` symlink → keep 5 releases. Smoke e2e after deploy.
 
 **Backend repo (prepared, not committed without approval)**
 - `deploy/compose.prod.yml`, `deploy/Caddyfile`, `.env.prod.example`.
@@ -50,8 +50,8 @@
 - Server: ufw (22/80/443), SSH keys only, non-root deploy user, unattended security upgrades.
 - Backups: nightly `pg_dump`, kept 14 days and copied off the server (the database holds balance and payment records).
 
-## 5. F5d — Staging gate
-Deploy to staging → run the P0 completion gate and `docs/testing/MANUAL_TEST_CASES.md` → fix → `frontend-reviewer` final review → user approves production.
+## 5. F5d — Pre-launch gate
+Deploy to production in pre-launch mode → run the P0 completion gate and `docs/testing/MANUAL_TEST_CASES.md` → fix → `frontend-reviewer` final review → user approves going public (checklist §7).
 
 ## 6. Brand inputs needed before production
 | Input | Where | Required |

@@ -52,7 +52,7 @@ describe('account-unavailable page', () => {
       screen.getByText(
         t.auth.accountUnavailable.suspendedBody.replace(
           '{{brandName}}',
-          'بيان',
+          'لمحة AI',
         ),
       ),
     ).toBeInTheDocument();
