@@ -37,7 +37,12 @@ for (const file of htmlFiles(root)) {
     /<script\b([^>]*)>([\s\S]*?)<\/script>/g,
   )) {
     if (/\bsrc\s*=/.test(attrs) || body.length === 0) continue;
-    hashes.add(createHash('sha256').update(body).digest('base64'));
+    // Browsers hash the script text after HTML parsing: NUL becomes U+FFFD
+    // (TanStack's state has "__root__\0") and line breaks are normalized.
+    const parsed = body
+      .replace(/\r\n?/g, '\n')
+      .replace(/\u0000/g, String.fromCodePoint(0xfffd));
+    hashes.add(createHash('sha256').update(parsed).digest('base64'));
   }
 }
 
