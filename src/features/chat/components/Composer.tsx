@@ -15,6 +15,16 @@ import type { Refusal } from '../model/refusals';
 import type { useSendMessage } from '../model/useSendMessage';
 import { useSelectedMode } from '../model/useChatQueries';
 import { FieldRefusalText, isFieldRefusal } from './ChatNotice';
+import { canSend, modeBlocksImage } from '../model/can-send';
+import type { ComposerImageInput } from '../model/image-input';
+import {
+  AttachButton,
+  DropZoneOverlay,
+  pastedImages,
+  useFileDrop,
+} from './ImageAttach';
+import { AttachmentTile } from './AttachmentTile';
+import { ImageModeNotice, TooManyImagesNotice } from './ImageNotices';
 import { ModeSelector } from './ModeSelector';
 
 const MAX_HEIGHT_PX = 200;
@@ -28,6 +38,8 @@ export interface ComposerProps {
   noPlan: boolean;
   refusal?: Refusal;
   textareaRef: RefObject<HTMLTextAreaElement | null>;
+  /** Image input state and handlers. Without it the composer is text-only. */
+  imageInput?: ComposerImageInput;
 }
 
 /** Message box with the mode chip inside; Enter sends, Shift+Enter adds a line. */
@@ -38,6 +50,7 @@ export function Composer({
   noPlan,
   refusal,
   textareaRef,
+  imageInput,
 }: ComposerProps) {
   const { t } = useTranslation();
   const draft = useChatStore((s) => s.drafts[storeKey] ?? '');
@@ -49,12 +62,30 @@ export function Composer({
   const fieldError = isFieldRefusal(refusal);
 
   const online = useOnline();
+
+  // Attaching is offered only when at least one mode on the plan reads images.
+  const imagesAvailable =
+    imageInput !== undefined &&
+    modes.some((mode) => imageInput.modeSupportsImages(mode.key));
+  const image = imagesAvailable ? imageInput : undefined;
+  const imageDraft = image?.draft.draft ?? { status: 'empty' as const };
+  const modeReadsImages =
+    image !== undefined && modeKey !== null
+      ? image.modeSupportsImages(modeKey)
+      : true;
+  const draftOk = image
+    ? canSend({
+        draft: imageDraft,
+        text: draft,
+        modeSupportsImages: modeReadsImages,
+      })
+    : draft.trim() !== '';
+  const dragging = useFileDrop(image !== undefined, (files) =>
+    image?.addFiles(files),
+  );
+
   const canSubmit =
-    online &&
-    draft.trim() !== '' &&
-    send.canSend &&
-    !noPlan &&
-    modeKey !== null;
+    online && draftOk && send.canSend && !noPlan && modeKey !== null;
 
   // Grows with the text up to a cap, then scrolls.
   useLayoutEffect(() => {
@@ -98,6 +129,11 @@ export function Composer({
 
   return (
     <div className="flex flex-col gap-2">
+      {dragging ? <DropZoneOverlay /> : null}
+      {image && modeBlocksImage(imageDraft, modeReadsImages) ? (
+        <ImageModeNotice />
+      ) : null}
+      {image?.draft.notice ? <TooManyImagesNotice /> : null}
       <form
         onSubmit={(event) => {
           event.preventDefault();
@@ -109,6 +145,13 @@ export function Composer({
           fieldError ? 'border-danger' : 'border-border-control',
         )}
       >
+        {image ? (
+          <AttachmentTile
+            draft={imageDraft}
+            onRemove={image.remove}
+            onRetry={image.retry}
+          />
+        ) : null}
         <textarea
           ref={textareaRef}
           rows={1}
@@ -116,6 +159,16 @@ export function Composer({
           value={draft}
           onChange={(event) => setDraft(storeKey, event.target.value)}
           onKeyDown={onKeyDown}
+          onPaste={
+            image
+              ? (event) => {
+                  const files = pastedImages(event);
+                  if (files.length === 0) return;
+                  event.preventDefault();
+                  image.addFiles(files);
+                }
+              : undefined
+          }
           aria-label={t('chat.composer.label')}
           aria-invalid={fieldError || undefined}
           aria-describedby={fieldError ? 'composer-error' : undefined}
@@ -123,7 +176,15 @@ export function Composer({
           className="text-fg placeholder:text-fg-subtle max-h-[200px] min-h-12 w-full resize-none bg-transparent px-1 py-2 text-base leading-7 outline-hidden"
         />
         <div className="flex items-center justify-between gap-3">
-          <ModeSelector modes={modes} modeKey={modeKey} onSelect={setMode} />
+          <div className="flex items-center gap-1">
+            {image ? <AttachButton onFiles={image.addFiles} /> : null}
+            <ModeSelector
+              modes={modes}
+              modeKey={modeKey}
+              onSelect={setMode}
+              supportsImages={image?.modeSupportsImages}
+            />
+          </div>
           {/* One button for both roles: swapping elements would drop focus to the page. */}
           <Button
             ref={actionRef}

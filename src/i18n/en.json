@@ -204,6 +204,27 @@
       "title": "Request balance",
       "body": "Our team adds balance and activates plans. Contact us in one of these ways and we will help.",
       "close": "Close"
+    },
+    "image": {
+      "attach": "Attach an image",
+      "drop": "Drop the image here",
+      "dropHint": "JPG, PNG or WebP image, up to 5 MB.",
+      "remove": "Remove the image",
+      "uploading": "Uploading the image…",
+      "uploaded": "Image uploaded",
+      "modeNotice": "This mode can't read images. Choose another mode to send the image.",
+      "readsImages": "Reads images",
+      "view": "View image",
+      "close": "Close",
+      "loading": "Loading the image",
+      "loadFailed": "The image couldn't be loaded",
+      "alt": "Image",
+      "errors": {
+        "ATTACHMENT_TOO_LARGE": "The image is larger than 5 MB.",
+        "ATTACHMENT_TYPE_NOT_ALLOWED": "This file type isn't supported. Send a JPG, PNG or WebP image.",
+        "TOO_MANY_ATTACHMENTS": "You can attach only one image per message.",
+        "UPLOAD_FAILED": "The image couldn't be uploaded. Try again."
+      }
     }
   },
   "balance": {

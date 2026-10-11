@@ -157,6 +157,7 @@ Never write the brand name into reusable component text; screens show the config
 - Depth by tonal layers and hairline borders, not heavy shadows.
 - Assistant message: white card, `#E2E8F0` border. User message: `#F1F5F9`, no border. Message box: white, `#7C8799` border, soft shadow `0 4px 6px -1px rgba(15,23,42,.04)`.
 - Dialogs: white, radius 24px, backdrop `rgba(15,23,42,.45)`.
+- Image viewer: `viewer-scrim` `#0F172A`, fully opaque (no chat visible behind it).
 - Radius: 8px buttons and inputs, 16px cards and message bubbles, 24px dialogs and message box, full pills for badges and mode chips.
 
 ## 7. Components

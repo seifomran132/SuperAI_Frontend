@@ -8,6 +8,11 @@ import { toDecimal } from '~/lib/money';
 import { cn } from '~/lib/utils';
 import { messageState } from '../model/message-state';
 import { useMessageCost } from '../model/message-costs';
+import type {
+  MessageAttachment,
+  UseAttachmentImage,
+} from '../model/image-input';
+import { MessageImage } from './MessageImage';
 import { BrandMark, useBrandName } from './BrandMark';
 import { Markdown } from './Markdown';
 import { ModeChip } from './mode';
@@ -34,23 +39,54 @@ function clockFormat(language: string) {
 /** What the user typed, shown exactly (no Markdown). */
 export const UserMessage = memo(function UserMessage({
   message,
+  attachments,
+  useImage,
 }: {
   message: MessageDto;
+  /** Images of this message, shown above the text; needs `useImage` to load them. */
+  attachments?: MessageAttachment[];
+  useImage?: UseAttachmentImage;
 }) {
   const { i18n } = useTranslation();
   const pending = messageState(message) === 'pending';
+  const images = attachments ?? [];
   return (
     <div className="flex flex-col items-start gap-1.5">
-      <div
-        dir="auto"
-        aria-busy={pending || undefined}
-        className={cn(
-          'bg-surface-muted text-fg max-w-[85%] rounded-lg px-4 py-3 text-base leading-7 wrap-anywhere whitespace-pre-wrap',
-          pending && 'opacity-70',
-        )}
-      >
-        {message.content}
-      </div>
+      {images.length > 0 && useImage ? (
+        <div
+          className={cn(
+            'bg-surface-muted flex max-w-[85%] flex-col gap-2 rounded-lg p-2',
+            pending && 'opacity-70',
+          )}
+        >
+          {images.map((attachment) => (
+            <MessageImage
+              key={attachment.id}
+              attachment={attachment}
+              useImage={useImage}
+            />
+          ))}
+          {message.content !== '' ? (
+            <div
+              dir="auto"
+              className="text-fg px-2 pb-1 text-base leading-7 wrap-anywhere whitespace-pre-wrap"
+            >
+              {message.content}
+            </div>
+          ) : null}
+        </div>
+      ) : (
+        <div
+          dir="auto"
+          aria-busy={pending || undefined}
+          className={cn(
+            'bg-surface-muted text-fg max-w-[85%] rounded-lg px-4 py-3 text-base leading-7 wrap-anywhere whitespace-pre-wrap',
+            pending && 'opacity-70',
+          )}
+        >
+          {message.content}
+        </div>
+      )}
       {!pending ? (
         <time
           dateTime={message.createdAt}
