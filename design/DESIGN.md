@@ -171,7 +171,10 @@ Neutral pill showing the spendable USD balance, e.g. `الرصيد 14.50$`. Clic
 One selector, placed inside the message box (bottom-right). Shows the current mode's label and color; opens a small menu listing the modes on the user's plan, each with its label and one-line description (Fast: quick everyday answers, lower cost. Professional: deeper reasoning for complex tasks, higher cost). Works for any number of modes. The choice applies to the next message only and never rewrites earlier messages. No other mode toggles in the header or sidebar.
 
 ### Message box
-Multi-line field (placeholder «اكتب رسالتك…»), mode selector, send button (brand navy, arrow mirrors for RTL). While an answer streams, the send button becomes a **Stop** button (إيقاف). Enter sends, Shift+Enter adds a line. Small helper text under it: «تُحتسب تكلفة كل رد من رصيدك حسب الوضع المستخدم.» No attachments, no templates, no cost estimate before sending.
+Multi-line field (placeholder «اكتب رسالتك…»), mode selector, send button (brand navy, arrow mirrors for RTL). While an answer streams, the send button becomes a **Stop** button (إيقاف). Enter sends, Shift+Enter adds a line. Small helper text under it: «تُحتسب تكلفة كل رد من رصيدك حسب الوضع المستخدم.» No templates, no cost estimate before sending.
+
+### Image input (S15, approved 2026-10-11)
+One image per message (JPEG, PNG or WebP, up to 5 MB), attached with the image button in the composer's action row (`image-plus`, «إرفاق صورة», not mirrored), by dropping it on the chat («أفلت الصورة هنا») or by pasting. The thumbnail sits above the text field with progress, a remove button and errors; retry only for network failures. Send stays disabled while uploading, on an upload error, or when the selected mode can't read images. In that last case a warning notice says «هذا الوضع لا يقرأ الصور. اختر وضعًا آخر لإرسال الصورة.» and the mode menu marks modes that can with «يقرأ الصور»; the mode is never switched for the user. If no mode on the plan reads images, the attach button is hidden. In messages, the user's image appears above their text (max height 240px, placeholder at the image's aspect ratio while loading) and opens a full-screen viewer on an opaque `viewer-scrim`. Spec: [stitch/s15-image-input/REVIEW.md](stitch/s15-image-input/REVIEW.md).
 
 ### Messages
 - User message: right-aligned bubble, `#F1F5F9`.

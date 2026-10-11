@@ -12,7 +12,8 @@ Arabic-first, right-to-left web app for the SuperCardAI chat platform, sold unde
 ## Launch scope (do not build beyond it)
 - **No payments.** No checkout, add-balance or top-up. Users ask the team for a plan or balance ("طلب رصيد" → contact options from the brand config).
 - No pre-send cost estimate; actual cost shows after each answer.
-- No conversation delete/rename, attachments or templates (the API has none).
+- No conversation delete/rename or templates (the API has none).
+- Image input: one image per message, before launch — follow [docs/plans/F6_IMAGE_INPUT.md](docs/plans/F6_IMAGE_INPUT.md) (backend first; no other attachment types).
 - Users see **modes** (labels from `GET /modes`), never provider or model names.
 - Build screens only after their Stitch design is approved.
 
