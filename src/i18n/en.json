@@ -220,9 +220,6 @@
       "loadFailed": "The image couldn't be loaded",
       "alt": "Image",
       "errors": {
-        "ATTACHMENT_TOO_LARGE": "The image is larger than 5 MB.",
-        "ATTACHMENT_TYPE_NOT_ALLOWED": "This file type isn't supported. Send a JPG, PNG or WebP image.",
-        "TOO_MANY_ATTACHMENTS": "You can attach only one image per message.",
         "UPLOAD_FAILED": "The image couldn't be uploaded. Try again."
       }
     }
@@ -762,8 +759,13 @@
         "cacheWriteTokens": "Cache write tokens",
         "outputTokens": "Output tokens",
         "promptTooLong": "The prompt is longer than 500 characters",
-        "maxOutputInvalid": "Enter a number from 1 to 256"
-      }
+        "maxOutputInvalid": "Enter a number from 1 to 256",
+        "imageSent": "Image sent",
+        "yes": "Yes",
+        "no": "No"
+      },
+      "supportsImages": "Reads images",
+      "supportsImagesHint": "Turn on only if the model accepts images. Modes that use it are shown to users as reading images, and the model test sends a small image."
     },
     "modes": {
       "new": "New mode",

@@ -2,7 +2,7 @@ import { useState, type ReactNode } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { ChevronRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { meSubscriptionControllerGetOptions } from '~/api/generated/@tanstack/react-query.gen';
+import { meSubscriptionGetOptions } from '~/api/generated/@tanstack/react-query.gen';
 import type { MeSubscriptionDto } from '~/api/generated/types.gen';
 import { Money } from '~/components/Money';
 import { RequestBalanceDialog } from '~/components/RequestBalanceDialog';
@@ -121,7 +121,7 @@ function PlanDetails({ data }: { data: MeSubscriptionDto }) {
 export function PlanCard() {
   const { t } = useTranslation();
   const { data, isError, refetch, isPending } = useQuery(
-    meSubscriptionControllerGetOptions(),
+    meSubscriptionGetOptions(),
   );
   let body;
   if (data) {

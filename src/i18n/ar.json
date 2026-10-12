@@ -220,9 +220,6 @@
       "loadFailed": "تعذّر تحميل الصورة",
       "alt": "صورة",
       "errors": {
-        "ATTACHMENT_TOO_LARGE": "حجم الصورة أكبر من 5 ميغابايت.",
-        "ATTACHMENT_TYPE_NOT_ALLOWED": "هذا النوع من الملفات غير مدعوم. أرسل صورة JPG أو PNG أو WebP.",
-        "TOO_MANY_ATTACHMENTS": "يمكنك إرفاق صورة واحدة فقط في كل رسالة.",
         "UPLOAD_FAILED": "تعذّر رفع الصورة. حاول مرة أخرى."
       }
     }
@@ -762,8 +759,13 @@
         "cacheWriteTokens": "رموز كتابة المخزّن",
         "outputTokens": "رموز الخرج",
         "promptTooLong": "النص أطول من 500 حرف",
-        "maxOutputInvalid": "أدخل عددًا من 1 إلى 256"
-      }
+        "maxOutputInvalid": "أدخل عددًا من 1 إلى 256",
+        "imageSent": "أُرسلت صورة",
+        "yes": "نعم",
+        "no": "لا"
+      },
+      "supportsImages": "يقرأ الصور",
+      "supportsImagesHint": "فعّله فقط إذا كان النموذج يقبل الصور. الأوضاع التي تستخدمه تظهر للمستخدمين بأنها تقرأ الصور، ويُرسل اختبار النموذج صورة صغيرة."
     },
     "modes": {
       "new": "وضع جديد",

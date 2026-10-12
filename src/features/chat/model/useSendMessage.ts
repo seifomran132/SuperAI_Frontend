@@ -13,6 +13,7 @@ import {
   type StreamStatus,
 } from './active-streams';
 import { NEW_CHAT, useChatStore, type ConversationKey } from './chat-store';
+import type { MessageAttachment } from './image-input';
 import type { Refusal } from './refusals';
 import { sendMessage, type SendOutcome } from './send-message';
 
@@ -95,12 +96,24 @@ export function useSendMessage(
   }, [rateLimitSeconds, key]);
 
   const send = useCallback(
-    (content: string, modeKey: string): Promise<SendOutcome> =>
+    (
+      content: string,
+      modeKey: string,
+      options: {
+        attachments?: MessageAttachment[];
+        /** The server holds the message (`started` or DUPLICATE_REQUEST). */
+        onAccepted?: () => void;
+      } = {},
+    ): Promise<SendOutcome> =>
       sendMessage(qc, {
         key,
         content,
         modeKey,
-        onStarted: (id) => onStarted.current?.(id),
+        attachments: options.attachments,
+        onStarted: (id) => {
+          options.onAccepted?.();
+          onStarted.current?.(id);
+        },
       }),
     [qc, key],
   );
@@ -137,7 +150,11 @@ export function useSendMessage(
     isBusy: active !== undefined,
     /** Text and mode of the send in progress (shown before `started` on a new chat). */
     pending: active
-      ? { content: active.content, modeKey: active.modeKey }
+      ? {
+          content: active.content,
+          modeKey: active.modeKey,
+          attachments: active.attachments ?? [],
+        }
       : null,
     refusal,
     /** Seconds until RATE_LIMITED ends; Send stays disabled while > 0. */

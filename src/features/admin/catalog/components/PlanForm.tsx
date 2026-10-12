@@ -4,8 +4,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
 import {
-  adminPlansControllerCreateMutation,
-  adminPlansControllerUpdateMutation,
+  adminPlansCreateMutation,
+  adminPlansUpdateMutation,
 } from '~/api/generated/@tanstack/react-query.gen';
 import type { PlanDto } from '~/api/generated/types.gen';
 import { Button } from '~/components/ui/button';
@@ -33,8 +33,8 @@ export function PlanForm({ plan }: { plan?: PlanDto }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const create = useMutation(adminPlansControllerCreateMutation());
-  const update = useMutation(adminPlansControllerUpdateMutation());
+  const create = useMutation(adminPlansCreateMutation());
+  const update = useMutation(adminPlansUpdateMutation());
   const [v, setV] = useState({
     key: plan?.key ?? '',
     nameAr: plan?.nameAr ?? '',

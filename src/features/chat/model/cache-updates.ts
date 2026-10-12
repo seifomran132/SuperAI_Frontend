@@ -1,4 +1,5 @@
 import type { InfiniteData, QueryClient } from '@tanstack/react-query';
+import type { MessageAttachment } from './image-input';
 import type {
   BalanceDto,
   ConversationDto,
@@ -31,6 +32,7 @@ export function pendingUserMessage(
   content: string,
   modeKey: string,
   previous: MessageDto | undefined,
+  attachments: MessageAttachment[] = [],
 ): MessageDto {
   const now = new Date().toISOString();
   return {
@@ -44,6 +46,9 @@ export function pendingUserMessage(
     errorCode: null,
     createdAt: now,
     completedAt: now,
+    attachments,
+    costUsd: null,
+    usage: null,
   };
 }
 

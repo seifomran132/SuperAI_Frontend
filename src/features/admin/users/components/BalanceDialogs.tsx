@@ -3,8 +3,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
 import {
-  adminLedgerControllerAdjustMutation,
-  adminLedgerControllerRecordPurchaseMutation,
+  adminLedgerAdjustMutation,
+  adminLedgerRecordPurchaseMutation,
 } from '~/api/generated/@tanstack/react-query.gen';
 import { Input } from '~/components/ui/input';
 import { Field, describedBy } from '../../components/Field';
@@ -71,7 +71,7 @@ export function AdjustDialog({ userId, ...rest }: DialogProps) {
   const { t } = useTranslation();
   const id = useId();
   const queryClient = useQueryClient();
-  const mutation = useMutation(adminLedgerControllerAdjustMutation());
+  const mutation = useMutation(adminLedgerAdjustMutation());
   const [amount, setAmount] = useState('');
   return (
     <ReasonDialog
@@ -122,7 +122,7 @@ export function PurchaseDialog({ userId, ...rest }: DialogProps) {
   const { t } = useTranslation();
   const id = useId();
   const queryClient = useQueryClient();
-  const mutation = useMutation(adminLedgerControllerRecordPurchaseMutation());
+  const mutation = useMutation(adminLedgerRecordPurchaseMutation());
   const [amount, setAmount] = useState('');
   const [reference, setReference] = useState('');
   return (

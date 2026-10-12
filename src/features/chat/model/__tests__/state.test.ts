@@ -88,6 +88,9 @@ describe('messageState', () => {
     finishReason: 'stop',
     errorCode: null,
     createdAt: '2026-10-04T00:00:00.000Z',
+    attachments: [],
+    costUsd: null,
+    usage: null,
     completedAt: null,
   };
 

@@ -44,6 +44,7 @@ export const model = (id: string): ModelDto => ({
   providerCode: 'acme',
   providerModelId: `acme-${id}`,
   displayName: `نموذج ${id}`,
+  supportsImages: false,
   contextWindow: 128000,
   maxOutputTokens: 8000,
   marginOverridePct: null,
@@ -83,6 +84,7 @@ export const mode = (
 
 export const testResult: ModelTestResultDto = {
   ok: true,
+  imageSent: false,
   reply: 'مرحبًا بك',
   finishReason: 'stop',
   error: null,

@@ -2,8 +2,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
 import {
-  adminUsersControllerSetAdminRoleMutation,
-  adminUsersControllerSetStatusMutation,
+  adminUsersSetAdminRoleMutation,
+  adminUsersSetStatusMutation,
 } from '~/api/generated/@tanstack/react-query.gen';
 import { Alert } from '~/components/ui/alert';
 import { ReasonDialog } from '../../components/ReasonDialog';
@@ -24,7 +24,7 @@ export function StatusDialog({
 }: DialogProps & { target: 'suspended' | 'active' }) {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
-  const mutation = useMutation(adminUsersControllerSetStatusMutation());
+  const mutation = useMutation(adminUsersSetStatusMutation());
   const suspend = target === 'suspended';
   return (
     <ReasonDialog
@@ -73,7 +73,7 @@ export function AdminRoleDialog({
 }: DialogProps & { grant: boolean }) {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
-  const mutation = useMutation(adminUsersControllerSetAdminRoleMutation());
+  const mutation = useMutation(adminUsersSetAdminRoleMutation());
   return (
     <ReasonDialog
       {...rest}

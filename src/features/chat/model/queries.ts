@@ -1,14 +1,16 @@
+import { attachmentsDownload } from '~/api/generated/sdk.gen';
 import {
-  conversationsControllerGetOptions,
-  conversationsControllerGetQueryKey,
-  conversationsControllerListInfiniteOptions,
-  conversationsControllerListInfiniteQueryKey,
-  conversationsControllerMessagesInfiniteOptions,
-  conversationsControllerMessagesInfiniteQueryKey,
-  meBalanceControllerBalanceOptions,
-  meBalanceControllerBalanceQueryKey,
-  modesControllerListOptions,
-  modesControllerListQueryKey,
+  attachmentsDownloadQueryKey,
+  conversationsGetOptions,
+  conversationsGetQueryKey,
+  conversationsListInfiniteOptions,
+  conversationsListInfiniteQueryKey,
+  conversationsMessagesInfiniteOptions,
+  conversationsMessagesInfiniteQueryKey,
+  meBalanceBalanceOptions,
+  meBalanceBalanceQueryKey,
+  modesListOptions,
+  modesListQueryKey,
 } from '~/api/generated/@tanstack/react-query.gen';
 
 // One place for the query options and keys of chat data, so the hooks that
@@ -24,17 +26,17 @@ const messagesParams = (id: string) => ({
 });
 
 export const conversationListKey = () =>
-  conversationsControllerListInfiniteQueryKey(listParams);
+  conversationsListInfiniteQueryKey(listParams);
 export const conversationKey = (id: string) =>
-  conversationsControllerGetQueryKey({ path: { id } });
+  conversationsGetQueryKey({ path: { id } });
 export const messagesKey = (id: string) =>
-  conversationsControllerMessagesInfiniteQueryKey(messagesParams(id));
-export const balanceKey = () => meBalanceControllerBalanceQueryKey();
-export const modesKey = () => modesControllerListQueryKey();
+  conversationsMessagesInfiniteQueryKey(messagesParams(id));
+export const balanceKey = () => meBalanceBalanceQueryKey();
+export const modesKey = () => modesListQueryKey();
 
 /** `GET /conversations`, newest activity first, paged with `cursor`. */
 export const conversationListOptions = () => ({
-  ...conversationsControllerListInfiniteOptions(listParams),
+  ...conversationsListInfiniteOptions(listParams),
   initialPageParam: {},
   getNextPageParam: (last: { nextCursor: string | null }) =>
     last.nextCursor ?? undefined,
@@ -42,19 +44,42 @@ export const conversationListOptions = () => ({
 
 /** `GET /conversations/{id}/messages`, newest first, older pages with `before`. */
 export const messagesOptions = (id: string) => ({
-  ...conversationsControllerMessagesInfiniteOptions(messagesParams(id)),
+  ...conversationsMessagesInfiniteOptions(messagesParams(id)),
   initialPageParam: { path: { id } },
   getNextPageParam: (last: { nextBefore: number | null }) =>
     last.nextBefore ?? undefined,
 });
 
 export const conversationOptions = (id: string) =>
-  conversationsControllerGetOptions({ path: { id } });
+  conversationsGetOptions({ path: { id } });
 
 export const modesOptions = () => ({
-  ...modesControllerListOptions(),
+  ...modesListOptions(),
   // Mode availability changes rarely; refusals refetch it explicitly.
   staleTime: 5 * 60_000,
 });
 
-export const balanceOptions = () => meBalanceControllerBalanceOptions();
+export const balanceOptions = () => meBalanceBalanceOptions();
+
+export const attachmentKey = (id: string) =>
+  attachmentsDownloadQueryKey({ path: { id } });
+
+/**
+ * `GET /attachments/{id}` as a Blob. An `<img>` cannot send the bearer token,
+ * so the image is fetched here and shown through an object URL (§8.3).
+ * Images never change, so a cached one is never refetched.
+ */
+export const attachmentOptions = (id: string) => ({
+  queryKey: attachmentKey(id),
+  queryFn: async ({ signal }: { signal: AbortSignal }) =>
+    (
+      await attachmentsDownload({
+        path: { id },
+        parseAs: 'blob',
+        signal,
+        throwOnError: true,
+      })
+    ).data as Blob,
+  staleTime: Infinity,
+  gcTime: 10 * 60 * 1000,
+});

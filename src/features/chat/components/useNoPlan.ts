@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { meSubscriptionControllerGetOptions } from '~/api/generated/@tanstack/react-query.gen';
+import { meSubscriptionGetOptions } from '~/api/generated/@tanstack/react-query.gen';
 
 /**
  * True when `/me/subscription` says there is no active subscription. Sending
@@ -8,6 +8,6 @@ import { meSubscriptionControllerGetOptions } from '~/api/generated/@tanstack/re
  * on error this is false: the API stays the real guard.
  */
 export function useNoPlan(): boolean {
-  const { data } = useQuery(meSubscriptionControllerGetOptions());
+  const { data } = useQuery(meSubscriptionGetOptions());
   return data !== undefined && data.subscription === null;
 }

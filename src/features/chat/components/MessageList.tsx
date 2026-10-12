@@ -4,6 +4,7 @@ import { Alert } from '~/components/ui/alert';
 import { Button } from '~/components/ui/button';
 import type { MessageDto, ModeDto } from '~/api/generated/types.gen';
 import { cn } from '~/lib/utils';
+import { useAttachmentImage } from '../model/useAttachmentImage';
 import { AssistantMessage, UserMessage } from './MessageCard';
 
 /** How far from the bottom still counts as "following" the answer. */
@@ -38,6 +39,9 @@ const placeholder = (modeKey: string): MessageDto => ({
   errorCode: null,
   createdAt: new Date(0).toISOString(),
   completedAt: null,
+  attachments: [],
+  costUsd: null,
+  usage: null,
 });
 
 /**
@@ -176,7 +180,12 @@ export function MessageList({
 
         {messages.map((message, index) =>
           message.role === 'user' ? (
-            <UserMessage key={message.id} message={message} />
+            <UserMessage
+              key={message.id}
+              message={message}
+              attachments={message.attachments}
+              useImage={useAttachmentImage}
+            />
           ) : (
             <AssistantMessage
               key={message.id}
@@ -185,7 +194,11 @@ export function MessageList({
               local={local}
               remainingUsd={message.id === lastId ? balanceUsd : undefined}
               retryText={
-                canRetry && messages[index - 1]?.role === 'user'
+                // An image is used by one message only (§8.2), so a question
+                // with an image is re-sent by attaching it again, not here.
+                canRetry &&
+                messages[index - 1]?.role === 'user' &&
+                messages[index - 1]!.attachments.length === 0
                   ? messages[index - 1]!.content
                   : undefined
               }

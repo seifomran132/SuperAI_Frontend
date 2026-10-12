@@ -11,7 +11,7 @@ export function ImageModeNotice() {
 /** A second image was refused; the first one stays. */
 export function TooManyImagesNotice() {
   const { t } = useTranslation();
-  return <ChatNotice>{t('chat.image.errors.TOO_MANY_ATTACHMENTS')}</ChatNotice>;
+  return <ChatNotice>{t('errors:TOO_MANY_ATTACHMENTS')}</ChatNotice>;
 }
 
 /** «يقرأ الصور» mark in the mode menu: icon plus text. */

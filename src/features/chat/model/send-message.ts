@@ -31,6 +31,7 @@ import {
 } from './cache-updates';
 import { NEW_CHAT, useChatStore, type ConversationKey } from './chat-store';
 import { recordMessageCost } from './message-costs';
+import type { MessageAttachment } from './image-input';
 import { conversationKey, messagesKey } from './queries';
 import { toRefusal, unknownRefusal, type Refusal } from './refusals';
 import type { StartedEvent, TerminalEvent } from './stream-events';
@@ -57,6 +58,8 @@ export interface SendMessageInput {
   key: ConversationKey;
   content: string;
   modeKey: string;
+  /** The uploaded image, if any (§8.2). The text may be empty when there is one. */
+  attachments?: MessageAttachment[];
   /** Only to retry the same send after a network failure; otherwise a new UUID. */
   clientRequestId?: string;
   /**
@@ -196,9 +199,12 @@ export async function sendMessage(
     now = Date.now,
   } = deps;
   const { key, content, modeKey } = input;
+  const attachments = input.attachments ?? [];
   const isNew = key === NEW_CHAT;
 
-  if (content.trim() === '') return { kind: 'ignored' };
+  if (content.trim() === '' && attachments.length === 0) {
+    return { kind: 'ignored' };
+  }
   let conversationId: string | null = isNew
     ? store().newChatConversationId
     : key;
@@ -219,6 +225,7 @@ export async function sendMessage(
     clientRequestId,
     content,
     modeKey,
+    attachments,
   });
   store().clearRefusal(key);
   // A retry may run while the user edits the restored draft: only clear the
@@ -245,7 +252,7 @@ export async function sendMessage(
   };
   const networkRefusal = (): Refusal => ({
     code: 'NETWORK',
-    retry: { content, modeKey, clientRequestId },
+    retry: { content, modeKey, clientRequestId, attachments },
   });
 
   try {
@@ -301,6 +308,7 @@ export async function sendMessage(
           content,
           modeKey,
           newestMessage(qc, id),
+          attachments,
         ),
       ],
       { seed: isNew },
@@ -320,7 +328,15 @@ export async function sendMessage(
 
     try {
       for await (const event of transport.send(
-        { conversationId: id, content, modeKey, clientRequestId },
+        {
+          conversationId: id,
+          content,
+          modeKey,
+          clientRequestId,
+          ...(attachments.length > 0 && {
+            attachments: attachments.map((a) => ({ uploadId: a.id })),
+          }),
+        },
         controller.signal,
       )) {
         if (!alive()) return ended();

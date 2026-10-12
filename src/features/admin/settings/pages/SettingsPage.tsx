@@ -3,12 +3,12 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
 import {
-  adminChatSettingsControllerGetOptions,
-  adminChatSettingsControllerUpdateMutation,
-  adminPricingSettingsControllerGetOptions,
-  adminPricingSettingsControllerGetQueryKey,
-  adminPricingSettingsControllerUpdateMutation,
-  adminChatSettingsControllerGetQueryKey,
+  adminChatSettingsGetOptions,
+  adminChatSettingsUpdateMutation,
+  adminPricingSettingsGetOptions,
+  adminPricingSettingsGetQueryKey,
+  adminPricingSettingsUpdateMutation,
+  adminChatSettingsGetQueryKey,
 } from '~/api/generated/@tanstack/react-query.gen';
 import { Button } from '~/components/ui/button';
 import { TextAreaField, TextField } from '../../components/FormControls';
@@ -27,7 +27,7 @@ export const MAX_PROMPT = 10_000;
 function MarginForm({ initial }: { initial: string }) {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
-  const mutation = useMutation(adminPricingSettingsControllerUpdateMutation());
+  const mutation = useMutation(adminPricingSettingsUpdateMutation());
   const [value, setValue] = useState(initial);
   const [errors, setErrors] = useState<Errors>({});
   const [confirming, setConfirming] = useState(false);
@@ -84,12 +84,12 @@ function MarginForm({ initial }: { initial: string }) {
                 throw e;
               }
               await queryClient.invalidateQueries({
-                queryKey: adminPricingSettingsControllerGetQueryKey(),
+                queryKey: adminPricingSettingsGetQueryKey(),
               });
               // Prices shown in the catalog include the margin.
               await queryClient.invalidateQueries({
                 predicate: (q) =>
-                  /^(adminModels|modesController)/.test(
+                  /^(adminModels[A-Z]|modesList$)/.test(
                     (q.queryKey[0] as { _id?: string })._id ?? '',
                   ),
               });
@@ -105,7 +105,7 @@ function MarginForm({ initial }: { initial: string }) {
 function PromptForm({ initial }: { initial: string }) {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
-  const mutation = useMutation(adminChatSettingsControllerUpdateMutation());
+  const mutation = useMutation(adminChatSettingsUpdateMutation());
   const [value, setValue] = useState(initial);
   const [errors, setErrors] = useState<Errors>({});
   const [confirming, setConfirming] = useState(false);
@@ -169,7 +169,7 @@ function PromptForm({ initial }: { initial: string }) {
                 throw e;
               }
               await queryClient.invalidateQueries({
-                queryKey: adminChatSettingsControllerGetQueryKey(),
+                queryKey: adminChatSettingsGetQueryKey(),
               });
               toast.success(t('admin.settings.saved'));
             }}
@@ -183,8 +183,8 @@ function PromptForm({ initial }: { initial: string }) {
 /** A7: default margin and default system prompt. */
 export function SettingsPage() {
   const { t } = useTranslation();
-  const pricing = useQuery(adminPricingSettingsControllerGetOptions());
-  const chat = useQuery(adminChatSettingsControllerGetOptions());
+  const pricing = useQuery(adminPricingSettingsGetOptions());
+  const chat = useQuery(adminChatSettingsGetOptions());
   return (
     <>
       <QueryState query={pricing} error={t('admin.settings.marginError')}>

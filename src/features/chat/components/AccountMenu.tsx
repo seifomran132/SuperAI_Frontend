@@ -8,7 +8,7 @@ import {
   User,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { meControllerGetOptions } from '~/api/generated/@tanstack/react-query.gen';
+import { meGetOptions } from '~/api/generated/@tanstack/react-query.gen';
 import { Money } from '~/components/Money';
 import {
   DropdownMenu,
@@ -48,7 +48,7 @@ function Avatar({ initials }: { initials: string }) {
 /** Header avatar menu (desktop): name and email, balance, account, sign out. */
 export function AccountMenu() {
   const { t } = useTranslation();
-  const { data: me } = useQuery(meControllerGetOptions());
+  const { data: me } = useQuery(meGetOptions());
   const { balanceUsd } = useBalance();
   const { signOut, pending } = useSignOut();
   const initials = initialsOf(me?.fullName, me?.email);

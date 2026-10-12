@@ -33,7 +33,16 @@ function controllable() {
       calls.push({
         progress,
         signal,
-        resolve: (uploadId) => resolve({ uploadId }),
+        resolve: (uploadId) =>
+          resolve({
+            uploadId,
+            attachment: {
+              id: uploadId,
+              mimeType: 'image/webp',
+              width: 800,
+              height: 600,
+            },
+          }),
         reject,
       });
     });
@@ -52,7 +61,11 @@ describe('attachment reducer', () => {
     s = attachmentReducer(s, { type: 'upload-start' });
     s = attachmentReducer(s, { type: 'progress', percent: 140 });
     expect(s.draft).toMatchObject({ status: 'uploading', progress: 100 });
-    s = attachmentReducer(s, { type: 'uploaded', uploadId: 'u1' });
+    s = attachmentReducer(s, {
+      type: 'uploaded',
+      uploadId: 'u1',
+      attachment: { id: 'u1', mimeType: 'image/webp', width: 800, height: 600 },
+    });
     expect(s.draft).toMatchObject({ status: 'ready', uploadId: 'u1' });
   });
 
@@ -64,6 +77,12 @@ describe('attachment reducer', () => {
           file: png(),
           previewUrl: 'blob:1',
           uploadId: 'u',
+          attachment: {
+            id: 'u',
+            mimeType: 'image/webp',
+            width: 800,
+            height: 600,
+          },
         },
         notice: null,
       },
@@ -90,6 +109,12 @@ describe('useAttachmentDraft', () => {
     expect(result.current.state.draft).toMatchObject({
       status: 'ready',
       uploadId: 'up-1',
+      attachment: {
+        id: 'up-1',
+        mimeType: 'image/webp',
+        width: 800,
+        height: 600,
+      },
     });
   });
 

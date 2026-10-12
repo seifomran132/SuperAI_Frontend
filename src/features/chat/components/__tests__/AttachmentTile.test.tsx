@@ -2,6 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import '~/i18n';
 import ar from '~/i18n/ar.json';
+import arErrors from '~/i18n/errors.ar.json';
 import type { AttachmentDraft } from '../../model/attachment-draft';
 import { AttachmentTile } from '../AttachmentTile';
 
@@ -45,6 +46,7 @@ describe('AttachmentTile', () => {
       file,
       previewUrl: 'blob:1',
       uploadId: 'u',
+      attachment: { id: 'u', mimeType: 'image/webp', width: 800, height: 600 },
     });
     expect(screen.getByText(ar.chat.image.uploaded)).toBeInTheDocument();
     expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
@@ -53,11 +55,8 @@ describe('AttachmentTile', () => {
   });
 
   it.each([
-    ['ATTACHMENT_TOO_LARGE', ar.chat.image.errors.ATTACHMENT_TOO_LARGE],
-    [
-      'ATTACHMENT_TYPE_NOT_ALLOWED',
-      ar.chat.image.errors.ATTACHMENT_TYPE_NOT_ALLOWED,
-    ],
+    ['ATTACHMENT_TOO_LARGE', arErrors.ATTACHMENT_TOO_LARGE],
+    ['ATTACHMENT_TYPE_NOT_ALLOWED', arErrors.ATTACHMENT_TYPE_NOT_ALLOWED],
   ] as const)('%s: message and remove, no retry', (code, text) => {
     tile({ status: 'error', code, retryable: false });
     expect(screen.getByRole('alert')).toHaveTextContent(text);

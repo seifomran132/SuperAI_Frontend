@@ -1,29 +1,28 @@
 import { useTranslation } from 'react-i18next';
 import { useQuery, type QueryClient } from '@tanstack/react-query';
 import {
-  adminModelsControllerGetOptions,
-  adminModelsControllerListOptions,
-  adminModelsControllerPricesOptions,
-  adminModesControllerGetOptions,
-  adminModesControllerListOptions,
-  adminPlansControllerGetOptions,
-  adminPlansControllerListOptions,
-  adminProvidersControllerListOptions,
-  modesControllerListQueryKey,
-  publicPlansControllerListQueryKey,
+  adminModelsGetOptions,
+  adminModelsListOptions,
+  adminModelsPricesOptions,
+  adminModesGetOptions,
+  adminModesListOptions,
+  adminPlansGetOptions,
+  adminPlansListOptions,
+  adminProvidersListOptions,
+  modesListQueryKey,
+  publicPlansListQueryKey,
 } from '~/api/generated/@tanstack/react-query.gen';
 
-export const usePlans = () => useQuery(adminPlansControllerListOptions());
+export const usePlans = () => useQuery(adminPlansListOptions());
 export const usePlan = (key: string) =>
-  useQuery(adminPlansControllerGetOptions({ path: { key } }));
-export const useProviders = () =>
-  useQuery(adminProvidersControllerListOptions());
-export const useModels = () => useQuery(adminModelsControllerListOptions());
+  useQuery(adminPlansGetOptions({ path: { key } }));
+export const useProviders = () => useQuery(adminProvidersListOptions());
+export const useModels = () => useQuery(adminModelsListOptions());
 export const useModel = (id: string) =>
-  useQuery(adminModelsControllerGetOptions({ path: { id } }));
+  useQuery(adminModelsGetOptions({ path: { id } }));
 export const useModelPrices = (id: string) =>
-  useQuery(adminModelsControllerPricesOptions({ path: { id } }));
-export const useModes = () => useQuery(adminModesControllerListOptions());
+  useQuery(adminModelsPricesOptions({ path: { id } }));
+export const useModes = () => useQuery(adminModesListOptions());
 
 /** Mode key → label in the current language (the key itself until modes load). */
 export function useModeLabel() {
@@ -36,15 +35,15 @@ export function useModeLabel() {
   };
 }
 export const useMode = (key: string) =>
-  useQuery(adminModesControllerGetOptions({ path: { key } }));
+  useQuery(adminModesGetOptions({ path: { key } }));
 
 /**
  * After any catalog write: every admin list/detail (plans, providers, models,
  * prices, modes) and the customer-facing `/plans` and `/modes` are stale.
- * The admin queries all share the `admin…Controller…` id prefix.
+ * The admin queries share the `admin<Area><Method>` id prefix (operation ids).
  */
 export function invalidateCatalog(queryClient: QueryClient) {
-  const adminCatalog = /^admin(Plans|Providers|Models|Modes)Controller/;
+  const adminCatalog = /^admin(Plans|Providers|Models|Modes)[A-Z]/;
   return Promise.all([
     queryClient.invalidateQueries({
       predicate: (query) => {
@@ -53,8 +52,8 @@ export function invalidateCatalog(queryClient: QueryClient) {
       },
     }),
     queryClient.invalidateQueries({
-      queryKey: publicPlansControllerListQueryKey(),
+      queryKey: publicPlansListQueryKey(),
     }),
-    queryClient.invalidateQueries({ queryKey: modesControllerListQueryKey() }),
+    queryClient.invalidateQueries({ queryKey: modesListQueryKey() }),
   ]);
 }

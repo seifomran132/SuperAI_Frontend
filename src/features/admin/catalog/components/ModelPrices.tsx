@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { CalendarPlus } from 'lucide-react';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
-import { adminModelsControllerSetPriceMutation } from '~/api/generated/@tanstack/react-query.gen';
+import { adminModelsSetPriceMutation } from '~/api/generated/@tanstack/react-query.gen';
 import type { ModelDto } from '~/api/generated/types.gen';
 import { Money } from '~/components/Money';
 import { Button } from '~/components/ui/button';
@@ -39,7 +39,7 @@ function SchedulePriceDialog({
 }) {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
-  const mutation = useMutation(adminModelsControllerSetPriceMutation());
+  const mutation = useMutation(adminModelsSetPriceMutation());
   const [v, setV] = useState({
     inputPerMtok: '',
     outputPerMtok: '',

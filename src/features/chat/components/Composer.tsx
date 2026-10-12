@@ -2,9 +2,11 @@ import {
   useEffect,
   useLayoutEffect,
   useRef,
+  useState,
   type KeyboardEvent,
   type RefObject,
 } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import { ArrowRight, Square } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '~/components/ui/button';
@@ -16,6 +18,7 @@ import type { useSendMessage } from '../model/useSendMessage';
 import { useSelectedMode } from '../model/useChatQueries';
 import { FieldRefusalText, isFieldRefusal } from './ChatNotice';
 import { canSend, modeBlocksImage } from '../model/can-send';
+import { attachmentKey } from '../model/queries';
 import type { ComposerImageInput } from '../model/image-input';
 import {
   AttachButton,
@@ -114,9 +117,38 @@ export function Composer({
     wasBusy.current = send.isBusy;
   }, [send.isBusy, textareaRef]);
 
+  // The image being sent: its tile is hidden until the server accepts the
+  // message (then the image is cleared) or refuses it (then it shows again).
+  const [sendingImage, setSendingImage] = useState(false);
+  const qc = useQueryClient();
+
   const submit = () => {
     if (!canSubmit || modeKey === null) return;
-    void send.send(draft, modeKey);
+    const ready = imageDraft.status === 'ready' ? imageDraft : null;
+    if (!ready || !image) {
+      void send.send(draft, modeKey);
+      return;
+    }
+    // The message shows the local file at once instead of downloading it back.
+    qc.setQueryData(attachmentKey(ready.uploadId), ready.file);
+    setSendingImage(true);
+    void send
+      .send(draft, modeKey, {
+        attachments: [ready.attachment],
+        onAccepted: image.remove,
+      })
+      .then((outcome) => {
+        setSendingImage(false);
+        // The upload is gone or used: it cannot be sent again; attach anew.
+        if (
+          outcome.kind === 'refused' &&
+          outcome.refusal.code === 'OTHER' &&
+          (outcome.refusal.errorCode === 'ATTACHMENT_NOT_FOUND' ||
+            outcome.refusal.errorCode === 'ATTACHMENT_ALREADY_USED')
+        ) {
+          image.remove();
+        }
+      });
   };
 
   const onKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
@@ -145,7 +177,7 @@ export function Composer({
           fieldError ? 'border-danger' : 'border-border-control',
         )}
       >
-        {image ? (
+        {image && !sendingImage ? (
           <AttachmentTile
             draft={imageDraft}
             onRemove={image.remove}

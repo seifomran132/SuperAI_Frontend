@@ -3,8 +3,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
 import {
-  adminSubscriptionsControllerAssignMutation,
-  adminSubscriptionsControllerEndMutation,
+  adminSubscriptionsAssignMutation,
+  adminSubscriptionsEndMutation,
 } from '~/api/generated/@tanstack/react-query.gen';
 import { Alert } from '~/components/ui/alert';
 import { Input } from '~/components/ui/input';
@@ -29,7 +29,7 @@ export function ActivatePlanDialog({ userId, ...rest }: DialogProps) {
   const { t, i18n } = useTranslation();
   const id = useId();
   const queryClient = useQueryClient();
-  const mutation = useMutation(adminSubscriptionsControllerAssignMutation());
+  const mutation = useMutation(adminSubscriptionsAssignMutation());
   const plans = useActivePlans();
   const [planKey, setPlanKey] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -144,7 +144,7 @@ export function ActivatePlanDialog({ userId, ...rest }: DialogProps) {
 export function EndPlanDialog({ userId, ...rest }: DialogProps) {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
-  const mutation = useMutation(adminSubscriptionsControllerEndMutation());
+  const mutation = useMutation(adminSubscriptionsEndMutation());
   return (
     <ReasonDialog
       {...rest}

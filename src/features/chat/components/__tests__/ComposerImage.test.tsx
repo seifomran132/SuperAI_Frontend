@@ -5,6 +5,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import '~/i18n';
 import { createQueryClient } from '~/api/query-client';
 import ar from '~/i18n/ar.json';
+import arErrors from '~/i18n/errors.ar.json';
 import { modeFast, modeProfessional } from '~/mocks/chat';
 import type { AttachmentDraft } from '../../model/attachment-draft';
 import type { ComposerImageInput } from '../../model/image-input';
@@ -134,6 +135,7 @@ describe('composer image input', () => {
       file,
       previewUrl: 'blob:1',
       uploadId: 'u',
+      attachment: { id: 'u', mimeType: 'image/webp', width: 800, height: 600 },
     };
     setup(input(ready), 'fast');
     expect(screen.getByText(ar.chat.image.modeNotice)).toBeInTheDocument();
@@ -151,6 +153,7 @@ describe('composer image input', () => {
       file,
       previewUrl: 'blob:1',
       uploadId: 'u',
+      attachment: { id: 'u', mimeType: 'image/webp', width: 800, height: 600 },
     };
     setup(input(ready), 'professional');
     expect(
@@ -183,12 +186,11 @@ describe('composer image input', () => {
       file,
       previewUrl: 'blob:1',
       uploadId: 'u',
+      attachment: { id: 'u', mimeType: 'image/webp', width: 800, height: 600 },
     });
     im.draft = { ...im.draft, notice: 'TOO_MANY_ATTACHMENTS' };
     setup(im, 'professional');
-    expect(
-      screen.getByText(ar.chat.image.errors.TOO_MANY_ATTACHMENTS),
-    ).toBeInTheDocument();
+    expect(screen.getByText(arErrors.TOO_MANY_ATTACHMENTS)).toBeInTheDocument();
   });
 
   it('marks image-capable modes in the menu', async () => {

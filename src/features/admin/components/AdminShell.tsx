@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Menu, X } from 'lucide-react';
 import { Dialog } from 'radix-ui';
 import { useTranslation } from 'react-i18next';
-import { meControllerGetOptions } from '~/api/generated/@tanstack/react-query.gen';
+import { meGetOptions } from '~/api/generated/@tanstack/react-query.gen';
 import { OfflineBanner } from '~/components/OfflineBanner';
 import { Button } from '~/components/ui/button';
 import { AdminSidebar } from './AdminSidebar';
@@ -30,7 +30,7 @@ export function AdminShell() {
   const { t } = useTranslation();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const { data: me } = useQuery(meControllerGetOptions());
+  const { data: me } = useQuery(meGetOptions());
 
   useEffect(() => {
     setDrawerOpen(false);

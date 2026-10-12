@@ -4,8 +4,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
 import {
-  adminModelsControllerCreateMutation,
-  adminModelsControllerUpdateMutation,
+  adminModelsCreateMutation,
+  adminModelsUpdateMutation,
 } from '~/api/generated/@tanstack/react-query.gen';
 import type { ModelDto } from '~/api/generated/types.gen';
 import { Alert } from '~/components/ui/alert';
@@ -35,8 +35,8 @@ export function ModelForm({ model }: { model?: ModelDto }) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const providers = useProviders();
-  const create = useMutation(adminModelsControllerCreateMutation());
-  const update = useMutation(adminModelsControllerUpdateMutation());
+  const create = useMutation(adminModelsCreateMutation());
+  const update = useMutation(adminModelsUpdateMutation());
   const [v, setV] = useState({
     providerCode: model?.providerCode ?? '',
     providerModelId: model?.providerModelId ?? '',
@@ -45,6 +45,7 @@ export function ModelForm({ model }: { model?: ModelDto }) {
     maxOutputTokens: String(model?.maxOutputTokens ?? ''),
     marginOverridePct: model?.marginOverridePct ?? '',
     thinking: model?.thinking ?? ('default' as ModelDto['thinking']),
+    supportsImages: model?.supportsImages ?? false,
     isEnabled: model?.isEnabled ?? false,
   });
   const [errors, setErrors] = useState<Errors>({});
@@ -92,6 +93,7 @@ export function ModelForm({ model }: { model?: ModelDto }) {
     maxOutputTokens: parseInt(v.maxOutputTokens, 10),
     marginOverridePct: v.marginOverridePct.trim() || null,
     thinking: v.thinking,
+    supportsImages: v.supportsImages,
     isEnabled: v.isEnabled,
   };
 
@@ -202,6 +204,12 @@ export function ModelForm({ model }: { model?: ModelDto }) {
               onChange={(x) => set('marginOverridePct', x)}
             />
           </div>
+          <CheckField
+            label={t('admin.models.supportsImages')}
+            description={t('admin.models.supportsImagesHint')}
+            checked={v.supportsImages}
+            onChange={(x) => set('supportsImages', x)}
+          />
           <CheckField
             label={t('admin.catalog.enabled')}
             description={t('admin.models.enabledHint')}

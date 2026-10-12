@@ -119,6 +119,7 @@ describe('useSendMessage', () => {
     expect(result.current.pending).toEqual({
       content: 'مرحبا',
       modeKey: 'fast',
+      attachments: [],
     });
     await waitFor(() => expect(started).toHaveLength(1));
     await act(async () => {

@@ -15,6 +15,7 @@ export const modeFast: ModeDto = {
     inputPerMtok: '0.150000000',
     outputPerMtok: '0.600000000',
   },
+  supportsImages: false,
 };
 
 export const modeProfessional: ModeDto = {
@@ -28,6 +29,7 @@ export const modeProfessional: ModeDto = {
     inputPerMtok: '3.000000000',
     outputPerMtok: '15.000000000',
   },
+  supportsImages: true,
 };
 
 let counter = 0;
@@ -66,6 +68,9 @@ export function message(
     errorCode: null,
     createdAt: now,
     completedAt: now,
+    attachments: [],
+    costUsd: null,
+    usage: null,
     ...overrides,
   };
 }

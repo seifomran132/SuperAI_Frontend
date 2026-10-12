@@ -1,10 +1,17 @@
 import { http, HttpResponse } from 'msw';
 import type {
+  AttachmentDto,
   ConversationDto,
   MessageDto,
   ModeDto,
 } from '~/api/generated/types.gen';
-import { conversation, message, modeFast, modeProfessional } from './fixtures';
+import {
+  conversation,
+  message,
+  mockId,
+  modeFast,
+  modeProfessional,
+} from './fixtures';
 
 export * from './fixtures';
 
@@ -66,6 +73,12 @@ export interface ChatMockState {
     string,
     { userMessageId: string; assistantMessageId: string }
   >;
+  /** Answer to `POST /uploads` (§8.1). */
+  upload: { kind: 'ok' } | Refuse | { kind: 'network-error' };
+  /** Uploaded images by id; `used` once a message holds it. */
+  uploads: Map<string, { attachment: AttachmentDto; used: boolean }>;
+  /** Answer to `GET /attachments/:id`: the stored image, or a failure. */
+  download: { kind: 'ok' } | { kind: 'not-found' } | { kind: 'network-error' };
   /** Every request the handlers saw, for assertions. */
   calls: { name: string; body: unknown; authorization?: string | null }[];
 }
@@ -81,6 +94,9 @@ const initial = (): ChatMockState => ({
   chunkBytes: null,
   chargeUsd: '0.001470000',
   seenRequestIds: new Map(),
+  upload: { kind: 'ok' },
+  uploads: new Map(),
+  download: { kind: 'ok' },
   calls: [],
 });
 
@@ -189,10 +205,21 @@ function settle(m: MessageDto, patch: Partial<MessageDto>) {
 }
 
 /** Saves the user + streaming assistant messages, as the server does before `started`. */
-function saveTurn(conv: ConversationDto, content: string, modeKey: string) {
+function saveTurn(
+  conv: ConversationDto,
+  content: string,
+  modeKey: string,
+  attachments: AttachmentDto[] = [],
+) {
   const list = messagesOf(conv.id);
   const last = list[list.length - 1]?.sequence ?? 0;
-  const user = message({ sequence: last + 1, role: 'user', content, modeKey });
+  const user = message({
+    sequence: last + 1,
+    role: 'user',
+    content,
+    modeKey,
+    attachments,
+  });
   const assistant = message({
     sequence: last + 2,
     role: 'assistant',
@@ -202,7 +229,8 @@ function saveTurn(conv: ConversationDto, content: string, modeKey: string) {
     completedAt: null,
   });
   list.push(user, assistant);
-  conv.title ??= content.slice(0, 40);
+  conv.title ??=
+    content === '' && attachments.length > 0 ? 'صورة' : content.slice(0, 40);
   conv.modeKey = modeKey;
   conv.lastMessageAt = user.createdAt;
   return { user, assistant };
@@ -343,7 +371,69 @@ function sortedConversations() {
   );
 }
 
+/** A 1×1 PNG, enough for an `<img>` in tests. */
+const PIXEL = Uint8Array.from(
+  atob(
+    'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=',
+  ),
+  (c) => c.charCodeAt(0),
+);
+
+/** Stores an upload on the mock server, as `POST /uploads` would. */
+export function seedUpload(
+  overrides: Partial<AttachmentDto> = {},
+): AttachmentDto {
+  const attachment: AttachmentDto = {
+    id: mockId(),
+    mimeType: 'image/webp',
+    width: 1314,
+    height: 876,
+    ...overrides,
+  };
+  chatMock.uploads.set(attachment.id, { attachment, used: false });
+  return attachment;
+}
+
 export const chatHandlers = [
+  http.post(`${API}/uploads`, async ({ request }) => {
+    // Size only: undici's multipart parser rejects jsdom's File objects.
+    const bytes = (await request.arrayBuffer()).byteLength;
+    chatMock.calls.push({
+      name: 'upload',
+      body: { bytes, contentType: request.headers.get('content-type') },
+      authorization: request.headers.get('authorization'),
+    });
+    const scenario = chatMock.upload;
+    if (scenario.kind === 'network-error') return HttpResponse.error();
+    if (scenario.kind === 'refuse') return apiError(scenario);
+    const attachment = seedUpload();
+    return HttpResponse.json(
+      {
+        ...attachment,
+        bytes: 182340,
+        expiresAt: new Date(Date.now() + 86_400_000).toISOString(),
+      },
+      { status: 201 },
+    );
+  }),
+  http.get(`${API}/attachments/:id`, ({ params }) => {
+    chatMock.calls.push({ name: 'download', body: params.id });
+    const scenario = chatMock.download;
+    if (scenario.kind === 'network-error') return HttpResponse.error();
+    if (
+      scenario.kind === 'not-found' ||
+      !chatMock.uploads.has(params.id as string)
+    ) {
+      return apiError({
+        kind: 'refuse',
+        status: 404,
+        code: 'ATTACHMENT_NOT_FOUND',
+      });
+    }
+    return new HttpResponse(PIXEL, {
+      headers: { 'Content-Type': 'image/webp' },
+    });
+  }),
   http.get(`${API}/modes`, () => {
     chatMock.calls.push({ name: 'listModes', body: null });
     return HttpResponse.json(chatMock.modes);
@@ -441,6 +531,7 @@ export const chatHandlers = [
         content: string;
         modeKey: string;
         clientRequestId: string;
+        attachments?: { uploadId: string }[];
       };
       chatMock.calls.push({
         name: 'sendMessage',
@@ -453,6 +544,47 @@ export const chatHandlers = [
       if (seen) {
         return apiError({ ...refusals.DUPLICATE_REQUEST, data: seen });
       }
+      // Image checks in the order of §8.2: count, then upload, then mode.
+      const attachments: AttachmentDto[] = [];
+      if ((body.attachments?.length ?? 0) > 1) {
+        return apiError({
+          kind: 'refuse',
+          status: 422,
+          code: 'TOO_MANY_ATTACHMENTS',
+        });
+      }
+      for (const { uploadId } of body.attachments ?? []) {
+        const upload = chatMock.uploads.get(uploadId);
+        if (!upload) {
+          return apiError({
+            kind: 'refuse',
+            status: 404,
+            code: 'ATTACHMENT_NOT_FOUND',
+          });
+        }
+        if (upload.used) {
+          return apiError({
+            kind: 'refuse',
+            status: 409,
+            code: 'ATTACHMENT_ALREADY_USED',
+          });
+        }
+        const mode = chatMock.modes.find((m) => m.key === body.modeKey);
+        if (!mode?.supportsImages) {
+          return apiError({
+            kind: 'refuse',
+            status: 422,
+            code: 'MODE_NO_IMAGE_SUPPORT',
+          });
+        }
+        attachments.push(upload.attachment);
+      }
+      const markUsed = () =>
+        body.attachments?.forEach(({ uploadId }) => {
+          const upload = chatMock.uploads.get(uploadId);
+          if (upload) upload.used = true;
+        });
+
       let scenario = chatMock.send;
       if (scenario.kind === 'slow-start') {
         const { delayMs = 3000, deltas } = scenario;
@@ -476,7 +608,8 @@ export const chatHandlers = [
             headers: { 'Content-Type': 'text/html' },
           });
         case 'lost-response': {
-          const turn = saveTurn(conv, body.content, body.modeKey);
+          const turn = saveTurn(conv, body.content, body.modeKey, attachments);
+          markUsed();
           settle(turn.assistant, { status: 'complete', content: 'answer' });
           chatMock.seenRequestIds.set(body.clientRequestId, {
             userMessageId: turn.user.id,
@@ -485,7 +618,8 @@ export const chatHandlers = [
           return HttpResponse.error();
         }
         default: {
-          const turn = saveTurn(conv, body.content, body.modeKey);
+          const turn = saveTurn(conv, body.content, body.modeKey, attachments);
+          markUsed();
           chatMock.seenRequestIds.set(body.clientRequestId, {
             userMessageId: turn.user.id,
             assistantMessageId: turn.assistant.id,

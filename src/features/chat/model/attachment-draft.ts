@@ -2,6 +2,7 @@ import { useCallback, useEffect, useReducer, useRef } from 'react';
 import {
   ImageUploadError,
   type ImageErrorCode,
+  type MessageAttachment,
   type UploadImage,
 } from './image-input';
 import { validateImageFile } from './image-validation';
@@ -10,7 +11,13 @@ export type AttachmentDraft =
   | { status: 'empty' }
   | { status: 'validating'; file: File; previewUrl: string }
   | { status: 'uploading'; file: File; previewUrl: string; progress: number }
-  | { status: 'ready'; file: File; previewUrl: string; uploadId: string }
+  | {
+      status: 'ready';
+      file: File;
+      previewUrl: string;
+      uploadId: string;
+      attachment: MessageAttachment;
+    }
   | {
       status: 'error';
       code: ImageErrorCode;
@@ -32,7 +39,7 @@ export type AttachmentAction =
   | { type: 'invalid'; code: ImageErrorCode }
   | { type: 'upload-start' }
   | { type: 'progress'; percent: number }
-  | { type: 'uploaded'; uploadId: string }
+  | { type: 'uploaded'; uploadId: string; attachment: MessageAttachment }
   | { type: 'failed'; code: ImageErrorCode; retryable: boolean }
   | { type: 'remove' }
   | { type: 'dismiss-notice' };
@@ -102,6 +109,7 @@ export function attachmentReducer(
           file: draft.file,
           previewUrl: draft.previewUrl,
           uploadId: action.uploadId,
+          attachment: action.attachment,
         },
       };
     case 'failed':
@@ -157,7 +165,11 @@ export function useAttachmentDraft(upload: UploadImage) {
       .then(
         (result) => {
           if (!ctrl.signal.aborted) {
-            dispatch({ type: 'uploaded', uploadId: result.uploadId });
+            dispatch({
+              type: 'uploaded',
+              uploadId: result.uploadId,
+              attachment: result.attachment,
+            });
           }
         },
         (error: unknown) => {

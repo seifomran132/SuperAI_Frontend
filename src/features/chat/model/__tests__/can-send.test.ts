@@ -6,7 +6,13 @@ const file = new File(['x'], 'a.png', { type: 'image/png' });
 const drafts = {
   empty: { status: 'empty' },
   uploading: { status: 'uploading', file, previewUrl: 'blob:1', progress: 10 },
-  ready: { status: 'ready', file, previewUrl: 'blob:1', uploadId: 'u1' },
+  ready: {
+    status: 'ready',
+    file,
+    previewUrl: 'blob:1',
+    uploadId: 'u1',
+    attachment: { id: 'u1', mimeType: 'image/webp', width: 800, height: 600 },
+  },
   error: { status: 'error', code: 'UPLOAD_FAILED', retryable: true },
 } satisfies Record<string, AttachmentDraft>;
 

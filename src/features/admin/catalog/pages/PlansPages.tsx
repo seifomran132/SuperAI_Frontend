@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
 import { errorMessageKey, isApiError } from '~/api/errors';
-import { adminPlansControllerSetModesMutation } from '~/api/generated/@tanstack/react-query.gen';
+import { adminPlansSetModesMutation } from '~/api/generated/@tanstack/react-query.gen';
 import type { PlanDto } from '~/api/generated/types.gen';
 import { Money } from '~/components/Money';
 import { Button } from '~/components/ui/button';
@@ -149,7 +149,7 @@ export function PlanNewPage() {
 function PlanModesSection({ plan }: { plan: PlanDto }) {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
-  const mutation = useMutation(adminPlansControllerSetModesMutation());
+  const mutation = useMutation(adminPlansSetModesMutation());
   const [selected, setSelected] = useState(plan.modeKeys);
   const [confirming, setConfirming] = useState(false);
   return (

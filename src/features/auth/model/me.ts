@@ -1,8 +1,8 @@
 import type { QueryClient } from '@tanstack/react-query';
 import { redirect } from '@tanstack/react-router';
 import { isApiError } from '~/api/errors';
-import { meControllerGetQueryKey } from '~/api/generated/@tanstack/react-query.gen';
-import { meControllerGet } from '~/api/generated/sdk.gen';
+import { meGetQueryKey } from '~/api/generated/@tanstack/react-query.gen';
+import { meGet } from '~/api/generated/sdk.gen';
 import type { MeResponse } from '~/api/generated/types.gen';
 import { auth } from '~/lib/auth/client';
 
@@ -21,7 +21,7 @@ export const hasName = (me: Pick<MeResponse, 'fullName'>) =>
 
 async function fetchMe(): Promise<MeResponse> {
   try {
-    const { data } = await meControllerGet({ throwOnError: true });
+    const { data } = await meGet({ throwOnError: true });
     return data;
   } catch (error) {
     // A 401 makes the API client refresh the token before it returns; one
@@ -29,7 +29,7 @@ async function fetchMe(): Promise<MeResponse> {
     if (isApiError(error) && error.statusCode === 401) {
       const { data } = await auth.getSession();
       if (data.session) {
-        const retry = await meControllerGet({ throwOnError: true });
+        const retry = await meGet({ throwOnError: true });
         return retry.data;
       }
     }
@@ -49,7 +49,7 @@ export async function ensureMe(
   queryClient: QueryClient,
   returnTo?: string,
 ): Promise<MeResponse> {
-  const key = meControllerGetQueryKey();
+  const key = meGetQueryKey();
   const cached = queryClient.getQueryData<MeResponse>(key);
   if (cached) return cached;
   try {

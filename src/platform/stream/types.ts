@@ -9,6 +9,8 @@ export interface ChatSendRequest {
   modeKey: string;
   /** New UUID per press of Send; reused only to retry the same send after a network failure. */
   clientRequestId: string;
+  /** At most one uploaded image (§8.2); omitted for text-only messages. */
+  attachments?: { uploadId: string }[];
 }
 
 /**

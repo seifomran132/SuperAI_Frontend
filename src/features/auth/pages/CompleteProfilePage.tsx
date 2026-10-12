@@ -6,8 +6,8 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { isApiError } from '~/api/errors';
 import {
-  meControllerGetQueryKey,
-  meControllerUpdateMutation,
+  meGetQueryKey,
+  meUpdateMutation,
 } from '~/api/generated/@tanstack/react-query.gen';
 import { Button } from '~/components/ui/button';
 import {
@@ -37,7 +37,7 @@ export function CompleteProfilePage({ redirect }: { redirect?: string }) {
   const router = useRouter();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const update = useMutation(meControllerUpdateMutation());
+  const update = useMutation(meUpdateMutation());
   const [errorKey, setErrorKey] = useState<string | null>(null);
 
   const form = useForm<CompleteProfileValues>({
@@ -49,7 +49,7 @@ export function CompleteProfilePage({ redirect }: { redirect?: string }) {
     setErrorKey(null);
     try {
       const me = await update.mutateAsync({ body: toProfilePayload(values) });
-      queryClient.setQueryData(meControllerGetQueryKey(), me);
+      queryClient.setQueryData(meGetQueryKey(), me);
       router.history.push(safeRedirect(redirect));
     } catch (error) {
       const reason = unavailableReason(error);

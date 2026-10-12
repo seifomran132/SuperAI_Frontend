@@ -3,8 +3,8 @@
 import { type DefaultError, type InfiniteData, infiniteQueryOptions, queryOptions, type UseMutationOptions } from '@tanstack/react-query';
 
 import { client } from '../client.gen';
-import { adminChatSettingsControllerGet, adminChatSettingsControllerUpdate, adminLedgerControllerAdjust, adminLedgerControllerBalance, adminLedgerControllerEntries, adminLedgerControllerRecordPurchase, adminModelsControllerCreate, adminModelsControllerGet, adminModelsControllerList, adminModelsControllerPrices, adminModelsControllerSetPrice, adminModelsControllerTest, adminModelsControllerUpdate, adminModesControllerCreate, adminModesControllerGet, adminModesControllerList, adminModesControllerUpdate, adminPlansControllerCreate, adminPlansControllerGet, adminPlansControllerList, adminPlansControllerSetModes, adminPlansControllerUpdate, adminPricingSettingsControllerGet, adminPricingSettingsControllerUpdate, adminProvidersControllerCreate, adminProvidersControllerList, adminProvidersControllerRemoveApiKey, adminProvidersControllerSetApiKey, adminProvidersControllerUpdate, adminSubscriptionsControllerAssign, adminSubscriptionsControllerEnd, adminSubscriptionsControllerHistory, adminUsersControllerGet, adminUsersControllerList, adminUsersControllerSetAdminRole, adminUsersControllerSetStatus, conversationsControllerCreate, conversationsControllerGet, conversationsControllerList, conversationsControllerMessages, healthControllerLive, healthControllerReady, meBalanceControllerActivity, meBalanceControllerBalance, meControllerGet, meControllerUpdate, meSubscriptionControllerGet, modesControllerList, type Options, publicPlansControllerList } from '../sdk.gen';
-import type { AdminChatSettingsControllerGetData, AdminChatSettingsControllerGetError, AdminChatSettingsControllerGetResponse, AdminChatSettingsControllerUpdateData, AdminChatSettingsControllerUpdateError, AdminChatSettingsControllerUpdateResponse, AdminLedgerControllerAdjustData, AdminLedgerControllerAdjustError, AdminLedgerControllerAdjustResponse, AdminLedgerControllerBalanceData, AdminLedgerControllerBalanceError, AdminLedgerControllerBalanceResponse, AdminLedgerControllerEntriesData, AdminLedgerControllerEntriesError, AdminLedgerControllerEntriesResponse, AdminLedgerControllerRecordPurchaseData, AdminLedgerControllerRecordPurchaseError, AdminLedgerControllerRecordPurchaseResponse, AdminModelsControllerCreateData, AdminModelsControllerCreateError, AdminModelsControllerCreateResponse, AdminModelsControllerGetData, AdminModelsControllerGetError, AdminModelsControllerGetResponse, AdminModelsControllerListData, AdminModelsControllerListError, AdminModelsControllerListResponse, AdminModelsControllerPricesData, AdminModelsControllerPricesError, AdminModelsControllerPricesResponse, AdminModelsControllerSetPriceData, AdminModelsControllerSetPriceError, AdminModelsControllerSetPriceResponse, AdminModelsControllerTestData, AdminModelsControllerTestError, AdminModelsControllerTestResponse, AdminModelsControllerUpdateData, AdminModelsControllerUpdateError, AdminModelsControllerUpdateResponse, AdminModesControllerCreateData, AdminModesControllerCreateError, AdminModesControllerCreateResponse, AdminModesControllerGetData, AdminModesControllerGetError, AdminModesControllerGetResponse, AdminModesControllerListData, AdminModesControllerListError, AdminModesControllerListResponse, AdminModesControllerUpdateData, AdminModesControllerUpdateError, AdminModesControllerUpdateResponse, AdminPlansControllerCreateData, AdminPlansControllerCreateError, AdminPlansControllerCreateResponse, AdminPlansControllerGetData, AdminPlansControllerGetError, AdminPlansControllerGetResponse, AdminPlansControllerListData, AdminPlansControllerListError, AdminPlansControllerListResponse, AdminPlansControllerSetModesData, AdminPlansControllerSetModesError, AdminPlansControllerSetModesResponse, AdminPlansControllerUpdateData, AdminPlansControllerUpdateError, AdminPlansControllerUpdateResponse, AdminPricingSettingsControllerGetData, AdminPricingSettingsControllerGetError, AdminPricingSettingsControllerGetResponse, AdminPricingSettingsControllerUpdateData, AdminPricingSettingsControllerUpdateError, AdminPricingSettingsControllerUpdateResponse, AdminProvidersControllerCreateData, AdminProvidersControllerCreateError, AdminProvidersControllerCreateResponse, AdminProvidersControllerListData, AdminProvidersControllerListError, AdminProvidersControllerListResponse, AdminProvidersControllerRemoveApiKeyData, AdminProvidersControllerRemoveApiKeyError, AdminProvidersControllerRemoveApiKeyResponse, AdminProvidersControllerSetApiKeyData, AdminProvidersControllerSetApiKeyError, AdminProvidersControllerSetApiKeyResponse, AdminProvidersControllerUpdateData, AdminProvidersControllerUpdateError, AdminProvidersControllerUpdateResponse, AdminSubscriptionsControllerAssignData, AdminSubscriptionsControllerAssignError, AdminSubscriptionsControllerAssignResponse, AdminSubscriptionsControllerEndData, AdminSubscriptionsControllerEndError, AdminSubscriptionsControllerEndResponse, AdminSubscriptionsControllerHistoryData, AdminSubscriptionsControllerHistoryError, AdminSubscriptionsControllerHistoryResponse, AdminUsersControllerGetData, AdminUsersControllerGetError, AdminUsersControllerGetResponse, AdminUsersControllerListData, AdminUsersControllerListError, AdminUsersControllerListResponse, AdminUsersControllerSetAdminRoleData, AdminUsersControllerSetAdminRoleError, AdminUsersControllerSetAdminRoleResponse, AdminUsersControllerSetStatusData, AdminUsersControllerSetStatusError, AdminUsersControllerSetStatusResponse, ConversationsControllerCreateData, ConversationsControllerCreateError, ConversationsControllerCreateResponse, ConversationsControllerGetData, ConversationsControllerGetError, ConversationsControllerGetResponse, ConversationsControllerListData, ConversationsControllerListResponse, ConversationsControllerMessagesData, ConversationsControllerMessagesError, ConversationsControllerMessagesResponse, HealthControllerLiveData, HealthControllerReadyData, HealthControllerReadyError, HealthControllerReadyResponse, MeBalanceControllerActivityData, MeBalanceControllerActivityResponse, MeBalanceControllerBalanceData, MeBalanceControllerBalanceResponse, MeControllerGetData, MeControllerGetResponse, MeControllerUpdateData, MeControllerUpdateResponse, MeSubscriptionControllerGetData, MeSubscriptionControllerGetResponse, ModesControllerListData, ModesControllerListResponse, PublicPlansControllerListData, PublicPlansControllerListResponse } from '../types.gen';
+import { adminChatSettingsGet, adminChatSettingsUpdate, adminLedgerAdjust, adminLedgerBalance, adminLedgerEntries, adminLedgerRecordPurchase, adminModelsCreate, adminModelsGet, adminModelsList, adminModelsPrices, adminModelsSetPrice, adminModelsTest, adminModelsUpdate, adminModesCreate, adminModesGet, adminModesList, adminModesUpdate, adminPlansCreate, adminPlansGet, adminPlansList, adminPlansSetModes, adminPlansUpdate, adminPricingSettingsGet, adminPricingSettingsUpdate, adminProvidersCreate, adminProvidersList, adminProvidersRemoveApiKey, adminProvidersSetApiKey, adminProvidersUpdate, adminSubscriptionsAssign, adminSubscriptionsEnd, adminSubscriptionsHistory, adminUsersGet, adminUsersList, adminUsersSetAdminRole, adminUsersSetStatus, attachmentsDownload, attachmentsUpload, conversationsCreate, conversationsGet, conversationsList, conversationsMessages, conversationsRemove, conversationsRename, healthLive, healthReady, meBalanceActivity, meBalanceBalance, meGet, meSubscriptionGet, meUpdate, modesList, type Options, publicPlansList } from '../sdk.gen';
+import type { AdminChatSettingsGetData, AdminChatSettingsGetError, AdminChatSettingsGetResponse, AdminChatSettingsUpdateData, AdminChatSettingsUpdateError, AdminChatSettingsUpdateResponse, AdminLedgerAdjustData, AdminLedgerAdjustError, AdminLedgerAdjustResponse, AdminLedgerBalanceData, AdminLedgerBalanceError, AdminLedgerBalanceResponse, AdminLedgerEntriesData, AdminLedgerEntriesError, AdminLedgerEntriesResponse, AdminLedgerRecordPurchaseData, AdminLedgerRecordPurchaseError, AdminLedgerRecordPurchaseResponse, AdminModelsCreateData, AdminModelsCreateError, AdminModelsCreateResponse, AdminModelsGetData, AdminModelsGetError, AdminModelsGetResponse, AdminModelsListData, AdminModelsListError, AdminModelsListResponse, AdminModelsPricesData, AdminModelsPricesError, AdminModelsPricesResponse, AdminModelsSetPriceData, AdminModelsSetPriceError, AdminModelsSetPriceResponse, AdminModelsTestData, AdminModelsTestError, AdminModelsTestResponse, AdminModelsUpdateData, AdminModelsUpdateError, AdminModelsUpdateResponse, AdminModesCreateData, AdminModesCreateError, AdminModesCreateResponse, AdminModesGetData, AdminModesGetError, AdminModesGetResponse, AdminModesListData, AdminModesListError, AdminModesListResponse, AdminModesUpdateData, AdminModesUpdateError, AdminModesUpdateResponse, AdminPlansCreateData, AdminPlansCreateError, AdminPlansCreateResponse, AdminPlansGetData, AdminPlansGetError, AdminPlansGetResponse, AdminPlansListData, AdminPlansListError, AdminPlansListResponse, AdminPlansSetModesData, AdminPlansSetModesError, AdminPlansSetModesResponse, AdminPlansUpdateData, AdminPlansUpdateError, AdminPlansUpdateResponse, AdminPricingSettingsGetData, AdminPricingSettingsGetError, AdminPricingSettingsGetResponse, AdminPricingSettingsUpdateData, AdminPricingSettingsUpdateError, AdminPricingSettingsUpdateResponse, AdminProvidersCreateData, AdminProvidersCreateError, AdminProvidersCreateResponse, AdminProvidersListData, AdminProvidersListError, AdminProvidersListResponse, AdminProvidersRemoveApiKeyData, AdminProvidersRemoveApiKeyError, AdminProvidersRemoveApiKeyResponse, AdminProvidersSetApiKeyData, AdminProvidersSetApiKeyError, AdminProvidersSetApiKeyResponse, AdminProvidersUpdateData, AdminProvidersUpdateError, AdminProvidersUpdateResponse, AdminSubscriptionsAssignData, AdminSubscriptionsAssignError, AdminSubscriptionsAssignResponse, AdminSubscriptionsEndData, AdminSubscriptionsEndError, AdminSubscriptionsEndResponse, AdminSubscriptionsHistoryData, AdminSubscriptionsHistoryError, AdminSubscriptionsHistoryResponse, AdminUsersGetData, AdminUsersGetError, AdminUsersGetResponse, AdminUsersListData, AdminUsersListError, AdminUsersListResponse, AdminUsersSetAdminRoleData, AdminUsersSetAdminRoleError, AdminUsersSetAdminRoleResponse, AdminUsersSetStatusData, AdminUsersSetStatusError, AdminUsersSetStatusResponse, AttachmentsDownloadData, AttachmentsDownloadError, AttachmentsDownloadResponse, AttachmentsUploadData, AttachmentsUploadError, AttachmentsUploadResponse, ConversationsCreateData, ConversationsCreateError, ConversationsCreateResponse, ConversationsGetData, ConversationsGetError, ConversationsGetResponse, ConversationsListData, ConversationsListResponse, ConversationsMessagesData, ConversationsMessagesError, ConversationsMessagesResponse, ConversationsRemoveData, ConversationsRemoveError, ConversationsRemoveResponse, ConversationsRenameData, ConversationsRenameError, ConversationsRenameResponse, HealthLiveData, HealthReadyData, HealthReadyError, HealthReadyResponse, MeBalanceActivityData, MeBalanceActivityResponse, MeBalanceBalanceData, MeBalanceBalanceResponse, MeGetData, MeGetResponse, MeSubscriptionGetData, MeSubscriptionGetResponse, MeUpdateData, MeUpdateResponse, ModesListData, ModesListResponse, PublicPlansListData, PublicPlansListResponse } from '../types.gen';
 
 export type QueryKey<TOptions extends Options> = [
     Pick<TOptions, 'baseUrl' | 'body' | 'headers' | 'path' | 'query'> & {
@@ -39,11 +39,11 @@ const createQueryKey = <TOptions extends Options>(id: string, options?: TOptions
     return [params];
 };
 
-export const healthControllerLiveQueryKey = (options?: Options<HealthControllerLiveData>) => createQueryKey('healthControllerLive', options);
+export const healthLiveQueryKey = (options?: Options<HealthLiveData>) => createQueryKey('healthLive', options);
 
-export const healthControllerLiveOptions = (options?: Options<HealthControllerLiveData>) => queryOptions<unknown, DefaultError, unknown, ReturnType<typeof healthControllerLiveQueryKey>>({
+export const healthLiveOptions = (options?: Options<HealthLiveData>) => queryOptions<unknown, DefaultError, unknown, ReturnType<typeof healthLiveQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await healthControllerLive({
+        const { data } = await healthLive({
             ...options,
             ...queryKey[0],
             signal,
@@ -51,14 +51,14 @@ export const healthControllerLiveOptions = (options?: Options<HealthControllerLi
         });
         return data;
     },
-    queryKey: healthControllerLiveQueryKey(options)
+    queryKey: healthLiveQueryKey(options)
 });
 
-export const healthControllerReadyQueryKey = (options?: Options<HealthControllerReadyData>) => createQueryKey('healthControllerReady', options);
+export const healthReadyQueryKey = (options?: Options<HealthReadyData>) => createQueryKey('healthReady', options);
 
-export const healthControllerReadyOptions = (options?: Options<HealthControllerReadyData>) => queryOptions<HealthControllerReadyResponse, HealthControllerReadyError, HealthControllerReadyResponse, ReturnType<typeof healthControllerReadyQueryKey>>({
+export const healthReadyOptions = (options?: Options<HealthReadyData>) => queryOptions<HealthReadyResponse, HealthReadyError, HealthReadyResponse, ReturnType<typeof healthReadyQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await healthControllerReady({
+        const { data } = await healthReady({
             ...options,
             ...queryKey[0],
             signal,
@@ -66,17 +66,17 @@ export const healthControllerReadyOptions = (options?: Options<HealthControllerR
         });
         return data;
     },
-    queryKey: healthControllerReadyQueryKey(options)
+    queryKey: healthReadyQueryKey(options)
 });
 
-export const meControllerGetQueryKey = (options?: Options<MeControllerGetData>) => createQueryKey('meControllerGet', options);
+export const meGetQueryKey = (options?: Options<MeGetData>) => createQueryKey('meGet', options);
 
 /**
  * Get my profile
  */
-export const meControllerGetOptions = (options?: Options<MeControllerGetData>) => queryOptions<MeControllerGetResponse, DefaultError, MeControllerGetResponse, ReturnType<typeof meControllerGetQueryKey>>({
+export const meGetOptions = (options?: Options<MeGetData>) => queryOptions<MeGetResponse, DefaultError, MeGetResponse, ReturnType<typeof meGetQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await meControllerGet({
+        const { data } = await meGet({
             ...options,
             ...queryKey[0],
             signal,
@@ -84,16 +84,16 @@ export const meControllerGetOptions = (options?: Options<MeControllerGetData>) =
         });
         return data;
     },
-    queryKey: meControllerGetQueryKey(options)
+    queryKey: meGetQueryKey(options)
 });
 
 /**
  * Update my name or phone number
  */
-export const meControllerUpdateMutation = (options?: Partial<Options<MeControllerUpdateData>>): UseMutationOptions<MeControllerUpdateResponse, DefaultError, Options<MeControllerUpdateData>> => {
-    const mutationOptions: UseMutationOptions<MeControllerUpdateResponse, DefaultError, Options<MeControllerUpdateData>> = {
+export const meUpdateMutation = (options?: Partial<Options<MeUpdateData>>): UseMutationOptions<MeUpdateResponse, DefaultError, Options<MeUpdateData>> => {
+    const mutationOptions: UseMutationOptions<MeUpdateResponse, DefaultError, Options<MeUpdateData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await meControllerUpdate({
+            const { data } = await meUpdate({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -104,16 +104,16 @@ export const meControllerUpdateMutation = (options?: Partial<Options<MeControlle
     return mutationOptions;
 };
 
-export const meSubscriptionControllerGetQueryKey = (options?: Options<MeSubscriptionControllerGetData>) => createQueryKey('meSubscriptionControllerGet', options);
+export const meSubscriptionGetQueryKey = (options?: Options<MeSubscriptionGetData>) => createQueryKey('meSubscriptionGet', options);
 
 /**
  * My plan and subscription
  *
  * The plan in effect (the default plan when there is no subscription) and the modes it includes.
  */
-export const meSubscriptionControllerGetOptions = (options?: Options<MeSubscriptionControllerGetData>) => queryOptions<MeSubscriptionControllerGetResponse, DefaultError, MeSubscriptionControllerGetResponse, ReturnType<typeof meSubscriptionControllerGetQueryKey>>({
+export const meSubscriptionGetOptions = (options?: Options<MeSubscriptionGetData>) => queryOptions<MeSubscriptionGetResponse, DefaultError, MeSubscriptionGetResponse, ReturnType<typeof meSubscriptionGetQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await meSubscriptionControllerGet({
+        const { data } = await meSubscriptionGet({
             ...options,
             ...queryKey[0],
             signal,
@@ -121,19 +121,19 @@ export const meSubscriptionControllerGetOptions = (options?: Options<MeSubscript
         });
         return data;
     },
-    queryKey: meSubscriptionControllerGetQueryKey(options)
+    queryKey: meSubscriptionGetQueryKey(options)
 });
 
-export const publicPlansControllerListQueryKey = (options?: Options<PublicPlansControllerListData>) => createQueryKey('publicPlansControllerList', options);
+export const publicPlansListQueryKey = (options?: Options<PublicPlansListData>) => createQueryKey('publicPlansList', options);
 
 /**
  * Plans available to sign up for (no login needed)
  *
  * Active, public plans in display order with prices and their currently offered modes. Labels are returned in Arabic and English; the client picks.
  */
-export const publicPlansControllerListOptions = (options?: Options<PublicPlansControllerListData>) => queryOptions<PublicPlansControllerListResponse, DefaultError, PublicPlansControllerListResponse, ReturnType<typeof publicPlansControllerListQueryKey>>({
+export const publicPlansListOptions = (options?: Options<PublicPlansListData>) => queryOptions<PublicPlansListResponse, DefaultError, PublicPlansListResponse, ReturnType<typeof publicPlansListQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await publicPlansControllerList({
+        const { data } = await publicPlansList({
             ...options,
             ...queryKey[0],
             signal,
@@ -141,19 +141,19 @@ export const publicPlansControllerListOptions = (options?: Options<PublicPlansCo
         });
         return data;
     },
-    queryKey: publicPlansControllerListQueryKey(options)
+    queryKey: publicPlansListQueryKey(options)
 });
 
-export const modesControllerListQueryKey = (options?: Options<ModesControllerListData>) => createQueryKey('modesControllerList', options);
+export const modesListQueryKey = (options?: Options<ModesListData>) => createQueryKey('modesList', options);
 
 /**
  * Modes the user can choose, with prices
  *
  * Only modes included in the user's plan that can serve requests right now, in display order. Prices are USD per 1M tokens with the margin included. Labels are returned in Arabic and English; the client picks.
  */
-export const modesControllerListOptions = (options?: Options<ModesControllerListData>) => queryOptions<ModesControllerListResponse, DefaultError, ModesControllerListResponse, ReturnType<typeof modesControllerListQueryKey>>({
+export const modesListOptions = (options?: Options<ModesListData>) => queryOptions<ModesListResponse, DefaultError, ModesListResponse, ReturnType<typeof modesListQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await modesControllerList({
+        const { data } = await modesList({
             ...options,
             ...queryKey[0],
             signal,
@@ -161,19 +161,19 @@ export const modesControllerListOptions = (options?: Options<ModesControllerList
         });
         return data;
     },
-    queryKey: modesControllerListQueryKey(options)
+    queryKey: modesListQueryKey(options)
 });
 
-export const meBalanceControllerBalanceQueryKey = (options?: Options<MeBalanceControllerBalanceData>) => createQueryKey('meBalanceControllerBalance', options);
+export const meBalanceBalanceQueryKey = (options?: Options<MeBalanceBalanceData>) => createQueryKey('meBalanceBalance', options);
 
 /**
  * My shared USD balance
  *
  * Balance exists only while a plan is active: it reads 0 once the plan has ended (it expires with the plan).
  */
-export const meBalanceControllerBalanceOptions = (options?: Options<MeBalanceControllerBalanceData>) => queryOptions<MeBalanceControllerBalanceResponse, DefaultError, MeBalanceControllerBalanceResponse, ReturnType<typeof meBalanceControllerBalanceQueryKey>>({
+export const meBalanceBalanceOptions = (options?: Options<MeBalanceBalanceData>) => queryOptions<MeBalanceBalanceResponse, DefaultError, MeBalanceBalanceResponse, ReturnType<typeof meBalanceBalanceQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await meBalanceControllerBalance({
+        const { data } = await meBalanceBalance({
             ...options,
             ...queryKey[0],
             signal,
@@ -181,19 +181,19 @@ export const meBalanceControllerBalanceOptions = (options?: Options<MeBalanceCon
         });
         return data;
     },
-    queryKey: meBalanceControllerBalanceQueryKey(options)
+    queryKey: meBalanceBalanceQueryKey(options)
 });
 
-export const meBalanceControllerActivityQueryKey = (options?: Options<MeBalanceControllerActivityData>) => createQueryKey('meBalanceControllerActivity', options);
+export const meBalanceActivityQueryKey = (options?: Options<MeBalanceActivityData>) => createQueryKey('meBalanceActivity', options);
 
 /**
  * My balance activity, newest first
  *
  * Credits, charges and adjustments. Page with `before` = `nextBefore` of the previous page.
  */
-export const meBalanceControllerActivityOptions = (options?: Options<MeBalanceControllerActivityData>) => queryOptions<MeBalanceControllerActivityResponse, DefaultError, MeBalanceControllerActivityResponse, ReturnType<typeof meBalanceControllerActivityQueryKey>>({
+export const meBalanceActivityOptions = (options?: Options<MeBalanceActivityData>) => queryOptions<MeBalanceActivityResponse, DefaultError, MeBalanceActivityResponse, ReturnType<typeof meBalanceActivityQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await meBalanceControllerActivity({
+        const { data } = await meBalanceActivity({
             ...options,
             ...queryKey[0],
             signal,
@@ -201,7 +201,7 @@ export const meBalanceControllerActivityOptions = (options?: Options<MeBalanceCo
         });
         return data;
     },
-    queryKey: meBalanceControllerActivityQueryKey(options)
+    queryKey: meBalanceActivityQueryKey(options)
 });
 
 const createInfiniteParams = <K extends Pick<QueryKey<Options>[0], 'body' | 'headers' | 'path' | 'query'>>(queryKey: QueryKey<Options>, page: K) => {
@@ -233,26 +233,26 @@ const createInfiniteParams = <K extends Pick<QueryKey<Options>[0], 'body' | 'hea
     return params as unknown as typeof page;
 };
 
-export const meBalanceControllerActivityInfiniteQueryKey = (options?: Options<MeBalanceControllerActivityData>): QueryKey<Options<MeBalanceControllerActivityData>> => createQueryKey('meBalanceControllerActivity', options, true);
+export const meBalanceActivityInfiniteQueryKey = (options?: Options<MeBalanceActivityData>): QueryKey<Options<MeBalanceActivityData>> => createQueryKey('meBalanceActivity', options, true);
 
 /**
  * My balance activity, newest first
  *
  * Credits, charges and adjustments. Page with `before` = `nextBefore` of the previous page.
  */
-export const meBalanceControllerActivityInfiniteOptions = (options?: Options<MeBalanceControllerActivityData>) => {
-    const opts = infiniteQueryOptions<MeBalanceControllerActivityResponse, DefaultError, InfiniteData<MeBalanceControllerActivityResponse>, QueryKey<Options<MeBalanceControllerActivityData>>, number | Pick<QueryKey<Options<MeBalanceControllerActivityData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
+export const meBalanceActivityInfiniteOptions = (options?: Options<MeBalanceActivityData>) => {
+    const opts = infiniteQueryOptions<MeBalanceActivityResponse, DefaultError, InfiniteData<MeBalanceActivityResponse>, QueryKey<Options<MeBalanceActivityData>>, number | Pick<QueryKey<Options<MeBalanceActivityData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
     // @ts-ignore
     {
         queryFn: async ({ pageParam, queryKey, signal }) => {
             // @ts-ignore
-            const page: Pick<QueryKey<Options<MeBalanceControllerActivityData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
+            const page: Pick<QueryKey<Options<MeBalanceActivityData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
                 query: {
                     before: pageParam
                 }
             };
             const params = createInfiniteParams(queryKey, page);
-            const { data } = await meBalanceControllerActivity({
+            const { data } = await meBalanceActivity({
                 ...options,
                 ...params,
                 signal,
@@ -260,70 +260,20 @@ export const meBalanceControllerActivityInfiniteOptions = (options?: Options<MeB
             });
             return data;
         },
-        queryKey: meBalanceControllerActivityInfiniteQueryKey(options)
-    });
-    return opts as Omit<typeof opts, 'initialData'>;
-};
-
-export const conversationsControllerListQueryKey = (options?: Options<ConversationsControllerListData>) => createQueryKey('conversationsControllerList', options);
-
-/**
- * My conversations, most recent activity first
- *
- * Page with `cursor` = `nextCursor` of the previous page.
- */
-export const conversationsControllerListOptions = (options?: Options<ConversationsControllerListData>) => queryOptions<ConversationsControllerListResponse, DefaultError, ConversationsControllerListResponse, ReturnType<typeof conversationsControllerListQueryKey>>({
-    queryFn: async ({ queryKey, signal }) => {
-        const { data } = await conversationsControllerList({
-            ...options,
-            ...queryKey[0],
-            signal,
-            throwOnError: true
-        });
-        return data;
-    },
-    queryKey: conversationsControllerListQueryKey(options)
-});
-
-export const conversationsControllerListInfiniteQueryKey = (options?: Options<ConversationsControllerListData>): QueryKey<Options<ConversationsControllerListData>> => createQueryKey('conversationsControllerList', options, true);
-
-/**
- * My conversations, most recent activity first
- *
- * Page with `cursor` = `nextCursor` of the previous page.
- */
-export const conversationsControllerListInfiniteOptions = (options?: Options<ConversationsControllerListData>) => {
-    const opts = infiniteQueryOptions<ConversationsControllerListResponse, DefaultError, InfiniteData<ConversationsControllerListResponse>, QueryKey<Options<ConversationsControllerListData>>, string | Pick<QueryKey<Options<ConversationsControllerListData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
-    // @ts-ignore
-    {
-        queryFn: async ({ pageParam, queryKey, signal }) => {
-            // @ts-ignore
-            const page: Pick<QueryKey<Options<ConversationsControllerListData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
-                query: {
-                    cursor: pageParam
-                }
-            };
-            const params = createInfiniteParams(queryKey, page);
-            const { data } = await conversationsControllerList({
-                ...options,
-                ...params,
-                signal,
-                throwOnError: true
-            });
-            return data;
-        },
-        queryKey: conversationsControllerListInfiniteQueryKey(options)
+        queryKey: meBalanceActivityInfiniteQueryKey(options)
     });
     return opts as Omit<typeof opts, 'initialData'>;
 };
 
 /**
- * Start a conversation
+ * Upload an image to attach to a message
+ *
+ * Multipart form with one field `file` (JPEG, PNG or WebP, at most 5 MB). The server removes metadata, rotates, scales down and re-encodes as WebP; the response describes the stored image. Send its `id` as `attachments[].uploadId` within 24 hours. Shares the chat rate limit. See docs/API_CONTRACT.md §8.1.
  */
-export const conversationsControllerCreateMutation = (options?: Partial<Options<ConversationsControllerCreateData>>): UseMutationOptions<ConversationsControllerCreateResponse, ConversationsControllerCreateError, Options<ConversationsControllerCreateData>> => {
-    const mutationOptions: UseMutationOptions<ConversationsControllerCreateResponse, ConversationsControllerCreateError, Options<ConversationsControllerCreateData>> = {
+export const attachmentsUploadMutation = (options?: Partial<Options<AttachmentsUploadData>>): UseMutationOptions<AttachmentsUploadResponse, AttachmentsUploadError, Options<AttachmentsUploadData>> => {
+    const mutationOptions: UseMutationOptions<AttachmentsUploadResponse, AttachmentsUploadError, Options<AttachmentsUploadData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await conversationsControllerCreate({
+            const { data } = await attachmentsUpload({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -334,14 +284,16 @@ export const conversationsControllerCreateMutation = (options?: Partial<Options<
     return mutationOptions;
 };
 
-export const conversationsControllerGetQueryKey = (options: Options<ConversationsControllerGetData>) => createQueryKey('conversationsControllerGet', options);
+export const attachmentsDownloadQueryKey = (options: Options<AttachmentsDownloadData>) => createQueryKey('attachmentsDownload', options);
 
 /**
- * A conversation
+ * Download an image of yours
+ *
+ * The processed image bytes (image/webp), only for their owner. Use your bearer token and show it as a blob: URL. Another user's image, an expired upload and one deleted with its conversation are all 404.
  */
-export const conversationsControllerGetOptions = (options: Options<ConversationsControllerGetData>) => queryOptions<ConversationsControllerGetResponse, ConversationsControllerGetError, ConversationsControllerGetResponse, ReturnType<typeof conversationsControllerGetQueryKey>>({
+export const attachmentsDownloadOptions = (options: Options<AttachmentsDownloadData>) => queryOptions<AttachmentsDownloadResponse, AttachmentsDownloadError, AttachmentsDownloadResponse, ReturnType<typeof attachmentsDownloadQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await conversationsControllerGet({
+        const { data } = await attachmentsDownload({
             ...options,
             ...queryKey[0],
             signal,
@@ -349,19 +301,19 @@ export const conversationsControllerGetOptions = (options: Options<Conversations
         });
         return data;
     },
-    queryKey: conversationsControllerGetQueryKey(options)
+    queryKey: attachmentsDownloadQueryKey(options)
 });
 
-export const conversationsControllerMessagesQueryKey = (options: Options<ConversationsControllerMessagesData>) => createQueryKey('conversationsControllerMessages', options);
+export const conversationsListQueryKey = (options?: Options<ConversationsListData>) => createQueryKey('conversationsList', options);
 
 /**
- * Messages of a conversation, newest first
+ * My conversations, most recent activity first
  *
- * Page with `before` = `nextBefore` of the previous page.
+ * Page with `cursor` = `nextCursor` of the previous page.
  */
-export const conversationsControllerMessagesOptions = (options: Options<ConversationsControllerMessagesData>) => queryOptions<ConversationsControllerMessagesResponse, ConversationsControllerMessagesError, ConversationsControllerMessagesResponse, ReturnType<typeof conversationsControllerMessagesQueryKey>>({
+export const conversationsListOptions = (options?: Options<ConversationsListData>) => queryOptions<ConversationsListResponse, DefaultError, ConversationsListResponse, ReturnType<typeof conversationsListQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await conversationsControllerMessages({
+        const { data } = await conversationsList({
             ...options,
             ...queryKey[0],
             signal,
@@ -369,29 +321,152 @@ export const conversationsControllerMessagesOptions = (options: Options<Conversa
         });
         return data;
     },
-    queryKey: conversationsControllerMessagesQueryKey(options)
+    queryKey: conversationsListQueryKey(options)
 });
 
-export const conversationsControllerMessagesInfiniteQueryKey = (options: Options<ConversationsControllerMessagesData>): QueryKey<Options<ConversationsControllerMessagesData>> => createQueryKey('conversationsControllerMessages', options, true);
+export const conversationsListInfiniteQueryKey = (options?: Options<ConversationsListData>): QueryKey<Options<ConversationsListData>> => createQueryKey('conversationsList', options, true);
 
 /**
- * Messages of a conversation, newest first
+ * My conversations, most recent activity first
  *
- * Page with `before` = `nextBefore` of the previous page.
+ * Page with `cursor` = `nextCursor` of the previous page.
  */
-export const conversationsControllerMessagesInfiniteOptions = (options: Options<ConversationsControllerMessagesData>) => {
-    const opts = infiniteQueryOptions<ConversationsControllerMessagesResponse, ConversationsControllerMessagesError, InfiniteData<ConversationsControllerMessagesResponse>, QueryKey<Options<ConversationsControllerMessagesData>>, number | Pick<QueryKey<Options<ConversationsControllerMessagesData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
+export const conversationsListInfiniteOptions = (options?: Options<ConversationsListData>) => {
+    const opts = infiniteQueryOptions<ConversationsListResponse, DefaultError, InfiniteData<ConversationsListResponse>, QueryKey<Options<ConversationsListData>>, string | Pick<QueryKey<Options<ConversationsListData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
     // @ts-ignore
     {
         queryFn: async ({ pageParam, queryKey, signal }) => {
             // @ts-ignore
-            const page: Pick<QueryKey<Options<ConversationsControllerMessagesData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
+            const page: Pick<QueryKey<Options<ConversationsListData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
+                query: {
+                    cursor: pageParam
+                }
+            };
+            const params = createInfiniteParams(queryKey, page);
+            const { data } = await conversationsList({
+                ...options,
+                ...params,
+                signal,
+                throwOnError: true
+            });
+            return data;
+        },
+        queryKey: conversationsListInfiniteQueryKey(options)
+    });
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
+/**
+ * Start a conversation
+ */
+export const conversationsCreateMutation = (options?: Partial<Options<ConversationsCreateData>>): UseMutationOptions<ConversationsCreateResponse, ConversationsCreateError, Options<ConversationsCreateData>> => {
+    const mutationOptions: UseMutationOptions<ConversationsCreateResponse, ConversationsCreateError, Options<ConversationsCreateData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await conversationsCreate({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Delete a conversation
+ *
+ * The conversation and its messages disappear from every endpoint. Charges already made stay in the balance activity.
+ */
+export const conversationsRemoveMutation = (options?: Partial<Options<ConversationsRemoveData>>): UseMutationOptions<ConversationsRemoveResponse, ConversationsRemoveError, Options<ConversationsRemoveData>> => {
+    const mutationOptions: UseMutationOptions<ConversationsRemoveResponse, ConversationsRemoveError, Options<ConversationsRemoveData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await conversationsRemove({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const conversationsGetQueryKey = (options: Options<ConversationsGetData>) => createQueryKey('conversationsGet', options);
+
+/**
+ * A conversation
+ */
+export const conversationsGetOptions = (options: Options<ConversationsGetData>) => queryOptions<ConversationsGetResponse, ConversationsGetError, ConversationsGetResponse, ReturnType<typeof conversationsGetQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await conversationsGet({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: conversationsGetQueryKey(options)
+});
+
+/**
+ * Rename a conversation
+ */
+export const conversationsRenameMutation = (options?: Partial<Options<ConversationsRenameData>>): UseMutationOptions<ConversationsRenameResponse, ConversationsRenameError, Options<ConversationsRenameData>> => {
+    const mutationOptions: UseMutationOptions<ConversationsRenameResponse, ConversationsRenameError, Options<ConversationsRenameData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await conversationsRename({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const conversationsMessagesQueryKey = (options: Options<ConversationsMessagesData>) => createQueryKey('conversationsMessages', options);
+
+/**
+ * Messages of a conversation, newest first
+ *
+ * Page with `before` = `nextBefore` of the previous page.
+ */
+export const conversationsMessagesOptions = (options: Options<ConversationsMessagesData>) => queryOptions<ConversationsMessagesResponse, ConversationsMessagesError, ConversationsMessagesResponse, ReturnType<typeof conversationsMessagesQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await conversationsMessages({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: conversationsMessagesQueryKey(options)
+});
+
+export const conversationsMessagesInfiniteQueryKey = (options: Options<ConversationsMessagesData>): QueryKey<Options<ConversationsMessagesData>> => createQueryKey('conversationsMessages', options, true);
+
+/**
+ * Messages of a conversation, newest first
+ *
+ * Page with `before` = `nextBefore` of the previous page.
+ */
+export const conversationsMessagesInfiniteOptions = (options: Options<ConversationsMessagesData>) => {
+    const opts = infiniteQueryOptions<ConversationsMessagesResponse, ConversationsMessagesError, InfiniteData<ConversationsMessagesResponse>, QueryKey<Options<ConversationsMessagesData>>, number | Pick<QueryKey<Options<ConversationsMessagesData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
+    // @ts-ignore
+    {
+        queryFn: async ({ pageParam, queryKey, signal }) => {
+            // @ts-ignore
+            const page: Pick<QueryKey<Options<ConversationsMessagesData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
                 query: {
                     before: pageParam
                 }
             };
             const params = createInfiniteParams(queryKey, page);
-            const { data } = await conversationsControllerMessages({
+            const { data } = await conversationsMessages({
                 ...options,
                 ...params,
                 signal,
@@ -399,19 +474,19 @@ export const conversationsControllerMessagesInfiniteOptions = (options: Options<
             });
             return data;
         },
-        queryKey: conversationsControllerMessagesInfiniteQueryKey(options)
+        queryKey: conversationsMessagesInfiniteQueryKey(options)
     });
     return opts as Omit<typeof opts, 'initialData'>;
 };
 
-export const adminUsersControllerListQueryKey = (options?: Options<AdminUsersControllerListData>) => createQueryKey('adminUsersControllerList', options);
+export const adminUsersListQueryKey = (options?: Options<AdminUsersListData>) => createQueryKey('adminUsersList', options);
 
 /**
  * Search and page through users (newest first)
  */
-export const adminUsersControllerListOptions = (options?: Options<AdminUsersControllerListData>) => queryOptions<AdminUsersControllerListResponse, AdminUsersControllerListError, AdminUsersControllerListResponse, ReturnType<typeof adminUsersControllerListQueryKey>>({
+export const adminUsersListOptions = (options?: Options<AdminUsersListData>) => queryOptions<AdminUsersListResponse, AdminUsersListError, AdminUsersListResponse, ReturnType<typeof adminUsersListQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await adminUsersControllerList({
+        const { data } = await adminUsersList({
             ...options,
             ...queryKey[0],
             signal,
@@ -419,27 +494,27 @@ export const adminUsersControllerListOptions = (options?: Options<AdminUsersCont
         });
         return data;
     },
-    queryKey: adminUsersControllerListQueryKey(options)
+    queryKey: adminUsersListQueryKey(options)
 });
 
-export const adminUsersControllerListInfiniteQueryKey = (options?: Options<AdminUsersControllerListData>): QueryKey<Options<AdminUsersControllerListData>> => createQueryKey('adminUsersControllerList', options, true);
+export const adminUsersListInfiniteQueryKey = (options?: Options<AdminUsersListData>): QueryKey<Options<AdminUsersListData>> => createQueryKey('adminUsersList', options, true);
 
 /**
  * Search and page through users (newest first)
  */
-export const adminUsersControllerListInfiniteOptions = (options?: Options<AdminUsersControllerListData>) => {
-    const opts = infiniteQueryOptions<AdminUsersControllerListResponse, AdminUsersControllerListError, InfiniteData<AdminUsersControllerListResponse>, QueryKey<Options<AdminUsersControllerListData>>, number | Pick<QueryKey<Options<AdminUsersControllerListData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
+export const adminUsersListInfiniteOptions = (options?: Options<AdminUsersListData>) => {
+    const opts = infiniteQueryOptions<AdminUsersListResponse, AdminUsersListError, InfiniteData<AdminUsersListResponse>, QueryKey<Options<AdminUsersListData>>, number | Pick<QueryKey<Options<AdminUsersListData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
     // @ts-ignore
     {
         queryFn: async ({ pageParam, queryKey, signal }) => {
             // @ts-ignore
-            const page: Pick<QueryKey<Options<AdminUsersControllerListData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
+            const page: Pick<QueryKey<Options<AdminUsersListData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
                 query: {
                     page: pageParam
                 }
             };
             const params = createInfiniteParams(queryKey, page);
-            const { data } = await adminUsersControllerList({
+            const { data } = await adminUsersList({
                 ...options,
                 ...params,
                 signal,
@@ -447,19 +522,19 @@ export const adminUsersControllerListInfiniteOptions = (options?: Options<AdminU
             });
             return data;
         },
-        queryKey: adminUsersControllerListInfiniteQueryKey(options)
+        queryKey: adminUsersListInfiniteQueryKey(options)
     });
     return opts as Omit<typeof opts, 'initialData'>;
 };
 
-export const adminUsersControllerGetQueryKey = (options: Options<AdminUsersControllerGetData>) => createQueryKey('adminUsersControllerGet', options);
+export const adminUsersGetQueryKey = (options: Options<AdminUsersGetData>) => createQueryKey('adminUsersGet', options);
 
 /**
  * Get one user
  */
-export const adminUsersControllerGetOptions = (options: Options<AdminUsersControllerGetData>) => queryOptions<AdminUsersControllerGetResponse, AdminUsersControllerGetError, AdminUsersControllerGetResponse, ReturnType<typeof adminUsersControllerGetQueryKey>>({
+export const adminUsersGetOptions = (options: Options<AdminUsersGetData>) => queryOptions<AdminUsersGetResponse, AdminUsersGetError, AdminUsersGetResponse, ReturnType<typeof adminUsersGetQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await adminUsersControllerGet({
+        const { data } = await adminUsersGet({
             ...options,
             ...queryKey[0],
             signal,
@@ -467,7 +542,7 @@ export const adminUsersControllerGetOptions = (options: Options<AdminUsersContro
         });
         return data;
     },
-    queryKey: adminUsersControllerGetQueryKey(options)
+    queryKey: adminUsersGetQueryKey(options)
 });
 
 /**
@@ -475,10 +550,10 @@ export const adminUsersControllerGetOptions = (options: Options<AdminUsersContro
  *
  * Suspension blocks the user immediately, even with a still-valid token. Audited.
  */
-export const adminUsersControllerSetStatusMutation = (options?: Partial<Options<AdminUsersControllerSetStatusData>>): UseMutationOptions<AdminUsersControllerSetStatusResponse, AdminUsersControllerSetStatusError, Options<AdminUsersControllerSetStatusData>> => {
-    const mutationOptions: UseMutationOptions<AdminUsersControllerSetStatusResponse, AdminUsersControllerSetStatusError, Options<AdminUsersControllerSetStatusData>> = {
+export const adminUsersSetStatusMutation = (options?: Partial<Options<AdminUsersSetStatusData>>): UseMutationOptions<AdminUsersSetStatusResponse, AdminUsersSetStatusError, Options<AdminUsersSetStatusData>> => {
+    const mutationOptions: UseMutationOptions<AdminUsersSetStatusResponse, AdminUsersSetStatusError, Options<AdminUsersSetStatusData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await adminUsersControllerSetStatus({
+            const { data } = await adminUsersSetStatus({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -494,10 +569,10 @@ export const adminUsersControllerSetStatusMutation = (options?: Partial<Options<
  *
  * Audited.
  */
-export const adminUsersControllerSetAdminRoleMutation = (options?: Partial<Options<AdminUsersControllerSetAdminRoleData>>): UseMutationOptions<AdminUsersControllerSetAdminRoleResponse, AdminUsersControllerSetAdminRoleError, Options<AdminUsersControllerSetAdminRoleData>> => {
-    const mutationOptions: UseMutationOptions<AdminUsersControllerSetAdminRoleResponse, AdminUsersControllerSetAdminRoleError, Options<AdminUsersControllerSetAdminRoleData>> = {
+export const adminUsersSetAdminRoleMutation = (options?: Partial<Options<AdminUsersSetAdminRoleData>>): UseMutationOptions<AdminUsersSetAdminRoleResponse, AdminUsersSetAdminRoleError, Options<AdminUsersSetAdminRoleData>> => {
+    const mutationOptions: UseMutationOptions<AdminUsersSetAdminRoleResponse, AdminUsersSetAdminRoleError, Options<AdminUsersSetAdminRoleData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await adminUsersControllerSetAdminRole({
+            const { data } = await adminUsersSetAdminRole({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -508,16 +583,16 @@ export const adminUsersControllerSetAdminRoleMutation = (options?: Partial<Optio
     return mutationOptions;
 };
 
-export const adminProvidersControllerListQueryKey = (options?: Options<AdminProvidersControllerListData>) => createQueryKey('adminProvidersControllerList', options);
+export const adminProvidersListQueryKey = (options?: Options<AdminProvidersListData>) => createQueryKey('adminProvidersList', options);
 
 /**
  * List AI providers
  *
  * API keys are never returned: only whether one is set and its last four characters.
  */
-export const adminProvidersControllerListOptions = (options?: Options<AdminProvidersControllerListData>) => queryOptions<AdminProvidersControllerListResponse, AdminProvidersControllerListError, AdminProvidersControllerListResponse, ReturnType<typeof adminProvidersControllerListQueryKey>>({
+export const adminProvidersListOptions = (options?: Options<AdminProvidersListData>) => queryOptions<AdminProvidersListResponse, AdminProvidersListError, AdminProvidersListResponse, ReturnType<typeof adminProvidersListQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await adminProvidersControllerList({
+        const { data } = await adminProvidersList({
             ...options,
             ...queryKey[0],
             signal,
@@ -525,7 +600,7 @@ export const adminProvidersControllerListOptions = (options?: Options<AdminProvi
         });
         return data;
     },
-    queryKey: adminProvidersControllerListQueryKey(options)
+    queryKey: adminProvidersListQueryKey(options)
 });
 
 /**
@@ -533,10 +608,10 @@ export const adminProvidersControllerListOptions = (options?: Options<AdminProvi
  *
  * For providers that speak the OpenAI API at their own base URL. Google, Anthropic, OpenAI and DeepSeek are built in. Set its API key next.
  */
-export const adminProvidersControllerCreateMutation = (options?: Partial<Options<AdminProvidersControllerCreateData>>): UseMutationOptions<AdminProvidersControllerCreateResponse, AdminProvidersControllerCreateError, Options<AdminProvidersControllerCreateData>> => {
-    const mutationOptions: UseMutationOptions<AdminProvidersControllerCreateResponse, AdminProvidersControllerCreateError, Options<AdminProvidersControllerCreateData>> = {
+export const adminProvidersCreateMutation = (options?: Partial<Options<AdminProvidersCreateData>>): UseMutationOptions<AdminProvidersCreateResponse, AdminProvidersCreateError, Options<AdminProvidersCreateData>> => {
+    const mutationOptions: UseMutationOptions<AdminProvidersCreateResponse, AdminProvidersCreateError, Options<AdminProvidersCreateData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await adminProvidersControllerCreate({
+            const { data } = await adminProvidersCreate({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -550,10 +625,10 @@ export const adminProvidersControllerCreateMutation = (options?: Partial<Options
 /**
  * Rename, enable/disable, or change the base URL (audited)
  */
-export const adminProvidersControllerUpdateMutation = (options?: Partial<Options<AdminProvidersControllerUpdateData>>): UseMutationOptions<AdminProvidersControllerUpdateResponse, AdminProvidersControllerUpdateError, Options<AdminProvidersControllerUpdateData>> => {
-    const mutationOptions: UseMutationOptions<AdminProvidersControllerUpdateResponse, AdminProvidersControllerUpdateError, Options<AdminProvidersControllerUpdateData>> = {
+export const adminProvidersUpdateMutation = (options?: Partial<Options<AdminProvidersUpdateData>>): UseMutationOptions<AdminProvidersUpdateResponse, AdminProvidersUpdateError, Options<AdminProvidersUpdateData>> => {
+    const mutationOptions: UseMutationOptions<AdminProvidersUpdateResponse, AdminProvidersUpdateError, Options<AdminProvidersUpdateData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await adminProvidersControllerUpdate({
+            const { data } = await adminProvidersUpdate({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -569,10 +644,10 @@ export const adminProvidersControllerUpdateMutation = (options?: Partial<Options
  *
  * Refused while an enabled mode uses one of its models.
  */
-export const adminProvidersControllerRemoveApiKeyMutation = (options?: Partial<Options<AdminProvidersControllerRemoveApiKeyData>>): UseMutationOptions<AdminProvidersControllerRemoveApiKeyResponse, AdminProvidersControllerRemoveApiKeyError, Options<AdminProvidersControllerRemoveApiKeyData>> => {
-    const mutationOptions: UseMutationOptions<AdminProvidersControllerRemoveApiKeyResponse, AdminProvidersControllerRemoveApiKeyError, Options<AdminProvidersControllerRemoveApiKeyData>> = {
+export const adminProvidersRemoveApiKeyMutation = (options?: Partial<Options<AdminProvidersRemoveApiKeyData>>): UseMutationOptions<AdminProvidersRemoveApiKeyResponse, AdminProvidersRemoveApiKeyError, Options<AdminProvidersRemoveApiKeyData>> => {
+    const mutationOptions: UseMutationOptions<AdminProvidersRemoveApiKeyResponse, AdminProvidersRemoveApiKeyError, Options<AdminProvidersRemoveApiKeyData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await adminProvidersControllerRemoveApiKey({
+            const { data } = await adminProvidersRemoveApiKey({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -588,10 +663,10 @@ export const adminProvidersControllerRemoveApiKeyMutation = (options?: Partial<O
  *
  * The key is checked with a free call to the provider (list models) before it is saved encrypted.
  */
-export const adminProvidersControllerSetApiKeyMutation = (options?: Partial<Options<AdminProvidersControllerSetApiKeyData>>): UseMutationOptions<AdminProvidersControllerSetApiKeyResponse, AdminProvidersControllerSetApiKeyError, Options<AdminProvidersControllerSetApiKeyData>> => {
-    const mutationOptions: UseMutationOptions<AdminProvidersControllerSetApiKeyResponse, AdminProvidersControllerSetApiKeyError, Options<AdminProvidersControllerSetApiKeyData>> = {
+export const adminProvidersSetApiKeyMutation = (options?: Partial<Options<AdminProvidersSetApiKeyData>>): UseMutationOptions<AdminProvidersSetApiKeyResponse, AdminProvidersSetApiKeyError, Options<AdminProvidersSetApiKeyData>> => {
+    const mutationOptions: UseMutationOptions<AdminProvidersSetApiKeyResponse, AdminProvidersSetApiKeyError, Options<AdminProvidersSetApiKeyData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await adminProvidersControllerSetApiKey({
+            const { data } = await adminProvidersSetApiKey({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -602,14 +677,14 @@ export const adminProvidersControllerSetApiKeyMutation = (options?: Partial<Opti
     return mutationOptions;
 };
 
-export const adminModelsControllerListQueryKey = (options?: Options<AdminModelsControllerListData>) => createQueryKey('adminModelsControllerList', options);
+export const adminModelsListQueryKey = (options?: Options<AdminModelsListData>) => createQueryKey('adminModelsList', options);
 
 /**
  * List models with their current price
  */
-export const adminModelsControllerListOptions = (options?: Options<AdminModelsControllerListData>) => queryOptions<AdminModelsControllerListResponse, AdminModelsControllerListError, AdminModelsControllerListResponse, ReturnType<typeof adminModelsControllerListQueryKey>>({
+export const adminModelsListOptions = (options?: Options<AdminModelsListData>) => queryOptions<AdminModelsListResponse, AdminModelsListError, AdminModelsListResponse, ReturnType<typeof adminModelsListQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await adminModelsControllerList({
+        const { data } = await adminModelsList({
             ...options,
             ...queryKey[0],
             signal,
@@ -617,7 +692,7 @@ export const adminModelsControllerListOptions = (options?: Options<AdminModelsCo
         });
         return data;
     },
-    queryKey: adminModelsControllerListQueryKey(options)
+    queryKey: adminModelsListQueryKey(options)
 });
 
 /**
@@ -625,10 +700,10 @@ export const adminModelsControllerListOptions = (options?: Options<AdminModelsCo
  *
  * Set a price before assigning it to a mode.
  */
-export const adminModelsControllerCreateMutation = (options?: Partial<Options<AdminModelsControllerCreateData>>): UseMutationOptions<AdminModelsControllerCreateResponse, AdminModelsControllerCreateError, Options<AdminModelsControllerCreateData>> => {
-    const mutationOptions: UseMutationOptions<AdminModelsControllerCreateResponse, AdminModelsControllerCreateError, Options<AdminModelsControllerCreateData>> = {
+export const adminModelsCreateMutation = (options?: Partial<Options<AdminModelsCreateData>>): UseMutationOptions<AdminModelsCreateResponse, AdminModelsCreateError, Options<AdminModelsCreateData>> => {
+    const mutationOptions: UseMutationOptions<AdminModelsCreateResponse, AdminModelsCreateError, Options<AdminModelsCreateData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await adminModelsControllerCreate({
+            const { data } = await adminModelsCreate({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -639,14 +714,14 @@ export const adminModelsControllerCreateMutation = (options?: Partial<Options<Ad
     return mutationOptions;
 };
 
-export const adminModelsControllerGetQueryKey = (options: Options<AdminModelsControllerGetData>) => createQueryKey('adminModelsControllerGet', options);
+export const adminModelsGetQueryKey = (options: Options<AdminModelsGetData>) => createQueryKey('adminModelsGet', options);
 
 /**
  * Get a model
  */
-export const adminModelsControllerGetOptions = (options: Options<AdminModelsControllerGetData>) => queryOptions<AdminModelsControllerGetResponse, AdminModelsControllerGetError, AdminModelsControllerGetResponse, ReturnType<typeof adminModelsControllerGetQueryKey>>({
+export const adminModelsGetOptions = (options: Options<AdminModelsGetData>) => queryOptions<AdminModelsGetResponse, AdminModelsGetError, AdminModelsGetResponse, ReturnType<typeof adminModelsGetQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await adminModelsControllerGet({
+        const { data } = await adminModelsGet({
             ...options,
             ...queryKey[0],
             signal,
@@ -654,7 +729,7 @@ export const adminModelsControllerGetOptions = (options: Options<AdminModelsCont
         });
         return data;
     },
-    queryKey: adminModelsControllerGetQueryKey(options)
+    queryKey: adminModelsGetQueryKey(options)
 });
 
 /**
@@ -662,10 +737,10 @@ export const adminModelsControllerGetOptions = (options: Options<AdminModelsCont
  *
  * Provider and provider model id cannot be changed.
  */
-export const adminModelsControllerUpdateMutation = (options?: Partial<Options<AdminModelsControllerUpdateData>>): UseMutationOptions<AdminModelsControllerUpdateResponse, AdminModelsControllerUpdateError, Options<AdminModelsControllerUpdateData>> => {
-    const mutationOptions: UseMutationOptions<AdminModelsControllerUpdateResponse, AdminModelsControllerUpdateError, Options<AdminModelsControllerUpdateData>> = {
+export const adminModelsUpdateMutation = (options?: Partial<Options<AdminModelsUpdateData>>): UseMutationOptions<AdminModelsUpdateResponse, AdminModelsUpdateError, Options<AdminModelsUpdateData>> => {
+    const mutationOptions: UseMutationOptions<AdminModelsUpdateResponse, AdminModelsUpdateError, Options<AdminModelsUpdateData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await adminModelsControllerUpdate({
+            const { data } = await adminModelsUpdate({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -676,14 +751,14 @@ export const adminModelsControllerUpdateMutation = (options?: Partial<Options<Ad
     return mutationOptions;
 };
 
-export const adminModelsControllerPricesQueryKey = (options: Options<AdminModelsControllerPricesData>) => createQueryKey('adminModelsControllerPrices', options);
+export const adminModelsPricesQueryKey = (options: Options<AdminModelsPricesData>) => createQueryKey('adminModelsPrices', options);
 
 /**
  * Price history, newest first
  */
-export const adminModelsControllerPricesOptions = (options: Options<AdminModelsControllerPricesData>) => queryOptions<AdminModelsControllerPricesResponse, AdminModelsControllerPricesError, AdminModelsControllerPricesResponse, ReturnType<typeof adminModelsControllerPricesQueryKey>>({
+export const adminModelsPricesOptions = (options: Options<AdminModelsPricesData>) => queryOptions<AdminModelsPricesResponse, AdminModelsPricesError, AdminModelsPricesResponse, ReturnType<typeof adminModelsPricesQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await adminModelsControllerPrices({
+        const { data } = await adminModelsPrices({
             ...options,
             ...queryKey[0],
             signal,
@@ -691,7 +766,7 @@ export const adminModelsControllerPricesOptions = (options: Options<AdminModelsC
         });
         return data;
     },
-    queryKey: adminModelsControllerPricesQueryKey(options)
+    queryKey: adminModelsPricesQueryKey(options)
 });
 
 /**
@@ -699,10 +774,10 @@ export const adminModelsControllerPricesOptions = (options: Options<AdminModelsC
  *
  * Closes the current price where the new one starts. Rates are USD per 1M tokens, sent as decimal strings. History is never edited; past charges keep their price.
  */
-export const adminModelsControllerSetPriceMutation = (options?: Partial<Options<AdminModelsControllerSetPriceData>>): UseMutationOptions<AdminModelsControllerSetPriceResponse, AdminModelsControllerSetPriceError, Options<AdminModelsControllerSetPriceData>> => {
-    const mutationOptions: UseMutationOptions<AdminModelsControllerSetPriceResponse, AdminModelsControllerSetPriceError, Options<AdminModelsControllerSetPriceData>> = {
+export const adminModelsSetPriceMutation = (options?: Partial<Options<AdminModelsSetPriceData>>): UseMutationOptions<AdminModelsSetPriceResponse, AdminModelsSetPriceError, Options<AdminModelsSetPriceData>> => {
+    const mutationOptions: UseMutationOptions<AdminModelsSetPriceResponse, AdminModelsSetPriceError, Options<AdminModelsSetPriceData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await adminModelsControllerSetPrice({
+            const { data } = await adminModelsSetPrice({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -718,10 +793,10 @@ export const adminModelsControllerSetPriceMutation = (options?: Partial<Options<
  *
  * Checks the key, the model id and the price before a mode goes live: returns the reply, usage, provider cost and customer charge. Provider failures are reported in the body (ok: false, error), not as an HTTP error. No user is charged.
  */
-export const adminModelsControllerTestMutation = (options?: Partial<Options<AdminModelsControllerTestData>>): UseMutationOptions<AdminModelsControllerTestResponse, AdminModelsControllerTestError, Options<AdminModelsControllerTestData>> => {
-    const mutationOptions: UseMutationOptions<AdminModelsControllerTestResponse, AdminModelsControllerTestError, Options<AdminModelsControllerTestData>> = {
+export const adminModelsTestMutation = (options?: Partial<Options<AdminModelsTestData>>): UseMutationOptions<AdminModelsTestResponse, AdminModelsTestError, Options<AdminModelsTestData>> => {
+    const mutationOptions: UseMutationOptions<AdminModelsTestResponse, AdminModelsTestError, Options<AdminModelsTestData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await adminModelsControllerTest({
+            const { data } = await adminModelsTest({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -732,14 +807,14 @@ export const adminModelsControllerTestMutation = (options?: Partial<Options<Admi
     return mutationOptions;
 };
 
-export const adminModesControllerListQueryKey = (options?: Options<AdminModesControllerListData>) => createQueryKey('adminModesControllerList', options);
+export const adminModesListQueryKey = (options?: Options<AdminModesListData>) => createQueryKey('adminModesList', options);
 
 /**
  * List modes with readiness
  */
-export const adminModesControllerListOptions = (options?: Options<AdminModesControllerListData>) => queryOptions<AdminModesControllerListResponse, AdminModesControllerListError, AdminModesControllerListResponse, ReturnType<typeof adminModesControllerListQueryKey>>({
+export const adminModesListOptions = (options?: Options<AdminModesListData>) => queryOptions<AdminModesListResponse, AdminModesListError, AdminModesListResponse, ReturnType<typeof adminModesListQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await adminModesControllerList({
+        const { data } = await adminModesList({
             ...options,
             ...queryKey[0],
             signal,
@@ -747,7 +822,7 @@ export const adminModesControllerListOptions = (options?: Options<AdminModesCont
         });
         return data;
     },
-    queryKey: adminModesControllerListQueryKey(options)
+    queryKey: adminModesListQueryKey(options)
 });
 
 /**
@@ -755,10 +830,10 @@ export const adminModesControllerListOptions = (options?: Options<AdminModesCont
  *
  * Created disabled. The key cannot be changed later.
  */
-export const adminModesControllerCreateMutation = (options?: Partial<Options<AdminModesControllerCreateData>>): UseMutationOptions<AdminModesControllerCreateResponse, AdminModesControllerCreateError, Options<AdminModesControllerCreateData>> => {
-    const mutationOptions: UseMutationOptions<AdminModesControllerCreateResponse, AdminModesControllerCreateError, Options<AdminModesControllerCreateData>> = {
+export const adminModesCreateMutation = (options?: Partial<Options<AdminModesCreateData>>): UseMutationOptions<AdminModesCreateResponse, AdminModesCreateError, Options<AdminModesCreateData>> => {
+    const mutationOptions: UseMutationOptions<AdminModesCreateResponse, AdminModesCreateError, Options<AdminModesCreateData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await adminModesControllerCreate({
+            const { data } = await adminModesCreate({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -769,14 +844,14 @@ export const adminModesControllerCreateMutation = (options?: Partial<Options<Adm
     return mutationOptions;
 };
 
-export const adminModesControllerGetQueryKey = (options: Options<AdminModesControllerGetData>) => createQueryKey('adminModesControllerGet', options);
+export const adminModesGetQueryKey = (options: Options<AdminModesGetData>) => createQueryKey('adminModesGet', options);
 
 /**
  * Get a mode
  */
-export const adminModesControllerGetOptions = (options: Options<AdminModesControllerGetData>) => queryOptions<AdminModesControllerGetResponse, AdminModesControllerGetError, AdminModesControllerGetResponse, ReturnType<typeof adminModesControllerGetQueryKey>>({
+export const adminModesGetOptions = (options: Options<AdminModesGetData>) => queryOptions<AdminModesGetResponse, AdminModesGetError, AdminModesGetResponse, ReturnType<typeof adminModesGetQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await adminModesControllerGet({
+        const { data } = await adminModesGet({
             ...options,
             ...queryKey[0],
             signal,
@@ -784,7 +859,7 @@ export const adminModesControllerGetOptions = (options: Options<AdminModesContro
         });
         return data;
     },
-    queryKey: adminModesControllerGetQueryKey(options)
+    queryKey: adminModesGetQueryKey(options)
 });
 
 /**
@@ -792,10 +867,10 @@ export const adminModesControllerGetOptions = (options: Options<AdminModesContro
  *
  * Enabling requires an enabled model with an enabled provider and a price in effect.
  */
-export const adminModesControllerUpdateMutation = (options?: Partial<Options<AdminModesControllerUpdateData>>): UseMutationOptions<AdminModesControllerUpdateResponse, AdminModesControllerUpdateError, Options<AdminModesControllerUpdateData>> => {
-    const mutationOptions: UseMutationOptions<AdminModesControllerUpdateResponse, AdminModesControllerUpdateError, Options<AdminModesControllerUpdateData>> = {
+export const adminModesUpdateMutation = (options?: Partial<Options<AdminModesUpdateData>>): UseMutationOptions<AdminModesUpdateResponse, AdminModesUpdateError, Options<AdminModesUpdateData>> => {
+    const mutationOptions: UseMutationOptions<AdminModesUpdateResponse, AdminModesUpdateError, Options<AdminModesUpdateData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await adminModesControllerUpdate({
+            const { data } = await adminModesUpdate({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -806,14 +881,14 @@ export const adminModesControllerUpdateMutation = (options?: Partial<Options<Adm
     return mutationOptions;
 };
 
-export const adminPricingSettingsControllerGetQueryKey = (options?: Options<AdminPricingSettingsControllerGetData>) => createQueryKey('adminPricingSettingsControllerGet', options);
+export const adminPricingSettingsGetQueryKey = (options?: Options<AdminPricingSettingsGetData>) => createQueryKey('adminPricingSettingsGet', options);
 
 /**
  * Get the default margin
  */
-export const adminPricingSettingsControllerGetOptions = (options?: Options<AdminPricingSettingsControllerGetData>) => queryOptions<AdminPricingSettingsControllerGetResponse, AdminPricingSettingsControllerGetError, AdminPricingSettingsControllerGetResponse, ReturnType<typeof adminPricingSettingsControllerGetQueryKey>>({
+export const adminPricingSettingsGetOptions = (options?: Options<AdminPricingSettingsGetData>) => queryOptions<AdminPricingSettingsGetResponse, AdminPricingSettingsGetError, AdminPricingSettingsGetResponse, ReturnType<typeof adminPricingSettingsGetQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await adminPricingSettingsControllerGet({
+        const { data } = await adminPricingSettingsGet({
             ...options,
             ...queryKey[0],
             signal,
@@ -821,7 +896,7 @@ export const adminPricingSettingsControllerGetOptions = (options?: Options<Admin
         });
         return data;
     },
-    queryKey: adminPricingSettingsControllerGetQueryKey(options)
+    queryKey: adminPricingSettingsGetQueryKey(options)
 });
 
 /**
@@ -829,10 +904,10 @@ export const adminPricingSettingsControllerGetOptions = (options?: Options<Admin
  *
  * Applies to models without their own override, for new requests only; past charges keep the margin they were priced at.
  */
-export const adminPricingSettingsControllerUpdateMutation = (options?: Partial<Options<AdminPricingSettingsControllerUpdateData>>): UseMutationOptions<AdminPricingSettingsControllerUpdateResponse, AdminPricingSettingsControllerUpdateError, Options<AdminPricingSettingsControllerUpdateData>> => {
-    const mutationOptions: UseMutationOptions<AdminPricingSettingsControllerUpdateResponse, AdminPricingSettingsControllerUpdateError, Options<AdminPricingSettingsControllerUpdateData>> = {
+export const adminPricingSettingsUpdateMutation = (options?: Partial<Options<AdminPricingSettingsUpdateData>>): UseMutationOptions<AdminPricingSettingsUpdateResponse, AdminPricingSettingsUpdateError, Options<AdminPricingSettingsUpdateData>> => {
+    const mutationOptions: UseMutationOptions<AdminPricingSettingsUpdateResponse, AdminPricingSettingsUpdateError, Options<AdminPricingSettingsUpdateData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await adminPricingSettingsControllerUpdate({
+            const { data } = await adminPricingSettingsUpdate({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -843,14 +918,14 @@ export const adminPricingSettingsControllerUpdateMutation = (options?: Partial<O
     return mutationOptions;
 };
 
-export const adminPlansControllerListQueryKey = (options?: Options<AdminPlansControllerListData>) => createQueryKey('adminPlansControllerList', options);
+export const adminPlansListQueryKey = (options?: Options<AdminPlansListData>) => createQueryKey('adminPlansList', options);
 
 /**
  * List all plans (including hidden and inactive)
  */
-export const adminPlansControllerListOptions = (options?: Options<AdminPlansControllerListData>) => queryOptions<AdminPlansControllerListResponse, AdminPlansControllerListError, AdminPlansControllerListResponse, ReturnType<typeof adminPlansControllerListQueryKey>>({
+export const adminPlansListOptions = (options?: Options<AdminPlansListData>) => queryOptions<AdminPlansListResponse, AdminPlansListError, AdminPlansListResponse, ReturnType<typeof adminPlansListQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await adminPlansControllerList({
+        const { data } = await adminPlansList({
             ...options,
             ...queryKey[0],
             signal,
@@ -858,7 +933,7 @@ export const adminPlansControllerListOptions = (options?: Options<AdminPlansCont
         });
         return data;
     },
-    queryKey: adminPlansControllerListQueryKey(options)
+    queryKey: adminPlansListQueryKey(options)
 });
 
 /**
@@ -866,10 +941,10 @@ export const adminPlansControllerListOptions = (options?: Options<AdminPlansCont
  *
  * New plans are never the default. The key cannot be changed later.
  */
-export const adminPlansControllerCreateMutation = (options?: Partial<Options<AdminPlansControllerCreateData>>): UseMutationOptions<AdminPlansControllerCreateResponse, AdminPlansControllerCreateError, Options<AdminPlansControllerCreateData>> => {
-    const mutationOptions: UseMutationOptions<AdminPlansControllerCreateResponse, AdminPlansControllerCreateError, Options<AdminPlansControllerCreateData>> = {
+export const adminPlansCreateMutation = (options?: Partial<Options<AdminPlansCreateData>>): UseMutationOptions<AdminPlansCreateResponse, AdminPlansCreateError, Options<AdminPlansCreateData>> => {
+    const mutationOptions: UseMutationOptions<AdminPlansCreateResponse, AdminPlansCreateError, Options<AdminPlansCreateData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await adminPlansControllerCreate({
+            const { data } = await adminPlansCreate({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -880,14 +955,14 @@ export const adminPlansControllerCreateMutation = (options?: Partial<Options<Adm
     return mutationOptions;
 };
 
-export const adminPlansControllerGetQueryKey = (options: Options<AdminPlansControllerGetData>) => createQueryKey('adminPlansControllerGet', options);
+export const adminPlansGetQueryKey = (options: Options<AdminPlansGetData>) => createQueryKey('adminPlansGet', options);
 
 /**
  * Get a plan
  */
-export const adminPlansControllerGetOptions = (options: Options<AdminPlansControllerGetData>) => queryOptions<AdminPlansControllerGetResponse, AdminPlansControllerGetError, AdminPlansControllerGetResponse, ReturnType<typeof adminPlansControllerGetQueryKey>>({
+export const adminPlansGetOptions = (options: Options<AdminPlansGetData>) => queryOptions<AdminPlansGetResponse, AdminPlansGetError, AdminPlansGetResponse, ReturnType<typeof adminPlansGetQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await adminPlansControllerGet({
+        const { data } = await adminPlansGet({
             ...options,
             ...queryKey[0],
             signal,
@@ -895,7 +970,7 @@ export const adminPlansControllerGetOptions = (options: Options<AdminPlansContro
         });
         return data;
     },
-    queryKey: adminPlansControllerGetQueryKey(options)
+    queryKey: adminPlansGetQueryKey(options)
 });
 
 /**
@@ -903,10 +978,10 @@ export const adminPlansControllerGetOptions = (options: Options<AdminPlansContro
  *
  * Price and included balance changes apply to new subscriptions only. Setting isDefault moves the default here from the previous default plan.
  */
-export const adminPlansControllerUpdateMutation = (options?: Partial<Options<AdminPlansControllerUpdateData>>): UseMutationOptions<AdminPlansControllerUpdateResponse, AdminPlansControllerUpdateError, Options<AdminPlansControllerUpdateData>> => {
-    const mutationOptions: UseMutationOptions<AdminPlansControllerUpdateResponse, AdminPlansControllerUpdateError, Options<AdminPlansControllerUpdateData>> = {
+export const adminPlansUpdateMutation = (options?: Partial<Options<AdminPlansUpdateData>>): UseMutationOptions<AdminPlansUpdateResponse, AdminPlansUpdateError, Options<AdminPlansUpdateData>> => {
+    const mutationOptions: UseMutationOptions<AdminPlansUpdateResponse, AdminPlansUpdateError, Options<AdminPlansUpdateData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await adminPlansControllerUpdate({
+            const { data } = await adminPlansUpdate({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -922,10 +997,10 @@ export const adminPlansControllerUpdateMutation = (options?: Partial<Options<Adm
  *
  * Replaces the complete set of modes the plan includes.
  */
-export const adminPlansControllerSetModesMutation = (options?: Partial<Options<AdminPlansControllerSetModesData>>): UseMutationOptions<AdminPlansControllerSetModesResponse, AdminPlansControllerSetModesError, Options<AdminPlansControllerSetModesData>> => {
-    const mutationOptions: UseMutationOptions<AdminPlansControllerSetModesResponse, AdminPlansControllerSetModesError, Options<AdminPlansControllerSetModesData>> = {
+export const adminPlansSetModesMutation = (options?: Partial<Options<AdminPlansSetModesData>>): UseMutationOptions<AdminPlansSetModesResponse, AdminPlansSetModesError, Options<AdminPlansSetModesData>> => {
+    const mutationOptions: UseMutationOptions<AdminPlansSetModesResponse, AdminPlansSetModesError, Options<AdminPlansSetModesData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await adminPlansControllerSetModes({
+            const { data } = await adminPlansSetModes({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -936,14 +1011,14 @@ export const adminPlansControllerSetModesMutation = (options?: Partial<Options<A
     return mutationOptions;
 };
 
-export const adminSubscriptionsControllerHistoryQueryKey = (options: Options<AdminSubscriptionsControllerHistoryData>) => createQueryKey('adminSubscriptionsControllerHistory', options);
+export const adminSubscriptionsHistoryQueryKey = (options: Options<AdminSubscriptionsHistoryData>) => createQueryKey('adminSubscriptionsHistory', options);
 
 /**
  * A user's subscription history, newest first
  */
-export const adminSubscriptionsControllerHistoryOptions = (options: Options<AdminSubscriptionsControllerHistoryData>) => queryOptions<AdminSubscriptionsControllerHistoryResponse, AdminSubscriptionsControllerHistoryError, AdminSubscriptionsControllerHistoryResponse, ReturnType<typeof adminSubscriptionsControllerHistoryQueryKey>>({
+export const adminSubscriptionsHistoryOptions = (options: Options<AdminSubscriptionsHistoryData>) => queryOptions<AdminSubscriptionsHistoryResponse, AdminSubscriptionsHistoryError, AdminSubscriptionsHistoryResponse, ReturnType<typeof adminSubscriptionsHistoryQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await adminSubscriptionsControllerHistory({
+        const { data } = await adminSubscriptionsHistory({
             ...options,
             ...queryKey[0],
             signal,
@@ -951,7 +1026,7 @@ export const adminSubscriptionsControllerHistoryOptions = (options: Options<Admi
         });
         return data;
     },
-    queryKey: adminSubscriptionsControllerHistoryQueryKey(options)
+    queryKey: adminSubscriptionsHistoryQueryKey(options)
 });
 
 /**
@@ -959,10 +1034,10 @@ export const adminSubscriptionsControllerHistoryOptions = (options: Options<Admi
  *
  * Ends the current subscription (replaced) and starts one on the given active plan, capturing the plan's price and included balance. No balance is credited and no payment is taken.
  */
-export const adminSubscriptionsControllerAssignMutation = (options?: Partial<Options<AdminSubscriptionsControllerAssignData>>): UseMutationOptions<AdminSubscriptionsControllerAssignResponse, AdminSubscriptionsControllerAssignError, Options<AdminSubscriptionsControllerAssignData>> => {
-    const mutationOptions: UseMutationOptions<AdminSubscriptionsControllerAssignResponse, AdminSubscriptionsControllerAssignError, Options<AdminSubscriptionsControllerAssignData>> = {
+export const adminSubscriptionsAssignMutation = (options?: Partial<Options<AdminSubscriptionsAssignData>>): UseMutationOptions<AdminSubscriptionsAssignResponse, AdminSubscriptionsAssignError, Options<AdminSubscriptionsAssignData>> => {
+    const mutationOptions: UseMutationOptions<AdminSubscriptionsAssignResponse, AdminSubscriptionsAssignError, Options<AdminSubscriptionsAssignData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await adminSubscriptionsControllerAssign({
+            const { data } = await adminSubscriptionsAssign({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -978,10 +1053,10 @@ export const adminSubscriptionsControllerAssignMutation = (options?: Partial<Opt
  *
  * The user falls back to the default plan.
  */
-export const adminSubscriptionsControllerEndMutation = (options?: Partial<Options<AdminSubscriptionsControllerEndData>>): UseMutationOptions<AdminSubscriptionsControllerEndResponse, AdminSubscriptionsControllerEndError, Options<AdminSubscriptionsControllerEndData>> => {
-    const mutationOptions: UseMutationOptions<AdminSubscriptionsControllerEndResponse, AdminSubscriptionsControllerEndError, Options<AdminSubscriptionsControllerEndData>> = {
+export const adminSubscriptionsEndMutation = (options?: Partial<Options<AdminSubscriptionsEndData>>): UseMutationOptions<AdminSubscriptionsEndResponse, AdminSubscriptionsEndError, Options<AdminSubscriptionsEndData>> => {
+    const mutationOptions: UseMutationOptions<AdminSubscriptionsEndResponse, AdminSubscriptionsEndError, Options<AdminSubscriptionsEndData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await adminSubscriptionsControllerEnd({
+            const { data } = await adminSubscriptionsEnd({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -992,14 +1067,14 @@ export const adminSubscriptionsControllerEndMutation = (options?: Partial<Option
     return mutationOptions;
 };
 
-export const adminLedgerControllerBalanceQueryKey = (options: Options<AdminLedgerControllerBalanceData>) => createQueryKey('adminLedgerControllerBalance', options);
+export const adminLedgerBalanceQueryKey = (options: Options<AdminLedgerBalanceData>) => createQueryKey('adminLedgerBalance', options);
 
 /**
  * A user's shared USD balance
  */
-export const adminLedgerControllerBalanceOptions = (options: Options<AdminLedgerControllerBalanceData>) => queryOptions<AdminLedgerControllerBalanceResponse, AdminLedgerControllerBalanceError, AdminLedgerControllerBalanceResponse, ReturnType<typeof adminLedgerControllerBalanceQueryKey>>({
+export const adminLedgerBalanceOptions = (options: Options<AdminLedgerBalanceData>) => queryOptions<AdminLedgerBalanceResponse, AdminLedgerBalanceError, AdminLedgerBalanceResponse, ReturnType<typeof adminLedgerBalanceQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await adminLedgerControllerBalance({
+        const { data } = await adminLedgerBalance({
             ...options,
             ...queryKey[0],
             signal,
@@ -1007,19 +1082,19 @@ export const adminLedgerControllerBalanceOptions = (options: Options<AdminLedger
         });
         return data;
     },
-    queryKey: adminLedgerControllerBalanceQueryKey(options)
+    queryKey: adminLedgerBalanceQueryKey(options)
 });
 
-export const adminLedgerControllerEntriesQueryKey = (options: Options<AdminLedgerControllerEntriesData>) => createQueryKey('adminLedgerControllerEntries', options);
+export const adminLedgerEntriesQueryKey = (options: Options<AdminLedgerEntriesData>) => createQueryKey('adminLedgerEntries', options);
 
 /**
  * A user's ledger with internal details, newest first
  *
  * Page with `before` = `nextBefore` of the previous page.
  */
-export const adminLedgerControllerEntriesOptions = (options: Options<AdminLedgerControllerEntriesData>) => queryOptions<AdminLedgerControllerEntriesResponse, AdminLedgerControllerEntriesError, AdminLedgerControllerEntriesResponse, ReturnType<typeof adminLedgerControllerEntriesQueryKey>>({
+export const adminLedgerEntriesOptions = (options: Options<AdminLedgerEntriesData>) => queryOptions<AdminLedgerEntriesResponse, AdminLedgerEntriesError, AdminLedgerEntriesResponse, ReturnType<typeof adminLedgerEntriesQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await adminLedgerControllerEntries({
+        const { data } = await adminLedgerEntries({
             ...options,
             ...queryKey[0],
             signal,
@@ -1027,29 +1102,29 @@ export const adminLedgerControllerEntriesOptions = (options: Options<AdminLedger
         });
         return data;
     },
-    queryKey: adminLedgerControllerEntriesQueryKey(options)
+    queryKey: adminLedgerEntriesQueryKey(options)
 });
 
-export const adminLedgerControllerEntriesInfiniteQueryKey = (options: Options<AdminLedgerControllerEntriesData>): QueryKey<Options<AdminLedgerControllerEntriesData>> => createQueryKey('adminLedgerControllerEntries', options, true);
+export const adminLedgerEntriesInfiniteQueryKey = (options: Options<AdminLedgerEntriesData>): QueryKey<Options<AdminLedgerEntriesData>> => createQueryKey('adminLedgerEntries', options, true);
 
 /**
  * A user's ledger with internal details, newest first
  *
  * Page with `before` = `nextBefore` of the previous page.
  */
-export const adminLedgerControllerEntriesInfiniteOptions = (options: Options<AdminLedgerControllerEntriesData>) => {
-    const opts = infiniteQueryOptions<AdminLedgerControllerEntriesResponse, AdminLedgerControllerEntriesError, InfiniteData<AdminLedgerControllerEntriesResponse>, QueryKey<Options<AdminLedgerControllerEntriesData>>, number | Pick<QueryKey<Options<AdminLedgerControllerEntriesData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
+export const adminLedgerEntriesInfiniteOptions = (options: Options<AdminLedgerEntriesData>) => {
+    const opts = infiniteQueryOptions<AdminLedgerEntriesResponse, AdminLedgerEntriesError, InfiniteData<AdminLedgerEntriesResponse>, QueryKey<Options<AdminLedgerEntriesData>>, number | Pick<QueryKey<Options<AdminLedgerEntriesData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
     // @ts-ignore
     {
         queryFn: async ({ pageParam, queryKey, signal }) => {
             // @ts-ignore
-            const page: Pick<QueryKey<Options<AdminLedgerControllerEntriesData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
+            const page: Pick<QueryKey<Options<AdminLedgerEntriesData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
                 query: {
                     before: pageParam
                 }
             };
             const params = createInfiniteParams(queryKey, page);
-            const { data } = await adminLedgerControllerEntries({
+            const { data } = await adminLedgerEntries({
                 ...options,
                 ...params,
                 signal,
@@ -1057,7 +1132,7 @@ export const adminLedgerControllerEntriesInfiniteOptions = (options: Options<Adm
             });
             return data;
         },
-        queryKey: adminLedgerControllerEntriesInfiniteQueryKey(options)
+        queryKey: adminLedgerEntriesInfiniteQueryKey(options)
     });
     return opts as Omit<typeof opts, 'initialData'>;
 };
@@ -1067,10 +1142,10 @@ export const adminLedgerControllerEntriesInfiniteOptions = (options: Options<Adm
  *
  * For gifts and corrections. Positive amounts add funds (only while the user has an active plan), negative remove them. Idempotent per `idempotencyKey`.
  */
-export const adminLedgerControllerAdjustMutation = (options?: Partial<Options<AdminLedgerControllerAdjustData>>): UseMutationOptions<AdminLedgerControllerAdjustResponse, AdminLedgerControllerAdjustError, Options<AdminLedgerControllerAdjustData>> => {
-    const mutationOptions: UseMutationOptions<AdminLedgerControllerAdjustResponse, AdminLedgerControllerAdjustError, Options<AdminLedgerControllerAdjustData>> = {
+export const adminLedgerAdjustMutation = (options?: Partial<Options<AdminLedgerAdjustData>>): UseMutationOptions<AdminLedgerAdjustResponse, AdminLedgerAdjustError, Options<AdminLedgerAdjustData>> => {
+    const mutationOptions: UseMutationOptions<AdminLedgerAdjustResponse, AdminLedgerAdjustError, Options<AdminLedgerAdjustData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await adminLedgerControllerAdjust({
+            const { data } = await adminLedgerAdjust({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -1086,10 +1161,10 @@ export const adminLedgerControllerAdjustMutation = (options?: Partial<Options<Ad
  *
  * Credits the amount as a `purchase`, only while the user has an active plan. Idempotent per `paymentReference`: recording the same payment again returns the original entry.
  */
-export const adminLedgerControllerRecordPurchaseMutation = (options?: Partial<Options<AdminLedgerControllerRecordPurchaseData>>): UseMutationOptions<AdminLedgerControllerRecordPurchaseResponse, AdminLedgerControllerRecordPurchaseError, Options<AdminLedgerControllerRecordPurchaseData>> => {
-    const mutationOptions: UseMutationOptions<AdminLedgerControllerRecordPurchaseResponse, AdminLedgerControllerRecordPurchaseError, Options<AdminLedgerControllerRecordPurchaseData>> = {
+export const adminLedgerRecordPurchaseMutation = (options?: Partial<Options<AdminLedgerRecordPurchaseData>>): UseMutationOptions<AdminLedgerRecordPurchaseResponse, AdminLedgerRecordPurchaseError, Options<AdminLedgerRecordPurchaseData>> => {
+    const mutationOptions: UseMutationOptions<AdminLedgerRecordPurchaseResponse, AdminLedgerRecordPurchaseError, Options<AdminLedgerRecordPurchaseData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await adminLedgerControllerRecordPurchase({
+            const { data } = await adminLedgerRecordPurchase({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -1100,14 +1175,14 @@ export const adminLedgerControllerRecordPurchaseMutation = (options?: Partial<Op
     return mutationOptions;
 };
 
-export const adminChatSettingsControllerGetQueryKey = (options?: Options<AdminChatSettingsControllerGetData>) => createQueryKey('adminChatSettingsControllerGet', options);
+export const adminChatSettingsGetQueryKey = (options?: Options<AdminChatSettingsGetData>) => createQueryKey('adminChatSettingsGet', options);
 
 /**
  * Chat settings (default system prompt)
  */
-export const adminChatSettingsControllerGetOptions = (options?: Options<AdminChatSettingsControllerGetData>) => queryOptions<AdminChatSettingsControllerGetResponse, AdminChatSettingsControllerGetError, AdminChatSettingsControllerGetResponse, ReturnType<typeof adminChatSettingsControllerGetQueryKey>>({
+export const adminChatSettingsGetOptions = (options?: Options<AdminChatSettingsGetData>) => queryOptions<AdminChatSettingsGetResponse, AdminChatSettingsGetError, AdminChatSettingsGetResponse, ReturnType<typeof adminChatSettingsGetQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await adminChatSettingsControllerGet({
+        const { data } = await adminChatSettingsGet({
             ...options,
             ...queryKey[0],
             signal,
@@ -1115,7 +1190,7 @@ export const adminChatSettingsControllerGetOptions = (options?: Options<AdminCha
         });
         return data;
     },
-    queryKey: adminChatSettingsControllerGetQueryKey(options)
+    queryKey: adminChatSettingsGetQueryKey(options)
 });
 
 /**
@@ -1123,10 +1198,10 @@ export const adminChatSettingsControllerGetOptions = (options?: Options<AdminCha
  *
  * Used by every mode without its own prompt, from the next message on.
  */
-export const adminChatSettingsControllerUpdateMutation = (options?: Partial<Options<AdminChatSettingsControllerUpdateData>>): UseMutationOptions<AdminChatSettingsControllerUpdateResponse, AdminChatSettingsControllerUpdateError, Options<AdminChatSettingsControllerUpdateData>> => {
-    const mutationOptions: UseMutationOptions<AdminChatSettingsControllerUpdateResponse, AdminChatSettingsControllerUpdateError, Options<AdminChatSettingsControllerUpdateData>> = {
+export const adminChatSettingsUpdateMutation = (options?: Partial<Options<AdminChatSettingsUpdateData>>): UseMutationOptions<AdminChatSettingsUpdateResponse, AdminChatSettingsUpdateError, Options<AdminChatSettingsUpdateData>> => {
+    const mutationOptions: UseMutationOptions<AdminChatSettingsUpdateResponse, AdminChatSettingsUpdateError, Options<AdminChatSettingsUpdateData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await adminChatSettingsControllerUpdate({
+            const { data } = await adminChatSettingsUpdate({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
