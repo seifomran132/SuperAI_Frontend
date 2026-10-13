@@ -5,21 +5,21 @@ import {
   type QueryClient,
 } from '@tanstack/react-query';
 import {
-  adminLedgerControllerBalanceOptions,
-  meBalanceControllerActivityInfiniteQueryKey,
-  meBalanceControllerBalanceQueryKey,
-  meControllerGetQueryKey,
-  meSubscriptionControllerGetQueryKey,
-  adminLedgerControllerBalanceQueryKey,
-  adminLedgerControllerEntriesInfiniteOptions,
-  adminLedgerControllerEntriesInfiniteQueryKey,
-  adminPlansControllerListOptions,
-  adminSubscriptionsControllerHistoryOptions,
-  adminSubscriptionsControllerHistoryQueryKey,
-  adminUsersControllerGetOptions,
-  adminUsersControllerGetQueryKey,
-  adminUsersControllerListOptions,
-  adminUsersControllerListQueryKey,
+  adminLedgerBalanceOptions,
+  meBalanceActivityInfiniteQueryKey,
+  meBalanceBalanceQueryKey,
+  meGetQueryKey,
+  meSubscriptionGetQueryKey,
+  adminLedgerBalanceQueryKey,
+  adminLedgerEntriesInfiniteOptions,
+  adminLedgerEntriesInfiniteQueryKey,
+  adminPlansListOptions,
+  adminSubscriptionsHistoryOptions,
+  adminSubscriptionsHistoryQueryKey,
+  adminUsersGetOptions,
+  adminUsersGetQueryKey,
+  adminUsersListOptions,
+  adminUsersListQueryKey,
 } from '~/api/generated/@tanstack/react-query.gen';
 import { USERS_PAGE_SIZE, type UsersSearch } from './search';
 
@@ -27,7 +27,7 @@ export const LEDGER_PAGE_SIZE = 30;
 
 export function useUsers(search: UsersSearch) {
   return useQuery({
-    ...adminUsersControllerListOptions({
+    ...adminUsersListOptions({
       query: {
         q: search.q,
         status: search.status,
@@ -41,17 +41,17 @@ export function useUsers(search: UsersSearch) {
 }
 
 export const useUser = (id: string) =>
-  useQuery(adminUsersControllerGetOptions({ path: { id } }));
+  useQuery(adminUsersGetOptions({ path: { id } }));
 
 export const useSubscriptions = (id: string) =>
-  useQuery(adminSubscriptionsControllerHistoryOptions({ path: { id } }));
+  useQuery(adminSubscriptionsHistoryOptions({ path: { id } }));
 
 export const useUserBalance = (id: string) =>
-  useQuery(adminLedgerControllerBalanceOptions({ path: { id } }));
+  useQuery(adminLedgerBalanceOptions({ path: { id } }));
 
 /** Active plans an admin can assign. */
 export function useActivePlans() {
-  const query = useQuery(adminPlansControllerListOptions());
+  const query = useQuery(adminPlansListOptions());
   const plans = useMemo(
     () => query.data?.filter((plan) => plan.isActive) ?? [],
     [query.data],
@@ -62,7 +62,7 @@ export function useActivePlans() {
 /** `GET …/ledger`, newest first, older pages with `before`. */
 export function useLedger(id: string) {
   const query = useInfiniteQuery({
-    ...adminLedgerControllerEntriesInfiniteOptions({
+    ...adminLedgerEntriesInfiniteOptions({
       path: { id },
       query: { limit: LEDGER_PAGE_SIZE },
     }),
@@ -81,35 +81,33 @@ export function useLedger(id: string) {
 export function invalidateUser(queryClient: QueryClient, id: string) {
   const path = { path: { id } };
   // An admin changing their own account also changes what the customer screens show.
-  const me = queryClient.getQueryData<{ id: string }>(
-    meControllerGetQueryKey(),
-  );
+  const me = queryClient.getQueryData<{ id: string }>(meGetQueryKey());
   const own =
     me?.id === id
       ? [
-          meControllerGetQueryKey(),
-          meBalanceControllerBalanceQueryKey(),
-          meBalanceControllerActivityInfiniteQueryKey(),
-          meSubscriptionControllerGetQueryKey(),
+          meGetQueryKey(),
+          meBalanceBalanceQueryKey(),
+          meBalanceActivityInfiniteQueryKey(),
+          meSubscriptionGetQueryKey(),
         ].map((queryKey) => queryClient.invalidateQueries({ queryKey }))
       : [];
   return Promise.all([
     ...own,
     queryClient.invalidateQueries({
-      queryKey: adminUsersControllerGetQueryKey(path),
+      queryKey: adminUsersGetQueryKey(path),
     }),
     queryClient.invalidateQueries({
-      queryKey: adminSubscriptionsControllerHistoryQueryKey(path),
+      queryKey: adminSubscriptionsHistoryQueryKey(path),
     }),
     queryClient.invalidateQueries({
-      queryKey: adminLedgerControllerBalanceQueryKey(path),
+      queryKey: adminLedgerBalanceQueryKey(path),
     }),
     // Prefix match: covers the infinite query whatever its page size.
     queryClient.invalidateQueries({
-      queryKey: adminLedgerControllerEntriesInfiniteQueryKey(path),
+      queryKey: adminLedgerEntriesInfiniteQueryKey(path),
     }),
     queryClient.invalidateQueries({
-      queryKey: adminUsersControllerListQueryKey(),
+      queryKey: adminUsersListQueryKey(),
     }),
   ]);
 }

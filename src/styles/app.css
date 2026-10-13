@@ -47,6 +47,9 @@
   --color-code-muted: #94a3b8;
   --color-code-border: #1e293b;
 
+  /* Full-screen image viewer: fully opaque so nothing from the chat shows through */
+  --color-viewer-scrim: #0f172a;
+
   --animate-dot: dot-pulse 1.2s ease-in-out infinite;
   --animate-caret: caret-blink 1s steps(2, start) infinite;
   @keyframes dot-pulse {

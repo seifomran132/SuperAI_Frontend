@@ -123,6 +123,10 @@ export type ModeDto = {
     descriptionAr: string;
     descriptionEn: string;
     pricing: ModePricingDto;
+    /**
+     * The mode can read an attached image. Sending an image to a mode with false is refused (MODE_NO_IMAGE_SUPPORT); the client never switches mode for the user
+     */
+    supportsImages: boolean;
 };
 
 export type BalanceDto = {
@@ -130,6 +134,12 @@ export type BalanceDto = {
      * Spendable shared USD balance: money held for an answer in progress is not included. 0 when no plan is active.
      */
     balanceUsd: string;
+};
+
+export type ActivityModeDto = {
+    key: string;
+    labelAr: string;
+    labelEn: string;
 };
 
 export type ActivityEntryDto = {
@@ -144,6 +154,14 @@ export type ActivityEntryDto = {
     amountUsd: string;
     balanceAfterUsd: string;
     createdAt: string;
+    /**
+     * Chat charges only: the conversation of the answer. Null for other types, and when the conversation was deleted (the charge stays)
+     */
+    conversationId: string | null;
+    /**
+     * Chat charges only: the mode used. Null for other types
+     */
+    mode: ActivityModeDto | null;
 };
 
 export type ActivityPageDto = {
@@ -155,6 +173,58 @@ export type ActivityPageDto = {
      * Pass as `before` to get the next (older) page; null when there are no more entries
      */
     nextBefore: number | null;
+};
+
+export type UploadRequestDto = {
+    /**
+     * A JPEG, PNG or WebP image, at most 5 MB
+     */
+    file: Blob | File;
+};
+
+export type UploadResponseDto = {
+    /**
+     * The upload id; fetch the image with GET /attachments/{id}
+     */
+    id: string;
+    mimeType: string;
+    /**
+     * Pixels, after processing
+     */
+    width: number;
+    /**
+     * Pixels, after processing
+     */
+    height: number;
+    /**
+     * Size of the stored image
+     */
+    bytes: number;
+    /**
+     * An upload not sent in a message by this time (24 h) is deleted
+     */
+    expiresAt: string;
+};
+
+export type FieldErrorDto = {
+    field: string;
+    errors: Array<string>;
+};
+
+export type ApiErrorResponseDto = {
+    statusCode: number;
+    code: 'UNAUTHENTICATED' | 'INVALID_TOKEN' | 'ACCOUNT_NOT_FOUND' | 'ACCOUNT_SUSPENDED' | 'ACCOUNT_DELETED' | 'FORBIDDEN' | 'VALIDATION_FAILED' | 'USER_NOT_FOUND' | 'EMAIL_NOT_CONFIRMED' | 'ACCOUNT_NOT_ACTIVE' | 'CANNOT_MODIFY_SELF' | 'LAST_ADMIN' | 'PROVIDER_NOT_FOUND' | 'PROVIDER_ALREADY_EXISTS' | 'PROVIDER_KEY_INVALID' | 'PROVIDER_KEY_NOT_USED' | 'PROVIDER_UNAVAILABLE' | 'MODEL_NOT_FOUND' | 'MODEL_ALREADY_EXISTS' | 'MODEL_IN_USE' | 'MODE_NOT_FOUND' | 'MODE_ALREADY_EXISTS' | 'MODE_NOT_AVAILABLE' | 'PRICE_PERIOD_CONFLICT' | 'PLAN_NOT_FOUND' | 'PLAN_ALREADY_EXISTS' | 'PLAN_NOT_ACTIVE' | 'DEFAULT_PLAN_REQUIRED' | 'NO_ACTIVE_SUBSCRIPTION' | 'INSUFFICIENT_BALANCE' | 'IDEMPOTENCY_KEY_REUSED' | 'PAYMENT_REFERENCE_REUSED' | 'CONVERSATION_NOT_FOUND' | 'CONVERSATION_BUSY' | 'CONTEXT_TOO_LONG' | 'PROFILE_INCOMPLETE' | 'DUPLICATE_REQUEST' | 'RATE_LIMITED' | 'PROVIDER_MISCONFIGURED' | 'PROVIDER_TIMEOUT' | 'PROVIDER_ERROR' | 'CONTENT_BLOCKED' | 'ATTACHMENT_TOO_LARGE' | 'ATTACHMENT_TYPE_NOT_ALLOWED' | 'ATTACHMENT_NOT_FOUND' | 'ATTACHMENT_ALREADY_USED' | 'TOO_MANY_ATTACHMENTS' | 'MODE_NO_IMAGE_SUPPORT';
+    /**
+     * English fallback; clients localize by `code`.
+     */
+    message: string;
+    details?: Array<FieldErrorDto>;
+    /**
+     * Machine-readable extras for specific codes (see docs/API_CONTRACT.md)
+     */
+    data?: {
+        [key: string]: unknown;
+    };
 };
 
 export type CreateConversationDto = {
@@ -178,27 +248,6 @@ export type ConversationDto = {
     createdAt: string;
 };
 
-export type FieldErrorDto = {
-    field: string;
-    errors: Array<string>;
-};
-
-export type ApiErrorResponseDto = {
-    statusCode: number;
-    code: 'UNAUTHENTICATED' | 'INVALID_TOKEN' | 'ACCOUNT_NOT_FOUND' | 'ACCOUNT_SUSPENDED' | 'ACCOUNT_DELETED' | 'FORBIDDEN' | 'VALIDATION_FAILED' | 'USER_NOT_FOUND' | 'EMAIL_NOT_CONFIRMED' | 'ACCOUNT_NOT_ACTIVE' | 'CANNOT_MODIFY_SELF' | 'LAST_ADMIN' | 'PROVIDER_NOT_FOUND' | 'PROVIDER_ALREADY_EXISTS' | 'PROVIDER_KEY_INVALID' | 'PROVIDER_KEY_NOT_USED' | 'PROVIDER_UNAVAILABLE' | 'MODEL_NOT_FOUND' | 'MODEL_ALREADY_EXISTS' | 'MODEL_IN_USE' | 'MODE_NOT_FOUND' | 'MODE_ALREADY_EXISTS' | 'MODE_NOT_AVAILABLE' | 'PRICE_PERIOD_CONFLICT' | 'PLAN_NOT_FOUND' | 'PLAN_ALREADY_EXISTS' | 'PLAN_NOT_ACTIVE' | 'DEFAULT_PLAN_REQUIRED' | 'NO_ACTIVE_SUBSCRIPTION' | 'INSUFFICIENT_BALANCE' | 'IDEMPOTENCY_KEY_REUSED' | 'PAYMENT_REFERENCE_REUSED' | 'CONVERSATION_NOT_FOUND' | 'CONVERSATION_BUSY' | 'CONTEXT_TOO_LONG' | 'PROFILE_INCOMPLETE' | 'DUPLICATE_REQUEST' | 'RATE_LIMITED' | 'PROVIDER_MISCONFIGURED' | 'PROVIDER_TIMEOUT' | 'PROVIDER_ERROR' | 'CONTENT_BLOCKED';
-    /**
-     * English fallback; clients localize by `code`.
-     */
-    message: string;
-    details?: Array<FieldErrorDto>;
-    /**
-     * Machine-readable extras for specific codes (see docs/API_CONTRACT.md)
-     */
-    data?: {
-        [key: string]: unknown;
-    };
-};
-
 export type ConversationPageDto = {
     /**
      * Most recent activity first
@@ -208,6 +257,34 @@ export type ConversationPageDto = {
      * Pass as `cursor` for the next page; null when there are no more
      */
     nextCursor: string | null;
+};
+
+export type AttachmentDto = {
+    /**
+     * The upload id; fetch the image with GET /attachments/{id}
+     */
+    id: string;
+    mimeType: string;
+    /**
+     * Pixels, after processing
+     */
+    width: number;
+    /**
+     * Pixels, after processing
+     */
+    height: number;
+};
+
+export type MessageUsageDto = {
+    /**
+     * Input tokens billed at the normal input rate
+     */
+    inputTokens: number;
+    /**
+     * Input tokens served from cache (billed less)
+     */
+    cachedInputTokens: number;
+    outputTokens: number;
 };
 
 export type MessageDto = {
@@ -230,6 +307,18 @@ export type MessageDto = {
     errorCode: string | null;
     createdAt: string;
     completedAt: string | null;
+    /**
+     * Images of the message (always present; empty for answers and for messages without an image)
+     */
+    attachments: Array<AttachmentDto>;
+    /**
+     * USD charged for this answer (same as `chargeUsd` of the stream end). Null for your messages and while the answer is still being written; "0.000000000" when the answer failed or was stopped before anything was charged
+     */
+    costUsd: string | null;
+    /**
+     * Null for your messages, while the answer is still being written, and when nothing was charged (`costUsd` is "0.000000000")
+     */
+    usage: MessageUsageDto | null;
 };
 
 export type MessagePageDto = {
@@ -241,6 +330,13 @@ export type MessagePageDto = {
      * Pass as `before` for older messages; null when there are no more
      */
     nextBefore: number | null;
+};
+
+export type UpdateConversationDto = {
+    /**
+     * New title; whitespace is collapsed and trimmed, 1 to 60 characters
+     */
+    title: string;
 };
 
 export type AdminUserDto = {
@@ -398,6 +494,10 @@ export type ModelDto = {
      */
     effectiveMarginPct: string;
     thinking: 'off' | 'low' | 'default';
+    /**
+     * The model can read images; modes backed by it accept an attached image
+     */
+    supportsImages: boolean;
     isEnabled: boolean;
     /**
      * Price in effect now
@@ -424,6 +524,10 @@ export type CreateModelDto = {
      * How much the model may think before answering. Thinking tokens are billed as output: `off` for fast, cheap modes; `default` leaves it to the provider.
      */
     thinking?: 'off' | 'low' | 'default';
+    /**
+     * Whether the model can read images (docs/API_CONTRACT.md §8.4). Turn on only for models that really do; the model test then sends a small image.
+     */
+    supportsImages?: boolean;
     /**
      * Disabling is refused while an enabled mode uses this model.
      */
@@ -457,6 +561,10 @@ export type UpdateModelDto = {
      * How much the model may think before answering. Thinking tokens are billed as output: `off` for fast, cheap modes; `default` leaves it to the provider.
      */
     thinking?: 'off' | 'low' | 'default';
+    /**
+     * Whether the model can read images (docs/API_CONTRACT.md §8.4). Turn on only for models that really do; the model test then sends a small image.
+     */
+    supportsImages?: boolean;
     /**
      * Disabling is refused while an enabled mode uses this model.
      */
@@ -495,6 +603,9 @@ export type TestModelDto = {
      * Why the change is made. Stored in the audit log.
      */
     reason: string;
+    /**
+     * For a model with `supportsImages` the default is "Reply with one short sentence: which model are you, and what colour is this image?", sent with the test image.
+     */
     prompt?: string;
     /**
      * Kept small: the test is a real, paid request
@@ -528,6 +639,10 @@ export type ModelTestResultDto = {
      * Whether the model answered and finished
      */
     ok: boolean;
+    /**
+     * Whether a small built-in test image (64×64 red WebP) was sent with the prompt: true when the model has `supportsImages`. A model that cannot read images then fails the test (usually PROVIDER_ERROR); the default prompt asks for the colour, so the reply shows the image was seen.
+     */
+    imageSent: boolean;
     reply: string;
     finishReason: 'stop' | 'length' | 'content-filter' | 'other' | 'aborted';
     error: TestErrorDto | null;
@@ -922,25 +1037,25 @@ export type SetProviderApiKeyDtoWritable = {
     apiKey: string;
 };
 
-export type HealthControllerLiveData = {
+export type HealthLiveData = {
     body?: never;
     path?: never;
     query?: never;
     url: '/health/live';
 };
 
-export type HealthControllerLiveResponses = {
+export type HealthLiveResponses = {
     200: unknown;
 };
 
-export type HealthControllerReadyData = {
+export type HealthReadyData = {
     body?: never;
     path?: never;
     query?: never;
     url: '/health/ready';
 };
 
-export type HealthControllerReadyErrors = {
+export type HealthReadyErrors = {
     /**
      * The Health Check is not successful
      */
@@ -979,9 +1094,9 @@ export type HealthControllerReadyErrors = {
     };
 };
 
-export type HealthControllerReadyError = HealthControllerReadyErrors[keyof HealthControllerReadyErrors];
+export type HealthReadyError = HealthReadyErrors[keyof HealthReadyErrors];
 
-export type HealthControllerReadyResponses = {
+export type HealthReadyResponses = {
     /**
      * The Health Check is successful
      */
@@ -1020,87 +1135,87 @@ export type HealthControllerReadyResponses = {
     };
 };
 
-export type HealthControllerReadyResponse = HealthControllerReadyResponses[keyof HealthControllerReadyResponses];
+export type HealthReadyResponse = HealthReadyResponses[keyof HealthReadyResponses];
 
-export type MeControllerGetData = {
+export type MeGetData = {
     body?: never;
     path?: never;
     query?: never;
     url: '/api/v1/me';
 };
 
-export type MeControllerGetResponses = {
+export type MeGetResponses = {
     200: MeResponse;
 };
 
-export type MeControllerGetResponse = MeControllerGetResponses[keyof MeControllerGetResponses];
+export type MeGetResponse = MeGetResponses[keyof MeGetResponses];
 
-export type MeControllerUpdateData = {
+export type MeUpdateData = {
     body: UpdateMeDto;
     path?: never;
     query?: never;
     url: '/api/v1/me';
 };
 
-export type MeControllerUpdateResponses = {
+export type MeUpdateResponses = {
     200: MeResponse;
 };
 
-export type MeControllerUpdateResponse = MeControllerUpdateResponses[keyof MeControllerUpdateResponses];
+export type MeUpdateResponse = MeUpdateResponses[keyof MeUpdateResponses];
 
-export type MeSubscriptionControllerGetData = {
+export type MeSubscriptionGetData = {
     body?: never;
     path?: never;
     query?: never;
     url: '/api/v1/me/subscription';
 };
 
-export type MeSubscriptionControllerGetResponses = {
+export type MeSubscriptionGetResponses = {
     200: MeSubscriptionDto;
 };
 
-export type MeSubscriptionControllerGetResponse = MeSubscriptionControllerGetResponses[keyof MeSubscriptionControllerGetResponses];
+export type MeSubscriptionGetResponse = MeSubscriptionGetResponses[keyof MeSubscriptionGetResponses];
 
-export type PublicPlansControllerListData = {
+export type PublicPlansListData = {
     body?: never;
     path?: never;
     query?: never;
     url: '/api/v1/plans';
 };
 
-export type PublicPlansControllerListResponses = {
+export type PublicPlansListResponses = {
     200: Array<PublicPlanDto>;
 };
 
-export type PublicPlansControllerListResponse = PublicPlansControllerListResponses[keyof PublicPlansControllerListResponses];
+export type PublicPlansListResponse = PublicPlansListResponses[keyof PublicPlansListResponses];
 
-export type ModesControllerListData = {
+export type ModesListData = {
     body?: never;
     path?: never;
     query?: never;
     url: '/api/v1/modes';
 };
 
-export type ModesControllerListResponses = {
+export type ModesListResponses = {
     200: Array<ModeDto>;
 };
 
-export type ModesControllerListResponse = ModesControllerListResponses[keyof ModesControllerListResponses];
+export type ModesListResponse = ModesListResponses[keyof ModesListResponses];
 
-export type MeBalanceControllerBalanceData = {
+export type MeBalanceBalanceData = {
     body?: never;
     path?: never;
     query?: never;
     url: '/api/v1/me/balance';
 };
 
-export type MeBalanceControllerBalanceResponses = {
+export type MeBalanceBalanceResponses = {
     200: BalanceDto;
 };
 
-export type MeBalanceControllerBalanceResponse = MeBalanceControllerBalanceResponses[keyof MeBalanceControllerBalanceResponses];
+export type MeBalanceBalanceResponse = MeBalanceBalanceResponses[keyof MeBalanceBalanceResponses];
 
-export type MeBalanceControllerActivityData = {
+export type MeBalanceActivityData = {
     body?: never;
     path?: never;
     query?: {
@@ -1113,13 +1228,78 @@ export type MeBalanceControllerActivityData = {
     url: '/api/v1/me/balance/activity';
 };
 
-export type MeBalanceControllerActivityResponses = {
+export type MeBalanceActivityResponses = {
     200: ActivityPageDto;
 };
 
-export type MeBalanceControllerActivityResponse = MeBalanceControllerActivityResponses[keyof MeBalanceControllerActivityResponses];
+export type MeBalanceActivityResponse = MeBalanceActivityResponses[keyof MeBalanceActivityResponses];
 
-export type ConversationsControllerListData = {
+export type AttachmentsUploadData = {
+    body: UploadRequestDto;
+    path?: never;
+    query?: never;
+    url: '/api/v1/uploads';
+};
+
+export type AttachmentsUploadErrors = {
+    /**
+     * VALIDATION_FAILED (no `file` part)
+     */
+    400: ApiErrorResponseDto;
+    /**
+     * PROFILE_INCOMPLETE
+     */
+    403: ApiErrorResponseDto;
+    /**
+     * ATTACHMENT_TOO_LARGE
+     */
+    413: ApiErrorResponseDto;
+    /**
+     * ATTACHMENT_TYPE_NOT_ALLOWED
+     */
+    415: ApiErrorResponseDto;
+    /**
+     * RATE_LIMITED (see the Retry-After header)
+     */
+    429: ApiErrorResponseDto;
+};
+
+export type AttachmentsUploadError = AttachmentsUploadErrors[keyof AttachmentsUploadErrors];
+
+export type AttachmentsUploadResponses = {
+    201: UploadResponseDto;
+};
+
+export type AttachmentsUploadResponse = AttachmentsUploadResponses[keyof AttachmentsUploadResponses];
+
+export type AttachmentsDownloadData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/attachments/{id}';
+};
+
+export type AttachmentsDownloadErrors = {
+    /**
+     * ATTACHMENT_NOT_FOUND
+     */
+    404: ApiErrorResponseDto;
+};
+
+export type AttachmentsDownloadError = AttachmentsDownloadErrors[keyof AttachmentsDownloadErrors];
+
+export type AttachmentsDownloadResponses = {
+    /**
+     * The image
+     */
+    200: Blob | File;
+};
+
+export type AttachmentsDownloadResponse = AttachmentsDownloadResponses[keyof AttachmentsDownloadResponses];
+
+export type ConversationsListData = {
     body?: never;
     path?: never;
     query?: {
@@ -1132,35 +1312,35 @@ export type ConversationsControllerListData = {
     url: '/api/v1/conversations';
 };
 
-export type ConversationsControllerListResponses = {
+export type ConversationsListResponses = {
     200: ConversationPageDto;
 };
 
-export type ConversationsControllerListResponse = ConversationsControllerListResponses[keyof ConversationsControllerListResponses];
+export type ConversationsListResponse = ConversationsListResponses[keyof ConversationsListResponses];
 
-export type ConversationsControllerCreateData = {
+export type ConversationsCreateData = {
     body: CreateConversationDto;
     path?: never;
     query?: never;
     url: '/api/v1/conversations';
 };
 
-export type ConversationsControllerCreateErrors = {
+export type ConversationsCreateErrors = {
     /**
      * MODE_NOT_AVAILABLE (not on your plan)
      */
     409: ApiErrorResponseDto;
 };
 
-export type ConversationsControllerCreateError = ConversationsControllerCreateErrors[keyof ConversationsControllerCreateErrors];
+export type ConversationsCreateError = ConversationsCreateErrors[keyof ConversationsCreateErrors];
 
-export type ConversationsControllerCreateResponses = {
+export type ConversationsCreateResponses = {
     201: ConversationDto;
 };
 
-export type ConversationsControllerCreateResponse = ConversationsControllerCreateResponses[keyof ConversationsControllerCreateResponses];
+export type ConversationsCreateResponse = ConversationsCreateResponses[keyof ConversationsCreateResponses];
 
-export type ConversationsControllerGetData = {
+export type ConversationsRemoveData = {
     body?: never;
     path: {
         id: string;
@@ -1169,22 +1349,81 @@ export type ConversationsControllerGetData = {
     url: '/api/v1/conversations/{id}';
 };
 
-export type ConversationsControllerGetErrors = {
+export type ConversationsRemoveErrors = {
+    /**
+     * CONVERSATION_NOT_FOUND (also when already deleted)
+     */
+    404: ApiErrorResponseDto;
+    /**
+     * CONVERSATION_BUSY (an answer is still being written)
+     */
+    409: ApiErrorResponseDto;
+};
+
+export type ConversationsRemoveError = ConversationsRemoveErrors[keyof ConversationsRemoveErrors];
+
+export type ConversationsRemoveResponses = {
+    /**
+     * Deleted
+     */
+    204: void;
+};
+
+export type ConversationsRemoveResponse = ConversationsRemoveResponses[keyof ConversationsRemoveResponses];
+
+export type ConversationsGetData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/conversations/{id}';
+};
+
+export type ConversationsGetErrors = {
     /**
      * CONVERSATION_NOT_FOUND
      */
     404: ApiErrorResponseDto;
 };
 
-export type ConversationsControllerGetError = ConversationsControllerGetErrors[keyof ConversationsControllerGetErrors];
+export type ConversationsGetError = ConversationsGetErrors[keyof ConversationsGetErrors];
 
-export type ConversationsControllerGetResponses = {
+export type ConversationsGetResponses = {
     200: ConversationDto;
 };
 
-export type ConversationsControllerGetResponse = ConversationsControllerGetResponses[keyof ConversationsControllerGetResponses];
+export type ConversationsGetResponse = ConversationsGetResponses[keyof ConversationsGetResponses];
 
-export type ConversationsControllerMessagesData = {
+export type ConversationsRenameData = {
+    body: UpdateConversationDto;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/conversations/{id}';
+};
+
+export type ConversationsRenameErrors = {
+    /**
+     * VALIDATION_FAILED (title must have 1-60 characters)
+     */
+    400: ApiErrorResponseDto;
+    /**
+     * CONVERSATION_NOT_FOUND (also when it was deleted)
+     */
+    404: ApiErrorResponseDto;
+};
+
+export type ConversationsRenameError = ConversationsRenameErrors[keyof ConversationsRenameErrors];
+
+export type ConversationsRenameResponses = {
+    200: ConversationDto;
+};
+
+export type ConversationsRenameResponse = ConversationsRenameResponses[keyof ConversationsRenameResponses];
+
+export type ConversationsMessagesData = {
     body?: never;
     path: {
         id: string;
@@ -1199,22 +1438,22 @@ export type ConversationsControllerMessagesData = {
     url: '/api/v1/conversations/{id}/messages';
 };
 
-export type ConversationsControllerMessagesErrors = {
+export type ConversationsMessagesErrors = {
     /**
      * CONVERSATION_NOT_FOUND
      */
     404: ApiErrorResponseDto;
 };
 
-export type ConversationsControllerMessagesError = ConversationsControllerMessagesErrors[keyof ConversationsControllerMessagesErrors];
+export type ConversationsMessagesError = ConversationsMessagesErrors[keyof ConversationsMessagesErrors];
 
-export type ConversationsControllerMessagesResponses = {
+export type ConversationsMessagesResponses = {
     200: MessagePageDto;
 };
 
-export type ConversationsControllerMessagesResponse = ConversationsControllerMessagesResponses[keyof ConversationsControllerMessagesResponses];
+export type ConversationsMessagesResponse = ConversationsMessagesResponses[keyof ConversationsMessagesResponses];
 
-export type AdminUsersControllerListData = {
+export type AdminUsersListData = {
     body?: never;
     path?: never;
     query?: {
@@ -1230,22 +1469,22 @@ export type AdminUsersControllerListData = {
     url: '/api/v1/admin/users';
 };
 
-export type AdminUsersControllerListErrors = {
+export type AdminUsersListErrors = {
     /**
      * Caller is not an admin (FORBIDDEN).
      */
     403: ApiErrorResponseDto;
 };
 
-export type AdminUsersControllerListError = AdminUsersControllerListErrors[keyof AdminUsersControllerListErrors];
+export type AdminUsersListError = AdminUsersListErrors[keyof AdminUsersListErrors];
 
-export type AdminUsersControllerListResponses = {
+export type AdminUsersListResponses = {
     200: AdminUserPageDto;
 };
 
-export type AdminUsersControllerListResponse = AdminUsersControllerListResponses[keyof AdminUsersControllerListResponses];
+export type AdminUsersListResponse = AdminUsersListResponses[keyof AdminUsersListResponses];
 
-export type AdminUsersControllerGetData = {
+export type AdminUsersGetData = {
     body?: never;
     path: {
         id: string;
@@ -1254,7 +1493,7 @@ export type AdminUsersControllerGetData = {
     url: '/api/v1/admin/users/{id}';
 };
 
-export type AdminUsersControllerGetErrors = {
+export type AdminUsersGetErrors = {
     /**
      * Caller is not an admin (FORBIDDEN).
      */
@@ -1265,15 +1504,15 @@ export type AdminUsersControllerGetErrors = {
     404: ApiErrorResponseDto;
 };
 
-export type AdminUsersControllerGetError = AdminUsersControllerGetErrors[keyof AdminUsersControllerGetErrors];
+export type AdminUsersGetError = AdminUsersGetErrors[keyof AdminUsersGetErrors];
 
-export type AdminUsersControllerGetResponses = {
+export type AdminUsersGetResponses = {
     200: AdminUserDto;
 };
 
-export type AdminUsersControllerGetResponse = AdminUsersControllerGetResponses[keyof AdminUsersControllerGetResponses];
+export type AdminUsersGetResponse = AdminUsersGetResponses[keyof AdminUsersGetResponses];
 
-export type AdminUsersControllerSetStatusData = {
+export type AdminUsersSetStatusData = {
     body: UpdateUserStatusDto;
     path: {
         id: string;
@@ -1282,7 +1521,7 @@ export type AdminUsersControllerSetStatusData = {
     url: '/api/v1/admin/users/{id}/status';
 };
 
-export type AdminUsersControllerSetStatusErrors = {
+export type AdminUsersSetStatusErrors = {
     /**
      * Caller is not an admin (FORBIDDEN).
      */
@@ -1297,15 +1536,15 @@ export type AdminUsersControllerSetStatusErrors = {
     409: ApiErrorResponseDto;
 };
 
-export type AdminUsersControllerSetStatusError = AdminUsersControllerSetStatusErrors[keyof AdminUsersControllerSetStatusErrors];
+export type AdminUsersSetStatusError = AdminUsersSetStatusErrors[keyof AdminUsersSetStatusErrors];
 
-export type AdminUsersControllerSetStatusResponses = {
+export type AdminUsersSetStatusResponses = {
     200: AdminUserChangeDto;
 };
 
-export type AdminUsersControllerSetStatusResponse = AdminUsersControllerSetStatusResponses[keyof AdminUsersControllerSetStatusResponses];
+export type AdminUsersSetStatusResponse = AdminUsersSetStatusResponses[keyof AdminUsersSetStatusResponses];
 
-export type AdminUsersControllerSetAdminRoleData = {
+export type AdminUsersSetAdminRoleData = {
     body: UpdateAdminRoleDto;
     path: {
         id: string;
@@ -1314,7 +1553,7 @@ export type AdminUsersControllerSetAdminRoleData = {
     url: '/api/v1/admin/users/{id}/admin-role';
 };
 
-export type AdminUsersControllerSetAdminRoleErrors = {
+export type AdminUsersSetAdminRoleErrors = {
     /**
      * Caller is not an admin (FORBIDDEN).
      */
@@ -1329,44 +1568,44 @@ export type AdminUsersControllerSetAdminRoleErrors = {
     409: ApiErrorResponseDto;
 };
 
-export type AdminUsersControllerSetAdminRoleError = AdminUsersControllerSetAdminRoleErrors[keyof AdminUsersControllerSetAdminRoleErrors];
+export type AdminUsersSetAdminRoleError = AdminUsersSetAdminRoleErrors[keyof AdminUsersSetAdminRoleErrors];
 
-export type AdminUsersControllerSetAdminRoleResponses = {
+export type AdminUsersSetAdminRoleResponses = {
     200: AdminUserChangeDto;
 };
 
-export type AdminUsersControllerSetAdminRoleResponse = AdminUsersControllerSetAdminRoleResponses[keyof AdminUsersControllerSetAdminRoleResponses];
+export type AdminUsersSetAdminRoleResponse = AdminUsersSetAdminRoleResponses[keyof AdminUsersSetAdminRoleResponses];
 
-export type AdminProvidersControllerListData = {
+export type AdminProvidersListData = {
     body?: never;
     path?: never;
     query?: never;
     url: '/api/v1/admin/providers';
 };
 
-export type AdminProvidersControllerListErrors = {
+export type AdminProvidersListErrors = {
     /**
      * FORBIDDEN
      */
     403: ApiErrorResponseDto;
 };
 
-export type AdminProvidersControllerListError = AdminProvidersControllerListErrors[keyof AdminProvidersControllerListErrors];
+export type AdminProvidersListError = AdminProvidersListErrors[keyof AdminProvidersListErrors];
 
-export type AdminProvidersControllerListResponses = {
+export type AdminProvidersListResponses = {
     200: Array<ProviderDto>;
 };
 
-export type AdminProvidersControllerListResponse = AdminProvidersControllerListResponses[keyof AdminProvidersControllerListResponses];
+export type AdminProvidersListResponse = AdminProvidersListResponses[keyof AdminProvidersListResponses];
 
-export type AdminProvidersControllerCreateData = {
+export type AdminProvidersCreateData = {
     body: CreateProviderDto;
     path?: never;
     query?: never;
     url: '/api/v1/admin/providers';
 };
 
-export type AdminProvidersControllerCreateErrors = {
+export type AdminProvidersCreateErrors = {
     /**
      * FORBIDDEN
      */
@@ -1377,15 +1616,15 @@ export type AdminProvidersControllerCreateErrors = {
     409: ApiErrorResponseDto;
 };
 
-export type AdminProvidersControllerCreateError = AdminProvidersControllerCreateErrors[keyof AdminProvidersControllerCreateErrors];
+export type AdminProvidersCreateError = AdminProvidersCreateErrors[keyof AdminProvidersCreateErrors];
 
-export type AdminProvidersControllerCreateResponses = {
+export type AdminProvidersCreateResponses = {
     201: ProviderDto;
 };
 
-export type AdminProvidersControllerCreateResponse = AdminProvidersControllerCreateResponses[keyof AdminProvidersControllerCreateResponses];
+export type AdminProvidersCreateResponse = AdminProvidersCreateResponses[keyof AdminProvidersCreateResponses];
 
-export type AdminProvidersControllerUpdateData = {
+export type AdminProvidersUpdateData = {
     body: UpdateProviderDto;
     path: {
         code: string;
@@ -1394,7 +1633,7 @@ export type AdminProvidersControllerUpdateData = {
     url: '/api/v1/admin/providers/{code}';
 };
 
-export type AdminProvidersControllerUpdateErrors = {
+export type AdminProvidersUpdateErrors = {
     /**
      * FORBIDDEN
      */
@@ -1409,15 +1648,15 @@ export type AdminProvidersControllerUpdateErrors = {
     409: ApiErrorResponseDto;
 };
 
-export type AdminProvidersControllerUpdateError = AdminProvidersControllerUpdateErrors[keyof AdminProvidersControllerUpdateErrors];
+export type AdminProvidersUpdateError = AdminProvidersUpdateErrors[keyof AdminProvidersUpdateErrors];
 
-export type AdminProvidersControllerUpdateResponses = {
+export type AdminProvidersUpdateResponses = {
     200: ProviderDto;
 };
 
-export type AdminProvidersControllerUpdateResponse = AdminProvidersControllerUpdateResponses[keyof AdminProvidersControllerUpdateResponses];
+export type AdminProvidersUpdateResponse = AdminProvidersUpdateResponses[keyof AdminProvidersUpdateResponses];
 
-export type AdminProvidersControllerRemoveApiKeyData = {
+export type AdminProvidersRemoveApiKeyData = {
     body: ReasonDto;
     path: {
         code: string;
@@ -1426,7 +1665,7 @@ export type AdminProvidersControllerRemoveApiKeyData = {
     url: '/api/v1/admin/providers/{code}/api-key';
 };
 
-export type AdminProvidersControllerRemoveApiKeyErrors = {
+export type AdminProvidersRemoveApiKeyErrors = {
     /**
      * FORBIDDEN
      */
@@ -1441,15 +1680,15 @@ export type AdminProvidersControllerRemoveApiKeyErrors = {
     409: ApiErrorResponseDto;
 };
 
-export type AdminProvidersControllerRemoveApiKeyError = AdminProvidersControllerRemoveApiKeyErrors[keyof AdminProvidersControllerRemoveApiKeyErrors];
+export type AdminProvidersRemoveApiKeyError = AdminProvidersRemoveApiKeyErrors[keyof AdminProvidersRemoveApiKeyErrors];
 
-export type AdminProvidersControllerRemoveApiKeyResponses = {
+export type AdminProvidersRemoveApiKeyResponses = {
     200: ProviderDto;
 };
 
-export type AdminProvidersControllerRemoveApiKeyResponse = AdminProvidersControllerRemoveApiKeyResponses[keyof AdminProvidersControllerRemoveApiKeyResponses];
+export type AdminProvidersRemoveApiKeyResponse = AdminProvidersRemoveApiKeyResponses[keyof AdminProvidersRemoveApiKeyResponses];
 
-export type AdminProvidersControllerSetApiKeyData = {
+export type AdminProvidersSetApiKeyData = {
     body: SetProviderApiKeyDtoWritable;
     path: {
         code: string;
@@ -1458,7 +1697,7 @@ export type AdminProvidersControllerSetApiKeyData = {
     url: '/api/v1/admin/providers/{code}/api-key';
 };
 
-export type AdminProvidersControllerSetApiKeyErrors = {
+export type AdminProvidersSetApiKeyErrors = {
     /**
      * PROVIDER_KEY_INVALID, VALIDATION_FAILED
      */
@@ -1481,15 +1720,15 @@ export type AdminProvidersControllerSetApiKeyErrors = {
     502: ApiErrorResponseDto;
 };
 
-export type AdminProvidersControllerSetApiKeyError = AdminProvidersControllerSetApiKeyErrors[keyof AdminProvidersControllerSetApiKeyErrors];
+export type AdminProvidersSetApiKeyError = AdminProvidersSetApiKeyErrors[keyof AdminProvidersSetApiKeyErrors];
 
-export type AdminProvidersControllerSetApiKeyResponses = {
+export type AdminProvidersSetApiKeyResponses = {
     200: ProviderDto;
 };
 
-export type AdminProvidersControllerSetApiKeyResponse = AdminProvidersControllerSetApiKeyResponses[keyof AdminProvidersControllerSetApiKeyResponses];
+export type AdminProvidersSetApiKeyResponse = AdminProvidersSetApiKeyResponses[keyof AdminProvidersSetApiKeyResponses];
 
-export type AdminModelsControllerListData = {
+export type AdminModelsListData = {
     body?: never;
     path?: never;
     query?: {
@@ -1499,29 +1738,29 @@ export type AdminModelsControllerListData = {
     url: '/api/v1/admin/models';
 };
 
-export type AdminModelsControllerListErrors = {
+export type AdminModelsListErrors = {
     /**
      * FORBIDDEN
      */
     403: ApiErrorResponseDto;
 };
 
-export type AdminModelsControllerListError = AdminModelsControllerListErrors[keyof AdminModelsControllerListErrors];
+export type AdminModelsListError = AdminModelsListErrors[keyof AdminModelsListErrors];
 
-export type AdminModelsControllerListResponses = {
+export type AdminModelsListResponses = {
     200: Array<ModelDto>;
 };
 
-export type AdminModelsControllerListResponse = AdminModelsControllerListResponses[keyof AdminModelsControllerListResponses];
+export type AdminModelsListResponse = AdminModelsListResponses[keyof AdminModelsListResponses];
 
-export type AdminModelsControllerCreateData = {
+export type AdminModelsCreateData = {
     body: CreateModelDto;
     path?: never;
     query?: never;
     url: '/api/v1/admin/models';
 };
 
-export type AdminModelsControllerCreateErrors = {
+export type AdminModelsCreateErrors = {
     /**
      * FORBIDDEN
      */
@@ -1536,15 +1775,15 @@ export type AdminModelsControllerCreateErrors = {
     409: ApiErrorResponseDto;
 };
 
-export type AdminModelsControllerCreateError = AdminModelsControllerCreateErrors[keyof AdminModelsControllerCreateErrors];
+export type AdminModelsCreateError = AdminModelsCreateErrors[keyof AdminModelsCreateErrors];
 
-export type AdminModelsControllerCreateResponses = {
+export type AdminModelsCreateResponses = {
     201: ModelDto;
 };
 
-export type AdminModelsControllerCreateResponse = AdminModelsControllerCreateResponses[keyof AdminModelsControllerCreateResponses];
+export type AdminModelsCreateResponse = AdminModelsCreateResponses[keyof AdminModelsCreateResponses];
 
-export type AdminModelsControllerGetData = {
+export type AdminModelsGetData = {
     body?: never;
     path: {
         id: string;
@@ -1553,7 +1792,7 @@ export type AdminModelsControllerGetData = {
     url: '/api/v1/admin/models/{id}';
 };
 
-export type AdminModelsControllerGetErrors = {
+export type AdminModelsGetErrors = {
     /**
      * FORBIDDEN
      */
@@ -1564,15 +1803,15 @@ export type AdminModelsControllerGetErrors = {
     404: ApiErrorResponseDto;
 };
 
-export type AdminModelsControllerGetError = AdminModelsControllerGetErrors[keyof AdminModelsControllerGetErrors];
+export type AdminModelsGetError = AdminModelsGetErrors[keyof AdminModelsGetErrors];
 
-export type AdminModelsControllerGetResponses = {
+export type AdminModelsGetResponses = {
     200: ModelDto;
 };
 
-export type AdminModelsControllerGetResponse = AdminModelsControllerGetResponses[keyof AdminModelsControllerGetResponses];
+export type AdminModelsGetResponse = AdminModelsGetResponses[keyof AdminModelsGetResponses];
 
-export type AdminModelsControllerUpdateData = {
+export type AdminModelsUpdateData = {
     body: UpdateModelDto;
     path: {
         id: string;
@@ -1581,7 +1820,7 @@ export type AdminModelsControllerUpdateData = {
     url: '/api/v1/admin/models/{id}';
 };
 
-export type AdminModelsControllerUpdateErrors = {
+export type AdminModelsUpdateErrors = {
     /**
      * FORBIDDEN
      */
@@ -1596,15 +1835,15 @@ export type AdminModelsControllerUpdateErrors = {
     409: ApiErrorResponseDto;
 };
 
-export type AdminModelsControllerUpdateError = AdminModelsControllerUpdateErrors[keyof AdminModelsControllerUpdateErrors];
+export type AdminModelsUpdateError = AdminModelsUpdateErrors[keyof AdminModelsUpdateErrors];
 
-export type AdminModelsControllerUpdateResponses = {
+export type AdminModelsUpdateResponses = {
     200: ModelDto;
 };
 
-export type AdminModelsControllerUpdateResponse = AdminModelsControllerUpdateResponses[keyof AdminModelsControllerUpdateResponses];
+export type AdminModelsUpdateResponse = AdminModelsUpdateResponses[keyof AdminModelsUpdateResponses];
 
-export type AdminModelsControllerPricesData = {
+export type AdminModelsPricesData = {
     body?: never;
     path: {
         id: string;
@@ -1613,7 +1852,7 @@ export type AdminModelsControllerPricesData = {
     url: '/api/v1/admin/models/{id}/prices';
 };
 
-export type AdminModelsControllerPricesErrors = {
+export type AdminModelsPricesErrors = {
     /**
      * FORBIDDEN
      */
@@ -1624,15 +1863,15 @@ export type AdminModelsControllerPricesErrors = {
     404: ApiErrorResponseDto;
 };
 
-export type AdminModelsControllerPricesError = AdminModelsControllerPricesErrors[keyof AdminModelsControllerPricesErrors];
+export type AdminModelsPricesError = AdminModelsPricesErrors[keyof AdminModelsPricesErrors];
 
-export type AdminModelsControllerPricesResponses = {
+export type AdminModelsPricesResponses = {
     200: Array<PriceDto>;
 };
 
-export type AdminModelsControllerPricesResponse = AdminModelsControllerPricesResponses[keyof AdminModelsControllerPricesResponses];
+export type AdminModelsPricesResponse = AdminModelsPricesResponses[keyof AdminModelsPricesResponses];
 
-export type AdminModelsControllerSetPriceData = {
+export type AdminModelsSetPriceData = {
     body: SetPriceDto;
     path: {
         id: string;
@@ -1641,7 +1880,7 @@ export type AdminModelsControllerSetPriceData = {
     url: '/api/v1/admin/models/{id}/prices';
 };
 
-export type AdminModelsControllerSetPriceErrors = {
+export type AdminModelsSetPriceErrors = {
     /**
      * FORBIDDEN
      */
@@ -1656,15 +1895,15 @@ export type AdminModelsControllerSetPriceErrors = {
     409: ApiErrorResponseDto;
 };
 
-export type AdminModelsControllerSetPriceError = AdminModelsControllerSetPriceErrors[keyof AdminModelsControllerSetPriceErrors];
+export type AdminModelsSetPriceError = AdminModelsSetPriceErrors[keyof AdminModelsSetPriceErrors];
 
-export type AdminModelsControllerSetPriceResponses = {
+export type AdminModelsSetPriceResponses = {
     201: PriceDto;
 };
 
-export type AdminModelsControllerSetPriceResponse = AdminModelsControllerSetPriceResponses[keyof AdminModelsControllerSetPriceResponses];
+export type AdminModelsSetPriceResponse = AdminModelsSetPriceResponses[keyof AdminModelsSetPriceResponses];
 
-export type AdminModelsControllerTestData = {
+export type AdminModelsTestData = {
     body: TestModelDto;
     path: {
         id: string;
@@ -1673,7 +1912,7 @@ export type AdminModelsControllerTestData = {
     url: '/api/v1/admin/models/{id}/test';
 };
 
-export type AdminModelsControllerTestErrors = {
+export type AdminModelsTestErrors = {
     /**
      * FORBIDDEN
      */
@@ -1684,44 +1923,44 @@ export type AdminModelsControllerTestErrors = {
     404: ApiErrorResponseDto;
 };
 
-export type AdminModelsControllerTestError = AdminModelsControllerTestErrors[keyof AdminModelsControllerTestErrors];
+export type AdminModelsTestError = AdminModelsTestErrors[keyof AdminModelsTestErrors];
 
-export type AdminModelsControllerTestResponses = {
+export type AdminModelsTestResponses = {
     200: ModelTestResultDto;
 };
 
-export type AdminModelsControllerTestResponse = AdminModelsControllerTestResponses[keyof AdminModelsControllerTestResponses];
+export type AdminModelsTestResponse = AdminModelsTestResponses[keyof AdminModelsTestResponses];
 
-export type AdminModesControllerListData = {
+export type AdminModesListData = {
     body?: never;
     path?: never;
     query?: never;
     url: '/api/v1/admin/modes';
 };
 
-export type AdminModesControllerListErrors = {
+export type AdminModesListErrors = {
     /**
      * FORBIDDEN
      */
     403: ApiErrorResponseDto;
 };
 
-export type AdminModesControllerListError = AdminModesControllerListErrors[keyof AdminModesControllerListErrors];
+export type AdminModesListError = AdminModesListErrors[keyof AdminModesListErrors];
 
-export type AdminModesControllerListResponses = {
+export type AdminModesListResponses = {
     200: Array<AdminModeDto>;
 };
 
-export type AdminModesControllerListResponse = AdminModesControllerListResponses[keyof AdminModesControllerListResponses];
+export type AdminModesListResponse = AdminModesListResponses[keyof AdminModesListResponses];
 
-export type AdminModesControllerCreateData = {
+export type AdminModesCreateData = {
     body: CreateModeDto;
     path?: never;
     query?: never;
     url: '/api/v1/admin/modes';
 };
 
-export type AdminModesControllerCreateErrors = {
+export type AdminModesCreateErrors = {
     /**
      * FORBIDDEN
      */
@@ -1736,15 +1975,15 @@ export type AdminModesControllerCreateErrors = {
     409: ApiErrorResponseDto;
 };
 
-export type AdminModesControllerCreateError = AdminModesControllerCreateErrors[keyof AdminModesControllerCreateErrors];
+export type AdminModesCreateError = AdminModesCreateErrors[keyof AdminModesCreateErrors];
 
-export type AdminModesControllerCreateResponses = {
+export type AdminModesCreateResponses = {
     201: AdminModeDto;
 };
 
-export type AdminModesControllerCreateResponse = AdminModesControllerCreateResponses[keyof AdminModesControllerCreateResponses];
+export type AdminModesCreateResponse = AdminModesCreateResponses[keyof AdminModesCreateResponses];
 
-export type AdminModesControllerGetData = {
+export type AdminModesGetData = {
     body?: never;
     path: {
         key: string;
@@ -1753,7 +1992,7 @@ export type AdminModesControllerGetData = {
     url: '/api/v1/admin/modes/{key}';
 };
 
-export type AdminModesControllerGetErrors = {
+export type AdminModesGetErrors = {
     /**
      * FORBIDDEN
      */
@@ -1764,15 +2003,15 @@ export type AdminModesControllerGetErrors = {
     404: ApiErrorResponseDto;
 };
 
-export type AdminModesControllerGetError = AdminModesControllerGetErrors[keyof AdminModesControllerGetErrors];
+export type AdminModesGetError = AdminModesGetErrors[keyof AdminModesGetErrors];
 
-export type AdminModesControllerGetResponses = {
+export type AdminModesGetResponses = {
     200: AdminModeDto;
 };
 
-export type AdminModesControllerGetResponse = AdminModesControllerGetResponses[keyof AdminModesControllerGetResponses];
+export type AdminModesGetResponse = AdminModesGetResponses[keyof AdminModesGetResponses];
 
-export type AdminModesControllerUpdateData = {
+export type AdminModesUpdateData = {
     body: UpdateModeDto;
     path: {
         key: string;
@@ -1781,7 +2020,7 @@ export type AdminModesControllerUpdateData = {
     url: '/api/v1/admin/modes/{key}';
 };
 
-export type AdminModesControllerUpdateErrors = {
+export type AdminModesUpdateErrors = {
     /**
      * FORBIDDEN
      */
@@ -1796,88 +2035,88 @@ export type AdminModesControllerUpdateErrors = {
     409: ApiErrorResponseDto;
 };
 
-export type AdminModesControllerUpdateError = AdminModesControllerUpdateErrors[keyof AdminModesControllerUpdateErrors];
+export type AdminModesUpdateError = AdminModesUpdateErrors[keyof AdminModesUpdateErrors];
 
-export type AdminModesControllerUpdateResponses = {
+export type AdminModesUpdateResponses = {
     200: AdminModeDto;
 };
 
-export type AdminModesControllerUpdateResponse = AdminModesControllerUpdateResponses[keyof AdminModesControllerUpdateResponses];
+export type AdminModesUpdateResponse = AdminModesUpdateResponses[keyof AdminModesUpdateResponses];
 
-export type AdminPricingSettingsControllerGetData = {
+export type AdminPricingSettingsGetData = {
     body?: never;
     path?: never;
     query?: never;
     url: '/api/v1/admin/pricing-settings';
 };
 
-export type AdminPricingSettingsControllerGetErrors = {
+export type AdminPricingSettingsGetErrors = {
     /**
      * FORBIDDEN
      */
     403: ApiErrorResponseDto;
 };
 
-export type AdminPricingSettingsControllerGetError = AdminPricingSettingsControllerGetErrors[keyof AdminPricingSettingsControllerGetErrors];
+export type AdminPricingSettingsGetError = AdminPricingSettingsGetErrors[keyof AdminPricingSettingsGetErrors];
 
-export type AdminPricingSettingsControllerGetResponses = {
+export type AdminPricingSettingsGetResponses = {
     200: PricingSettingsDto;
 };
 
-export type AdminPricingSettingsControllerGetResponse = AdminPricingSettingsControllerGetResponses[keyof AdminPricingSettingsControllerGetResponses];
+export type AdminPricingSettingsGetResponse = AdminPricingSettingsGetResponses[keyof AdminPricingSettingsGetResponses];
 
-export type AdminPricingSettingsControllerUpdateData = {
+export type AdminPricingSettingsUpdateData = {
     body: UpdatePricingSettingsDto;
     path?: never;
     query?: never;
     url: '/api/v1/admin/pricing-settings';
 };
 
-export type AdminPricingSettingsControllerUpdateErrors = {
+export type AdminPricingSettingsUpdateErrors = {
     /**
      * FORBIDDEN
      */
     403: ApiErrorResponseDto;
 };
 
-export type AdminPricingSettingsControllerUpdateError = AdminPricingSettingsControllerUpdateErrors[keyof AdminPricingSettingsControllerUpdateErrors];
+export type AdminPricingSettingsUpdateError = AdminPricingSettingsUpdateErrors[keyof AdminPricingSettingsUpdateErrors];
 
-export type AdminPricingSettingsControllerUpdateResponses = {
+export type AdminPricingSettingsUpdateResponses = {
     200: PricingSettingsDto;
 };
 
-export type AdminPricingSettingsControllerUpdateResponse = AdminPricingSettingsControllerUpdateResponses[keyof AdminPricingSettingsControllerUpdateResponses];
+export type AdminPricingSettingsUpdateResponse = AdminPricingSettingsUpdateResponses[keyof AdminPricingSettingsUpdateResponses];
 
-export type AdminPlansControllerListData = {
+export type AdminPlansListData = {
     body?: never;
     path?: never;
     query?: never;
     url: '/api/v1/admin/plans';
 };
 
-export type AdminPlansControllerListErrors = {
+export type AdminPlansListErrors = {
     /**
      * FORBIDDEN
      */
     403: ApiErrorResponseDto;
 };
 
-export type AdminPlansControllerListError = AdminPlansControllerListErrors[keyof AdminPlansControllerListErrors];
+export type AdminPlansListError = AdminPlansListErrors[keyof AdminPlansListErrors];
 
-export type AdminPlansControllerListResponses = {
+export type AdminPlansListResponses = {
     200: Array<PlanDto>;
 };
 
-export type AdminPlansControllerListResponse = AdminPlansControllerListResponses[keyof AdminPlansControllerListResponses];
+export type AdminPlansListResponse = AdminPlansListResponses[keyof AdminPlansListResponses];
 
-export type AdminPlansControllerCreateData = {
+export type AdminPlansCreateData = {
     body: CreatePlanDto;
     path?: never;
     query?: never;
     url: '/api/v1/admin/plans';
 };
 
-export type AdminPlansControllerCreateErrors = {
+export type AdminPlansCreateErrors = {
     /**
      * FORBIDDEN
      */
@@ -1892,15 +2131,15 @@ export type AdminPlansControllerCreateErrors = {
     409: ApiErrorResponseDto;
 };
 
-export type AdminPlansControllerCreateError = AdminPlansControllerCreateErrors[keyof AdminPlansControllerCreateErrors];
+export type AdminPlansCreateError = AdminPlansCreateErrors[keyof AdminPlansCreateErrors];
 
-export type AdminPlansControllerCreateResponses = {
+export type AdminPlansCreateResponses = {
     201: PlanDto;
 };
 
-export type AdminPlansControllerCreateResponse = AdminPlansControllerCreateResponses[keyof AdminPlansControllerCreateResponses];
+export type AdminPlansCreateResponse = AdminPlansCreateResponses[keyof AdminPlansCreateResponses];
 
-export type AdminPlansControllerGetData = {
+export type AdminPlansGetData = {
     body?: never;
     path: {
         key: string;
@@ -1909,7 +2148,7 @@ export type AdminPlansControllerGetData = {
     url: '/api/v1/admin/plans/{key}';
 };
 
-export type AdminPlansControllerGetErrors = {
+export type AdminPlansGetErrors = {
     /**
      * FORBIDDEN
      */
@@ -1920,15 +2159,15 @@ export type AdminPlansControllerGetErrors = {
     404: ApiErrorResponseDto;
 };
 
-export type AdminPlansControllerGetError = AdminPlansControllerGetErrors[keyof AdminPlansControllerGetErrors];
+export type AdminPlansGetError = AdminPlansGetErrors[keyof AdminPlansGetErrors];
 
-export type AdminPlansControllerGetResponses = {
+export type AdminPlansGetResponses = {
     200: PlanDto;
 };
 
-export type AdminPlansControllerGetResponse = AdminPlansControllerGetResponses[keyof AdminPlansControllerGetResponses];
+export type AdminPlansGetResponse = AdminPlansGetResponses[keyof AdminPlansGetResponses];
 
-export type AdminPlansControllerUpdateData = {
+export type AdminPlansUpdateData = {
     body: UpdatePlanDto;
     path: {
         key: string;
@@ -1937,7 +2176,7 @@ export type AdminPlansControllerUpdateData = {
     url: '/api/v1/admin/plans/{key}';
 };
 
-export type AdminPlansControllerUpdateErrors = {
+export type AdminPlansUpdateErrors = {
     /**
      * FORBIDDEN
      */
@@ -1952,15 +2191,15 @@ export type AdminPlansControllerUpdateErrors = {
     409: ApiErrorResponseDto;
 };
 
-export type AdminPlansControllerUpdateError = AdminPlansControllerUpdateErrors[keyof AdminPlansControllerUpdateErrors];
+export type AdminPlansUpdateError = AdminPlansUpdateErrors[keyof AdminPlansUpdateErrors];
 
-export type AdminPlansControllerUpdateResponses = {
+export type AdminPlansUpdateResponses = {
     200: PlanDto;
 };
 
-export type AdminPlansControllerUpdateResponse = AdminPlansControllerUpdateResponses[keyof AdminPlansControllerUpdateResponses];
+export type AdminPlansUpdateResponse = AdminPlansUpdateResponses[keyof AdminPlansUpdateResponses];
 
-export type AdminPlansControllerSetModesData = {
+export type AdminPlansSetModesData = {
     body: SetPlanModesDto;
     path: {
         key: string;
@@ -1969,7 +2208,7 @@ export type AdminPlansControllerSetModesData = {
     url: '/api/v1/admin/plans/{key}/modes';
 };
 
-export type AdminPlansControllerSetModesErrors = {
+export type AdminPlansSetModesErrors = {
     /**
      * FORBIDDEN
      */
@@ -1980,15 +2219,15 @@ export type AdminPlansControllerSetModesErrors = {
     404: ApiErrorResponseDto;
 };
 
-export type AdminPlansControllerSetModesError = AdminPlansControllerSetModesErrors[keyof AdminPlansControllerSetModesErrors];
+export type AdminPlansSetModesError = AdminPlansSetModesErrors[keyof AdminPlansSetModesErrors];
 
-export type AdminPlansControllerSetModesResponses = {
+export type AdminPlansSetModesResponses = {
     200: PlanDto;
 };
 
-export type AdminPlansControllerSetModesResponse = AdminPlansControllerSetModesResponses[keyof AdminPlansControllerSetModesResponses];
+export type AdminPlansSetModesResponse = AdminPlansSetModesResponses[keyof AdminPlansSetModesResponses];
 
-export type AdminSubscriptionsControllerHistoryData = {
+export type AdminSubscriptionsHistoryData = {
     body?: never;
     path: {
         id: string;
@@ -1997,7 +2236,7 @@ export type AdminSubscriptionsControllerHistoryData = {
     url: '/api/v1/admin/users/{id}/subscriptions';
 };
 
-export type AdminSubscriptionsControllerHistoryErrors = {
+export type AdminSubscriptionsHistoryErrors = {
     /**
      * FORBIDDEN
      */
@@ -2008,15 +2247,15 @@ export type AdminSubscriptionsControllerHistoryErrors = {
     404: ApiErrorResponseDto;
 };
 
-export type AdminSubscriptionsControllerHistoryError = AdminSubscriptionsControllerHistoryErrors[keyof AdminSubscriptionsControllerHistoryErrors];
+export type AdminSubscriptionsHistoryError = AdminSubscriptionsHistoryErrors[keyof AdminSubscriptionsHistoryErrors];
 
-export type AdminSubscriptionsControllerHistoryResponses = {
+export type AdminSubscriptionsHistoryResponses = {
     200: Array<SubscriptionDto>;
 };
 
-export type AdminSubscriptionsControllerHistoryResponse = AdminSubscriptionsControllerHistoryResponses[keyof AdminSubscriptionsControllerHistoryResponses];
+export type AdminSubscriptionsHistoryResponse = AdminSubscriptionsHistoryResponses[keyof AdminSubscriptionsHistoryResponses];
 
-export type AdminSubscriptionsControllerAssignData = {
+export type AdminSubscriptionsAssignData = {
     body: AssignSubscriptionDto;
     path: {
         id: string;
@@ -2025,7 +2264,7 @@ export type AdminSubscriptionsControllerAssignData = {
     url: '/api/v1/admin/users/{id}/subscriptions';
 };
 
-export type AdminSubscriptionsControllerAssignErrors = {
+export type AdminSubscriptionsAssignErrors = {
     /**
      * FORBIDDEN
      */
@@ -2040,15 +2279,15 @@ export type AdminSubscriptionsControllerAssignErrors = {
     409: ApiErrorResponseDto;
 };
 
-export type AdminSubscriptionsControllerAssignError = AdminSubscriptionsControllerAssignErrors[keyof AdminSubscriptionsControllerAssignErrors];
+export type AdminSubscriptionsAssignError = AdminSubscriptionsAssignErrors[keyof AdminSubscriptionsAssignErrors];
 
-export type AdminSubscriptionsControllerAssignResponses = {
+export type AdminSubscriptionsAssignResponses = {
     200: UserSubscriptionStateDto;
 };
 
-export type AdminSubscriptionsControllerAssignResponse = AdminSubscriptionsControllerAssignResponses[keyof AdminSubscriptionsControllerAssignResponses];
+export type AdminSubscriptionsAssignResponse = AdminSubscriptionsAssignResponses[keyof AdminSubscriptionsAssignResponses];
 
-export type AdminSubscriptionsControllerEndData = {
+export type AdminSubscriptionsEndData = {
     body: EndSubscriptionDto;
     path: {
         id: string;
@@ -2057,7 +2296,7 @@ export type AdminSubscriptionsControllerEndData = {
     url: '/api/v1/admin/users/{id}/subscriptions/end';
 };
 
-export type AdminSubscriptionsControllerEndErrors = {
+export type AdminSubscriptionsEndErrors = {
     /**
      * FORBIDDEN
      */
@@ -2072,15 +2311,15 @@ export type AdminSubscriptionsControllerEndErrors = {
     409: ApiErrorResponseDto;
 };
 
-export type AdminSubscriptionsControllerEndError = AdminSubscriptionsControllerEndErrors[keyof AdminSubscriptionsControllerEndErrors];
+export type AdminSubscriptionsEndError = AdminSubscriptionsEndErrors[keyof AdminSubscriptionsEndErrors];
 
-export type AdminSubscriptionsControllerEndResponses = {
+export type AdminSubscriptionsEndResponses = {
     200: UserSubscriptionStateDto;
 };
 
-export type AdminSubscriptionsControllerEndResponse = AdminSubscriptionsControllerEndResponses[keyof AdminSubscriptionsControllerEndResponses];
+export type AdminSubscriptionsEndResponse = AdminSubscriptionsEndResponses[keyof AdminSubscriptionsEndResponses];
 
-export type AdminLedgerControllerBalanceData = {
+export type AdminLedgerBalanceData = {
     body?: never;
     path: {
         id: string;
@@ -2089,7 +2328,7 @@ export type AdminLedgerControllerBalanceData = {
     url: '/api/v1/admin/users/{id}/balance';
 };
 
-export type AdminLedgerControllerBalanceErrors = {
+export type AdminLedgerBalanceErrors = {
     /**
      * FORBIDDEN
      */
@@ -2100,15 +2339,15 @@ export type AdminLedgerControllerBalanceErrors = {
     404: ApiErrorResponseDto;
 };
 
-export type AdminLedgerControllerBalanceError = AdminLedgerControllerBalanceErrors[keyof AdminLedgerControllerBalanceErrors];
+export type AdminLedgerBalanceError = AdminLedgerBalanceErrors[keyof AdminLedgerBalanceErrors];
 
-export type AdminLedgerControllerBalanceResponses = {
+export type AdminLedgerBalanceResponses = {
     200: AdminBalanceDto;
 };
 
-export type AdminLedgerControllerBalanceResponse = AdminLedgerControllerBalanceResponses[keyof AdminLedgerControllerBalanceResponses];
+export type AdminLedgerBalanceResponse = AdminLedgerBalanceResponses[keyof AdminLedgerBalanceResponses];
 
-export type AdminLedgerControllerEntriesData = {
+export type AdminLedgerEntriesData = {
     body?: never;
     path: {
         id: string;
@@ -2123,7 +2362,7 @@ export type AdminLedgerControllerEntriesData = {
     url: '/api/v1/admin/users/{id}/ledger';
 };
 
-export type AdminLedgerControllerEntriesErrors = {
+export type AdminLedgerEntriesErrors = {
     /**
      * FORBIDDEN
      */
@@ -2134,15 +2373,15 @@ export type AdminLedgerControllerEntriesErrors = {
     404: ApiErrorResponseDto;
 };
 
-export type AdminLedgerControllerEntriesError = AdminLedgerControllerEntriesErrors[keyof AdminLedgerControllerEntriesErrors];
+export type AdminLedgerEntriesError = AdminLedgerEntriesErrors[keyof AdminLedgerEntriesErrors];
 
-export type AdminLedgerControllerEntriesResponses = {
+export type AdminLedgerEntriesResponses = {
     200: AdminLedgerPageDto;
 };
 
-export type AdminLedgerControllerEntriesResponse = AdminLedgerControllerEntriesResponses[keyof AdminLedgerControllerEntriesResponses];
+export type AdminLedgerEntriesResponse = AdminLedgerEntriesResponses[keyof AdminLedgerEntriesResponses];
 
-export type AdminLedgerControllerAdjustData = {
+export type AdminLedgerAdjustData = {
     body: AdjustBalanceDto;
     path: {
         id: string;
@@ -2151,7 +2390,7 @@ export type AdminLedgerControllerAdjustData = {
     url: '/api/v1/admin/users/{id}/balance/adjustments';
 };
 
-export type AdminLedgerControllerAdjustErrors = {
+export type AdminLedgerAdjustErrors = {
     /**
      * FORBIDDEN
      */
@@ -2166,15 +2405,15 @@ export type AdminLedgerControllerAdjustErrors = {
     409: ApiErrorResponseDto;
 };
 
-export type AdminLedgerControllerAdjustError = AdminLedgerControllerAdjustErrors[keyof AdminLedgerControllerAdjustErrors];
+export type AdminLedgerAdjustError = AdminLedgerAdjustErrors[keyof AdminLedgerAdjustErrors];
 
-export type AdminLedgerControllerAdjustResponses = {
+export type AdminLedgerAdjustResponses = {
     200: BalanceChangeResultDto;
 };
 
-export type AdminLedgerControllerAdjustResponse = AdminLedgerControllerAdjustResponses[keyof AdminLedgerControllerAdjustResponses];
+export type AdminLedgerAdjustResponse = AdminLedgerAdjustResponses[keyof AdminLedgerAdjustResponses];
 
-export type AdminLedgerControllerRecordPurchaseData = {
+export type AdminLedgerRecordPurchaseData = {
     body: RecordPurchaseDto;
     path: {
         id: string;
@@ -2183,7 +2422,7 @@ export type AdminLedgerControllerRecordPurchaseData = {
     url: '/api/v1/admin/users/{id}/balance/purchases';
 };
 
-export type AdminLedgerControllerRecordPurchaseErrors = {
+export type AdminLedgerRecordPurchaseErrors = {
     /**
      * FORBIDDEN
      */
@@ -2198,54 +2437,54 @@ export type AdminLedgerControllerRecordPurchaseErrors = {
     409: ApiErrorResponseDto;
 };
 
-export type AdminLedgerControllerRecordPurchaseError = AdminLedgerControllerRecordPurchaseErrors[keyof AdminLedgerControllerRecordPurchaseErrors];
+export type AdminLedgerRecordPurchaseError = AdminLedgerRecordPurchaseErrors[keyof AdminLedgerRecordPurchaseErrors];
 
-export type AdminLedgerControllerRecordPurchaseResponses = {
+export type AdminLedgerRecordPurchaseResponses = {
     200: BalanceChangeResultDto;
 };
 
-export type AdminLedgerControllerRecordPurchaseResponse = AdminLedgerControllerRecordPurchaseResponses[keyof AdminLedgerControllerRecordPurchaseResponses];
+export type AdminLedgerRecordPurchaseResponse = AdminLedgerRecordPurchaseResponses[keyof AdminLedgerRecordPurchaseResponses];
 
-export type AdminChatSettingsControllerGetData = {
+export type AdminChatSettingsGetData = {
     body?: never;
     path?: never;
     query?: never;
     url: '/api/v1/admin/chat-settings';
 };
 
-export type AdminChatSettingsControllerGetErrors = {
+export type AdminChatSettingsGetErrors = {
     /**
      * FORBIDDEN
      */
     403: ApiErrorResponseDto;
 };
 
-export type AdminChatSettingsControllerGetError = AdminChatSettingsControllerGetErrors[keyof AdminChatSettingsControllerGetErrors];
+export type AdminChatSettingsGetError = AdminChatSettingsGetErrors[keyof AdminChatSettingsGetErrors];
 
-export type AdminChatSettingsControllerGetResponses = {
+export type AdminChatSettingsGetResponses = {
     200: ChatSettingsDto;
 };
 
-export type AdminChatSettingsControllerGetResponse = AdminChatSettingsControllerGetResponses[keyof AdminChatSettingsControllerGetResponses];
+export type AdminChatSettingsGetResponse = AdminChatSettingsGetResponses[keyof AdminChatSettingsGetResponses];
 
-export type AdminChatSettingsControllerUpdateData = {
+export type AdminChatSettingsUpdateData = {
     body: UpdateChatSettingsDto;
     path?: never;
     query?: never;
     url: '/api/v1/admin/chat-settings';
 };
 
-export type AdminChatSettingsControllerUpdateErrors = {
+export type AdminChatSettingsUpdateErrors = {
     /**
      * FORBIDDEN
      */
     403: ApiErrorResponseDto;
 };
 
-export type AdminChatSettingsControllerUpdateError = AdminChatSettingsControllerUpdateErrors[keyof AdminChatSettingsControllerUpdateErrors];
+export type AdminChatSettingsUpdateError = AdminChatSettingsUpdateErrors[keyof AdminChatSettingsUpdateErrors];
 
-export type AdminChatSettingsControllerUpdateResponses = {
+export type AdminChatSettingsUpdateResponses = {
     200: ChatSettingsDto;
 };
 
-export type AdminChatSettingsControllerUpdateResponse = AdminChatSettingsControllerUpdateResponses[keyof AdminChatSettingsControllerUpdateResponses];
+export type AdminChatSettingsUpdateResponse = AdminChatSettingsUpdateResponses[keyof AdminChatSettingsUpdateResponses];

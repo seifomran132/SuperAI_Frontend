@@ -4,11 +4,11 @@ import { KeyRound, Plus, Power, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
 import {
-  adminProvidersControllerCreateMutation,
-  adminProvidersControllerRemoveApiKeyMutation,
-  adminProvidersControllerUpdateMutation,
+  adminProvidersCreateMutation,
+  adminProvidersRemoveApiKeyMutation,
+  adminProvidersUpdateMutation,
 } from '~/api/generated/@tanstack/react-query.gen';
-import { adminProvidersControllerSetApiKey } from '~/api/generated/sdk.gen';
+import { adminProvidersSetApiKey } from '~/api/generated/sdk.gen';
 import type { ProviderDto } from '~/api/generated/types.gen';
 import { Alert } from '~/components/ui/alert';
 import { Button } from '~/components/ui/button';
@@ -96,7 +96,7 @@ function SetKeyDialog({
         const key = apiKey.trim();
         setApiKey('');
         // Called directly (not useMutation): the key must not end up in the MutationCache.
-        await adminProvidersControllerSetApiKey({
+        await adminProvidersSetApiKey({
           path: { code: provider.code },
           body: { reason, apiKey: key },
           throwOnError: true,
@@ -117,7 +117,7 @@ function RemoveKeyDialog({
 }) {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
-  const mutation = useMutation(adminProvidersControllerRemoveApiKeyMutation());
+  const mutation = useMutation(adminProvidersRemoveApiKeyMutation());
   return (
     <ReasonDialog
       open
@@ -150,7 +150,7 @@ function ToggleDialog({
 }) {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
-  const mutation = useMutation(adminProvidersControllerUpdateMutation());
+  const mutation = useMutation(adminProvidersUpdateMutation());
   const enabling = !provider.isEnabled;
   return (
     <ReasonDialog
@@ -183,7 +183,7 @@ function ToggleDialog({
 function AddProviderDialog({ onClose }: { onClose: () => void }) {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
-  const mutation = useMutation(adminProvidersControllerCreateMutation());
+  const mutation = useMutation(adminProvidersCreateMutation());
   const [v, setV] = useState({ code: '', displayName: '', baseUrl: '' });
   const [errors, setErrors] = useState<Errors>({});
   const set = (field: keyof typeof v, value: string) => {

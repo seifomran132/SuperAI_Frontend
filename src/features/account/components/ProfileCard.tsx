@@ -7,9 +7,9 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { isApiError } from '~/api/errors';
 import {
-  meControllerGetOptions,
-  meControllerGetQueryKey,
-  meControllerUpdateMutation,
+  meGetOptions,
+  meGetQueryKey,
+  meUpdateMutation,
 } from '~/api/generated/@tanstack/react-query.gen';
 import type { MeResponse } from '~/api/generated/types.gen';
 import { RetryAlert } from '~/components/RetryAlert';
@@ -35,7 +35,7 @@ import { Card } from './Card';
 function ProfileForm({ me }: { me: MeResponse }) {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
-  const update = useMutation(meControllerUpdateMutation());
+  const update = useMutation(meUpdateMutation());
   const [errorKey, setErrorKey] = useState<string | null>(null);
 
   const form = useForm<CompleteProfileValues>({
@@ -52,7 +52,7 @@ function ProfileForm({ me }: { me: MeResponse }) {
       const saved = await update.mutateAsync({
         body: toProfilePayload(values),
       });
-      queryClient.setQueryData(meControllerGetQueryKey(), saved);
+      queryClient.setQueryData(meGetQueryKey(), saved);
       form.reset({
         fullName: saved.fullName ?? '',
         phoneNumber: saved.phoneNumber ?? '',
@@ -160,9 +160,7 @@ function ProfileForm({ me }: { me: MeResponse }) {
 /** Name and phone are editable; the email is read-only. */
 export function ProfileCard() {
   const { t } = useTranslation();
-  const { data, isPending, isError, refetch } = useQuery(
-    meControllerGetOptions(),
-  );
+  const { data, isPending, isError, refetch } = useQuery(meGetOptions());
   let body;
   if (data) {
     body = <ProfileForm me={data} />;

@@ -23,6 +23,8 @@ const entry = (
   type,
   amountUsd,
   balanceAfterUsd: '14.480000000',
+  conversationId: null,
+  mode: null,
   createdAt: '2026-01-02T10:30:00.000Z',
 });
 

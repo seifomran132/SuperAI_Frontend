@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { FlaskConical } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { adminModelsControllerTestMutation } from '~/api/generated/@tanstack/react-query.gen';
+import { adminModelsTestMutation } from '~/api/generated/@tanstack/react-query.gen';
 import type { ModelDto, ModelTestResultDto } from '~/api/generated/types.gen';
 import { Money } from '~/components/Money';
 import { Alert } from '~/components/ui/alert';
@@ -74,6 +74,11 @@ function TestResult({ result }: { result: ModelTestResultDto }) {
             none
           )}
         </Stat>
+        <Stat label={t('admin.models.test.imageSent')}>
+          {t(
+            result.imageSent ? 'admin.models.test.yes' : 'admin.models.test.no',
+          )}
+        </Stat>
         <Stat label={t('admin.models.test.firstChunk')}>
           <bdi dir="ltr">{ms(result.firstChunkMs) ?? none}</bdi>
         </Stat>
@@ -111,7 +116,7 @@ function TestDialog({
   onResult: (result: ModelTestResultDto) => void;
 }) {
   const { t } = useTranslation();
-  const mutation = useMutation(adminModelsControllerTestMutation());
+  const mutation = useMutation(adminModelsTestMutation());
   const [prompt, setPrompt] = useState('');
   const [maxOutput, setMaxOutput] = useState('64');
   const [error, setError] = useState<string | undefined>();

@@ -53,7 +53,8 @@ const policy = [
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com",
   // Markdown never loads remote images; data: covers inline icons.
-  "img-src 'self' data:",
+  // blob: for chat images, fetched with the bearer token (API_CONTRACT §8.3).
+  "img-src 'self' data: blob:",
   `connect-src 'self' ${apiOrigins.join(' ')}`,
   "frame-ancestors 'none'",
   "base-uri 'self'",

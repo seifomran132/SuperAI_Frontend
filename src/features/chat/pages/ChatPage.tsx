@@ -27,6 +27,9 @@ import {
 } from '../model/useChatQueries';
 import { useResumeRefresh } from '../model/useResumeRefresh';
 import { useSendMessage } from '../model/useSendMessage';
+import { useAttachmentDraft } from '../model/attachment-draft';
+import type { ComposerImageInput } from '../model/image-input';
+import { uploadImage } from '../model/upload-image';
 
 function MessagesSkeleton({ label }: { label: string }) {
   return (
@@ -87,6 +90,20 @@ export function ChatPage({ conversationId }: { conversationId?: string }) {
   });
   useResumeRefresh(conversationId);
 
+  const attachment = useAttachmentDraft(uploadImage);
+  const { remove: removeImage } = attachment;
+  // An image belongs to the conversation it was attached in.
+  useEffect(() => removeImage, [key, removeImage]);
+  const imageInput: ComposerImageInput = {
+    draft: attachment.state,
+    addFiles: attachment.addFiles,
+    remove: attachment.remove,
+    retry: attachment.retry,
+    dismissNotice: attachment.dismissNotice,
+    modeSupportsImages: (modeKey) =>
+      modesQuery.modes.some((m) => m.key === modeKey && m.supportsImages),
+  };
+
   // A first send in a new chat remounts this page under /chat/:id: keep the keyboard in the box.
   useEffect(() => {
     if (send.isBusy) textarea.current?.focus();
@@ -121,6 +138,9 @@ export function ChatPage({ conversationId }: { conversationId?: string }) {
         errorCode: null,
         createdAt: now,
         completedAt: now,
+        attachments: [...send.pending.attachments],
+        costUsd: null,
+        usage: null,
       },
     ];
   }, [conversationId, send.pending, messagesQuery.messages]);
@@ -290,6 +310,7 @@ export function ChatPage({ conversationId }: { conversationId?: string }) {
               </ChatNotice>
             ) : null}
             <Composer
+              imageInput={imageInput}
               storeKey={key}
               conversationModeKey={conversation.data?.modeKey}
               send={send}

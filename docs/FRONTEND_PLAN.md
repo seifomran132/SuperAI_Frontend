@@ -77,14 +77,15 @@ Admin conventions: every write needs a `reason` field; money/subscription writes
 
 Backend status (checked 2026-10-06): everything the frontend needs for launch is live in production (auth, plans, balance, chat SSE with reservation/settlement and insufficient-balance alternatives, admin APIs). Still open on the backend: the admin usage view (10.5), providers other than Google (10.6), and the launch items in its IMPLEMENTATION_MODULES §10. MSW covers edge cases that are hard to trigger live (provider error mid-stream, busy, duplicate, rate limit).
 
-| # | Milestone | Delivers | Blocked by | Status |
-|---|---|---|---|---|
-| **F0** | Foundation | Repo + tooling, design tokens (placeholders, light/dark), RTL shell, i18n with error-code catalog generated from `openapi/error-codes.json`, typed API client + `npm run api:sync`, auth-js session + refresh + guards, Query client, money/date formatters, MSW mocks, CI (typecheck, lint, test, build) | — | ✅ Done |
-| **F1** | Auth & account | Sign up/in, confirm email, reset password, complete-profile gate, account page, suspended/deleted handling | F0 | ✅ Done (account page moved to F3) |
-| **F2** | Chat workspace | Conversation rail (cursor), new chat, message history (`before` cursor, scroll-up load), mode selector from `/modes`, composer (draft preserved), SSE client + state machine, stop, retry with same `clientRequestId`, `DUPLICATE_REQUEST`/`CONVERSATION_BUSY`/`RATE_LIMITED` (countdown from `Retry-After`) handling, "answer was cut" note for `partial` + `length`, cost + balance after `done`, insufficient-balance banner with Switch mode, no-subscription notice, Markdown rendering, mobile drawer | F0 (backend ready) | ✅ Done |
-| **F3** | Balance & plans | Balance page + activity, plans page, landing page | F0 | ✅ Balance, account, plans done; landing page after launch |
-| **F4** | Admin console | Users, subscriptions, balance/ledger/adjustments/purchases, plans, catalog, pricing, chat settings; usage view when backend 10.5 ships | F0 | ✅ Done (F4a ops + F4b catalog/settings); usage view waits for backend 10.5 |
-| **F5** | Hardening & launch | Playwright e2e of the P0 completion gate on staging, axe/WCAG AA pass, responsive pass, Arabic copy review, error boundaries, bundle check, deploy config | All; backend staging | 🟡 F5a tests, F5b quality, F5c deploy done; F5d launch gate in progress (§4b) |
+| # | Milestone | Delivers | Blocked by |
+|---|---|---|---|
+| **F0** | Foundation | Repo + tooling, design tokens (placeholders, light/dark), RTL shell, i18n with error-code catalog generated from `openapi/error-codes.json`, typed API client + `npm run api:sync`, auth-js session + refresh + guards, Query client, money/date formatters, MSW mocks, CI (typecheck, lint, test, build) | — |
+| **F1** | Auth & account | Sign up/in, confirm email, reset password, complete-profile gate, account page, suspended/deleted handling | F0 |
+| **F2** | Chat workspace | Conversation rail (cursor), new chat, message history (`before` cursor, scroll-up load), mode selector from `/modes`, composer (draft preserved), SSE client + state machine, stop, retry with same `clientRequestId`, `DUPLICATE_REQUEST`/`CONVERSATION_BUSY`/`RATE_LIMITED` (countdown from `Retry-After`) handling, "answer was cut" note for `partial` + `length`, cost + balance after `done`, insufficient-balance banner with Switch mode, no-subscription notice, Markdown rendering, mobile drawer | F0 (backend ready) |
+| **F3** | Balance & plans | Balance page + activity, plans page, landing page | F0 |
+| **F4** | Admin console | Users, subscriptions, balance/ledger/adjustments/purchases, plans, catalog, pricing, chat settings; usage view when backend 10.5 ships | F0 |
+| **F6** | Image input (before launch) | One image per message: upload, backend preprocessing and storage, mode `supportsImages`, composer attach/preview, history images — [plans/F6_IMAGE_INPUT.md](plans/F6_IMAGE_INPUT.md) | Backend image API; S15 design |
+| **F5** | Hardening & launch | Playwright e2e of the P0 completion gate on staging, axe/WCAG AA pass, responsive pass, Arabic copy review, error boundaries, bundle check, deploy config | All; backend staging |
 
 F1, F3 and F4 can run in parallel after F0. F2 is the critical path.
 

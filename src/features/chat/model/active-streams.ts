@@ -1,3 +1,4 @@
+import type { MessageAttachment } from './image-input';
 import { useSyncExternalStore } from 'react';
 
 // Sends in progress, keyed by conversation id ('new' while a new chat's
@@ -19,6 +20,7 @@ export interface ActiveStream {
   readonly clientRequestId: string;
   readonly content: string;
   readonly modeKey: string;
+  readonly attachments?: readonly MessageAttachment[];
 }
 
 let streams: ReadonlyMap<string, ActiveStream> = new Map();

@@ -1,5 +1,5 @@
 import { isApiError } from '~/api/errors';
-import { conversationsControllerCreate } from '~/api/generated/sdk.gen';
+import { conversationsCreate } from '~/api/generated/sdk.gen';
 import type { ConversationDto } from '~/api/generated/types.gen';
 import { getAccessToken } from '~/lib/auth/client';
 import {
@@ -25,7 +25,7 @@ export async function createConversation(
 ): Promise<ConversationDto> {
   const create = async () =>
     (
-      await conversationsControllerCreate({
+      await conversationsCreate({
         body: { modeKey },
         signal,
         throwOnError: true,

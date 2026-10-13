@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import {
-  meSubscriptionControllerGetOptions,
-  publicPlansControllerListOptions,
+  meSubscriptionGetOptions,
+  publicPlansListOptions,
 } from '~/api/generated/@tanstack/react-query.gen';
 import { RequestBalanceDialog } from '~/components/RequestBalanceDialog';
 import { RetryAlert } from '~/components/RetryAlert';
@@ -31,10 +31,10 @@ function Skeleton() {
 /** Heading, intro and the plan cards. The page around it (shell or public header) is the page's choice. */
 export function PlansContent({ signedIn }: { signedIn: boolean }) {
   const { t } = useTranslation();
-  const plans = useQuery(publicPlansControllerListOptions());
+  const plans = useQuery(publicPlansListOptions());
   // Only a signed-in visitor has a plan to mark; failure here just means no mark.
   const mine = useQuery({
-    ...meSubscriptionControllerGetOptions(),
+    ...meSubscriptionGetOptions(),
     enabled: signedIn,
   });
   const [dialog, setDialog] = useState(false);

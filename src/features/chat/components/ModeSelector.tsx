@@ -10,6 +10,7 @@ import {
 import type { ModeDto } from '~/api/generated/types.gen';
 import { cn } from '~/lib/utils';
 import { modePosition } from '../model/useChatQueries';
+import { ReadsImagesBadge } from './ImageNotices';
 import { ModeIcon, modeTone, useModeDescription, useModeLabel } from './mode';
 
 /**
@@ -20,10 +21,13 @@ export function ModeSelector({
   modes,
   modeKey,
   onSelect,
+  supportsImages,
 }: {
   modes: ModeDto[];
   modeKey: string | null;
   onSelect: (modeKey: string) => void;
+  /** With it, modes that can read images get a «يقرأ الصور» mark. */
+  supportsImages?: (modeKey: string) => boolean;
 }) {
   const { t } = useTranslation();
   const label = useModeLabel();
@@ -79,6 +83,7 @@ export function ModeSelector({
                 <span className="text-fg-muted text-xs leading-5">
                   {description(mode)}
                 </span>
+                {supportsImages?.(mode.key) ? <ReadsImagesBadge /> : null}
               </span>
               {mode.key === modeKey ? (
                 <Check

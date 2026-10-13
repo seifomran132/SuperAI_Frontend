@@ -1,15 +1,15 @@
 import { useMemo } from 'react';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import {
-  meBalanceControllerActivityInfiniteOptions,
-  meSubscriptionControllerGetOptions,
+  meBalanceActivityInfiniteOptions,
+  meSubscriptionGetOptions,
 } from '~/api/generated/@tanstack/react-query.gen';
 
 export const ACTIVITY_PAGE_SIZE = 30;
 
 /** `GET /me/balance/activity`, newest first, older pages with `before`. */
 export const activityOptions = () => ({
-  ...meBalanceControllerActivityInfiniteOptions({
+  ...meBalanceActivityInfiniteOptions({
     query: { limit: ACTIVITY_PAGE_SIZE },
   }),
   initialPageParam: {},
@@ -28,5 +28,5 @@ export function useActivity() {
 
 /** Plan and (when there is one) subscription dates. */
 export function useSubscription() {
-  return useQuery(meSubscriptionControllerGetOptions());
+  return useQuery(meSubscriptionGetOptions());
 }

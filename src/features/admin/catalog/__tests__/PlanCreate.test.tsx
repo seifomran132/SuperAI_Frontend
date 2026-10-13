@@ -1,8 +1,8 @@
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import {
-  modesControllerListQueryKey,
-  publicPlansControllerListQueryKey,
+  modesListQueryKey,
+  publicPlansListQueryKey,
 } from '~/api/generated/@tanstack/react-query.gen';
 import { adminCalls } from '~/mocks/admin';
 import { renderApp } from '~/test/render-app';
@@ -13,8 +13,8 @@ useCatalogSession();
 describe('PlanCreate', () => {
   it('creates a plan with its modes, then refreshes the customer plans and modes', async () => {
     const { queryClient, here } = await renderApp('/admin/plans/new');
-    queryClient.setQueryData(publicPlansControllerListQueryKey(), []);
-    queryClient.setQueryData(modesControllerListQueryKey(), []);
+    queryClient.setQueryData(publicPlansListQueryKey(), []);
+    queryClient.setQueryData(modesListQueryKey(), []);
 
     await screen.findByLabelText(/^المفتاح/, undefined, { timeout: 5000 });
     type(a.plans.key, 'gold');
@@ -39,11 +39,10 @@ describe('PlanCreate', () => {
       modeKeys: ['fast'],
     });
     expect(
-      queryClient.getQueryState(publicPlansControllerListQueryKey())
-        ?.isInvalidated,
+      queryClient.getQueryState(publicPlansListQueryKey())?.isInvalidated,
     ).toBe(true);
-    expect(
-      queryClient.getQueryState(modesControllerListQueryKey())?.isInvalidated,
-    ).toBe(true);
+    expect(queryClient.getQueryState(modesListQueryKey())?.isInvalidated).toBe(
+      true,
+    );
   });
 });

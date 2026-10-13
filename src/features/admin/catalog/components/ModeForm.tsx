@@ -4,8 +4,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
 import {
-  adminModesControllerCreateMutation,
-  adminModesControllerUpdateMutation,
+  adminModesCreateMutation,
+  adminModesUpdateMutation,
 } from '~/api/generated/@tanstack/react-query.gen';
 import type { AdminModeDto } from '~/api/generated/types.gen';
 import { Alert } from '~/components/ui/alert';
@@ -35,8 +35,8 @@ export function ModeForm({ mode }: { mode?: AdminModeDto }) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const models = useModels();
-  const create = useMutation(adminModesControllerCreateMutation());
-  const update = useMutation(adminModesControllerUpdateMutation());
+  const create = useMutation(adminModesCreateMutation());
+  const update = useMutation(adminModesUpdateMutation());
   const [v, setV] = useState({
     key: mode?.key ?? '',
     labelAr: mode?.labelAr ?? '',
