@@ -31,6 +31,12 @@ Never use Start server functions or server routes: the browser calls the API and
 | `npm run typecheck` · `npm run lint` · `npm test` | Checks run in CI |
 | `npm run api:sync` | Regenerate `src/api/generated/` and `src/i18n/errors.*.json` from the backend's OpenAPI export |
 | `npm run api:check` | Sync and fail if generated files changed (CI drift check) |
+| `npm run size` | After a build: fail if the first-screen JavaScript passes its budget (CI) |
+| `npm run analyze` | Build with `dist/client/stats.html` (what is inside each chunk) |
+| `npm run copy:table` | Regenerate `docs/copy/AR_COPY_REVIEW.md` for the Arabic copy review |
+| `npm run test:e2e` | Playwright end-to-end tests against the local stack |
+
+**Deploy:** pushing to `main` runs `.github/workflows/deploy.yml` (checks, build with `.env.production`, approval in the `production` environment, release on the VPS). Production: https://lam7ai.com, API https://api.lam7ai.com. Status and launch work: [docs/FRONTEND_PLAN.md](docs/FRONTEND_PLAN.md) §4b and [docs/deploy/DEPLOY_CHECKLIST.md](docs/deploy/DEPLOY_CHECKLIST.md). CI uses the Node version in `.nvmrc`.
 
 Local setup: Node 22+, `npm install`, `cp .env.example .env`, backend running (`npm run db:up` and `npm run start:dev` in `../SuperAI_Backend`).
 

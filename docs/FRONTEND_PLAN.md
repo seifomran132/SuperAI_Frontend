@@ -75,18 +75,38 @@ Admin conventions: every write needs a `reason` field; money/subscription writes
 
 ## 4. Milestones
 
-Backend status (checked 2026-10-02): **chat is done** (P0-10 reservation/settlement, P0-13 `POST /conversations/{id}/messages` SSE, P0-14 insufficient-balance alternatives) and the backend marks P0-15 "ready to start". Only the admin usage view (10.5) and the non-Google providers (10.6) remain, both in parallel. F2 builds against the real stream (`npm run chat:send` in the backend for a quick check); MSW stays for edge cases that are hard to trigger live (provider error mid-stream, busy, duplicate, rate limit).
+Backend status (checked 2026-10-06): everything the frontend needs for launch is live in production (auth, plans, balance, chat SSE with reservation/settlement and insufficient-balance alternatives, admin APIs). Still open on the backend: the admin usage view (10.5), providers other than Google (10.6), and the launch items in its IMPLEMENTATION_MODULES §10. MSW covers edge cases that are hard to trigger live (provider error mid-stream, busy, duplicate, rate limit).
 
-| # | Milestone | Delivers | Blocked by |
-|---|---|---|---|
-| **F0** | Foundation | Repo + tooling, design tokens (placeholders, light/dark), RTL shell, i18n with error-code catalog generated from `openapi/error-codes.json`, typed API client + `npm run api:sync`, auth-js session + refresh + guards, Query client, money/date formatters, MSW mocks, CI (typecheck, lint, test, build) | — |
-| **F1** | Auth & account | Sign up/in, confirm email, reset password, complete-profile gate, account page, suspended/deleted handling | F0 |
-| **F2** | Chat workspace | Conversation rail (cursor), new chat, message history (`before` cursor, scroll-up load), mode selector from `/modes`, composer (draft preserved), SSE client + state machine, stop, retry with same `clientRequestId`, `DUPLICATE_REQUEST`/`CONVERSATION_BUSY`/`RATE_LIMITED` (countdown from `Retry-After`) handling, "answer was cut" note for `partial` + `length`, cost + balance after `done`, insufficient-balance banner with Switch mode, no-subscription notice, Markdown rendering, mobile drawer | F0 (backend ready) |
-| **F3** | Balance & plans | Balance page + activity, plans page, landing page | F0 |
-| **F4** | Admin console | Users, subscriptions, balance/ledger/adjustments/purchases, plans, catalog, pricing, chat settings; usage view when backend 10.5 ships | F0 |
-| **F5** | Hardening & launch | Playwright e2e of the P0 completion gate on staging, axe/WCAG AA pass, responsive pass, Arabic copy review, error boundaries, bundle check, deploy config | All; backend staging |
+| # | Milestone | Delivers | Blocked by | Status |
+|---|---|---|---|---|
+| **F0** | Foundation | Repo + tooling, design tokens (placeholders, light/dark), RTL shell, i18n with error-code catalog generated from `openapi/error-codes.json`, typed API client + `npm run api:sync`, auth-js session + refresh + guards, Query client, money/date formatters, MSW mocks, CI (typecheck, lint, test, build) | — | ✅ Done |
+| **F1** | Auth & account | Sign up/in, confirm email, reset password, complete-profile gate, account page, suspended/deleted handling | F0 | ✅ Done (account page moved to F3) |
+| **F2** | Chat workspace | Conversation rail (cursor), new chat, message history (`before` cursor, scroll-up load), mode selector from `/modes`, composer (draft preserved), SSE client + state machine, stop, retry with same `clientRequestId`, `DUPLICATE_REQUEST`/`CONVERSATION_BUSY`/`RATE_LIMITED` (countdown from `Retry-After`) handling, "answer was cut" note for `partial` + `length`, cost + balance after `done`, insufficient-balance banner with Switch mode, no-subscription notice, Markdown rendering, mobile drawer | F0 (backend ready) | ✅ Done |
+| **F3** | Balance & plans | Balance page + activity, plans page, landing page | F0 | ✅ Balance, account, plans done; landing page after launch |
+| **F4** | Admin console | Users, subscriptions, balance/ledger/adjustments/purchases, plans, catalog, pricing, chat settings; usage view when backend 10.5 ships | F0 | ✅ Done (F4a ops + F4b catalog/settings); usage view waits for backend 10.5 |
+| **F5** | Hardening & launch | Playwright e2e of the P0 completion gate on staging, axe/WCAG AA pass, responsive pass, Arabic copy review, error boundaries, bundle check, deploy config | All; backend staging | 🟡 F5a tests, F5b quality, F5c deploy done; F5d launch gate in progress (§4b) |
 
 F1, F3 and F4 can run in parallel after F0. F2 is the critical path.
+
+## 4b. Status and what is left for launch (2026-10-06)
+
+**Live in production:** https://lam7ai.com (app, brand **لمحة AI**) with the API at https://api.lam7ai.com, on one VPS, public. Deploys run from `main` through GitHub Actions with approval ([docs/deploy/DEPLOY_CHECKLIST.md](deploy/DEPLOY_CHECKLIST.md)). First sign-up with the Arabic confirmation email works; the first admin is granted.
+
+**Done:** F0–F4, F5a (Playwright e2e + axe/RTL/overflow sweep at 375/768/1280; 349 unit tests), F5b (error screens, stale-chunk reload, offline banner, 14 accessibility fixes, bundle budget `npm run size`, Arabic copy table `docs/copy/AR_COPY_REVIEW.md`), F5c (production build config, strict CSP with per-build inline-script hashes, deploy workflow, Arabic auth emails, brand and contact channels).
+
+**Left before announcing the launch:**
+
+| # | Item | Owner | Blocking? |
+|---|---|---|---|
+| 1 | Configure the catalog in `/admin` (provider keys, models + prices, modes, plans, لمحة AI system prompt) and pass a full chat run-through (sign up → plan → chat in each mode → cost and balance) | Team + Claude | Yes |
+| 2 | Fast models: the first Gemini 3.x Flash with default thinking took 35–55 s or returned 503; pick models whose first token comes in 1–2 s | Team | Yes |
+| 3 | Rotate the deploy SSH key and the Brevo SMTP key (exposed during setup) | Team + Claude | Yes |
+| 4 | Nightly backup cron, off-server copy, one restore test | Team + Claude | Yes, before real money |
+| 5 | Arabic copy review (`docs/copy/AR_COPY_REVIEW.md`) | Team | Recommended |
+| 6 | Manual test pass on production ([docs/testing/MANUAL_TEST_CASES.md](testing/MANUAL_TEST_CASES.md)), Lighthouse, final `frontend-reviewer` pass | Team + Claude | Recommended |
+| 7 | Backend fixes found in the first deploy: invalid Google key shown as "unavailable"; about 90 s before a silent provider becomes an error (backend IMPLEMENTATION_MODULES 10.10) | Backend | Recommended |
+
+**After launch:** landing page (prerendered `/`; also fixes the React #418 hydration warning on the current `/`), MSW mock fix so CI can use the newest Node 22 (CI is pinned to 22.19.0 via `.nvmrc`), Bitwarden Secrets Manager, a staging environment, per-user usage view when backend 10.5 ships, tagline and legal pages, then the mobile app (§7b).
 
 ## 5. Sub-agents
 
@@ -121,7 +141,7 @@ We design in code rather than static mockups. The prototype then *is* the compon
 
 ## 6. Backend gaps to raise
 
-Found while mapping pages to the OpenAPI file (rechecked 2026-10-02 after the chat release; items 1–4 are still open):
+Found while mapping pages to the OpenAPI file (rechecked 2026-10-06; items 1, 2, 4, 5 are still open and none blocks the launch):
 
 1. **No delete or rename conversation** endpoints. The client requirements list delete; UI_UX lists rename as optional P0.
 2. **`MessageDto` has no cost or token fields.** Per-message USD cost is only in the live `done`/`error` event, so it disappears on reload. UI_UX wants cost per response and an expandable token breakdown.
@@ -131,7 +151,8 @@ Found while mapping pages to the OpenAPI file (rechecked 2026-10-02 after the ch
 6. **Cleaner operationIds** (nice to have): NestJS defaults like `ConversationsController_list` produce long generated names. An `operationIdFactory` in the Swagger setup (e.g. `conversations_list`) or explicit `@ApiOperation({ operationId })` gives `conversationsList` / `conversationsListInfiniteOptions`. Better to change this **before** the frontend depends on the names.
 7. **Chat endpoint's error responses are typed as `text/event-stream` in OpenAPI.** `@ApiProduces('text/event-stream')` on `ChatController.send` applies to every response, but errors are JSON (API_CONTRACT §6.2). Fix: declare the stream content type on the 200 response only. Until then `api:sync` excludes `ChatController_send` from SDK generation (the stream client is hand-written anyway) and its errors are typed with `ApiErrorResponseDto` by hand.
 8. **Answers are capped at 4,000 output tokens** (B2 decision). Long answers end `partial` with `finishReason: "length"`; the UI shows a clear "answer was cut" note. Raise it if the cap is too low for Professional mode.
-9. **Contact channel** for "ask for a plan / more balance": need the actual WhatsApp/email/phone (config value).
+9. ✅ **Contact channels** (2026-10-06): WhatsApp and phone +972 56-751-8888, contact@lam7ai.com, in `src/brand/lam7a.ts`.
+10. ✅ **`Retry-After` readable cross-origin** (2026-10-06): the API exposes it in CORS, so the rate-limit countdown works from lam7ai.com.
 
 ## 7. Conventions (summary; full version goes in CLAUDE.md after F0)
 
@@ -162,7 +183,7 @@ Backend and policy items for when the app starts (not launch blockers for web):
 
 ## 7c. Brand identity is configurable (white-label)
 
-Decided 2026-10-02: the product ships as **بيان (Bayan)**, but the identity must be swappable so the platform can be sold to another customer without code changes.
+Decided 2026-10-02, renamed 2026-10-06: the product ships as **لمحة AI (Lam7a AI)** at lam7ai.com (the earlier name بيان was taken), and the identity stays swappable so the platform can be sold to another customer without code changes. Brand config: `src/brand/lam7a.ts`, `VITE_BRAND=lam7a`.
 
 - **Brand layer (per customer):** name (Arabic/English), logo + favicon + app icons, primary/brand color ramp, accent for the brand mark, optional font override, contact channels, legal links. Lives in one `brand.config.ts` + a theme CSS file selected at build time (`VITE_BRAND=bayan`); later it can be served at runtime.
 - **Semantic layer (fixed):** mode colors are assigned per mode key from a palette (admins can add modes), and status colors (success, warning, danger) never change per brand, so every brand keeps passing contrast.
@@ -170,6 +191,8 @@ Decided 2026-10-02: the product ships as **بيان (Bayan)**, but the identity 
 - The design system in Stitch is named generically; brand values are one swappable section of DESIGN.md.
 
 ## 8. Decisions needed
+
+All resolved: TanStack Start SPA (1), own repo, single app (2), designs from Stitch with the team approving each screen (3), hosting on the team's VPS behind Caddy with the API on `api.lam7ai.com` (4), §6 answered or deferred (5). Kept for the record:
 
 1. **TanStack Start (SPA mode) vs Next.js** (RADIO §2.1 says Next.js). Recommendation: TanStack Start in SPA mode with prerendered public pages, for the reasons in §2.
 2. **Repo:** `SuperAI_frontend/` currently sits inside the parent `SuperCardAI` git repo (branch `master`, no commits). Recommendation: its own repo, like the backend, as a **single app, not a monorepo**. Capacitor wraps the same build, so mobile later means adding `capacitor.config.ts` plus the generated `ios/` and `android/` folders to this repo. Platform differences live in `src/platform/` (storage, stream transport, app lifecycle, deep links) behind interfaces chosen at build time (`VITE_TARGET`). Admin routes stay in the same app, lazy-loaded, and excluded from the mobile build. Revisit a pnpm-workspace monorepo only if a second, separately built app appears (a React Native app, a standalone admin app, or a marketing site on a different stack). Keep `src/api`, `src/i18n`, `src/lib` free of imports from routes/features so they can move into packages then without rewrites.

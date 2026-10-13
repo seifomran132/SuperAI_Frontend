@@ -2,6 +2,17 @@
 
 **Goal:** test, fix and deploy what F1–F4 built. No new features. Landing page comes after F5.
 
+## Status (2026-10-06)
+
+| Part | Status | Notes |
+|---|---|---|
+| F5a Browser tests | ✅ Done | 5 Playwright specs (chat, chat errors, account, admin, route sweep at 375/768/1280 with axe + RTL + no horizontal scroll); 21 new unit tests; 4 bugs fixed (list error replacing loaded rows, focus after the request-balance dialog, admin tables scrolling the page, history table not keyboard-scrollable). |
+| F5b Quality passes | ✅ Done | Crash screen, one automatic reload then a new-version screen for stale chunks, offline banner; 14 accessibility fixes; auth pages moved to `~/features/auth/ui` (first screen 261 → 215 KB gz); `npm run size` budget in CI, `npm run analyze`; Arabic copy table (`npm run copy:table`). |
+| F5c Launch configuration | ✅ Done | Production only (no staging): public on lam7ai.com, API on api.lam7ai.com; `.env.production`; strict CSP generated per build (inline-script hashes computed as browsers parse them: NUL → U+FFFD); deploy workflow with approval and atomic release switch; Arabic RTL auth email templates; contact channels; CI Node pinned to 22.19.0 (`.nvmrc`). |
+| F5d Launch gate | 🟡 In progress | Live; sign-up email and first admin verified. Left: catalog setup and chat run-through, fast models, key rotation, backups, copy review, manual tests on production — see FRONTEND_PLAN §4b. |
+
+The sections below are the original plan; where they mention staging, pre-launch mode, a same-origin API or Bitwarden, the decisions above (and [DEPLOY_CHECKLIST.md](../deploy/DEPLOY_CHECKLIST.md)) replace them.
+
 **Branch:** `feature/f5-hardening` from `dev` (after F4b is merged).
 
 ## 1. Decisions
