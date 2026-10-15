@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react';
-import { useNavigate } from '@tanstack/react-router';
+import { Link, useNavigate } from '@tanstack/react-router';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
@@ -9,7 +9,8 @@ import {
 } from '~/api/generated/@tanstack/react-query.gen';
 import type { ModelDto } from '~/api/generated/types.gen';
 import { Alert } from '~/components/ui/alert';
-import { Button } from '~/components/ui/button';
+import { Button, buttonVariants } from '~/components/ui/button';
+import { cn } from '~/lib/utils';
 import {
   CheckField,
   SelectField,
@@ -19,18 +20,35 @@ import { ReasonDialog } from '../../components/ReasonDialog';
 import { Section } from '../../components/Section';
 import {
   collect,
+  decimalError,
   integerError,
   percentError,
   requiredError,
   serverFieldErrors,
   type Errors,
 } from '../model/form';
+import {
+  PRICE_FIELDS,
+  type CatalogField,
+  type ModelInitial,
+} from '../model/prefill';
 import { invalidateCatalog, useProviders } from '../model/queries';
 
 export const THINKING = ['off', 'low', 'default'] as const;
 
-/** Create (no `model`) or edit one model. Provider and provider model id are fixed after creation. */
-export function ModelForm({ model }: { model?: ModelDto }) {
+/**
+ * Create (no `model`) or edit one model. Provider and provider model id are
+ * fixed after creation. A create form can start from `initial` (a model picked
+ * from its provider): values from the public catalog are tagged, the provider
+ * and id are read-only, and the first price can be entered with the model.
+ */
+export function ModelForm({
+  model,
+  initial,
+}: {
+  model?: ModelDto;
+  initial?: ModelInitial;
+}) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -38,16 +56,42 @@ export function ModelForm({ model }: { model?: ModelDto }) {
   const create = useMutation(adminModelsCreateMutation());
   const update = useMutation(adminModelsUpdateMutation());
   const [v, setV] = useState({
-    providerCode: model?.providerCode ?? '',
-    providerModelId: model?.providerModelId ?? '',
-    displayName: model?.displayName ?? '',
-    contextWindow: String(model?.contextWindow ?? ''),
-    maxOutputTokens: String(model?.maxOutputTokens ?? ''),
+    providerCode: model?.providerCode ?? initial?.providerCode ?? '',
+    providerModelId: model?.providerModelId ?? initial?.providerModelId ?? '',
+    displayName: model?.displayName ?? initial?.displayName ?? '',
+    contextWindow: String(model?.contextWindow ?? initial?.contextWindow ?? ''),
+    maxOutputTokens: String(
+      model?.maxOutputTokens ?? initial?.maxOutputTokens ?? '',
+    ),
     marginOverridePct: model?.marginOverridePct ?? '',
     thinking: model?.thinking ?? ('default' as ModelDto['thinking']),
-    supportsImages: model?.supportsImages ?? false,
+    supportsImages: model?.supportsImages ?? initial?.supportsImages ?? false,
     isEnabled: model?.isEnabled ?? false,
   });
+  // Prices are text all the way: copied from the catalog, sent as typed.
+  const [price, setPrice] = useState(
+    initial?.price ?? {
+      inputPerMtok: '',
+      outputPerMtok: '',
+      cachedInputPerMtok: '',
+      cacheWritePerMtok: '',
+    },
+  );
+  const locked = Boolean(initial?.providerModelId);
+  const originals: Partial<Record<CatalogField, string | boolean>> = initial
+    ? {
+        displayName: initial.displayName,
+        contextWindow: initial.contextWindow,
+        maxOutputTokens: initial.maxOutputTokens,
+        supportsImages: initial.supportsImages,
+        ...initial.price,
+      }
+    : {};
+  /** «من الكتالوج» while the field still holds the catalog value. */
+  const fromCatalog = (field: CatalogField, current: string | boolean) =>
+    initial?.fromCatalog.includes(field) && originals[field] === current
+      ? t('admin.models.picker.fromCatalog')
+      : undefined;
   const [errors, setErrors] = useState<Errors>({});
   const [confirming, setConfirming] = useState(false);
 
@@ -60,6 +104,17 @@ export function ModelForm({ model }: { model?: ModelDto }) {
     });
   };
   const err = (f: string) => (errors[f] ? t(`admin.${errors[f]}`) : undefined);
+  const setPriceField = (field: keyof typeof price, value: string) => {
+    setPrice((c) => ({ ...c, [field]: value }));
+    setErrors((c) => {
+      const rest = { ...c };
+      delete rest[field];
+      delete rest[`price.${field}`];
+      return rest;
+    });
+  };
+  const priceErr = (f: string) => err(f) ?? err(`price.${f}`);
+  const priceEntered = PRICE_FIELDS.some((f) => price[f].trim() !== '');
 
   function submit(event: FormEvent) {
     event.preventDefault();
@@ -82,6 +137,22 @@ export function ModelForm({ model }: { model?: ModelDto }) {
       marginOverridePct: v.marginOverridePct.trim()
         ? percentError(v.marginOverridePct)
         : null,
+      ...(!model && priceEntered
+        ? {
+            inputPerMtok: price.inputPerMtok.trim()
+              ? decimalError(price.inputPerMtok)
+              : 'models.picker.priceIncomplete',
+            outputPerMtok: price.outputPerMtok.trim()
+              ? decimalError(price.outputPerMtok)
+              : 'models.picker.priceIncomplete',
+            cachedInputPerMtok: price.cachedInputPerMtok.trim()
+              ? decimalError(price.cachedInputPerMtok)
+              : null,
+            cacheWritePerMtok: price.cacheWritePerMtok.trim()
+              ? decimalError(price.cacheWritePerMtok)
+              : null,
+          }
+        : {}),
     });
     setErrors(found);
     if (Object.keys(found).length === 0) setConfirming(true);
@@ -102,23 +173,34 @@ export function ModelForm({ model }: { model?: ModelDto }) {
       <form onSubmit={submit} noValidate>
         <Section title={t('admin.models.formTitle')}>
           <div className="grid gap-4 md:grid-cols-2">
-            {model ? (
+            {model || locked ? (
               <>
                 <div className="grid content-start gap-1">
                   <span className="text-fg-muted text-sm">
                     {t('admin.models.provider')}
                   </span>
                   <bdi dir="ltr" className="text-fg text-start">
-                    {model.providerCode}
+                    {v.providerCode}
                   </bdi>
                 </div>
                 <div className="grid content-start gap-1">
                   <span className="text-fg-muted text-sm">
                     {t('admin.models.providerModelId')}
                   </span>
-                  <bdi dir="ltr" className="text-fg text-start">
-                    {model.providerModelId}
-                  </bdi>
+                  <span className="flex flex-wrap items-center gap-3">
+                    <bdi dir="ltr" className="text-fg text-start">
+                      {v.providerModelId}
+                    </bdi>
+                    {locked ? (
+                      <Link
+                        to="/admin/models/new"
+                        search={{ provider: v.providerCode }}
+                        className="text-brand focus-visible:outline-focus inline-flex min-h-11 items-center text-sm font-semibold underline-offset-4 outline-hidden hover:underline focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2"
+                      >
+                        {t('admin.models.picker.change')}
+                      </Link>
+                    ) : null}
+                  </span>
                 </div>
               </>
             ) : (
@@ -160,6 +242,7 @@ export function ModelForm({ model }: { model?: ModelDto }) {
               label={t('admin.models.displayName')}
               hint={t('admin.models.displayNameHint')}
               required
+              badge={fromCatalog('displayName', v.displayName)}
               value={v.displayName}
               error={err('displayName')}
               onChange={(x) => set('displayName', x)}
@@ -181,6 +264,7 @@ export function ModelForm({ model }: { model?: ModelDto }) {
               required
               dir="ltr"
               inputMode="numeric"
+              badge={fromCatalog('contextWindow', v.contextWindow)}
               value={v.contextWindow}
               error={err('contextWindow')}
               onChange={(x) => set('contextWindow', x)}
@@ -190,6 +274,7 @@ export function ModelForm({ model }: { model?: ModelDto }) {
               required
               dir="ltr"
               inputMode="numeric"
+              badge={fromCatalog('maxOutputTokens', v.maxOutputTokens)}
               value={v.maxOutputTokens}
               error={err('maxOutputTokens')}
               onChange={(x) => set('maxOutputTokens', x)}
@@ -206,6 +291,7 @@ export function ModelForm({ model }: { model?: ModelDto }) {
           </div>
           <CheckField
             label={t('admin.models.supportsImages')}
+            badge={fromCatalog('supportsImages', v.supportsImages)}
             description={t('admin.models.supportsImagesHint')}
             checked={v.supportsImages}
             onChange={(x) => set('supportsImages', x)}
@@ -216,12 +302,79 @@ export function ModelForm({ model }: { model?: ModelDto }) {
             checked={v.isEnabled}
             onChange={(x) => set('isEnabled', x)}
           />
-          <div className="flex justify-end">
-            <Button type="submit">
-              {t(model ? 'admin.catalog.save' : 'admin.models.createSubmit')}
-            </Button>
-          </div>
+          {model ? null : (
+            <p className="text-fg-muted text-sm">
+              {t('admin.models.picker.createdNote')}
+            </p>
+          )}
+          {model ? (
+            <div className="flex justify-end">
+              <Button type="submit">{t('admin.catalog.save')}</Button>
+            </div>
+          ) : null}
         </Section>
+
+        {model ? null : (
+          <div className="mt-6 grid gap-6">
+            <Section title={t('admin.models.picker.initialPriceTitle')}>
+              <p className="text-fg-muted text-sm">
+                {t('admin.models.picker.initialPriceHint')}
+              </p>
+              <div className="grid gap-4 md:grid-cols-2">
+                {(
+                  [
+                    ['inputPerMtok', 'admin.models.inputPrice', true],
+                    ['outputPerMtok', 'admin.models.outputPrice', true],
+                    ['cachedInputPerMtok', 'admin.models.cachedPrice', false],
+                    [
+                      'cacheWritePerMtok',
+                      'admin.models.cacheWritePrice',
+                      false,
+                    ],
+                  ] as const
+                ).map(([field, label, required]) => (
+                  <TextField
+                    key={field}
+                    label={t(label)}
+                    required={required && priceEntered}
+                    badge={fromCatalog(field, price[field])}
+                    dir="ltr"
+                    inputMode="decimal"
+                    autoComplete="off"
+                    placeholder={t('admin.models.picker.optional')}
+                    value={price[field]}
+                    error={priceErr(field)}
+                    onChange={(x) => setPriceField(field, x)}
+                  />
+                ))}
+              </div>
+            </Section>
+
+            {initial?.hasContextTiers ? (
+              <Section title={t('admin.models.picker.catalogTitle')}>
+                <Alert variant="warning">
+                  {t('admin.models.picker.tiersWarning')}
+                </Alert>
+              </Section>
+            ) : null}
+
+            {initial?.deprecated ? (
+              <Alert variant="warning">
+                {t('admin.models.picker.deprecatedWarning')}
+              </Alert>
+            ) : null}
+
+            <div className="flex flex-wrap justify-end gap-3">
+              <Link
+                to="/admin/models"
+                className={cn(buttonVariants({ variant: 'secondary' }))}
+              >
+                {t('admin.common.cancel')}
+              </Link>
+              <Button type="submit">{t('admin.models.createSubmit')}</Button>
+            </div>
+          </div>
+        )}
       </form>
 
       {confirming ? (
@@ -250,6 +403,20 @@ export function ModelForm({ model }: { model?: ModelDto }) {
                     providerCode: v.providerCode,
                     providerModelId: v.providerModelId.trim(),
                     ...shared,
+                    // One call: the model and its first price share a
+                    // transaction and one audit entry.
+                    ...(priceEntered
+                      ? {
+                          price: {
+                            inputPerMtok: price.inputPerMtok.trim(),
+                            outputPerMtok: price.outputPerMtok.trim(),
+                            cachedInputPerMtok:
+                              price.cachedInputPerMtok.trim() || null,
+                            cacheWritePerMtok:
+                              price.cacheWritePerMtok.trim() || null,
+                          },
+                        }
+                      : {}),
                   },
                 });
                 id = created.id;

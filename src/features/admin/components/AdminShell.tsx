@@ -18,6 +18,7 @@ function titleKey(pathname: string): string {
     return !rest ? area : rest === 'new' ? `${one}New` : `${one}Detail`;
   }
   if (area === 'providers' || area === 'settings') return area;
+  if (area === 'price-updates') return 'priceUpdates';
   return area === 'users' && rest ? 'userDetail' : 'users';
 }
 

@@ -2,7 +2,7 @@
 
 import { type Client, type ClientMeta, formDataBodySerializer, type Options as Options2, type RequestResult, type TDataShape } from './client';
 import { client } from './client.gen';
-import type { AdminChatSettingsGetData, AdminChatSettingsGetErrors, AdminChatSettingsGetResponses, AdminChatSettingsUpdateData, AdminChatSettingsUpdateErrors, AdminChatSettingsUpdateResponses, AdminLedgerAdjustData, AdminLedgerAdjustErrors, AdminLedgerAdjustResponses, AdminLedgerBalanceData, AdminLedgerBalanceErrors, AdminLedgerBalanceResponses, AdminLedgerEntriesData, AdminLedgerEntriesErrors, AdminLedgerEntriesResponses, AdminLedgerRecordPurchaseData, AdminLedgerRecordPurchaseErrors, AdminLedgerRecordPurchaseResponses, AdminModelsCreateData, AdminModelsCreateErrors, AdminModelsCreateResponses, AdminModelsGetData, AdminModelsGetErrors, AdminModelsGetResponses, AdminModelsListData, AdminModelsListErrors, AdminModelsListResponses, AdminModelsPricesData, AdminModelsPricesErrors, AdminModelsPricesResponses, AdminModelsSetPriceData, AdminModelsSetPriceErrors, AdminModelsSetPriceResponses, AdminModelsTestData, AdminModelsTestErrors, AdminModelsTestResponses, AdminModelsUpdateData, AdminModelsUpdateErrors, AdminModelsUpdateResponses, AdminModesCreateData, AdminModesCreateErrors, AdminModesCreateResponses, AdminModesGetData, AdminModesGetErrors, AdminModesGetResponses, AdminModesListData, AdminModesListErrors, AdminModesListResponses, AdminModesUpdateData, AdminModesUpdateErrors, AdminModesUpdateResponses, AdminPlansCreateData, AdminPlansCreateErrors, AdminPlansCreateResponses, AdminPlansGetData, AdminPlansGetErrors, AdminPlansGetResponses, AdminPlansListData, AdminPlansListErrors, AdminPlansListResponses, AdminPlansSetModesData, AdminPlansSetModesErrors, AdminPlansSetModesResponses, AdminPlansUpdateData, AdminPlansUpdateErrors, AdminPlansUpdateResponses, AdminPricingSettingsGetData, AdminPricingSettingsGetErrors, AdminPricingSettingsGetResponses, AdminPricingSettingsUpdateData, AdminPricingSettingsUpdateErrors, AdminPricingSettingsUpdateResponses, AdminProvidersCreateData, AdminProvidersCreateErrors, AdminProvidersCreateResponses, AdminProvidersListData, AdminProvidersListErrors, AdminProvidersListResponses, AdminProvidersRemoveApiKeyData, AdminProvidersRemoveApiKeyErrors, AdminProvidersRemoveApiKeyResponses, AdminProvidersSetApiKeyData, AdminProvidersSetApiKeyErrors, AdminProvidersSetApiKeyResponses, AdminProvidersUpdateData, AdminProvidersUpdateErrors, AdminProvidersUpdateResponses, AdminSubscriptionsAssignData, AdminSubscriptionsAssignErrors, AdminSubscriptionsAssignResponses, AdminSubscriptionsEndData, AdminSubscriptionsEndErrors, AdminSubscriptionsEndResponses, AdminSubscriptionsHistoryData, AdminSubscriptionsHistoryErrors, AdminSubscriptionsHistoryResponses, AdminUsersGetData, AdminUsersGetErrors, AdminUsersGetResponses, AdminUsersListData, AdminUsersListErrors, AdminUsersListResponses, AdminUsersSetAdminRoleData, AdminUsersSetAdminRoleErrors, AdminUsersSetAdminRoleResponses, AdminUsersSetStatusData, AdminUsersSetStatusErrors, AdminUsersSetStatusResponses, AttachmentsDownloadData, AttachmentsDownloadErrors, AttachmentsDownloadResponses, AttachmentsUploadData, AttachmentsUploadErrors, AttachmentsUploadResponses, ConversationsCreateData, ConversationsCreateErrors, ConversationsCreateResponses, ConversationsGetData, ConversationsGetErrors, ConversationsGetResponses, ConversationsListData, ConversationsListResponses, ConversationsMessagesData, ConversationsMessagesErrors, ConversationsMessagesResponses, ConversationsRemoveData, ConversationsRemoveErrors, ConversationsRemoveResponses, ConversationsRenameData, ConversationsRenameErrors, ConversationsRenameResponses, HealthLiveData, HealthLiveResponses, HealthReadyData, HealthReadyErrors, HealthReadyResponses, MeBalanceActivityData, MeBalanceActivityResponses, MeBalanceBalanceData, MeBalanceBalanceResponses, MeGetData, MeGetResponses, MeSubscriptionGetData, MeSubscriptionGetResponses, MeUpdateData, MeUpdateResponses, ModesListData, ModesListResponses, PublicPlansListData, PublicPlansListResponses } from './types.gen';
+import type { AdminCatalogSyncApplyData, AdminCatalogSyncApplyErrors, AdminCatalogSyncApplyResponses, AdminCatalogSyncDismissData, AdminCatalogSyncDismissErrors, AdminCatalogSyncDismissResponses, AdminCatalogSyncListData, AdminCatalogSyncListErrors, AdminCatalogSyncListResponses, AdminCatalogSyncRunData, AdminCatalogSyncRunErrors, AdminCatalogSyncRunResponses, AdminCatalogSyncStatusData, AdminCatalogSyncStatusErrors, AdminCatalogSyncStatusResponses, AdminChatSettingsGetData, AdminChatSettingsGetErrors, AdminChatSettingsGetResponses, AdminChatSettingsUpdateData, AdminChatSettingsUpdateErrors, AdminChatSettingsUpdateResponses, AdminLedgerAdjustData, AdminLedgerAdjustErrors, AdminLedgerAdjustResponses, AdminLedgerBalanceData, AdminLedgerBalanceErrors, AdminLedgerBalanceResponses, AdminLedgerEntriesData, AdminLedgerEntriesErrors, AdminLedgerEntriesResponses, AdminLedgerRecordPurchaseData, AdminLedgerRecordPurchaseErrors, AdminLedgerRecordPurchaseResponses, AdminModelsCreateData, AdminModelsCreateErrors, AdminModelsCreateResponses, AdminModelsGetData, AdminModelsGetErrors, AdminModelsGetResponses, AdminModelsListData, AdminModelsListErrors, AdminModelsListResponses, AdminModelsPricesData, AdminModelsPricesErrors, AdminModelsPricesResponses, AdminModelsSetPriceData, AdminModelsSetPriceErrors, AdminModelsSetPriceResponses, AdminModelsTestData, AdminModelsTestErrors, AdminModelsTestResponses, AdminModelsUpdateData, AdminModelsUpdateErrors, AdminModelsUpdateResponses, AdminModesCreateData, AdminModesCreateErrors, AdminModesCreateResponses, AdminModesGetData, AdminModesGetErrors, AdminModesGetResponses, AdminModesListData, AdminModesListErrors, AdminModesListResponses, AdminModesUpdateData, AdminModesUpdateErrors, AdminModesUpdateResponses, AdminPlansCreateData, AdminPlansCreateErrors, AdminPlansCreateResponses, AdminPlansGetData, AdminPlansGetErrors, AdminPlansGetResponses, AdminPlansListData, AdminPlansListErrors, AdminPlansListResponses, AdminPlansSetModesData, AdminPlansSetModesErrors, AdminPlansSetModesResponses, AdminPlansUpdateData, AdminPlansUpdateErrors, AdminPlansUpdateResponses, AdminPricingSettingsGetData, AdminPricingSettingsGetErrors, AdminPricingSettingsGetResponses, AdminPricingSettingsUpdateData, AdminPricingSettingsUpdateErrors, AdminPricingSettingsUpdateResponses, AdminProvidersAvailableModelsData, AdminProvidersAvailableModelsErrors, AdminProvidersAvailableModelsResponses, AdminProvidersCreateData, AdminProvidersCreateErrors, AdminProvidersCreateResponses, AdminProvidersListData, AdminProvidersListErrors, AdminProvidersListResponses, AdminProvidersRemoveApiKeyData, AdminProvidersRemoveApiKeyErrors, AdminProvidersRemoveApiKeyResponses, AdminProvidersSetApiKeyData, AdminProvidersSetApiKeyErrors, AdminProvidersSetApiKeyResponses, AdminProvidersUpdateData, AdminProvidersUpdateErrors, AdminProvidersUpdateResponses, AdminSubscriptionsAssignData, AdminSubscriptionsAssignErrors, AdminSubscriptionsAssignResponses, AdminSubscriptionsEndData, AdminSubscriptionsEndErrors, AdminSubscriptionsEndResponses, AdminSubscriptionsHistoryData, AdminSubscriptionsHistoryErrors, AdminSubscriptionsHistoryResponses, AdminUsersGetData, AdminUsersGetErrors, AdminUsersGetResponses, AdminUsersListData, AdminUsersListErrors, AdminUsersListResponses, AdminUsersSetAdminRoleData, AdminUsersSetAdminRoleErrors, AdminUsersSetAdminRoleResponses, AdminUsersSetStatusData, AdminUsersSetStatusErrors, AdminUsersSetStatusResponses, AttachmentsDownloadData, AttachmentsDownloadErrors, AttachmentsDownloadResponses, AttachmentsUploadData, AttachmentsUploadErrors, AttachmentsUploadResponses, ConversationsCreateData, ConversationsCreateErrors, ConversationsCreateResponses, ConversationsGetData, ConversationsGetErrors, ConversationsGetResponses, ConversationsListData, ConversationsListResponses, ConversationsMessagesData, ConversationsMessagesErrors, ConversationsMessagesResponses, ConversationsRemoveData, ConversationsRemoveErrors, ConversationsRemoveResponses, ConversationsRenameData, ConversationsRenameErrors, ConversationsRenameResponses, HealthLiveData, HealthLiveResponses, HealthReadyData, HealthReadyErrors, HealthReadyResponses, MeBalanceActivityData, MeBalanceActivityResponses, MeBalanceBalanceData, MeBalanceBalanceResponses, MeGetData, MeGetResponses, MeSubscriptionGetData, MeSubscriptionGetResponses, MeUpdateData, MeUpdateResponses, ModesListData, ModesListResponses, PublicPlansListData, PublicPlansListResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -265,6 +265,17 @@ export const adminProvidersCreate = <ThrowOnError extends boolean = false>(optio
 });
 
 /**
+ * List the models the provider serves (model discovery)
+ *
+ * Asks the provider's free list-models endpoint with the stored key. Each model shows what the provider reports (Google and Anthropic report names and limits; OpenAI and DeepSeek ids only) and `addedModelId` if it has been added. Nothing is saved: add one with POST /admin/models.
+ */
+export const adminProvidersAvailableModels = <ThrowOnError extends boolean = false>(options: Options<AdminProvidersAvailableModelsData, ThrowOnError>): RequestResult<AdminProvidersAvailableModelsResponses, AdminProvidersAvailableModelsErrors, ThrowOnError> => (options.client ?? client).get<AdminProvidersAvailableModelsResponses, AdminProvidersAvailableModelsErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/admin/providers/{code}/available-models',
+    ...options
+});
+
+/**
  * Rename, enable/disable, or change the base URL (audited)
  */
 export const adminProvidersUpdate = <ThrowOnError extends boolean = false>(options: Options<AdminProvidersUpdateData, ThrowOnError>): RequestResult<AdminProvidersUpdateResponses, AdminProvidersUpdateErrors, ThrowOnError> => (options.client ?? client).patch<AdminProvidersUpdateResponses, AdminProvidersUpdateErrors, ThrowOnError>({
@@ -319,7 +330,7 @@ export const adminModelsList = <ThrowOnError extends boolean = false>(options?: 
 /**
  * Add a model (audited)
  *
- * Set a price before assigning it to a mode.
+ * Set a price before assigning it to a mode: send `price` to save it with the model in one step (effective now; if the price is invalid, the model is not created).
  */
 export const adminModelsCreate = <ThrowOnError extends boolean = false>(options: Options<AdminModelsCreateData, ThrowOnError>): RequestResult<AdminModelsCreateResponses, AdminModelsCreateErrors, ThrowOnError> => (options.client ?? client).post<AdminModelsCreateResponses, AdminModelsCreateErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
@@ -459,6 +470,73 @@ export const adminPricingSettingsGet = <ThrowOnError extends boolean = false>(op
 export const adminPricingSettingsUpdate = <ThrowOnError extends boolean = false>(options: Options<AdminPricingSettingsUpdateData, ThrowOnError>): RequestResult<AdminPricingSettingsUpdateResponses, AdminPricingSettingsUpdateErrors, ThrowOnError> => (options.client ?? client).put<AdminPricingSettingsUpdateResponses, AdminPricingSettingsUpdateErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/api/v1/admin/pricing-settings',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * Start a sync with the public catalog now (audited)
+ *
+ * Starts the same sync as the six-hourly job and returns at once with the run id; the sync continues in the background. Follow it with `GET /admin/catalog-sync/status` (`running`, then `lastRun` with the summary or the error). For every model with an exact catalog entry and a current price, a different catalog price is applied (audited as this admin with the reason), unless a rate moves by more than 50 % or from zero, which opens a `large_change` finding. Catalog entries without a price open a `catalog_price_missing` finding.
+ */
+export const adminCatalogSyncRun = <ThrowOnError extends boolean = false>(options: Options<AdminCatalogSyncRunData, ThrowOnError>): RequestResult<AdminCatalogSyncRunResponses, AdminCatalogSyncRunErrors, ThrowOnError> => (options.client ?? client).post<AdminCatalogSyncRunResponses, AdminCatalogSyncRunErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/admin/catalog-sync/run',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * Catalog sync status
+ *
+ * Open findings (total and by kind), the run in progress, the last finished run with its summary or error, and the next scheduled run.
+ */
+export const adminCatalogSyncStatus = <ThrowOnError extends boolean = false>(options?: Options<AdminCatalogSyncStatusData, ThrowOnError>): RequestResult<AdminCatalogSyncStatusResponses, AdminCatalogSyncStatusErrors, ThrowOnError> => (options?.client ?? client).get<AdminCatalogSyncStatusResponses, AdminCatalogSyncStatusErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/admin/catalog-sync/status',
+    ...options
+});
+
+/**
+ * List catalog sync findings (newest first)
+ *
+ * Open findings by default; filter with `status` and `kind` (one value each).
+ */
+export const adminCatalogSyncList = <ThrowOnError extends boolean = false>(options?: Options<AdminCatalogSyncListData, ThrowOnError>): RequestResult<AdminCatalogSyncListResponses, AdminCatalogSyncListErrors, ThrowOnError> => (options?.client ?? client).get<AdminCatalogSyncListResponses, AdminCatalogSyncListErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/admin/catalog-sync/findings',
+    ...options
+});
+
+/**
+ * Apply a held price change (audited)
+ *
+ * Sets the proposed price of a `large_change` finding, effective now. Refused when our price changed since the finding was last seen.
+ */
+export const adminCatalogSyncApply = <ThrowOnError extends boolean = false>(options: Options<AdminCatalogSyncApplyData, ThrowOnError>): RequestResult<AdminCatalogSyncApplyResponses, AdminCatalogSyncApplyErrors, ThrowOnError> => (options.client ?? client).post<AdminCatalogSyncApplyResponses, AdminCatalogSyncApplyErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/admin/catalog-sync/findings/{id}/apply',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * Dismiss a finding (audited)
+ *
+ * Keeps our price. A dismissed price change is not raised again while the catalog proposes the same price.
+ */
+export const adminCatalogSyncDismiss = <ThrowOnError extends boolean = false>(options: Options<AdminCatalogSyncDismissData, ThrowOnError>): RequestResult<AdminCatalogSyncDismissResponses, AdminCatalogSyncDismissErrors, ThrowOnError> => (options.client ?? client).post<AdminCatalogSyncDismissResponses, AdminCatalogSyncDismissErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/admin/catalog-sync/findings/{id}/dismiss',
     ...options,
     headers: {
         'Content-Type': 'application/json',

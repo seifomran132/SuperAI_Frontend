@@ -8,3 +8,9 @@ export {
   type UserDetailSearch,
   type UsersSearch,
 } from './users/model/search';
+export {
+  validateModelNewSearch,
+  validatePriceUpdatesSearch,
+  type ModelNewSearch,
+  type PriceUpdatesSearch,
+} from './catalog/model/search';

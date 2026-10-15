@@ -5,7 +5,14 @@ import { useAdminSession } from '../../users/__tests__/harness';
 
 export { a, click, reasonField } from '../../users/__tests__/harness';
 
-/** Admin session plus a fresh catalog mock; call once at the top of a test file. */
+/**
+ * Admin session plus a fresh catalog mock; call once at the top of a test file.
+ *
+ * Keep to one dialog test per file, with page clicks before the dialog opens:
+ * the root route renders <body>, so once a dialog (a portal into body) has
+ * mounted, a later click outside a portal spins React's event dispatch forever
+ * under jsdom (hence ActivatePlan and ActivatePlanValidation being separate).
+ */
 export function useCatalogSession() {
   useAdminSession();
   beforeEach(() => resetCatalogMock());

@@ -1,4 +1,5 @@
-import { Link, useParams } from '@tanstack/react-router';
+import { Link, useParams, useSearch } from '@tanstack/react-router';
+import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { errorMessageKey, isApiError } from '~/api/errors';
 import { Money } from '~/components/Money';
@@ -13,10 +14,15 @@ import {
   QueryState,
   TableCard,
 } from '../components/CatalogParts';
+import { adminProvidersAvailableModelsOptions } from '~/api/generated/@tanstack/react-query.gen';
+import { Alert } from '~/components/ui/alert';
 import { ModelForm } from '../components/ModelForm';
+import { AvailableError, ModelPicker, Steps } from '../components/ModelPicker';
 import { ModelPrices } from '../components/ModelPrices';
 import { ModelTest } from '../components/ModelTest';
+import { emptyInitial, prefillFromAvailable } from '../model/prefill';
 import { useModel, useModeLabel, useModels } from '../model/queries';
+import { validateModelNewSearch } from '../model/search';
 
 const COLUMNS = [
   'model',
@@ -137,12 +143,77 @@ export function ModelsPage() {
   );
 }
 
+/** Step 2 for a model picked from its provider: the form prefilled from the catalog. */
+function PickedModelForm({
+  provider,
+  model,
+}: {
+  provider: string;
+  model: string;
+}) {
+  const { t } = useTranslation();
+  const query = useQuery(
+    adminProvidersAvailableModelsOptions({ path: { code: provider } }),
+  );
+  if (query.isPending) {
+    return (
+      <p role="status" className="text-fg-muted p-10 text-center">
+        {t('admin.models.picker.loadingModel')}
+      </p>
+    );
+  }
+  if (query.isError) {
+    return <AvailableError error={query.error} onRetry={query.refetch} />;
+  }
+  const found = query.data.models.find((m) => m.providerModelId === model);
+  if (found?.addedModelId) {
+    return (
+      <Alert
+        variant="info"
+        action={
+          <Link
+            to="/admin/models/$id"
+            params={{ id: found.addedModelId }}
+            className="text-brand font-semibold underline-offset-4 hover:underline"
+          >
+            {t('admin.models.picker.viewModel')}
+          </Link>
+        }
+      >
+        {t('admin.models.picker.modelAddedTitle')}
+      </Alert>
+    );
+  }
+  // A model the list no longer has (stale link): the id is kept, nothing is prefilled.
+  const initial = found
+    ? prefillFromAvailable(provider, found)
+    : {
+        ...emptyInitial(provider),
+        providerModelId: model,
+        displayName: model,
+      };
+  return <ModelForm key={`${provider}/${model}`} initial={initial} />;
+}
+
+/** Add a model: pick it from the provider (step 1), then review the prefilled form (step 2). */
 export function ModelNewPage() {
   const { t } = useTranslation();
+  const search = validateModelNewSearch(useSearch({ strict: false }));
+  const step2 = Boolean(search.model || search.manual);
   return (
     <>
       <BackLink to="/admin/models" label={t('admin.models.backToList')} />
-      <ModelForm />
+      <Steps current={step2 ? 2 : 1} />
+      {!step2 ? (
+        <ModelPicker provider={search.provider} />
+      ) : search.provider && search.model ? (
+        <PickedModelForm provider={search.provider} model={search.model} />
+      ) : (
+        <ModelForm
+          key={`manual/${search.provider ?? ''}`}
+          initial={emptyInitial(search.provider)}
+        />
+      )}
     </>
   );
 }

@@ -318,7 +318,9 @@
       "panel": "Admin panel",
       "menu": "Admin menu",
       "openMenu": "Open admin menu",
-      "closeMenu": "Close menu"
+      "closeMenu": "Close menu",
+      "priceUpdates": "Price updates",
+      "priceUpdatesCount": "Price updates, {{n}} waiting for review"
     },
     "titles": {
       "users": "Users",
@@ -333,7 +335,8 @@
       "modes": "Modes",
       "modeNew": "New mode",
       "modeDetail": "Mode details",
-      "settings": "Settings"
+      "settings": "Settings",
+      "priceUpdates": "Price updates"
     },
     "entry": "Admin panel",
     "common": {
@@ -656,7 +659,8 @@
       "baseUrl": "Base URL",
       "baseUrlHint": "API root, like https://api.example.com/v1",
       "baseUrlInvalid": "Enter an address starting with http:// or https://",
-      "keyInvalidFormat": "The key is 8 to 500 characters with no spaces"
+      "keyInvalidFormat": "The key is 8 to 500 characters with no spaces",
+      "addModel": "Add model"
     },
     "models": {
       "new": "New model",
@@ -765,7 +769,64 @@
         "no": "No"
       },
       "supportsImages": "Reads images",
-      "supportsImagesHint": "Turn on only if the model accepts images. Modes that use it are shown to users as reading images, and the model test sends a small image."
+      "supportsImagesHint": "Turn on only if the model accepts images. Modes that use it are shown to users as reading images, and the model test sends a small image.",
+      "picker": {
+        "stepsLabel": "Add model steps",
+        "stepPick": "Pick the model",
+        "stepDetails": "Details and price",
+        "provider": "Provider",
+        "providerPlaceholder": "Choose a provider",
+        "chooseProvider": "Choose a provider to see the models it offers.",
+        "noProviders": "No provider can list its models. Add a provider and its key first.",
+        "search": "Search",
+        "searchPlaceholder": "Search by id or name",
+        "manual": "Enter manually",
+        "tableLabel": "Models available at the provider",
+        "columns": {
+          "id": "Provider model id",
+          "name": "Name",
+          "context": "Context window",
+          "maxOutput": "Max output",
+          "input": "Input price",
+          "output": "Output price",
+          "perMillion": "per million tokens",
+          "notes": "Notes"
+        },
+        "added": "Added",
+        "viewModel": "View model",
+        "deprecated": "Retired by provider",
+        "tiered": "Tiered price",
+        "images": "Reads images",
+        "select": "Choose model {{id}}",
+        "hint": "Added rows can't be chosen. Click a row to continue to step 2 with the catalog data filled in.",
+        "loading": "Fetching the available models…",
+        "emptyTitle": "No matching models",
+        "emptyBody": "Change the search or enter the model manually.",
+        "emptyListTitle": "This provider lists no models",
+        "emptyListBody": "If you know the model id, enter it manually.",
+        "noKeyTitle": "Add the API key first",
+        "noKeyBody": "The provider's models can't be listed before its key is set.",
+        "goProviders": "Go to providers",
+        "keyInvalidTitle": "The API key was rejected",
+        "replaceKey": "Replace the key",
+        "unreachableTitle": "Couldn't reach the provider",
+        "notFoundTitle": "Provider not found",
+        "backToProviders": "Back to providers",
+        "catalogUnavailable": "Couldn't reach the public catalog; enter the details and prices by hand",
+        "loadingModel": "Loading the model data…",
+        "modelAddedTitle": "This model is already added",
+        "backToPicker": "Back to the picker",
+        "fromCatalog": "From the catalog",
+        "change": "Change",
+        "initialPriceTitle": "Initial price",
+        "initialPriceHint": "In USD per million tokens. You can leave the fields empty and set the price later.",
+        "optional": "Optional",
+        "priceIncomplete": "Enter the input and output prices together",
+        "catalogTitle": "Catalog",
+        "tiersWarning": "The provider charges more above a certain context size, and we bill one rate. Lower the context window to the tier limit or price at the higher tier.",
+        "deprecatedWarning": "The provider is retiring this model; don't rely on it in new modes.",
+        "createdNote": "The model is created disabled; you can enable it from its page."
+      }
     },
     "modes": {
       "new": "New mode",
@@ -826,6 +887,135 @@
       "promptError": "Could not load the prompt.",
       "saved": "Settings saved",
       "promptRequired": "The prompt is required"
+    },
+    "priceUpdates": {
+      "intro": "The sync runs every 6 hours. Changes up to 50% are applied automatically; larger ones wait for your review.",
+      "runNow": "Run sync now",
+      "running": "Checking…",
+      "startedAt": "Started",
+      "lastRun": "Last sync",
+      "neverRun": "No sync has run yet",
+      "trigger": "Trigger",
+      "triggers": {
+        "schedule": "scheduled",
+        "admin": "by an admin"
+      },
+      "nextRun": "Next sync",
+      "failedTitle": "The last sync failed",
+      "failedDetails": "Details",
+      "stale": "The sync hasn't run for a while; check the sync job",
+      "statusError": "Couldn't load the sync status.",
+      "tabsLabel": "Update status",
+      "tabs": {
+        "open": "Awaiting review",
+        "applied": "Applied",
+        "dismissed": "Dismissed",
+        "superseded": "No longer valid"
+      },
+      "kindsLabel": "Update type",
+      "kinds": {
+        "all": "All",
+        "large_change": "Large change",
+        "catalog_price_missing": "Missing price",
+        "model_retired": "Retired model"
+      },
+      "listLabel": "Updates",
+      "loading": "Loading updates…",
+      "error": "Couldn't load the updates",
+      "loadMore": "Load more",
+      "empty": {
+        "open": {
+          "title": "No updates waiting for review",
+          "body": "Large price changes and retired models show up here after any sync."
+        },
+        "applied": {
+          "title": "No applied updates",
+          "body": "Prices you applied show up here."
+        },
+        "dismissed": {
+          "title": "No dismissed updates",
+          "body": "Warnings you dismissed show up here."
+        },
+        "superseded": {
+          "title": "No updates that are no longer valid",
+          "body": "Proposals replaced by a newer sync show up here."
+        }
+      },
+      "card": {
+        "firstSeen": "First seen",
+        "lastSeen": "Last seen",
+        "current": "Current",
+        "proposed": "Proposed",
+        "rates": {
+          "input": "Input",
+          "output": "Output",
+          "cachedInput": "Cached input",
+          "cacheWrite": "Cache write"
+        },
+        "fromZero": "From zero",
+        "viewModel": "View model",
+        "noCatalogPrice": "No price in the catalog",
+        "currentPriceIs": "Current price",
+        "wontChange": "The price won't change automatically.",
+        "retiredTitle": "The provider no longer offers this model",
+        "retiredBody": "Replies on it may fail. The sync doesn't stop models or modes; that is the admin's decision.",
+        "modesUsing": "Enabled modes using it",
+        "noModes": "Not used by any enabled mode",
+        "appliedBy": "Price applied by",
+        "dismissedBy": "Dismissed by",
+        "closedBySync": "Closed automatically by the sync",
+        "reason": "Reason",
+        "apply": "Apply the price",
+        "dismiss": "Dismiss",
+        "actionsFor": "{{name}}"
+      },
+      "dialog": {
+        "applyTitle": "Apply the price",
+        "applyBody": "The proposed price becomes the model's current price from now on. It doesn't change the cost of earlier messages.",
+        "perMillion": "(per million tokens)",
+        "changeLabel": "Change",
+        "dismissTitle": "Dismiss the update",
+        "dismissNotice": "This proposal won't be shown again.",
+        "dismissSubmit": "Dismiss",
+        "retiredTitle": "Dismiss the retired-model warning",
+        "retiredNoticeTitle": "Permanent dismissal",
+        "retiredNotice": "Dismissing hides this warning for good. The model stays enabled, and the provider may already reject it.",
+        "retiredSubmit": "Dismiss for good",
+        "runTitle": "Run sync now",
+        "runDescription": "Checks the public catalog and the provider lists",
+        "runBody": "Checks the public catalog and the provider model lists. It can take more than 30 seconds, and you can keep working meanwhile.",
+        "runSubmit": "Run the sync",
+        "to": "to"
+      },
+      "toast": {
+        "applied": "The new price was applied",
+        "dismissed": "The update was dismissed",
+        "runStarted": "The sync started",
+        "runAlready": "A sync is already running"
+      },
+      "summary": {
+        "title": "Sync result",
+        "close": "Close the result",
+        "checked": "Checked",
+        "applied": "Applied automatically",
+        "unchanged": "Unchanged",
+        "held": "Held for review",
+        "noCatalogPrice": "No catalog price",
+        "notInCatalog": "Not in the catalog",
+        "skipped": "Skipped",
+        "failed": "Failed",
+        "providersChecked": "Providers checked",
+        "providersUnreachable": "Providers unreachable",
+        "ignored": "Ignored",
+        "retired": "Models retired by the provider",
+        "retiredInUse": "{{n}} of them used by enabled modes",
+        "noCatalogTitle": "Couldn't reach the catalog",
+        "noCatalogBody": "No prices changed."
+      },
+      "live": {
+        "finished": "Sync finished",
+        "failed": "The sync ended with an error"
+      }
     }
   }
 }

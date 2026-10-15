@@ -6,12 +6,14 @@ import {
   Menu,
   Settings,
   SlidersHorizontal,
+  Tag,
   Users,
   type LucideIcon,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { brand } from '~/brand';
 import { cn } from '~/lib/utils';
+import { useSyncStatus } from '../catalog/model/catalog-sync';
 
 const item =
   'flex min-h-11 items-center gap-3 rounded-md px-3 text-sm outline-hidden focus-visible:outline-solid focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus';
@@ -23,6 +25,7 @@ const sections: {
     | '/admin/providers'
     | '/admin/models'
     | '/admin/modes'
+    | '/admin/price-updates'
     | '/admin/settings';
   Icon: LucideIcon;
 }[] = [
@@ -30,6 +33,7 @@ const sections: {
   { key: 'providers', to: '/admin/providers', Icon: Menu },
   { key: 'models', to: '/admin/models', Icon: Boxes },
   { key: 'modes', to: '/admin/modes', Icon: SlidersHorizontal },
+  { key: 'priceUpdates', to: '/admin/price-updates', Icon: Tag },
   { key: 'settings', to: '/admin/settings', Icon: Settings },
 ];
 
@@ -37,6 +41,8 @@ const sections: {
 export function AdminSidebar({ onNavigate }: { onNavigate?: () => void }) {
   const { t, i18n } = useTranslation();
   const brandName = i18n.language === 'en' ? brand.name.en : brand.name.ar;
+  // Shared with the price-updates page (one cache entry); no badge on error.
+  const openFindings = useSyncStatus().data?.openFindings ?? 0;
   return (
     <div className="flex h-full min-h-0 flex-col">
       <div className="flex h-16 shrink-0 items-center gap-3 px-4">
@@ -75,6 +81,12 @@ export function AdminSidebar({ onNavigate }: { onNavigate?: () => void }) {
               <Link
                 to={to}
                 onClick={onNavigate}
+                // The visible number is aria-hidden: the count is said in words.
+                aria-label={
+                  key === 'priceUpdates' && openFindings > 0
+                    ? t('admin.nav.priceUpdatesCount', { n: openFindings })
+                    : undefined
+                }
                 className={cn(
                   item,
                   'text-fg-muted hover:bg-surface-muted hover:text-fg',
@@ -86,6 +98,14 @@ export function AdminSidebar({ onNavigate }: { onNavigate?: () => void }) {
               >
                 <Icon aria-hidden="true" className="size-5" />
                 {t(`admin.nav.${key}`)}
+                {key === 'priceUpdates' && openFindings > 0 ? (
+                  <span
+                    aria-hidden="true"
+                    className="bg-warning text-on-brand ms-auto inline-flex min-w-6 items-center justify-center rounded-full px-1.5 text-xs leading-6 font-bold tabular-nums"
+                  >
+                    {openFindings}
+                  </span>
+                ) : null}
               </Link>
             </li>
           ))}

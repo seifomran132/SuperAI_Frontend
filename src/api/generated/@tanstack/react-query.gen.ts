@@ -3,8 +3,8 @@
 import { type DefaultError, type InfiniteData, infiniteQueryOptions, queryOptions, type UseMutationOptions } from '@tanstack/react-query';
 
 import { client } from '../client.gen';
-import { adminChatSettingsGet, adminChatSettingsUpdate, adminLedgerAdjust, adminLedgerBalance, adminLedgerEntries, adminLedgerRecordPurchase, adminModelsCreate, adminModelsGet, adminModelsList, adminModelsPrices, adminModelsSetPrice, adminModelsTest, adminModelsUpdate, adminModesCreate, adminModesGet, adminModesList, adminModesUpdate, adminPlansCreate, adminPlansGet, adminPlansList, adminPlansSetModes, adminPlansUpdate, adminPricingSettingsGet, adminPricingSettingsUpdate, adminProvidersCreate, adminProvidersList, adminProvidersRemoveApiKey, adminProvidersSetApiKey, adminProvidersUpdate, adminSubscriptionsAssign, adminSubscriptionsEnd, adminSubscriptionsHistory, adminUsersGet, adminUsersList, adminUsersSetAdminRole, adminUsersSetStatus, attachmentsDownload, attachmentsUpload, conversationsCreate, conversationsGet, conversationsList, conversationsMessages, conversationsRemove, conversationsRename, healthLive, healthReady, meBalanceActivity, meBalanceBalance, meGet, meSubscriptionGet, meUpdate, modesList, type Options, publicPlansList } from '../sdk.gen';
-import type { AdminChatSettingsGetData, AdminChatSettingsGetError, AdminChatSettingsGetResponse, AdminChatSettingsUpdateData, AdminChatSettingsUpdateError, AdminChatSettingsUpdateResponse, AdminLedgerAdjustData, AdminLedgerAdjustError, AdminLedgerAdjustResponse, AdminLedgerBalanceData, AdminLedgerBalanceError, AdminLedgerBalanceResponse, AdminLedgerEntriesData, AdminLedgerEntriesError, AdminLedgerEntriesResponse, AdminLedgerRecordPurchaseData, AdminLedgerRecordPurchaseError, AdminLedgerRecordPurchaseResponse, AdminModelsCreateData, AdminModelsCreateError, AdminModelsCreateResponse, AdminModelsGetData, AdminModelsGetError, AdminModelsGetResponse, AdminModelsListData, AdminModelsListError, AdminModelsListResponse, AdminModelsPricesData, AdminModelsPricesError, AdminModelsPricesResponse, AdminModelsSetPriceData, AdminModelsSetPriceError, AdminModelsSetPriceResponse, AdminModelsTestData, AdminModelsTestError, AdminModelsTestResponse, AdminModelsUpdateData, AdminModelsUpdateError, AdminModelsUpdateResponse, AdminModesCreateData, AdminModesCreateError, AdminModesCreateResponse, AdminModesGetData, AdminModesGetError, AdminModesGetResponse, AdminModesListData, AdminModesListError, AdminModesListResponse, AdminModesUpdateData, AdminModesUpdateError, AdminModesUpdateResponse, AdminPlansCreateData, AdminPlansCreateError, AdminPlansCreateResponse, AdminPlansGetData, AdminPlansGetError, AdminPlansGetResponse, AdminPlansListData, AdminPlansListError, AdminPlansListResponse, AdminPlansSetModesData, AdminPlansSetModesError, AdminPlansSetModesResponse, AdminPlansUpdateData, AdminPlansUpdateError, AdminPlansUpdateResponse, AdminPricingSettingsGetData, AdminPricingSettingsGetError, AdminPricingSettingsGetResponse, AdminPricingSettingsUpdateData, AdminPricingSettingsUpdateError, AdminPricingSettingsUpdateResponse, AdminProvidersCreateData, AdminProvidersCreateError, AdminProvidersCreateResponse, AdminProvidersListData, AdminProvidersListError, AdminProvidersListResponse, AdminProvidersRemoveApiKeyData, AdminProvidersRemoveApiKeyError, AdminProvidersRemoveApiKeyResponse, AdminProvidersSetApiKeyData, AdminProvidersSetApiKeyError, AdminProvidersSetApiKeyResponse, AdminProvidersUpdateData, AdminProvidersUpdateError, AdminProvidersUpdateResponse, AdminSubscriptionsAssignData, AdminSubscriptionsAssignError, AdminSubscriptionsAssignResponse, AdminSubscriptionsEndData, AdminSubscriptionsEndError, AdminSubscriptionsEndResponse, AdminSubscriptionsHistoryData, AdminSubscriptionsHistoryError, AdminSubscriptionsHistoryResponse, AdminUsersGetData, AdminUsersGetError, AdminUsersGetResponse, AdminUsersListData, AdminUsersListError, AdminUsersListResponse, AdminUsersSetAdminRoleData, AdminUsersSetAdminRoleError, AdminUsersSetAdminRoleResponse, AdminUsersSetStatusData, AdminUsersSetStatusError, AdminUsersSetStatusResponse, AttachmentsDownloadData, AttachmentsDownloadError, AttachmentsDownloadResponse, AttachmentsUploadData, AttachmentsUploadError, AttachmentsUploadResponse, ConversationsCreateData, ConversationsCreateError, ConversationsCreateResponse, ConversationsGetData, ConversationsGetError, ConversationsGetResponse, ConversationsListData, ConversationsListResponse, ConversationsMessagesData, ConversationsMessagesError, ConversationsMessagesResponse, ConversationsRemoveData, ConversationsRemoveError, ConversationsRemoveResponse, ConversationsRenameData, ConversationsRenameError, ConversationsRenameResponse, HealthLiveData, HealthReadyData, HealthReadyError, HealthReadyResponse, MeBalanceActivityData, MeBalanceActivityResponse, MeBalanceBalanceData, MeBalanceBalanceResponse, MeGetData, MeGetResponse, MeSubscriptionGetData, MeSubscriptionGetResponse, MeUpdateData, MeUpdateResponse, ModesListData, ModesListResponse, PublicPlansListData, PublicPlansListResponse } from '../types.gen';
+import { adminCatalogSyncApply, adminCatalogSyncDismiss, adminCatalogSyncList, adminCatalogSyncRun, adminCatalogSyncStatus, adminChatSettingsGet, adminChatSettingsUpdate, adminLedgerAdjust, adminLedgerBalance, adminLedgerEntries, adminLedgerRecordPurchase, adminModelsCreate, adminModelsGet, adminModelsList, adminModelsPrices, adminModelsSetPrice, adminModelsTest, adminModelsUpdate, adminModesCreate, adminModesGet, adminModesList, adminModesUpdate, adminPlansCreate, adminPlansGet, adminPlansList, adminPlansSetModes, adminPlansUpdate, adminPricingSettingsGet, adminPricingSettingsUpdate, adminProvidersAvailableModels, adminProvidersCreate, adminProvidersList, adminProvidersRemoveApiKey, adminProvidersSetApiKey, adminProvidersUpdate, adminSubscriptionsAssign, adminSubscriptionsEnd, adminSubscriptionsHistory, adminUsersGet, adminUsersList, adminUsersSetAdminRole, adminUsersSetStatus, attachmentsDownload, attachmentsUpload, conversationsCreate, conversationsGet, conversationsList, conversationsMessages, conversationsRemove, conversationsRename, healthLive, healthReady, meBalanceActivity, meBalanceBalance, meGet, meSubscriptionGet, meUpdate, modesList, type Options, publicPlansList } from '../sdk.gen';
+import type { AdminCatalogSyncApplyData, AdminCatalogSyncApplyError, AdminCatalogSyncApplyResponse, AdminCatalogSyncDismissData, AdminCatalogSyncDismissError, AdminCatalogSyncDismissResponse, AdminCatalogSyncListData, AdminCatalogSyncListError, AdminCatalogSyncListResponse, AdminCatalogSyncRunData, AdminCatalogSyncRunError, AdminCatalogSyncRunResponse, AdminCatalogSyncStatusData, AdminCatalogSyncStatusError, AdminCatalogSyncStatusResponse, AdminChatSettingsGetData, AdminChatSettingsGetError, AdminChatSettingsGetResponse, AdminChatSettingsUpdateData, AdminChatSettingsUpdateError, AdminChatSettingsUpdateResponse, AdminLedgerAdjustData, AdminLedgerAdjustError, AdminLedgerAdjustResponse, AdminLedgerBalanceData, AdminLedgerBalanceError, AdminLedgerBalanceResponse, AdminLedgerEntriesData, AdminLedgerEntriesError, AdminLedgerEntriesResponse, AdminLedgerRecordPurchaseData, AdminLedgerRecordPurchaseError, AdminLedgerRecordPurchaseResponse, AdminModelsCreateData, AdminModelsCreateError, AdminModelsCreateResponse, AdminModelsGetData, AdminModelsGetError, AdminModelsGetResponse, AdminModelsListData, AdminModelsListError, AdminModelsListResponse, AdminModelsPricesData, AdminModelsPricesError, AdminModelsPricesResponse, AdminModelsSetPriceData, AdminModelsSetPriceError, AdminModelsSetPriceResponse, AdminModelsTestData, AdminModelsTestError, AdminModelsTestResponse, AdminModelsUpdateData, AdminModelsUpdateError, AdminModelsUpdateResponse, AdminModesCreateData, AdminModesCreateError, AdminModesCreateResponse, AdminModesGetData, AdminModesGetError, AdminModesGetResponse, AdminModesListData, AdminModesListError, AdminModesListResponse, AdminModesUpdateData, AdminModesUpdateError, AdminModesUpdateResponse, AdminPlansCreateData, AdminPlansCreateError, AdminPlansCreateResponse, AdminPlansGetData, AdminPlansGetError, AdminPlansGetResponse, AdminPlansListData, AdminPlansListError, AdminPlansListResponse, AdminPlansSetModesData, AdminPlansSetModesError, AdminPlansSetModesResponse, AdminPlansUpdateData, AdminPlansUpdateError, AdminPlansUpdateResponse, AdminPricingSettingsGetData, AdminPricingSettingsGetError, AdminPricingSettingsGetResponse, AdminPricingSettingsUpdateData, AdminPricingSettingsUpdateError, AdminPricingSettingsUpdateResponse, AdminProvidersAvailableModelsData, AdminProvidersAvailableModelsError, AdminProvidersAvailableModelsResponse, AdminProvidersCreateData, AdminProvidersCreateError, AdminProvidersCreateResponse, AdminProvidersListData, AdminProvidersListError, AdminProvidersListResponse, AdminProvidersRemoveApiKeyData, AdminProvidersRemoveApiKeyError, AdminProvidersRemoveApiKeyResponse, AdminProvidersSetApiKeyData, AdminProvidersSetApiKeyError, AdminProvidersSetApiKeyResponse, AdminProvidersUpdateData, AdminProvidersUpdateError, AdminProvidersUpdateResponse, AdminSubscriptionsAssignData, AdminSubscriptionsAssignError, AdminSubscriptionsAssignResponse, AdminSubscriptionsEndData, AdminSubscriptionsEndError, AdminSubscriptionsEndResponse, AdminSubscriptionsHistoryData, AdminSubscriptionsHistoryError, AdminSubscriptionsHistoryResponse, AdminUsersGetData, AdminUsersGetError, AdminUsersGetResponse, AdminUsersListData, AdminUsersListError, AdminUsersListResponse, AdminUsersSetAdminRoleData, AdminUsersSetAdminRoleError, AdminUsersSetAdminRoleResponse, AdminUsersSetStatusData, AdminUsersSetStatusError, AdminUsersSetStatusResponse, AttachmentsDownloadData, AttachmentsDownloadError, AttachmentsDownloadResponse, AttachmentsUploadData, AttachmentsUploadError, AttachmentsUploadResponse, ConversationsCreateData, ConversationsCreateError, ConversationsCreateResponse, ConversationsGetData, ConversationsGetError, ConversationsGetResponse, ConversationsListData, ConversationsListResponse, ConversationsMessagesData, ConversationsMessagesError, ConversationsMessagesResponse, ConversationsRemoveData, ConversationsRemoveError, ConversationsRemoveResponse, ConversationsRenameData, ConversationsRenameError, ConversationsRenameResponse, HealthLiveData, HealthReadyData, HealthReadyError, HealthReadyResponse, MeBalanceActivityData, MeBalanceActivityResponse, MeBalanceBalanceData, MeBalanceBalanceResponse, MeGetData, MeGetResponse, MeSubscriptionGetData, MeSubscriptionGetResponse, MeUpdateData, MeUpdateResponse, ModesListData, ModesListResponse, PublicPlansListData, PublicPlansListResponse } from '../types.gen';
 
 export type QueryKey<TOptions extends Options> = [
     Pick<TOptions, 'baseUrl' | 'body' | 'headers' | 'path' | 'query'> & {
@@ -622,6 +622,26 @@ export const adminProvidersCreateMutation = (options?: Partial<Options<AdminProv
     return mutationOptions;
 };
 
+export const adminProvidersAvailableModelsQueryKey = (options: Options<AdminProvidersAvailableModelsData>) => createQueryKey('adminProvidersAvailableModels', options);
+
+/**
+ * List the models the provider serves (model discovery)
+ *
+ * Asks the provider's free list-models endpoint with the stored key. Each model shows what the provider reports (Google and Anthropic report names and limits; OpenAI and DeepSeek ids only) and `addedModelId` if it has been added. Nothing is saved: add one with POST /admin/models.
+ */
+export const adminProvidersAvailableModelsOptions = (options: Options<AdminProvidersAvailableModelsData>) => queryOptions<AdminProvidersAvailableModelsResponse, AdminProvidersAvailableModelsError, AdminProvidersAvailableModelsResponse, ReturnType<typeof adminProvidersAvailableModelsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await adminProvidersAvailableModels({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: adminProvidersAvailableModelsQueryKey(options)
+});
+
 /**
  * Rename, enable/disable, or change the base URL (audited)
  */
@@ -698,7 +718,7 @@ export const adminModelsListOptions = (options?: Options<AdminModelsListData>) =
 /**
  * Add a model (audited)
  *
- * Set a price before assigning it to a mode.
+ * Set a price before assigning it to a mode: send `price` to save it with the model in one step (effective now; if the price is invalid, the model is not created).
  */
 export const adminModelsCreateMutation = (options?: Partial<Options<AdminModelsCreateData>>): UseMutationOptions<AdminModelsCreateResponse, AdminModelsCreateError, Options<AdminModelsCreateData>> => {
     const mutationOptions: UseMutationOptions<AdminModelsCreateResponse, AdminModelsCreateError, Options<AdminModelsCreateData>> = {
@@ -908,6 +928,135 @@ export const adminPricingSettingsUpdateMutation = (options?: Partial<Options<Adm
     const mutationOptions: UseMutationOptions<AdminPricingSettingsUpdateResponse, AdminPricingSettingsUpdateError, Options<AdminPricingSettingsUpdateData>> = {
         mutationFn: async (fnOptions) => {
             const { data } = await adminPricingSettingsUpdate({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Start a sync with the public catalog now (audited)
+ *
+ * Starts the same sync as the six-hourly job and returns at once with the run id; the sync continues in the background. Follow it with `GET /admin/catalog-sync/status` (`running`, then `lastRun` with the summary or the error). For every model with an exact catalog entry and a current price, a different catalog price is applied (audited as this admin with the reason), unless a rate moves by more than 50 % or from zero, which opens a `large_change` finding. Catalog entries without a price open a `catalog_price_missing` finding.
+ */
+export const adminCatalogSyncRunMutation = (options?: Partial<Options<AdminCatalogSyncRunData>>): UseMutationOptions<AdminCatalogSyncRunResponse, AdminCatalogSyncRunError, Options<AdminCatalogSyncRunData>> => {
+    const mutationOptions: UseMutationOptions<AdminCatalogSyncRunResponse, AdminCatalogSyncRunError, Options<AdminCatalogSyncRunData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await adminCatalogSyncRun({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const adminCatalogSyncStatusQueryKey = (options?: Options<AdminCatalogSyncStatusData>) => createQueryKey('adminCatalogSyncStatus', options);
+
+/**
+ * Catalog sync status
+ *
+ * Open findings (total and by kind), the run in progress, the last finished run with its summary or error, and the next scheduled run.
+ */
+export const adminCatalogSyncStatusOptions = (options?: Options<AdminCatalogSyncStatusData>) => queryOptions<AdminCatalogSyncStatusResponse, AdminCatalogSyncStatusError, AdminCatalogSyncStatusResponse, ReturnType<typeof adminCatalogSyncStatusQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await adminCatalogSyncStatus({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: adminCatalogSyncStatusQueryKey(options)
+});
+
+export const adminCatalogSyncListQueryKey = (options?: Options<AdminCatalogSyncListData>) => createQueryKey('adminCatalogSyncList', options);
+
+/**
+ * List catalog sync findings (newest first)
+ *
+ * Open findings by default; filter with `status` and `kind` (one value each).
+ */
+export const adminCatalogSyncListOptions = (options?: Options<AdminCatalogSyncListData>) => queryOptions<AdminCatalogSyncListResponse, AdminCatalogSyncListError, AdminCatalogSyncListResponse, ReturnType<typeof adminCatalogSyncListQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await adminCatalogSyncList({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: adminCatalogSyncListQueryKey(options)
+});
+
+export const adminCatalogSyncListInfiniteQueryKey = (options?: Options<AdminCatalogSyncListData>): QueryKey<Options<AdminCatalogSyncListData>> => createQueryKey('adminCatalogSyncList', options, true);
+
+/**
+ * List catalog sync findings (newest first)
+ *
+ * Open findings by default; filter with `status` and `kind` (one value each).
+ */
+export const adminCatalogSyncListInfiniteOptions = (options?: Options<AdminCatalogSyncListData>) => {
+    const opts = infiniteQueryOptions<AdminCatalogSyncListResponse, AdminCatalogSyncListError, InfiniteData<AdminCatalogSyncListResponse>, QueryKey<Options<AdminCatalogSyncListData>>, string | Pick<QueryKey<Options<AdminCatalogSyncListData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
+    // @ts-ignore
+    {
+        queryFn: async ({ pageParam, queryKey, signal }) => {
+            // @ts-ignore
+            const page: Pick<QueryKey<Options<AdminCatalogSyncListData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
+                query: {
+                    cursor: pageParam
+                }
+            };
+            const params = createInfiniteParams(queryKey, page);
+            const { data } = await adminCatalogSyncList({
+                ...options,
+                ...params,
+                signal,
+                throwOnError: true
+            });
+            return data;
+        },
+        queryKey: adminCatalogSyncListInfiniteQueryKey(options)
+    });
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
+/**
+ * Apply a held price change (audited)
+ *
+ * Sets the proposed price of a `large_change` finding, effective now. Refused when our price changed since the finding was last seen.
+ */
+export const adminCatalogSyncApplyMutation = (options?: Partial<Options<AdminCatalogSyncApplyData>>): UseMutationOptions<AdminCatalogSyncApplyResponse, AdminCatalogSyncApplyError, Options<AdminCatalogSyncApplyData>> => {
+    const mutationOptions: UseMutationOptions<AdminCatalogSyncApplyResponse, AdminCatalogSyncApplyError, Options<AdminCatalogSyncApplyData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await adminCatalogSyncApply({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Dismiss a finding (audited)
+ *
+ * Keeps our price. A dismissed price change is not raised again while the catalog proposes the same price.
+ */
+export const adminCatalogSyncDismissMutation = (options?: Partial<Options<AdminCatalogSyncDismissData>>): UseMutationOptions<AdminCatalogSyncDismissResponse, AdminCatalogSyncDismissError, Options<AdminCatalogSyncDismissData>> => {
+    const mutationOptions: UseMutationOptions<AdminCatalogSyncDismissResponse, AdminCatalogSyncDismissError, Options<AdminCatalogSyncDismissData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await adminCatalogSyncDismiss({
                 ...options,
                 ...fnOptions,
                 throwOnError: true

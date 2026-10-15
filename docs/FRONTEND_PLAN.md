@@ -85,6 +85,7 @@ Backend status (checked 2026-10-06): everything the frontend needs for launch is
 | **F3** | Balance & plans | Balance page + activity, plans page, landing page | F0 |
 | **F4** | Admin console | Users, subscriptions, balance/ledger/adjustments/purchases, plans, catalog, pricing, chat settings; usage view when backend 10.5 ships | F0 |
 | **F6** | Image input (before launch) | One image per message: upload, backend preprocessing and storage, mode `supportsImages`, composer attach/preview, history images — [plans/F6_IMAGE_INPUT.md](plans/F6_IMAGE_INPUT.md) | Backend image API; S15 design |
+| **F7** | Admin model discovery and catalog price sync | Add a model from the provider's list with prefill from the public catalog; «تحديثات الأسعار» page (apply/dismiss held price changes, retired models, run sync now); open-findings badge — [plans/F7_CATALOG_SYNC.md](plans/F7_CATALOG_SYNC.md) | Backend 10.11 (deployed); answers to the plan's §6 |
 | **F5** | Hardening & launch | Playwright e2e of the P0 completion gate on staging, axe/WCAG AA pass, responsive pass, Arabic copy review, error boundaries, bundle check, deploy config | All; backend staging |
 
 F1, F3 and F4 can run in parallel after F0. F2 is the critical path.

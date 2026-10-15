@@ -8,6 +8,7 @@ export {
   PlanNewPage,
   PlanDetailPage,
 } from './catalog/pages/PlansPages';
+export { PriceUpdatesPage } from './catalog/pages/PriceUpdatesPage';
 export { ProvidersPage } from './catalog/pages/ProvidersPage';
 export {
   ModelsPage,

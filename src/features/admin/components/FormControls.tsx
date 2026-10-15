@@ -1,13 +1,15 @@
 import { useId, type ComponentProps, type ReactNode } from 'react';
 import { Input } from '~/components/ui/input';
 import { cn } from '~/lib/utils';
-import { Field, describedBy, textareaClass } from './Field';
+import { Field, SourceTag, describedBy, textareaClass } from './Field';
 
 export const selectClass =
   'bg-surface text-fg border-border-control focus-visible:outline-focus h-12 w-full rounded-md border px-3 text-base outline-hidden focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 disabled:bg-surface-muted disabled:cursor-not-allowed aria-invalid:border-danger aria-invalid:border-2';
 
 interface Common {
   label: string;
+  /** Small tag after the label (e.g. «من الكتالوج»). */
+  badge?: string;
   hint?: string;
   /** Already translated. */
   error?: string;
@@ -17,6 +19,7 @@ interface Common {
 /** Label + 48px input + hint/error, with the ids wired for assistive tech. */
 export function TextField({
   label,
+  badge,
   hint,
   error,
   required,
@@ -29,7 +32,14 @@ export function TextField({
   }) {
   const id = useId();
   return (
-    <Field id={id} label={label} hint={hint} error={error} required={required}>
+    <Field
+      id={id}
+      label={label}
+      badge={badge}
+      hint={hint}
+      error={error}
+      required={required}
+    >
       <Input
         id={id}
         aria-invalid={error ? true : undefined}
@@ -110,12 +120,14 @@ export function SelectField({
 /** Checkbox with a 44px row; `description` explains what it does. */
 export function CheckField({
   label,
+  badge,
   description,
   checked,
   disabled,
   onChange,
 }: {
   label: string;
+  badge?: string;
   description?: string;
   checked: boolean;
   disabled?: boolean;
@@ -137,7 +149,10 @@ export function CheckField({
         className="accent-brand focus-visible:outline-focus mt-3 size-5 shrink-0 outline-hidden focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2"
       />
       <span className="grid py-2.5">
-        <span className="text-fg text-base">{label}</span>
+        <span className="text-fg flex flex-wrap items-center gap-2 text-base">
+          {label}
+          {badge ? <SourceTag>{badge}</SourceTag> : null}
+        </span>
         {description ? (
           <span id={`${id}-d`} className="text-fg-muted text-sm">
             {description}

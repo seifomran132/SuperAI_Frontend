@@ -213,7 +213,7 @@ export type FieldErrorDto = {
 
 export type ApiErrorResponseDto = {
     statusCode: number;
-    code: 'UNAUTHENTICATED' | 'INVALID_TOKEN' | 'ACCOUNT_NOT_FOUND' | 'ACCOUNT_SUSPENDED' | 'ACCOUNT_DELETED' | 'FORBIDDEN' | 'VALIDATION_FAILED' | 'USER_NOT_FOUND' | 'EMAIL_NOT_CONFIRMED' | 'ACCOUNT_NOT_ACTIVE' | 'CANNOT_MODIFY_SELF' | 'LAST_ADMIN' | 'PROVIDER_NOT_FOUND' | 'PROVIDER_ALREADY_EXISTS' | 'PROVIDER_KEY_INVALID' | 'PROVIDER_KEY_NOT_USED' | 'PROVIDER_UNAVAILABLE' | 'MODEL_NOT_FOUND' | 'MODEL_ALREADY_EXISTS' | 'MODEL_IN_USE' | 'MODE_NOT_FOUND' | 'MODE_ALREADY_EXISTS' | 'MODE_NOT_AVAILABLE' | 'PRICE_PERIOD_CONFLICT' | 'PLAN_NOT_FOUND' | 'PLAN_ALREADY_EXISTS' | 'PLAN_NOT_ACTIVE' | 'DEFAULT_PLAN_REQUIRED' | 'NO_ACTIVE_SUBSCRIPTION' | 'INSUFFICIENT_BALANCE' | 'IDEMPOTENCY_KEY_REUSED' | 'PAYMENT_REFERENCE_REUSED' | 'CONVERSATION_NOT_FOUND' | 'CONVERSATION_BUSY' | 'CONTEXT_TOO_LONG' | 'PROFILE_INCOMPLETE' | 'DUPLICATE_REQUEST' | 'RATE_LIMITED' | 'PROVIDER_MISCONFIGURED' | 'PROVIDER_TIMEOUT' | 'PROVIDER_ERROR' | 'CONTENT_BLOCKED' | 'ATTACHMENT_TOO_LARGE' | 'ATTACHMENT_TYPE_NOT_ALLOWED' | 'ATTACHMENT_NOT_FOUND' | 'ATTACHMENT_ALREADY_USED' | 'TOO_MANY_ATTACHMENTS' | 'MODE_NO_IMAGE_SUPPORT';
+    code: 'UNAUTHENTICATED' | 'INVALID_TOKEN' | 'ACCOUNT_NOT_FOUND' | 'ACCOUNT_SUSPENDED' | 'ACCOUNT_DELETED' | 'FORBIDDEN' | 'VALIDATION_FAILED' | 'USER_NOT_FOUND' | 'EMAIL_NOT_CONFIRMED' | 'ACCOUNT_NOT_ACTIVE' | 'CANNOT_MODIFY_SELF' | 'LAST_ADMIN' | 'PROVIDER_NOT_FOUND' | 'PROVIDER_ALREADY_EXISTS' | 'PROVIDER_KEY_INVALID' | 'PROVIDER_KEY_NOT_USED' | 'PROVIDER_KEY_MISSING' | 'PROVIDER_UNAVAILABLE' | 'MODEL_NOT_FOUND' | 'MODEL_ALREADY_EXISTS' | 'MODEL_IN_USE' | 'CATALOG_FINDING_NOT_FOUND' | 'CATALOG_FINDING_NOT_OPEN' | 'CATALOG_FINDING_NOT_APPLICABLE' | 'CATALOG_FINDING_OUTDATED' | 'CATALOG_SYNC_RUNNING' | 'MODE_NOT_FOUND' | 'MODE_ALREADY_EXISTS' | 'MODE_NOT_AVAILABLE' | 'PRICE_PERIOD_CONFLICT' | 'PLAN_NOT_FOUND' | 'PLAN_ALREADY_EXISTS' | 'PLAN_NOT_ACTIVE' | 'DEFAULT_PLAN_REQUIRED' | 'NO_ACTIVE_SUBSCRIPTION' | 'INSUFFICIENT_BALANCE' | 'IDEMPOTENCY_KEY_REUSED' | 'PAYMENT_REFERENCE_REUSED' | 'CONVERSATION_NOT_FOUND' | 'CONVERSATION_BUSY' | 'CONTEXT_TOO_LONG' | 'PROFILE_INCOMPLETE' | 'DUPLICATE_REQUEST' | 'RATE_LIMITED' | 'PROVIDER_MISCONFIGURED' | 'PROVIDER_TIMEOUT' | 'PROVIDER_ERROR' | 'CONTENT_BLOCKED' | 'ATTACHMENT_TOO_LARGE' | 'ATTACHMENT_TYPE_NOT_ALLOWED' | 'ATTACHMENT_NOT_FOUND' | 'ATTACHMENT_ALREADY_USED' | 'TOO_MANY_ATTACHMENTS' | 'MODE_NO_IMAGE_SUPPORT';
     /**
      * English fallback; clients localize by `code`.
      */
@@ -409,6 +409,72 @@ export type ProviderDto = {
     updatedAt: string;
 };
 
+export type CatalogPriceDto = {
+    inputPerMtok: string;
+    outputPerMtok: string;
+    cachedInputPerMtok: string | null;
+    cacheWritePerMtok: string | null;
+};
+
+export type CatalogSuggestionDto = {
+    /**
+     * The catalog entry used (same id as the provider)
+     */
+    catalogModelId: string;
+    name: string | null;
+    contextWindow: number | null;
+    maxOutputTokens: number | null;
+    /**
+     * Suggested `supportsImages`; null when the catalog does not say
+     */
+    supportsImages: boolean | null;
+    /**
+     * Provider price (before our margin); null when the catalog has none
+     */
+    price: CatalogPriceDto | null;
+    /**
+     * The provider charges more above a context size (e.g. 200K tokens). `price` is the base tier; keep the context window at or below the tier, or price for the higher one.
+     */
+    hasContextTiers: boolean;
+    /**
+     * The catalog marks it deprecated
+     */
+    deprecated: boolean;
+};
+
+export type AvailableModelDto = {
+    providerModelId: string;
+    /**
+     * As the provider names it (Google and Anthropic only)
+     */
+    displayName: string | null;
+    /**
+     * Input context window, when the provider reports it
+     */
+    contextWindow: number | null;
+    /**
+     * Most output tokens per request, when the provider reports it
+     */
+    maxOutputTokens: number | null;
+    /**
+     * Our model for this id, or null if it has not been added
+     */
+    addedModelId: string | null;
+    /**
+     * Public catalog data for this exact id (official providers only); null when it has no entry
+     */
+    catalog: CatalogSuggestionDto | null;
+};
+
+export type AvailableModelsDto = {
+    providerCode: string;
+    /**
+     * False when the public catalog could not be fetched: models are listed without catalog data
+     */
+    catalogAvailable: boolean;
+    models: Array<AvailableModelDto>;
+};
+
 export type CreateProviderDto = {
     /**
      * Why the change is made. Stored in the audit log.
@@ -511,6 +577,19 @@ export type ModelDto = {
     updatedAt: string;
 };
 
+export type PriceRatesDto = {
+    /**
+     * USD per 1M input tokens
+     */
+    inputPerMtok: string;
+    /**
+     * USD per 1M output tokens
+     */
+    outputPerMtok: string;
+    cachedInputPerMtok?: string | null;
+    cacheWritePerMtok?: string | null;
+};
+
 export type CreateModelDto = {
     /**
      * Why the change is made. Stored in the audit log.
@@ -546,6 +625,10 @@ export type CreateModelDto = {
      * Must not exceed contextWindow
      */
     maxOutputTokens: number;
+    /**
+     * First price, effective now, saved with the model in one step (same rules as `POST /admin/models/{id}/prices`). Omit to add the model without a price.
+     */
+    price?: PriceRatesDto;
 };
 
 export type UpdateModelDto = {
@@ -756,6 +839,174 @@ export type UpdatePricingSettingsDto = {
      * Margin % (0–500)
      */
     defaultMarginPct: string;
+};
+
+export type StartCatalogSyncResponseDto = {
+    /**
+     * Follow it with `GET /admin/catalog-sync/status`
+     */
+    runId: string;
+};
+
+export type OpenFindingsByKindDto = {
+    large_change: number;
+    catalog_price_missing: number;
+    model_retired: number;
+};
+
+export type RunningSyncDto = {
+    runId: string;
+    startedAt: string;
+    trigger: 'schedule' | 'admin';
+};
+
+export type CatalogSyncSummaryDto = {
+    /**
+     * False when the public catalog could not be fetched: nothing was checked
+     */
+    catalogAvailable: boolean;
+    /**
+     * Models with a price and a catalog entry
+     */
+    checked: number;
+    /**
+     * New prices set by the sync
+     */
+    applied: number;
+    /**
+     * Already equal to the catalog
+     */
+    unchanged: number;
+    /**
+     * Changes held for an admin (open `large_change` findings)
+     */
+    held: number;
+    /**
+     * Held changes an admin already dismissed at this same catalog price
+     */
+    ignored: number;
+    /**
+     * Catalog entries without a usable price (findings)
+     */
+    noCatalogPrice: number;
+    /**
+     * Models the catalog does not list (incl. OpenAI-compatible providers)
+     */
+    notInCatalog: number;
+    /**
+     * Models without a current price, or with a future price scheduled
+     */
+    skipped: number;
+    /**
+     * Models that could not be synced (logged)
+     */
+    failed: number;
+    /**
+     * Providers with a key whose model list was read (retired check)
+     */
+    providersChecked: number;
+    /**
+     * Providers with a key that could not be asked: their models were not checked
+     */
+    providersUnreachable: number;
+    /**
+     * Enabled models the provider no longer serves (open `model_retired` findings)
+     */
+    retired: number;
+    /**
+     * Of those, models an enabled mode uses: messages in that mode will fail
+     */
+    retiredInUse: number;
+};
+
+export type LastSyncRunDto = {
+    runId: string;
+    startedAt: string;
+    finishedAt: string;
+    trigger: 'schedule' | 'admin';
+    summary: CatalogSyncSummaryDto | null;
+    /**
+     * Why the run failed (developer text); null when it succeeded. A run that never finished is reported as failed after 30 minutes.
+     */
+    error: string | null;
+};
+
+export type CatalogSyncStatusDto = {
+    /**
+     * Open findings of all kinds
+     */
+    openFindings: number;
+    openByKind: OpenFindingsByKindDto;
+    /**
+     * The run in progress (manual or scheduled), if any
+     */
+    running: RunningSyncDto | null;
+    /**
+     * The latest run that finished (or failed), if any
+     */
+    lastRun: LastSyncRunDto | null;
+    /**
+     * Next scheduled run (cron `0 *6 * * *`, UTC). Not a promise: a run in progress then makes the scheduled one skip.
+     */
+    nextRunAt: string;
+};
+
+export type FindingRatesDto = {
+    inputPerMtok: string;
+    outputPerMtok: string;
+    cachedInputPerMtok: string | null;
+    cacheWritePerMtok: string | null;
+};
+
+export type ResolvedByDto = {
+    id: string;
+    email: string | null;
+};
+
+export type CatalogFindingDto = {
+    id: string;
+    /**
+     * `large_change`: held by the guard (over 50 %, or from zero); `catalog_price_missing`: the catalog has no usable price, ours is kept; `model_retired`: the provider no longer lists it
+     */
+    kind: 'large_change' | 'catalog_price_missing' | 'model_retired';
+    /**
+     * `superseded`: closed by the sync because it no longer holds
+     */
+    status: 'open' | 'applied' | 'dismissed' | 'superseded';
+    modelId: string;
+    providerCode: string;
+    providerModelId: string;
+    modelDisplayName: string;
+    catalogModelId: string | null;
+    /**
+     * Keys of the enabled modes that use the model now, sorted (urgent for `model_retired`)
+     */
+    usedByEnabledModes: Array<string>;
+    /**
+     * Our provider price when last seen
+     */
+    currentPrice: FindingRatesDto | null;
+    /**
+     * What applying sets (`large_change` only)
+     */
+    proposedPrice: FindingRatesDto | null;
+    /**
+     * Largest change of one rate in percent; null from zero
+     */
+    changePct: string | null;
+    createdAt: string;
+    lastSeenAt: string;
+    resolvedAt: string | null;
+    /**
+     * The admin who applied or dismissed it; null when the sync closed it
+     */
+    resolvedBy: ResolvedByDto | null;
+    resolutionReason: string | null;
+};
+
+export type CatalogFindingPageDto = {
+    items: Array<CatalogFindingDto>;
+    nextCursor: string | null;
 };
 
 export type PlanDto = {
@@ -1624,6 +1875,42 @@ export type AdminProvidersCreateResponses = {
 
 export type AdminProvidersCreateResponse = AdminProvidersCreateResponses[keyof AdminProvidersCreateResponses];
 
+export type AdminProvidersAvailableModelsData = {
+    body?: never;
+    path: {
+        code: string;
+    };
+    query?: never;
+    url: '/api/v1/admin/providers/{code}/available-models';
+};
+
+export type AdminProvidersAvailableModelsErrors = {
+    /**
+     * FORBIDDEN
+     */
+    403: ApiErrorResponseDto;
+    /**
+     * PROVIDER_NOT_FOUND
+     */
+    404: ApiErrorResponseDto;
+    /**
+     * PROVIDER_KEY_MISSING, PROVIDER_KEY_INVALID (the provider rejected the stored key), PROVIDER_KEY_NOT_USED (mock)
+     */
+    409: ApiErrorResponseDto;
+    /**
+     * PROVIDER_UNAVAILABLE (the provider could not be reached)
+     */
+    502: ApiErrorResponseDto;
+};
+
+export type AdminProvidersAvailableModelsError = AdminProvidersAvailableModelsErrors[keyof AdminProvidersAvailableModelsErrors];
+
+export type AdminProvidersAvailableModelsResponses = {
+    200: AvailableModelsDto;
+};
+
+export type AdminProvidersAvailableModelsResponse = AdminProvidersAvailableModelsResponses[keyof AdminProvidersAvailableModelsResponses];
+
 export type AdminProvidersUpdateData = {
     body: UpdateProviderDto;
     path: {
@@ -1761,6 +2048,10 @@ export type AdminModelsCreateData = {
 };
 
 export type AdminModelsCreateErrors = {
+    /**
+     * VALIDATION_FAILED (incl. an invalid `price` or maxOutputTokens above contextWindow)
+     */
+    400: ApiErrorResponseDto;
     /**
      * FORBIDDEN
      */
@@ -2086,6 +2377,167 @@ export type AdminPricingSettingsUpdateResponses = {
 };
 
 export type AdminPricingSettingsUpdateResponse = AdminPricingSettingsUpdateResponses[keyof AdminPricingSettingsUpdateResponses];
+
+export type AdminCatalogSyncRunData = {
+    body: ReasonDto;
+    path?: never;
+    query?: never;
+    url: '/api/v1/admin/catalog-sync/run';
+};
+
+export type AdminCatalogSyncRunErrors = {
+    /**
+     * VALIDATION_FAILED (e.g. missing or too short `reason`)
+     */
+    400: ApiErrorResponseDto;
+    /**
+     * FORBIDDEN
+     */
+    403: ApiErrorResponseDto;
+    /**
+     * CATALOG_SYNC_RUNNING (a manual or scheduled run is in progress)
+     */
+    409: ApiErrorResponseDto;
+};
+
+export type AdminCatalogSyncRunError = AdminCatalogSyncRunErrors[keyof AdminCatalogSyncRunErrors];
+
+export type AdminCatalogSyncRunResponses = {
+    202: StartCatalogSyncResponseDto;
+};
+
+export type AdminCatalogSyncRunResponse = AdminCatalogSyncRunResponses[keyof AdminCatalogSyncRunResponses];
+
+export type AdminCatalogSyncStatusData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/admin/catalog-sync/status';
+};
+
+export type AdminCatalogSyncStatusErrors = {
+    /**
+     * FORBIDDEN
+     */
+    403: ApiErrorResponseDto;
+};
+
+export type AdminCatalogSyncStatusError = AdminCatalogSyncStatusErrors[keyof AdminCatalogSyncStatusErrors];
+
+export type AdminCatalogSyncStatusResponses = {
+    200: CatalogSyncStatusDto;
+};
+
+export type AdminCatalogSyncStatusResponse = AdminCatalogSyncStatusResponses[keyof AdminCatalogSyncStatusResponses];
+
+export type AdminCatalogSyncListData = {
+    body?: never;
+    path?: never;
+    query?: {
+        status?: 'open' | 'applied' | 'dismissed' | 'superseded';
+        /**
+         * One kind; all kinds when omitted
+         */
+        kind?: 'large_change' | 'catalog_price_missing' | 'model_retired';
+        limit?: number;
+        /**
+         * Cursor from `nextCursor` of the previous page
+         */
+        cursor?: string;
+    };
+    url: '/api/v1/admin/catalog-sync/findings';
+};
+
+export type AdminCatalogSyncListErrors = {
+    /**
+     * VALIDATION_FAILED (unknown `status`, `kind` or `cursor`)
+     */
+    400: ApiErrorResponseDto;
+    /**
+     * FORBIDDEN
+     */
+    403: ApiErrorResponseDto;
+};
+
+export type AdminCatalogSyncListError = AdminCatalogSyncListErrors[keyof AdminCatalogSyncListErrors];
+
+export type AdminCatalogSyncListResponses = {
+    200: CatalogFindingPageDto;
+};
+
+export type AdminCatalogSyncListResponse = AdminCatalogSyncListResponses[keyof AdminCatalogSyncListResponses];
+
+export type AdminCatalogSyncApplyData = {
+    body: ReasonDto;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/admin/catalog-sync/findings/{id}/apply';
+};
+
+export type AdminCatalogSyncApplyErrors = {
+    /**
+     * VALIDATION_FAILED (e.g. missing or too short `reason`)
+     */
+    400: ApiErrorResponseDto;
+    /**
+     * FORBIDDEN
+     */
+    403: ApiErrorResponseDto;
+    /**
+     * CATALOG_FINDING_NOT_FOUND
+     */
+    404: ApiErrorResponseDto;
+    /**
+     * CATALOG_FINDING_NOT_OPEN, CATALOG_FINDING_NOT_APPLICABLE (not a price change), CATALOG_FINDING_OUTDATED
+     */
+    409: ApiErrorResponseDto;
+};
+
+export type AdminCatalogSyncApplyError = AdminCatalogSyncApplyErrors[keyof AdminCatalogSyncApplyErrors];
+
+export type AdminCatalogSyncApplyResponses = {
+    200: CatalogFindingDto;
+};
+
+export type AdminCatalogSyncApplyResponse = AdminCatalogSyncApplyResponses[keyof AdminCatalogSyncApplyResponses];
+
+export type AdminCatalogSyncDismissData = {
+    body: ReasonDto;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/admin/catalog-sync/findings/{id}/dismiss';
+};
+
+export type AdminCatalogSyncDismissErrors = {
+    /**
+     * VALIDATION_FAILED (e.g. missing or too short `reason`)
+     */
+    400: ApiErrorResponseDto;
+    /**
+     * FORBIDDEN
+     */
+    403: ApiErrorResponseDto;
+    /**
+     * CATALOG_FINDING_NOT_FOUND
+     */
+    404: ApiErrorResponseDto;
+    /**
+     * CATALOG_FINDING_NOT_OPEN
+     */
+    409: ApiErrorResponseDto;
+};
+
+export type AdminCatalogSyncDismissError = AdminCatalogSyncDismissErrors[keyof AdminCatalogSyncDismissErrors];
+
+export type AdminCatalogSyncDismissResponses = {
+    200: CatalogFindingDto;
+};
+
+export type AdminCatalogSyncDismissResponse = AdminCatalogSyncDismissResponses[keyof AdminCatalogSyncDismissResponses];
 
 export type AdminPlansListData = {
     body?: never;

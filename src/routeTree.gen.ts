@@ -37,6 +37,7 @@ import { Route as AuthedAdminModesNewRouteImport } from './routes/_authed/admin/
 import { Route as AuthedAdminPlansIndexRouteImport } from './routes/_authed/admin/plans/index'
 import { Route as AuthedAdminPlansKeyRouteImport } from './routes/_authed/admin/plans/$key'
 import { Route as AuthedAdminPlansNewRouteImport } from './routes/_authed/admin/plans/new'
+import { Route as AuthedAdminPriceUpdatesIndexRouteImport } from './routes/_authed/admin/price-updates/index'
 import { Route as AuthedAdminProvidersIndexRouteImport } from './routes/_authed/admin/providers/index'
 import { Route as AuthedAdminSettingsIndexRouteImport } from './routes/_authed/admin/settings/index'
 import { Route as AuthedAdminUsersIndexRouteImport } from './routes/_authed/admin/users/index'
@@ -180,6 +181,12 @@ const AuthedAdminPlansNewRoute = AuthedAdminPlansNewRouteImport.update({
   path: '/plans/new',
   getParentRoute: () => AuthedAdminRouteRoute,
 } as any)
+const AuthedAdminPriceUpdatesIndexRoute =
+  AuthedAdminPriceUpdatesIndexRouteImport.update({
+    id: '/price-updates/',
+    path: '/price-updates/',
+    getParentRoute: () => AuthedAdminRouteRoute,
+  } as any)
 const AuthedAdminProvidersIndexRoute =
   AuthedAdminProvidersIndexRouteImport.update({
     id: '/providers/',
@@ -230,6 +237,7 @@ export interface FileRoutesByFullPath {
   '/admin/models/': typeof AuthedAdminModelsIndexRoute
   '/admin/modes/': typeof AuthedAdminModesIndexRoute
   '/admin/plans/': typeof AuthedAdminPlansIndexRoute
+  '/admin/price-updates/': typeof AuthedAdminPriceUpdatesIndexRoute
   '/admin/providers/': typeof AuthedAdminProvidersIndexRoute
   '/admin/settings/': typeof AuthedAdminSettingsIndexRoute
   '/admin/users/': typeof AuthedAdminUsersIndexRoute
@@ -260,6 +268,7 @@ export interface FileRoutesByTo {
   '/admin/models': typeof AuthedAdminModelsIndexRoute
   '/admin/modes': typeof AuthedAdminModesIndexRoute
   '/admin/plans': typeof AuthedAdminPlansIndexRoute
+  '/admin/price-updates': typeof AuthedAdminPriceUpdatesIndexRoute
   '/admin/providers': typeof AuthedAdminProvidersIndexRoute
   '/admin/settings': typeof AuthedAdminSettingsIndexRoute
   '/admin/users': typeof AuthedAdminUsersIndexRoute
@@ -295,6 +304,7 @@ export interface FileRoutesById {
   '/_authed/admin/models/': typeof AuthedAdminModelsIndexRoute
   '/_authed/admin/modes/': typeof AuthedAdminModesIndexRoute
   '/_authed/admin/plans/': typeof AuthedAdminPlansIndexRoute
+  '/_authed/admin/price-updates/': typeof AuthedAdminPriceUpdatesIndexRoute
   '/_authed/admin/providers/': typeof AuthedAdminProvidersIndexRoute
   '/_authed/admin/settings/': typeof AuthedAdminSettingsIndexRoute
   '/_authed/admin/users/': typeof AuthedAdminUsersIndexRoute
@@ -328,6 +338,7 @@ export interface FileRouteTypes {
     | '/admin/models/'
     | '/admin/modes/'
     | '/admin/plans/'
+    | '/admin/price-updates/'
     | '/admin/providers/'
     | '/admin/settings/'
     | '/admin/users/'
@@ -358,6 +369,7 @@ export interface FileRouteTypes {
     | '/admin/models'
     | '/admin/modes'
     | '/admin/plans'
+    | '/admin/price-updates'
     | '/admin/providers'
     | '/admin/settings'
     | '/admin/users'
@@ -392,6 +404,7 @@ export interface FileRouteTypes {
     | '/_authed/admin/models/'
     | '/_authed/admin/modes/'
     | '/_authed/admin/plans/'
+    | '/_authed/admin/price-updates/'
     | '/_authed/admin/providers/'
     | '/_authed/admin/settings/'
     | '/_authed/admin/users/'
@@ -606,6 +619,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthedAdminPlansNewRouteImport
       parentRoute: typeof AuthedAdminRouteRoute
     }
+    '/_authed/admin/price-updates/': {
+      id: '/_authed/admin/price-updates/'
+      path: '/price-updates'
+      fullPath: '/admin/price-updates/'
+      preLoaderRoute: typeof AuthedAdminPriceUpdatesIndexRouteImport
+      parentRoute: typeof AuthedAdminRouteRoute
+    }
     '/_authed/admin/providers/': {
       id: '/_authed/admin/providers/'
       path: '/providers'
@@ -667,6 +687,7 @@ interface AuthedAdminRouteRouteChildren {
   AuthedAdminModelsIndexRoute: typeof AuthedAdminModelsIndexRoute
   AuthedAdminModesIndexRoute: typeof AuthedAdminModesIndexRoute
   AuthedAdminPlansIndexRoute: typeof AuthedAdminPlansIndexRoute
+  AuthedAdminPriceUpdatesIndexRoute: typeof AuthedAdminPriceUpdatesIndexRoute
   AuthedAdminProvidersIndexRoute: typeof AuthedAdminProvidersIndexRoute
   AuthedAdminSettingsIndexRoute: typeof AuthedAdminSettingsIndexRoute
   AuthedAdminUsersIndexRoute: typeof AuthedAdminUsersIndexRoute
@@ -684,6 +705,7 @@ const AuthedAdminRouteRouteChildren: AuthedAdminRouteRouteChildren = {
   AuthedAdminModelsIndexRoute: AuthedAdminModelsIndexRoute,
   AuthedAdminModesIndexRoute: AuthedAdminModesIndexRoute,
   AuthedAdminPlansIndexRoute: AuthedAdminPlansIndexRoute,
+  AuthedAdminPriceUpdatesIndexRoute: AuthedAdminPriceUpdatesIndexRoute,
   AuthedAdminProvidersIndexRoute: AuthedAdminProvidersIndexRoute,
   AuthedAdminSettingsIndexRoute: AuthedAdminSettingsIndexRoute,
   AuthedAdminUsersIndexRoute: AuthedAdminUsersIndexRoute,

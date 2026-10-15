@@ -1,4 +1,4 @@
-import { CircleAlert } from 'lucide-react';
+import { CircleAlert, Info } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { cn } from '~/lib/utils';
@@ -13,6 +13,7 @@ export function Field({
   required,
   hint,
   error,
+  badge,
   children,
 }: {
   id: string;
@@ -20,22 +21,27 @@ export function Field({
   required?: boolean;
   hint?: string;
   error?: string;
+  /** Small tag after the label (e.g. «من الكتالوج»). */
+  badge?: string;
   children: ReactNode;
 }) {
   const { t } = useTranslation();
   return (
     <div className="grid gap-2">
-      <label htmlFor={id} className="text-fg text-sm font-medium">
-        {label}
-        {required ? (
-          <span aria-hidden="true" className="text-danger ms-1">
-            *
-          </span>
-        ) : null}
-        {required ? (
-          <span className="sr-only"> {t('admin.dialog.required')}</span>
-        ) : null}
-      </label>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <label htmlFor={id} className="text-fg text-sm font-medium">
+          {label}
+          {required ? (
+            <span aria-hidden="true" className="text-danger ms-1">
+              *
+            </span>
+          ) : null}
+          {required ? (
+            <span className="sr-only"> {t('admin.dialog.required')}</span>
+          ) : null}
+        </label>
+        {badge ? <SourceTag>{badge}</SourceTag> : null}
+      </div>
       {children}
       {hint ? (
         <p id={`${id}-hint`} className="text-fg-muted text-sm">
@@ -61,3 +67,13 @@ export const describedBy = (id: string, hint: boolean, error: boolean) =>
   [hint ? `${id}-hint` : null, error ? `${id}-error` : null]
     .filter(Boolean)
     .join(' ') || undefined;
+
+/** «من الكتالوج»: where a prefilled value came from (text, not colour alone). */
+export function SourceTag({ children }: { children: ReactNode }) {
+  return (
+    <span className="bg-mode-1-container text-mode-1 border-mode-1-border inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs font-medium">
+      <Info aria-hidden="true" className="size-3" />
+      {children}
+    </span>
+  );
+}

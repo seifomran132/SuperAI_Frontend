@@ -33,6 +33,13 @@ export interface ReasonDialogProps {
   fieldNames?: string[];
   /** Checks the extra fields before sending; returns their errors. */
   validate?: () => FieldErrors;
+  /**
+   * After a failed send: an action to show under the error, and whether to
+   * block the submit button (the same request cannot succeed now).
+   */
+  errorExtra?: (
+    error: unknown,
+  ) => { action?: ReactNode; lock?: boolean } | null;
   /** Sends the write. Throw the API error to show it inside the dialog. */
   onSubmit: (input: {
     reason: string;
@@ -114,6 +121,7 @@ function ReasonForm({
   fields,
   fieldNames,
   validate,
+  errorExtra,
   onSubmit,
 }: ReasonDialogProps) {
   const { t } = useTranslation();
@@ -124,6 +132,7 @@ function ReasonForm({
   const [reason, setReason] = useState('');
   const [errors, setErrors] = useState<FieldErrors>({});
   const [apiErrorKey, setApiErrorKey] = useState<string | null>(null);
+  const [apiError, setApiError] = useState<unknown>(null);
   const [pending, setPending] = useState(false);
 
   const clearError = (field: string) =>
@@ -142,6 +151,7 @@ function ReasonForm({
     if (reasonProblem) found.reason = reasonProblem;
     setErrors(found);
     setApiErrorKey(null);
+    setApiError(null);
     if (Object.keys(found).length > 0) return;
 
     setPending(true);
@@ -169,6 +179,7 @@ function ReasonForm({
         setIdempotencyKey(crypto.randomUUID());
         setApiErrorKey('admin.dialog.keyReused');
       } else {
+        setApiError(error);
         setApiErrorKey(errorMessageKey(error));
       }
     } finally {
@@ -176,6 +187,7 @@ function ReasonForm({
     }
   }
 
+  const extra = apiError ? (errorExtra?.(apiError) ?? null) : null;
   const reasonId = `${id}-reason`;
   const reasonText = errors.reason ? t(`admin.${errors.reason}`) : undefined;
   return (
@@ -206,6 +218,7 @@ function ReasonForm({
         <Alert variant="danger">
           <strong className="block">{t('admin.dialog.failed')}</strong>
           {t(apiErrorKey)}
+          {extra?.action ? <div className="mt-3">{extra.action}</div> : null}
         </Alert>
       ) : null}
       <div className="flex flex-wrap justify-end gap-3">
@@ -220,6 +233,7 @@ function ReasonForm({
           type="submit"
           variant={danger ? 'danger' : 'primary'}
           loading={pending}
+          disabled={extra?.lock}
         >
           {submitLabel}
         </Button>

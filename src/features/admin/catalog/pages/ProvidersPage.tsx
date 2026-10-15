@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from '@tanstack/react-router';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { KeyRound, Plus, Power, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
@@ -11,7 +12,8 @@ import {
 import { adminProvidersSetApiKey } from '~/api/generated/sdk.gen';
 import type { ProviderDto } from '~/api/generated/types.gen';
 import { Alert } from '~/components/ui/alert';
-import { Button } from '~/components/ui/button';
+import { Button, buttonVariants } from '~/components/ui/button';
+import { cn } from '~/lib/utils';
 import { PasswordInput } from '~/components/ui/password-input';
 import { th, td, TextField } from '../../components/FormControls';
 import { ReasonDialog } from '../../components/ReasonDialog';
@@ -370,6 +372,22 @@ export function ProvidersPage() {
                         )}
                         <span className="sr-only"> {p.displayName}</span>
                       </Button>
+                      {p.kind !== 'mock' ? (
+                        <Link
+                          to="/admin/models/new"
+                          search={{ provider: p.code }}
+                          className={cn(
+                            buttonVariants({
+                              variant: 'secondary',
+                              size: 'sm',
+                            }),
+                          )}
+                        >
+                          <Plus aria-hidden="true" className="size-4" />
+                          {t('admin.providers.addModel')}
+                          <span className="sr-only"> {p.displayName}</span>
+                        </Link>
+                      ) : null}
                       {p.apiKey.configured ? (
                         <Button
                           variant="secondary"
