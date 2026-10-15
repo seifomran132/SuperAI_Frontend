@@ -15,6 +15,17 @@ const meError = (status: number, code: string) => {
 const hasSession = async () => (await auth.getSession()).data.session !== null;
 
 describe('route guards', () => {
+  it('sends a visitor at / to /sign-in (no landing page yet)', async () => {
+    const { here } = await renderApp('/');
+    await waitFor(() => expect(here()).toBe('/sign-in'));
+  });
+
+  it('sends a signed-in user at / to /chat', async () => {
+    await signInDirectly();
+    const { here } = await renderApp('/');
+    await waitFor(() => expect(here()).toBe('/chat'));
+  });
+
   it('sends a visitor without a session to /sign-in with the redirect', async () => {
     const { here } = await renderApp('/chat');
     await waitFor(() => expect(here()).toBe('/sign-in?redirect=%2Fchat'));

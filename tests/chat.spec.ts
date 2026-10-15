@@ -70,10 +70,8 @@ test('new chat: send in the first mode, streamed answer, then cost', async () =>
   await expect(answer).toHaveAttribute('data-state', 'complete', {
     timeout: 45_000,
   });
-  await expect(answer.getByText(/التكلفة/)).toBeVisible();
-  await expect(answer.getByText(/الرصيد المتبقي/)).toBeVisible();
-  // Money goes through the formatter: inside <bdi>.
-  await expect(answer.locator('bdi').first()).toBeVisible();
+  // Per-answer cost is hidden (decision 2026-10-15).
+  await expect(answer.getByText(/التكلفة/)).toHaveCount(0);
   await expect(composer()).toHaveValue('');
 });
 

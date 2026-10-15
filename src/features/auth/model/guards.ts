@@ -7,6 +7,16 @@ import { defaultAfterAuthPath, isInternalPath } from './redirect';
 // SPA mode renders the shell without a browser; guards need the session store.
 const inBrowser = () => typeof window !== 'undefined';
 
+/** `/`: no landing page yet, so send visitors to the app or to sign-in. */
+export async function redirectFromHome() {
+  if (!inBrowser()) return;
+  const { data } = await auth.getSession();
+  throw redirect({
+    to: data.session ? defaultAfterAuthPath : '/sign-in',
+    replace: true,
+  });
+}
+
 /** `_guest`: signed-in users have no business on sign-in/up pages. */
 export async function redirectIfSignedIn() {
   if (!inBrowser()) return;

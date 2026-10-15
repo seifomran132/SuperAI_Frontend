@@ -166,10 +166,11 @@ for (const [label, path] of signedInRoutes) {
   }
 }
 
-// `/` is intentionally empty until the landing page (S13) exists.
-test('guest / is an empty RTL document', async () => {
+// No landing page yet (S13): `/` sends a guest to sign-in.
+test('guest / goes to sign-in', async () => {
   const page = await guest.newPage();
   await page.goto('/');
+  await expect(page).toHaveURL(/\/sign-in$/);
   await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
   await expectNoHorizontalScroll(page);
   await page.close();

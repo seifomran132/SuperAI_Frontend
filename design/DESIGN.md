@@ -180,14 +180,14 @@ One image per message (JPEG, PNG or WebP, up to 5 MB), attached with the image b
 ### Messages
 - User message: right-aligned bubble, `#F1F5F9`.
 - Assistant message: white card with a small mode chip (e.g. «سريع») — never a model or provider name. Full markdown: headings, lists, tables, LTR code blocks with copy.
-- After an answer completes, a quiet footer line: `التكلفة 0.0015$ · الرصيد المتبقي 14.48$` plus a copy action. No latency, temperature, or token inspector.
+- After an answer completes, a quiet footer with a copy action only. The per-answer cost is not shown (decision 2026-10-15). No latency, temperature, or token inspector.
 - Timestamps only on hover or as small muted text, Western digits.
 
 ### Answer states
 - **Preparing:** three-dot pulse with «جاري الإعداد…».
 - **Streaming:** text appears progressively with a blinking caret; Stop visible.
-- **Stopped by user / cut at length limit (partial):** text kept, with a muted note «توقف الرد قبل اكتماله» and the cost charged.
-- **Failed:** danger container «تعذّر إكمال الرد. حاول مرة أخرى.» with a retry button; shows the cost only if non-zero.
+- **Stopped by user / cut at length limit (partial):** text kept, with a muted note «توقف الرد قبل اكتماله» (the charge is not shown per answer).
+- **Failed:** danger container «تعذّر إكمال الرد. حاول مرة أخرى.» with a retry button.
 
 ### Insufficient balance warning
 Appears above the message box only when sending is refused. Warning container (amber). Text: «رصيدك غير كافٍ لهذه الرسالة في الوضع الاحترافي (التكلفة المتوقعة 0.0120$، رصيدك 0.0040$).» Then one button per cheaper mode that fits, e.g. «التبديل إلى الوضع السريع (0.0030$ تقريبًا)». The button only switches the mode; the user presses Send again. If no mode fits: «تواصل معنا لإضافة رصيد» with the request-balance action.

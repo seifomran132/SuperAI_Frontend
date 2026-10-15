@@ -14,8 +14,6 @@ const NEAR_TOP_PX = 120;
 export interface MessageListProps {
   messages: MessageDto[];
   modes: ModeDto[];
-  /** Newest-answer "remaining balance". */
-  balanceUsd?: string;
   /** A send in this tab, before the server has created the answer. */
   preparing: { modeKey: string } | null;
   /** A send in this tab is writing into this conversation. */
@@ -52,7 +50,6 @@ const placeholder = (modeKey: string): MessageDto => ({
 export function MessageList({
   messages,
   modes,
-  balanceUsd,
   preparing,
   local,
   canRetry,
@@ -136,8 +133,6 @@ export function MessageList({
     requestOlder,
   ]);
 
-  const lastId = messages[messages.length - 1]?.id;
-
   return (
     <div
       ref={scroller}
@@ -192,7 +187,6 @@ export function MessageList({
               message={message}
               modes={modes}
               local={local}
-              remainingUsd={message.id === lastId ? balanceUsd : undefined}
               retryText={
                 // An image is used by one message only (§8.2), so a question
                 // with an image is re-sent by attaching it again, not here.

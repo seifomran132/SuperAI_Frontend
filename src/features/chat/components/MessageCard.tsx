@@ -1,13 +1,10 @@
 import { memo } from 'react';
 import { Check, Copy, Info, RefreshCw, TriangleAlert } from 'lucide-react';
-import { Trans, useTranslation } from 'react-i18next';
-import { Money } from '~/components/Money';
+import { useTranslation } from 'react-i18next';
 import { Button } from '~/components/ui/button';
 import type { MessageDto, ModeDto } from '~/api/generated/types.gen';
-import { toDecimal } from '~/lib/money';
 import { cn } from '~/lib/utils';
 import { messageState } from '../model/message-state';
-import { useMessageCost } from '../model/message-costs';
 import type {
   MessageAttachment,
   UseAttachmentImage,
@@ -104,8 +101,6 @@ export interface AssistantMessageProps {
   modes: ModeDto[];
   /** An answer is being written by a send in this tab (not left over from an earlier visit). */
   local: boolean;
-  /** Current balance, shown as "remaining" only on the newest answer. */
-  remainingUsd?: string;
   /** The question this answer belongs to; with `onRetry`, offers a re-send. */
   retryText?: string;
   /** Re-sends the question as a new message (must be a stable function). */
@@ -116,19 +111,16 @@ export const AssistantMessage = memo(function AssistantMessage({
   message,
   modes,
   local,
-  remainingUsd,
   retryText,
   onRetry,
 }: AssistantMessageProps) {
   const { t, i18n } = useTranslation();
   const brandName = useBrandName();
   const { copied, copy } = useCopy();
-  const cost = useMessageCost(message.id);
   const state = messageState(message);
   const streaming = state === 'streaming';
   const failed = state === 'failed';
   const hasText = message.content.trim() !== '';
-  const hasCost = cost !== undefined && !toDecimal(cost).isZero();
   const showFooter = !streaming && !failed && hasText;
 
   const failureKey = `errors:${message.errorCode}`;
@@ -177,14 +169,6 @@ export const AssistantMessage = memo(function AssistantMessage({
               />
               {failureText}
             </p>
-            {hasCost ? (
-              <p className="text-fg-subtle text-xs">
-                <Trans
-                  i18nKey="chat.message.cost"
-                  components={{ cost: <Money value={cost} kind="cost" /> }}
-                />
-              </p>
-            ) : null}
             {onRetry && retryText !== undefined ? (
               <Button
                 type="button"
@@ -224,25 +208,8 @@ export const AssistantMessage = memo(function AssistantMessage({
         ) : null}
 
         {showFooter ? (
-          <footer className="border-border-subtle mt-4 flex items-center justify-between gap-3 border-t pt-3">
-            <p className="text-fg-subtle text-xs">
-              {hasCost ? (
-                remainingUsd !== undefined ? (
-                  <Trans
-                    i18nKey="chat.message.costWithBalance"
-                    components={{
-                      cost: <Money value={cost} kind="cost" />,
-                      balance: <Money value={remainingUsd} />,
-                    }}
-                  />
-                ) : (
-                  <Trans
-                    i18nKey="chat.message.cost"
-                    components={{ cost: <Money value={cost} kind="cost" /> }}
-                  />
-                )
-              ) : null}
-            </p>
+          <footer className="border-border-subtle mt-4 flex items-center justify-end gap-3 border-t pt-3">
+            {/* Per-answer cost is not shown (decision 2026-10-15); the balance chip shows what is left. */}
             <button
               type="button"
               onClick={() => void copy(message.content)}

@@ -46,14 +46,14 @@ describe('assistant card', () => {
     expect(screen.getByText(ar.chat.message.cut)).toBeInTheDocument();
   });
 
-  it('hides a zero cost and shows a real one with four decimals', () => {
+  it('never shows the cost of an answer (decision 2026-10-15)', () => {
     const zero = message({
       sequence: 2,
       role: 'assistant',
       content: 'نص',
       status: 'complete',
     });
-    recordMessageCost(zero.id, '0.000000000');
+    recordMessageCost(zero.id, '0.001500000');
     const { container } = render(
       <AssistantMessage message={zero} modes={modes} local={false} />,
     );

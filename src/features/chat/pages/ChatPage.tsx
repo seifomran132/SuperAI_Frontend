@@ -19,7 +19,6 @@ import { useNoPlan } from '../components/useNoPlan';
 import { NEW_CHAT, useChatStore } from '../model/chat-store';
 import { messageState } from '../model/message-state';
 import {
-  useBalance,
   useConversation,
   useMessages,
   useModes,
@@ -72,7 +71,6 @@ export function ChatPage({ conversationId }: { conversationId?: string }) {
   const conversation = useConversation(conversationId);
   const messagesQuery = useMessages(conversationId);
   const modesQuery = useModes();
-  const { balanceUsd } = useBalance();
   const noPlan = useNoPlan();
   const selected = useSelectedMode(key, conversation.data?.modeKey);
   const setDraft = useChatStore((s) => s.setDraft);
@@ -257,7 +255,6 @@ export function ChatPage({ conversationId }: { conversationId?: string }) {
         key={conversationId ?? NEW_CHAT}
         messages={messages}
         modes={modesQuery.modes}
-        balanceUsd={balanceUsd}
         preparing={preparing}
         local={send.isBusy}
         canRetry={send.canSend && !noPlan}

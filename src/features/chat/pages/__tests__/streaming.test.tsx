@@ -63,7 +63,7 @@ describe('new chat: first send', () => {
 });
 
 describe('streaming states', () => {
-  it('preparing, then streaming with Stop, then done with the cost line and the balance chip updated without a request', async () => {
+  it('preparing, then streaming with Stop, then done without a cost line and the balance chip updated without a request', async () => {
     chatMock.send = { kind: 'normal', delayMs: 150 };
     chatMock.balanceUsd = '4.750000000';
     await renderApp('/chat');
@@ -92,12 +92,15 @@ describe('streaming states', () => {
       ),
     );
 
-    const footer = await screen.findByText(/التكلفة/, undefined, {
-      timeout: 4000,
-    });
-    expect(footer).toHaveTextContent('التكلفة 0.0015$ · الرصيد المتبقي 4.25$');
-    // Money goes through <Money>: each amount sits in a <bdi>.
-    expect(footer.querySelectorAll('bdi')).toHaveLength(2);
+    await waitFor(
+      () =>
+        expect(document.querySelector('article[data-state=complete]')).not.toBe(
+          null,
+        ),
+      { timeout: 4000 },
+    );
+    // Per-answer cost is hidden (decision 2026-10-15).
+    expect(screen.queryByText(/التكلفة/)).not.toBeInTheDocument();
     expect(await screen.findByText(ar.chat.announce.done)).toHaveAttribute(
       'role',
       'status',
