@@ -17,6 +17,7 @@
   "CONTEXT_TOO_LONG": "This message is too long for this mode. Please shorten it.",
   "CONVERSATION_BUSY": "The previous answer is still being written. Please wait for it to finish.",
   "CONVERSATION_NOT_FOUND": "Conversation not found.",
+  "DEFAULT_PLAN_BALANCE_TOO_HIGH": "The default plan balance cannot exceed $1 because it is given as a free trial to every new account.",
   "DEFAULT_PLAN_REQUIRED": "There must always be a default plan.",
   "DUPLICATE_REQUEST": "This message was already sent.",
   "EMAIL_NOT_CONFIRMED": "The user hasn't confirmed their email yet.",

@@ -7,6 +7,7 @@ import {
   adminPlansCreateMutation,
   adminPlansUpdateMutation,
 } from '~/api/generated/@tanstack/react-query.gen';
+import { isApiError } from '~/api/errors';
 import type { PlanDto } from '~/api/generated/types.gen';
 import { Button } from '~/components/ui/button';
 import {
@@ -60,8 +61,15 @@ export function PlanForm({ plan }: { plan?: PlanDto }) {
       return rest;
     });
   };
+  // Keys are under `admin.`, except API codes, which come as `errors:CODE`.
   const err = (field: string) =>
-    errors[field] ? t(`admin.${errors[field]}`) : undefined;
+    errors[field]
+      ? t(
+          errors[field].includes(':')
+            ? errors[field]
+            : `admin.${errors[field]}`,
+        )
+      : undefined;
 
   function submit(event: FormEvent) {
     event.preventDefault();
@@ -261,6 +269,15 @@ export function PlanForm({ plan }: { plan?: PlanDto }) {
             } catch (error) {
               const fields = serverFieldErrors(error);
               if (fields) setErrors(fields);
+              // The default plan's balance is every new account's free trial (capped by the API).
+              if (
+                isApiError(error) &&
+                error.code === 'DEFAULT_PLAN_BALANCE_TOO_HIGH'
+              ) {
+                setErrors({
+                  includedBalanceUsd: 'errors:DEFAULT_PLAN_BALANCE_TOO_HIGH',
+                });
+              }
               throw error;
             }
             await invalidateCatalog(queryClient);
