@@ -1,6 +1,8 @@
 import { Link } from '@tanstack/react-router';
-import { CreditCard, LogOut, Plus, User } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import { CreditCard, LogOut, Plus, ShieldCheck, User } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { meGetOptions } from '~/api/generated/@tanstack/react-query.gen';
 import { Button } from '~/components/ui/button';
 import { cn } from '~/lib/utils';
 import { BrandMark, useBrandName } from './BrandMark';
@@ -13,7 +15,7 @@ const footerLink =
 /**
  * Brand, new chat, recent conversations and the balance/account links. Used
  * as the fixed sidebar (desktop) and inside the drawer (below 1024px), where
- * sign-out lives at the bottom because there is no account menu.
+ * sign-out and the admin link live at the bottom because there is no account menu.
  */
 export function Sidebar({
   withSignOut = false,
@@ -28,6 +30,7 @@ export function Sidebar({
   const { t } = useTranslation();
   const { signOut, pending } = useSignOut();
   const brandName = useBrandName();
+  const { data: me } = useQuery(meGetOptions());
   return (
     <div className={cn('flex h-full min-h-0 flex-col', className)}>
       <div className="flex h-16 shrink-0 items-center gap-3 px-4">
@@ -62,6 +65,12 @@ export function Sidebar({
           <User aria-hidden="true" className="size-5" />
           {t('shell.account')}
         </Link>
+        {withSignOut && me?.isAdmin ? (
+          <Link to="/admin" className={footerLink} onClick={onNavigate}>
+            <ShieldCheck aria-hidden="true" className="size-5" />
+            {t('admin.entry')}
+          </Link>
+        ) : null}
         {withSignOut ? (
           <Button
             type="button"
