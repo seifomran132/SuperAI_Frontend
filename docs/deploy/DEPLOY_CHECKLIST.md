@@ -39,7 +39,7 @@ Public on `lam7ai.com` + `api.lam7ai.com`, real email through Brevo, indexed by 
 |---|---|---|---|
 | 1.1 | Brand **لمحة AI / Lam7a AI**; domain **lam7ai.com** (app) + **api.lam7ai.com** (API), used from pre-launch | You | [x] |
 | 1.2 | Brevo: account created; SMTP `smtp-relay.brevo.com:587` (STARTTLS), login `bcc942001@smtp-brevo.com` (goes in `deploy/config.env`). DNS verified public: `brevo-code` TXT ✓, DKIM `brevo1`/`brevo2` ✓, DMARC `p=none` ✓; SPF to merge (`include:spf.brevo.com` into the existing record). Still to do: sender `noreply@lam7ai.com`, new SMTP key (server `.env` as `GOTRUE_SMTP_PASS`), click tracking off | You | [~] emails deliver; check click tracking is off, SPF includes Brevo |
-| 1.3 | Contact channels: `contact@lam7ai.com`, phone `+972 56-751-8888` (in `src/brand/lam7a.ts`); `contact@` must deliver (Namecheap email forwarding) | You | [x] |
+| 1.3 | Contact channels: `contact@lam7ai.com` only for now (in `src/brand/lam7a.ts`); WhatsApp and phone removed 2026-10-15, new numbers to come; `contact@` must deliver (Namecheap email forwarding) | You | [x] |
 | 1.4 | Tagline (ar + en) — optional: not shown in the app yet | You | [ ] |
 | 1.5 | Logo / favicon (optional; monogram works) | You | [ ] |
 | 1.6 | Brand config `src/brand/lam7a.ts` (name, monogram ل, default brand) — contact and tagline still placeholders; production build check passes | Claude | [x] (tagline still a placeholder, not shown) |

@@ -153,7 +153,7 @@ Found while mapping pages to the OpenAPI file (rechecked 2026-10-06; items 1, 2,
 6. **Cleaner operationIds** (nice to have): NestJS defaults like `ConversationsController_list` produce long generated names. An `operationIdFactory` in the Swagger setup (e.g. `conversations_list`) or explicit `@ApiOperation({ operationId })` gives `conversationsList` / `conversationsListInfiniteOptions`. Better to change this **before** the frontend depends on the names.
 7. **Chat endpoint's error responses are typed as `text/event-stream` in OpenAPI.** `@ApiProduces('text/event-stream')` on `ChatController.send` applies to every response, but errors are JSON (API_CONTRACT §6.2). Fix: declare the stream content type on the 200 response only. Until then `api:sync` excludes `ChatController_send` from SDK generation (the stream client is hand-written anyway) and its errors are typed with `ApiErrorResponseDto` by hand.
 8. **Answers are capped at 4,000 output tokens** (B2 decision). Long answers end `partial` with `finishReason: "length"`; the UI shows a clear "answer was cut" note. Raise it if the cap is too low for Professional mode.
-9. ✅ **Contact channels** (2026-10-06): WhatsApp and phone +972 56-751-8888, contact@lam7ai.com, in `src/brand/lam7a.ts`.
+9. ✅ **Contact channels** (2026-10-06): contact@lam7ai.com in `src/brand/lam7a.ts`; WhatsApp and phone removed 2026-10-15 until new numbers are chosen.
 10. ✅ **`Retry-After` readable cross-origin** (2026-10-06): the API exposes it in CORS, so the rate-limit countdown works from lam7ai.com.
 
 ## 7. Conventions (summary; full version goes in CLAUDE.md after F0)

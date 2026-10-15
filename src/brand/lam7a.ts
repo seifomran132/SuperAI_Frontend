@@ -6,10 +6,9 @@ export const lam7a: BrandConfig = {
   tagline: { ar: '[وصف قصير للمساعد]', en: '[Short assistant description]' },
   monogram: 'ل',
   colors: { brand: '#1e293b', brandHover: '#0f172a', onBrand: '#ffffff' },
+  // WhatsApp and phone removed 2026-10-15; new numbers come later.
   contact: {
-    whatsapp: '+972 56-751-8888',
     email: 'contact@lam7ai.com',
-    phone: '+972 56-751-8888',
   },
   // [Placeholder until the legal pages exist]
   legal: {},
