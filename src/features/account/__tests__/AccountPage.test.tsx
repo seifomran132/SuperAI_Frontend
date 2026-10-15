@@ -2,7 +2,7 @@ import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it } from 'vitest';
 import ar from '~/i18n/ar.json';
 import { authMock, callsTo, firstCallBody } from '~/mocks/auth';
-import { resetChatMock } from '~/mocks/chat';
+import { chatMock, resetChatMock } from '~/mocks/chat';
 import { renderApp, signInDirectly, useAuthMocks } from '~/test/render-app';
 import { button, fill, t } from '~/test/helpers';
 
@@ -103,5 +103,19 @@ describe('account page: change password', () => {
     expect(
       await screen.findByText(t.authErrors.samePassword),
     ).toBeInTheDocument();
+  });
+});
+
+describe('account page: plan', () => {
+  it('labels the free trial of a new account', async () => {
+    chatMock.subscription = 'trial';
+    await open();
+    expect(await screen.findByText(ar.account.plan.trial)).toBeInTheDocument();
+  });
+
+  it('shows no trial label on a plan activated by the team', async () => {
+    await open();
+    await screen.findByText(ar.account.plan.start);
+    expect(screen.queryByText(ar.account.plan.trial)).not.toBeInTheDocument();
   });
 });

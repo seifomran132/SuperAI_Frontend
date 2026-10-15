@@ -39,7 +39,10 @@ export type MyPlanDto = {
 
 export type MySubscriptionDetailsDto = {
     id: string;
-    source: 'admin' | 'payment' | 'system';
+    /**
+     * How it started: `admin` = activated by the team, `trial` = the free trial of a new account. `payment` and `system` are reserved (not used at launch).
+     */
+    source: 'admin' | 'trial' | 'payment' | 'system';
     /**
      * Monthly price at assignment (USD)
      */
@@ -1084,7 +1087,7 @@ export type UpdatePlanDto = {
      */
     monthlyPriceUsd?: string;
     /**
-     * Applies to new subscriptions only.
+     * Applies to new subscriptions only. On the default plan this is also the free trial every new account receives (0 turns the trial off).
      */
     includedBalanceUsd?: string;
     sortOrder?: number;
@@ -1094,7 +1097,7 @@ export type UpdatePlanDto = {
      */
     isActive?: boolean;
     /**
-     * true makes this the default plan (the previous default stops being default). false on the current default is refused: make another plan the default instead.
+     * true makes this the default plan (the previous default stops being default); new accounts then get this plan and its includedBalanceUsd as their free trial. false on the current default is refused: make another plan the default instead.
      */
     isDefault?: boolean;
 };
@@ -1117,7 +1120,10 @@ export type SubscriptionDto = {
     planNameEn: string;
     status: 'active' | 'ended';
     endedReason: 'replaced' | 'cancelled' | 'expired';
-    source: 'admin' | 'payment' | 'system';
+    /**
+     * How it started: `admin` = activated by the team, `trial` = the free trial of a new account. `payment` and `system` are reserved (not used at launch).
+     */
+    source: 'admin' | 'trial' | 'payment' | 'system';
     /**
      * Monthly price captured at assignment (USD)
      */

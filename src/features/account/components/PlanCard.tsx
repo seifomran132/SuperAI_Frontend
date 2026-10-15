@@ -43,6 +43,11 @@ function PlanDetails({ data }: { data: MeSubscriptionDto }) {
         <p className="text-fg text-lg font-semibold">
           {en ? plan.nameEn : plan.nameAr}
         </p>
+        {subscription?.source === 'trial' ? (
+          <p className="text-success text-sm font-medium">
+            {t('account.plan.trial')}
+          </p>
+        ) : null}
         <p className="text-fg-muted text-base">
           {en ? plan.descriptionEn : plan.descriptionAr}
         </p>

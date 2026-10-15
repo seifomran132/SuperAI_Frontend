@@ -62,7 +62,7 @@ export interface ChatMockState {
   messages: Record<string, MessageDto[]>;
   send: SendScenario;
   /** `GET /me/subscription`: `none` = default plan, no subscription. */
-  subscription: 'active' | 'none';
+  subscription: 'active' | 'trial' | 'none';
   /** Answer to `POST /conversations`. */
   create: { kind: 'ok' } | Refuse | { kind: 'network-error' };
   /** Split the stream into chunks of this many bytes (tests chunk boundaries). */
@@ -452,10 +452,10 @@ export const chatHandlers = [
     return HttpResponse.json({
       plan,
       subscription:
-        chatMock.subscription === 'active'
+        chatMock.subscription !== 'none'
           ? {
               id: 'sub-1',
-              source: 'admin',
+              source: chatMock.subscription === 'trial' ? 'trial' : 'admin',
               priceUsd: '10.000000000',
               startedAt: new Date().toISOString(),
               currentPeriodEnd: null,

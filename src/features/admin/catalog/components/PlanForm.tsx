@@ -150,7 +150,13 @@ export function PlanForm({ plan }: { plan?: PlanDto }) {
             />
             <TextField
               label={t('admin.plans.monthlyPrice')}
-              hint={plan ? t('admin.plans.newSubscriptionsOnly') : undefined}
+              hint={
+                v.isDefault
+                  ? t('admin.plans.trialBalanceHint')
+                  : plan
+                    ? t('admin.plans.newSubscriptionsOnly')
+                    : undefined
+              }
               required
               dir="ltr"
               inputMode="decimal"
