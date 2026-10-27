@@ -65,6 +65,8 @@ describe('ModelPicker', () => {
   });
 
   it('shows the loading state while the models come', async () => {
+    // The mock answers at once; hold it back so the loading state is seen.
+    catalogMock.sync.availableDelayMs = 400;
     await renderApp('/admin/models/new?provider=acme');
     expect(await screen.findByText(p.loading)).toBeInTheDocument();
     await screen.findByRole('table', { name: p.tableLabel });

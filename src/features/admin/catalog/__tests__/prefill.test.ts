@@ -13,6 +13,7 @@ const catalog = {
   contextWindow: 128000,
   maxOutputTokens: 16384,
   supportsImages: true,
+  generatesImages: null,
   price: {
     inputPerMtok: '2.500000000',
     outputPerMtok: '10.000000000',

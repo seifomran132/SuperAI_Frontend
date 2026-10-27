@@ -279,8 +279,7 @@
       "noPlan": "You have no active plan. Contact us to subscribe.",
       "contact": "Contact us",
       "viewPlans": "View plans",
-      "error": "Could not load your plan. Try again.",
-      "trial": "Free trial"
+      "error": "Could not load your plan. Try again."
     },
     "password": {
       "title": "Change password",
@@ -462,8 +461,7 @@
       "source": {
         "admin": "Admin",
         "payment": "Payment",
-        "system": "System",
-        "trial": "Free trial"
+        "system": "System"
       },
       "error": "Couldn't load subscriptions.",
       "activateTitle": "Activate plan",
@@ -607,7 +605,7 @@
       "isActive": "Active",
       "isActiveHint": "An inactive plan cannot be assigned to new users.",
       "isDefault": "Default plan",
-      "isDefaultHint": "Becomes the plan for users without a subscription, and the current default plan stops. Its included balance is given to new accounts as a free trial.",
+      "isDefaultHint": "Becomes the plan for users without a subscription, and the current default plan stops.",
       "isDefaultCurrent": "This is the default plan. Make another plan the default to change it.",
       "createTitle": "Create plan",
       "createSubmit": "Create plan",
@@ -618,8 +616,7 @@
       "noModes": "No modes yet.",
       "modesTitle": "Modes in this plan",
       "modesSave": "Save modes",
-      "modesSaved": "Plan modes saved",
-      "trialBalanceHint": "This plan's balance is given once as a free trial to every new account after it confirms its email."
+      "modesSaved": "Plan modes saved"
     },
     "providers": {
       "add": "Add provider",

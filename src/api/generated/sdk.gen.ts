@@ -114,7 +114,7 @@ export const attachmentsUpload = <ThrowOnError extends boolean = false>(options:
 /**
  * Download an image of yours
  *
- * The processed image bytes (image/webp), only for their owner. Use your bearer token and show it as a blob: URL. Another user's image, an expired upload and one deleted with its conversation are all 404.
+ * The processed image bytes (image/webp), only for their owner. Use your bearer token and show it as a blob: URL. Another user's image, an expired upload and one deleted with its conversation are all 404. Images an image mode created are downloaded the same way; add `?download=1` to save the file instead of showing it.
  */
 export const attachmentsDownload = <ThrowOnError extends boolean = false>(options: Options<AttachmentsDownloadData, ThrowOnError>): RequestResult<AttachmentsDownloadResponses, AttachmentsDownloadErrors, ThrowOnError> => (options.client ?? client).get<AttachmentsDownloadResponses, AttachmentsDownloadErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
@@ -580,7 +580,7 @@ export const adminPlansGet = <ThrowOnError extends boolean = false>(options: Opt
 /**
  * Update a plan or make it the default (audited)
  *
- * Price and included balance changes apply to new subscriptions only. Setting isDefault moves the default here from the previous default plan. WARNING: the free trial credits the current default plan's includedBalanceUsd to every new account, so making a paid plan the default (or raising the default plan's balance) gives every new sign-up that full balance. 0 on the default plan turns the trial off.
+ * Price and included balance changes apply to new subscriptions only. Setting isDefault moves the default here from the previous default plan.
  */
 export const adminPlansUpdate = <ThrowOnError extends boolean = false>(options: Options<AdminPlansUpdateData, ThrowOnError>): RequestResult<AdminPlansUpdateResponses, AdminPlansUpdateErrors, ThrowOnError> => (options.client ?? client).patch<AdminPlansUpdateResponses, AdminPlansUpdateErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],

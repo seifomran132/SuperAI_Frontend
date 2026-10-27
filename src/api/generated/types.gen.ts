@@ -39,10 +39,7 @@ export type MyPlanDto = {
 
 export type MySubscriptionDetailsDto = {
     id: string;
-    /**
-     * How it started: `admin` = activated by the team, `trial` = the free trial of a new account. `payment` and `system` are reserved (not used at launch).
-     */
-    source: 'admin' | 'trial' | 'payment' | 'system';
+    source: 'admin' | 'payment' | 'system';
     /**
      * Monthly price at assignment (USD)
      */
@@ -130,6 +127,10 @@ export type ModeDto = {
      * The mode can read an attached image. Sending an image to a mode with false is refused (MODE_NO_IMAGE_SUPPORT); the client never switches mode for the user
      */
     supportsImages: boolean;
+    /**
+     * An image mode: answers with a created image (and usually a short text)
+     */
+    generatesImages: boolean;
 };
 
 export type BalanceDto = {
@@ -216,7 +217,7 @@ export type FieldErrorDto = {
 
 export type ApiErrorResponseDto = {
     statusCode: number;
-    code: 'UNAUTHENTICATED' | 'INVALID_TOKEN' | 'ACCOUNT_NOT_FOUND' | 'ACCOUNT_SUSPENDED' | 'ACCOUNT_DELETED' | 'FORBIDDEN' | 'VALIDATION_FAILED' | 'USER_NOT_FOUND' | 'EMAIL_NOT_CONFIRMED' | 'ACCOUNT_NOT_ACTIVE' | 'CANNOT_MODIFY_SELF' | 'LAST_ADMIN' | 'PROVIDER_NOT_FOUND' | 'PROVIDER_ALREADY_EXISTS' | 'PROVIDER_KEY_INVALID' | 'PROVIDER_KEY_NOT_USED' | 'PROVIDER_KEY_MISSING' | 'PROVIDER_UNAVAILABLE' | 'MODEL_NOT_FOUND' | 'MODEL_ALREADY_EXISTS' | 'MODEL_IN_USE' | 'CATALOG_FINDING_NOT_FOUND' | 'CATALOG_FINDING_NOT_OPEN' | 'CATALOG_FINDING_NOT_APPLICABLE' | 'CATALOG_FINDING_OUTDATED' | 'CATALOG_SYNC_RUNNING' | 'MODE_NOT_FOUND' | 'MODE_ALREADY_EXISTS' | 'MODE_NOT_AVAILABLE' | 'PRICE_PERIOD_CONFLICT' | 'PLAN_NOT_FOUND' | 'PLAN_ALREADY_EXISTS' | 'PLAN_NOT_ACTIVE' | 'DEFAULT_PLAN_REQUIRED' | 'DEFAULT_PLAN_BALANCE_TOO_HIGH' | 'NO_ACTIVE_SUBSCRIPTION' | 'INSUFFICIENT_BALANCE' | 'IDEMPOTENCY_KEY_REUSED' | 'PAYMENT_REFERENCE_REUSED' | 'CONVERSATION_NOT_FOUND' | 'CONVERSATION_BUSY' | 'CONTEXT_TOO_LONG' | 'PROFILE_INCOMPLETE' | 'DUPLICATE_REQUEST' | 'RATE_LIMITED' | 'PROVIDER_MISCONFIGURED' | 'PROVIDER_TIMEOUT' | 'PROVIDER_ERROR' | 'CONTENT_BLOCKED' | 'ATTACHMENT_TOO_LARGE' | 'ATTACHMENT_TYPE_NOT_ALLOWED' | 'ATTACHMENT_NOT_FOUND' | 'ATTACHMENT_ALREADY_USED' | 'TOO_MANY_ATTACHMENTS' | 'MODE_NO_IMAGE_SUPPORT';
+    code: 'UNAUTHENTICATED' | 'INVALID_TOKEN' | 'ACCOUNT_NOT_FOUND' | 'ACCOUNT_SUSPENDED' | 'ACCOUNT_DELETED' | 'FORBIDDEN' | 'VALIDATION_FAILED' | 'USER_NOT_FOUND' | 'EMAIL_NOT_CONFIRMED' | 'ACCOUNT_NOT_ACTIVE' | 'CANNOT_MODIFY_SELF' | 'LAST_ADMIN' | 'PROVIDER_NOT_FOUND' | 'PROVIDER_ALREADY_EXISTS' | 'PROVIDER_KEY_INVALID' | 'PROVIDER_KEY_NOT_USED' | 'PROVIDER_KEY_MISSING' | 'PROVIDER_UNAVAILABLE' | 'MODEL_NOT_FOUND' | 'MODEL_ALREADY_EXISTS' | 'MODEL_IN_USE' | 'CATALOG_FINDING_NOT_FOUND' | 'CATALOG_FINDING_NOT_OPEN' | 'CATALOG_FINDING_NOT_APPLICABLE' | 'CATALOG_FINDING_OUTDATED' | 'CATALOG_SYNC_RUNNING' | 'MODE_NOT_FOUND' | 'MODE_ALREADY_EXISTS' | 'MODE_NOT_AVAILABLE' | 'PRICE_PERIOD_CONFLICT' | 'PLAN_NOT_FOUND' | 'PLAN_ALREADY_EXISTS' | 'PLAN_NOT_ACTIVE' | 'DEFAULT_PLAN_REQUIRED' | 'NO_ACTIVE_SUBSCRIPTION' | 'INSUFFICIENT_BALANCE' | 'IDEMPOTENCY_KEY_REUSED' | 'PAYMENT_REFERENCE_REUSED' | 'CONVERSATION_NOT_FOUND' | 'CONVERSATION_BUSY' | 'CONTEXT_TOO_LONG' | 'PROFILE_INCOMPLETE' | 'DUPLICATE_REQUEST' | 'RATE_LIMITED' | 'PROVIDER_MISCONFIGURED' | 'PROVIDER_TIMEOUT' | 'PROVIDER_ERROR' | 'CONTENT_BLOCKED' | 'ATTACHMENT_TOO_LARGE' | 'ATTACHMENT_TYPE_NOT_ALLOWED' | 'ATTACHMENT_NOT_FOUND' | 'ATTACHMENT_ALREADY_USED' | 'TOO_MANY_ATTACHMENTS' | 'MODE_NO_IMAGE_SUPPORT';
     /**
      * English fallback; clients localize by `code`.
      */
@@ -432,6 +433,10 @@ export type CatalogSuggestionDto = {
      */
     supportsImages: boolean | null;
     /**
+     * Suggested `generatesImages` (image output); null when the catalog does not say
+     */
+    generatesImages: boolean | null;
+    /**
      * Provider price (before our margin); null when the catalog has none
      */
     price: CatalogPriceDto | null;
@@ -567,6 +572,10 @@ export type ModelDto = {
      * The model can read images; modes backed by it accept an attached image
      */
     supportsImages: boolean;
+    /**
+     * The model creates images; modes backed by it are image modes
+     */
+    generatesImages: boolean;
     isEnabled: boolean;
     /**
      * Price in effect now
@@ -611,6 +620,10 @@ export type CreateModelDto = {
      */
     supportsImages?: boolean;
     /**
+     * Whether the model creates images (image modes). A mode on it can be enabled only once its provider can generate images (notReadyReason IMAGE_GENERATION_UNSUPPORTED). Image models usually also read images: set supportsImages too, so users can attach an image to edit.
+     */
+    generatesImages?: boolean;
+    /**
      * Disabling is refused while an enabled mode uses this model.
      */
     isEnabled?: boolean;
@@ -652,6 +665,10 @@ export type UpdateModelDto = {
      */
     supportsImages?: boolean;
     /**
+     * Whether the model creates images (image modes). A mode on it can be enabled only once its provider can generate images (notReadyReason IMAGE_GENERATION_UNSUPPORTED). Image models usually also read images: set supportsImages too, so users can attach an image to edit.
+     */
+    generatesImages?: boolean;
+    /**
      * Disabling is refused while an enabled mode uses this model.
      */
     isEnabled?: boolean;
@@ -690,13 +707,25 @@ export type TestModelDto = {
      */
     reason: string;
     /**
-     * For a model with `supportsImages` the default is "Reply with one short sentence: which model are you, and what colour is this image?", sent with the test image.
+     * For a model with `supportsImages` the default is "Reply with one short sentence: which model are you, and what colour is this image?", sent with the test image. For a model with `generatesImages` it is "Create a small, simple image: a red circle on a white background." (no test image is sent).
      */
     prompt?: string;
     /**
-     * Kept small: the test is a real, paid request
+     * Kept small: the test is a real, paid request. Ignored for a model with `generatesImages`, which gets 4000 (one image needs about 1,300 tokens plus thinking; costs about $0.04-0.15).
      */
     maxOutputTokens?: number;
+};
+
+export type ModelTestImageDto = {
+    mediaType: string;
+    /**
+     * Size in bytes
+     */
+    bytes: number;
+    /**
+     * The image itself, base64 (to look at it)
+     */
+    base64: string;
 };
 
 export type TestErrorDto = {
@@ -729,6 +758,10 @@ export type ModelTestResultDto = {
      * Whether a small built-in test image (64×64 red WebP) was sent with the prompt: true when the model has `supportsImages`. A model that cannot read images then fails the test (usually PROVIDER_ERROR); the default prompt asks for the colour, so the reply shows the image was seen.
      */
     imageSent: boolean;
+    /**
+     * For a model with `generatesImages`: the image it created. `ok` is false when it answered without one.
+     */
+    imageCreated: ModelTestImageDto | null;
     reply: string;
     finishReason: 'stop' | 'length' | 'content-filter' | 'other' | 'aborted';
     error: TestErrorDto | null;
@@ -742,7 +775,7 @@ export type ModelTestResultDto = {
      */
     customerChargeUsd: string | null;
     /**
-     * Time to first text
+     * Time to the first text or image
      */
     firstChunkMs: number | null;
     durationMs: number;
@@ -772,7 +805,7 @@ export type AdminModeDto = {
      * Whether the mode could serve requests right now
      */
     ready: boolean;
-    notReadyReason: 'NO_MODEL' | 'MODEL_DISABLED' | 'PROVIDER_DISABLED' | 'NO_API_KEY' | 'NO_CURRENT_PRICE';
+    notReadyReason: 'NO_MODEL' | 'MODEL_DISABLED' | 'PROVIDER_DISABLED' | 'NO_API_KEY' | 'NO_CURRENT_PRICE' | 'IMAGE_GENERATION_UNSUPPORTED';
     createdAt: string;
     updatedAt: string;
 };
@@ -1087,7 +1120,7 @@ export type UpdatePlanDto = {
      */
     monthlyPriceUsd?: string;
     /**
-     * Applies to new subscriptions only. On the default plan this is also the free trial every new account receives (0 turns the trial off).
+     * Applies to new subscriptions only.
      */
     includedBalanceUsd?: string;
     sortOrder?: number;
@@ -1097,7 +1130,7 @@ export type UpdatePlanDto = {
      */
     isActive?: boolean;
     /**
-     * true makes this the default plan (the previous default stops being default); new accounts then get this plan and its includedBalanceUsd as their free trial. false on the current default is refused: make another plan the default instead.
+     * true makes this the default plan (the previous default stops being default). false on the current default is refused: make another plan the default instead.
      */
     isDefault?: boolean;
 };
@@ -1120,10 +1153,7 @@ export type SubscriptionDto = {
     planNameEn: string;
     status: 'active' | 'ended';
     endedReason: 'replaced' | 'cancelled' | 'expired';
-    /**
-     * How it started: `admin` = activated by the team, `trial` = the free trial of a new account. `payment` and `system` are reserved (not used at launch).
-     */
-    source: 'admin' | 'trial' | 'payment' | 'system';
+    source: 'admin' | 'payment' | 'system';
     /**
      * Monthly price captured at assignment (USD)
      */
@@ -1534,7 +1564,12 @@ export type AttachmentsDownloadData = {
     path: {
         id: string;
     };
-    query?: never;
+    query?: {
+        /**
+         * Send `1` to download the file (Content-Disposition: attachment) instead of showing it
+         */
+        download?: '1';
+    };
     url: '/api/v1/attachments/{id}';
 };
 
@@ -2644,7 +2679,7 @@ export type AdminPlansUpdateErrors = {
      */
     404: ApiErrorResponseDto;
     /**
-     * DEFAULT_PLAN_REQUIRED, PLAN_NOT_ACTIVE, DEFAULT_PLAN_BALANCE_TOO_HIGH (data: field, maxUsd)
+     * DEFAULT_PLAN_REQUIRED, PLAN_NOT_ACTIVE
      */
     409: ApiErrorResponseDto;
 };

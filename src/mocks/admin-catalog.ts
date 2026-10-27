@@ -1,4 +1,4 @@
-import { http, HttpResponse } from 'msw';
+import { delay, http, HttpResponse } from 'msw';
 import type {
   AdminModeDto,
   AvailableModelDto,
@@ -51,6 +51,7 @@ export const model = (id: string): ModelDto => ({
   providerModelId: `acme-${id}`,
   displayName: `نموذج ${id}`,
   supportsImages: false,
+  generatesImages: false,
   contextWindow: 128000,
   maxOutputTokens: 8000,
   marginOverridePct: null,
@@ -91,6 +92,7 @@ export const mode = (
 export const testResult: ModelTestResultDto = {
   ok: true,
   imageSent: false,
+  imageCreated: null,
   reply: 'مرحبًا بك',
   finishReason: 'stop',
   error: null,
@@ -207,6 +209,7 @@ const defaultAvailable = (): AvailableModelsDto => ({
         contextWindow: 128000,
         maxOutputTokens: 16384,
         supportsImages: true,
+        generatesImages: false,
         price: {
           inputPerMtok: '2.500000000',
           outputPerMtok: '10.000000000',
@@ -230,6 +233,7 @@ const defaultAvailable = (): AvailableModelsDto => ({
         contextWindow: 4096,
         maxOutputTokens: 4096,
         supportsImages: false,
+        generatesImages: false,
         price: {
           inputPerMtok: '2.000000000',
           outputPerMtok: '1.500000000',
@@ -258,6 +262,8 @@ interface SyncMock {
   pollsUntilDone: number;
   /** Summary a finished run reports (null = the run fails). */
   nextSummary: CatalogSyncSummaryDto | null;
+  /** Holds the available-models answer back, so a test can see the loading state. */
+  availableDelayMs: number;
   /** Provider code → models, or the error to answer with. */
   available: Record<
     string,
@@ -288,6 +294,7 @@ const initial = (): CatalogState => ({
     listDelayMs: 0,
     pollsUntilDone: 1,
     nextSummary: syncSummary({ applied: 7 }),
+    availableDelayMs: 0,
     available: { acme: defaultAvailable() },
   },
   providers: [provider('acme'), provider('nokey', false)],
@@ -522,8 +529,10 @@ export const catalogHandlers = [
     return HttpResponse.json(found);
   }),
 
-  http.get(`${API}/providers/:code/available-models`, ({ params }) => {
+  http.get(`${API}/providers/:code/available-models`, async ({ params }) => {
     adminMock.calls.push({ name: 'providers:available', body: params });
+    if (catalogMock.sync.availableDelayMs)
+      await delay(catalogMock.sync.availableDelayMs);
     const found = catalogMock.sync.available[String(params.code)];
     if (!found) return missing('PROVIDER_NOT_FOUND');
     return 'models' in found

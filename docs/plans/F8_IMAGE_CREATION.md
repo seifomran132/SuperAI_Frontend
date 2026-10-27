@@ -1,6 +1,6 @@
 # F8 — Image creation (image modes)
 
-**Status:** Plan, 2026-10-27. Design S17 **approved** 2026-10-27. Build waits for the backend answers in §8 (questions 1–2).
+**Status:** Plan, 2026-10-27. Design S17 **approved** 2026-10-27. Slice 0 done 2026-10-27 (backend answered §8 questions 1–2); slice 1 next.
 **Brief:** [F8_IMAGE_CREATION_BRIEF.md](F8_IMAGE_CREATION_BRIEF.md). **Binding contract:** `../SuperAI_Backend/docs/API_CONTRACT.md` §9 (and §6 for the stream).
 **Backend state:** built and tested in the backend working tree, not committed or deployed. The first slice runs against it locally.
 **Builds on:** F6 image input (upload, `blob:` loading, `MessageImage`, `ImageViewer`), F7 catalog sync (model prefill).
@@ -48,7 +48,9 @@ Tests after the sync: 458 pass, 2 fail.
 
 ## 3. Slices
 
-### Slice 0 — sync clean-up (small, first)
+### Slice 0 — sync clean-up ✅ done 2026-10-27
+Synced against backend `2d8a45e` (image creation committed). The free trial is gone (`source: trial` removed, no starting credit) and the default-plan balance cap is dropped: removed the trial label (account), the trial hints and the cap error handling (admin plan form), their tests and copy. Added the new fields to the mocks. `ModelPicker` "loading state" was a race (the mock answered before the test looked): the mock now has `availableDelayMs`. Typecheck, lint, 457 tests, build and size pass.
+
 - Add `generatesImages` / `imageCreated` to the mock fixtures and test data.
 - Resolve the unrelated breaking changes once the backend answers §8 questions 1–2 (remove the `trial` case in `PlanCard` and the mock, and drop or replace the default-plan cap error UI in `PlanForm`).
 - Check the `ModelPicker` loading test (it times out at 5 s).
@@ -140,8 +142,8 @@ Mobile at 375 px for states 2 and 4. Admin screens need no design.
 | Image answers take tens of seconds (real Gemini) | The placeholder starts at `started` with a «جارٍ إنشاء الصورة…» line; Stop stays available |
 
 ## 8. Questions and asks for the backend
-1. **`source: 'trial'` removed** from plan/subscription DTOs in the working tree. Is that intended, and part of this release? `PlanCard.tsx` and the chat mock still use it.
-2. **`DEFAULT_PLAN_BALANCE_TOO_HIGH` removed.** The frontend shipped the default-plan balance cap UI on 2026-10-26 (`4de7d48`). Was the cap dropped, or replaced by another code?
+1. ✅ Answered: removed on purpose. **`source: 'trial'` removed** from plan/subscription DTOs in the working tree. Is that intended, and part of this release? `PlanCard.tsx` and the chat mock still use it.
+2. ✅ Answered: the cap is dropped. **`DEFAULT_PLAN_BALANCE_TOO_HIGH` removed.** The frontend shipped the default-plan balance cap UI on 2026-10-26 (`4de7d48`). Was the cap dropped, or replaced by another code?
 3. **Display size for created images** (recommended before launch): e.g. `GET /attachments/{id}?size=display` (max 1024 px). Full size stays for open and download. Without it, a conversation with a few images loads tens of MB.
 4. **Document the 2,500 `maxOutputTokens` minimum** for image models in API_CONTRACT §9 (and, if possible, OpenAPI). Only the brief states it now.
 5. **Placeholder before the `image` event:** is the aspect ratio of the coming image known at `started` (when the user picked one)? If the backend echoed `imageOptions` in `started`, the placeholder could take the right shape right away. Optional; otherwise the frontend uses the chosen ratio, or square for "automatic".

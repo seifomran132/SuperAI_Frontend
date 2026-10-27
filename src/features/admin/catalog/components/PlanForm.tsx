@@ -7,7 +7,6 @@ import {
   adminPlansCreateMutation,
   adminPlansUpdateMutation,
 } from '~/api/generated/@tanstack/react-query.gen';
-import { isApiError } from '~/api/errors';
 import type { PlanDto } from '~/api/generated/types.gen';
 import { Button } from '~/components/ui/button';
 import {
@@ -158,13 +157,7 @@ export function PlanForm({ plan }: { plan?: PlanDto }) {
             />
             <TextField
               label={t('admin.plans.monthlyPrice')}
-              hint={
-                v.isDefault
-                  ? t('admin.plans.trialBalanceHint')
-                  : plan
-                    ? t('admin.plans.newSubscriptionsOnly')
-                    : undefined
-              }
+              hint={plan ? t('admin.plans.newSubscriptionsOnly') : undefined}
               required
               dir="ltr"
               inputMode="decimal"
@@ -269,15 +262,6 @@ export function PlanForm({ plan }: { plan?: PlanDto }) {
             } catch (error) {
               const fields = serverFieldErrors(error);
               if (fields) setErrors(fields);
-              // The default plan's balance is every new account's free trial (capped by the API).
-              if (
-                isApiError(error) &&
-                error.code === 'DEFAULT_PLAN_BALANCE_TOO_HIGH'
-              ) {
-                setErrors({
-                  includedBalanceUsd: 'errors:DEFAULT_PLAN_BALANCE_TOO_HIGH',
-                });
-              }
               throw error;
             }
             await invalidateCatalog(queryClient);
