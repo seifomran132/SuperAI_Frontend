@@ -34,6 +34,9 @@ import {
 } from '../model/prefill';
 import { invalidateCatalog, useProviders } from '../model/queries';
 
+/** The backend rejects an image model with a smaller output limit. */
+const MIN_IMAGE_OUTPUT = 2500;
+
 export const THINKING = ['off', 'low', 'default'] as const;
 
 /**
@@ -66,6 +69,8 @@ export function ModelForm({
     marginOverridePct: model?.marginOverridePct ?? '',
     thinking: model?.thinking ?? ('default' as ModelDto['thinking']),
     supportsImages: model?.supportsImages ?? initial?.supportsImages ?? false,
+    generatesImages:
+      model?.generatesImages ?? initial?.generatesImages ?? false,
     isEnabled: model?.isEnabled ?? false,
   });
   // Prices are text all the way: copied from the catalog, sent as typed.
@@ -84,6 +89,7 @@ export function ModelForm({
         contextWindow: initial.contextWindow,
         maxOutputTokens: initial.maxOutputTokens,
         supportsImages: initial.supportsImages,
+        generatesImages: initial.generatesImages,
         ...initial.price,
       }
     : {};
@@ -96,7 +102,12 @@ export function ModelForm({
   const [confirming, setConfirming] = useState(false);
 
   const set = <K extends keyof typeof v>(field: K, value: (typeof v)[K]) => {
-    setV((c) => ({ ...c, [field]: value }));
+    setV((c) => ({
+      ...c,
+      [field]: value,
+      // An image model also accepts images.
+      ...(field === 'generatesImages' && value ? { supportsImages: true } : {}),
+    }));
     setErrors((c) => {
       const rest = { ...c };
       delete rest[field];
@@ -130,6 +141,9 @@ export function ModelForm({
       contextWindow: context,
       maxOutputTokens:
         integerError(v.maxOutputTokens) ??
+        (v.generatesImages && parseInt(v.maxOutputTokens, 10) < MIN_IMAGE_OUTPUT
+          ? 'models.maxOutputImageMin'
+          : null) ??
         (!context &&
         parseInt(v.maxOutputTokens, 10) > parseInt(v.contextWindow, 10)
           ? 'models.maxOutputTooLarge'
@@ -164,7 +178,8 @@ export function ModelForm({
     maxOutputTokens: parseInt(v.maxOutputTokens, 10),
     marginOverridePct: v.marginOverridePct.trim() || null,
     thinking: v.thinking,
-    supportsImages: v.supportsImages,
+    supportsImages: v.supportsImages || v.generatesImages,
+    generatesImages: v.generatesImages,
     isEnabled: v.isEnabled,
   };
 
@@ -271,6 +286,11 @@ export function ModelForm({
             />
             <TextField
               label={t('admin.models.maxOutput')}
+              hint={
+                v.generatesImages
+                  ? t('admin.models.maxOutputImageHint')
+                  : undefined
+              }
               required
               dir="ltr"
               inputMode="numeric"
@@ -292,9 +312,21 @@ export function ModelForm({
           <CheckField
             label={t('admin.models.supportsImages')}
             badge={fromCatalog('supportsImages', v.supportsImages)}
-            description={t('admin.models.supportsImagesHint')}
-            checked={v.supportsImages}
+            description={t(
+              v.generatesImages
+                ? 'admin.models.supportsImagesLocked'
+                : 'admin.models.supportsImagesHint',
+            )}
+            checked={v.supportsImages || v.generatesImages}
+            disabled={v.generatesImages}
             onChange={(x) => set('supportsImages', x)}
+          />
+          <CheckField
+            label={t('admin.models.generatesImages')}
+            badge={fromCatalog('generatesImages', v.generatesImages)}
+            description={t('admin.models.generatesImagesHint')}
+            checked={v.generatesImages}
+            onChange={(x) => set('generatesImages', x)}
           />
           <CheckField
             label={t('admin.catalog.enabled')}

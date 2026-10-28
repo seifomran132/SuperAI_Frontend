@@ -10,7 +10,7 @@ import {
 import type { ModeDto } from '~/api/generated/types.gen';
 import { cn } from '~/lib/utils';
 import { modePosition } from '../model/useChatQueries';
-import { ReadsImagesBadge } from './ImageNotices';
+import { CreatesImagesBadge, ReadsImagesBadge } from './ImageNotices';
 import { ModeIcon, modeTone, useModeDescription, useModeLabel } from './mode';
 
 /**
@@ -83,7 +83,12 @@ export function ModeSelector({
                 <span className="text-fg-muted text-xs leading-5">
                   {description(mode)}
                 </span>
-                {supportsImages?.(mode.key) ? <ReadsImagesBadge /> : null}
+                {mode.generatesImages || supportsImages?.(mode.key) ? (
+                  <span className="flex flex-wrap items-center gap-1.5">
+                    {mode.generatesImages ? <CreatesImagesBadge /> : null}
+                    {supportsImages?.(mode.key) ? <ReadsImagesBadge /> : null}
+                  </span>
+                ) : null}
               </span>
               {mode.key === modeKey ? (
                 <Check

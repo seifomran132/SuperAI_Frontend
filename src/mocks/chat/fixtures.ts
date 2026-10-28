@@ -33,6 +33,22 @@ export const modeProfessional: ModeDto = {
   supportsImages: true,
   generatesImages: false,
 };
+/** An image mode (§9.1); in GET /modes only when `chatMock.imageModes` is on. */
+/** An image mode (§9.1); only in GET /modes when  is on. */
+export const modeImage: ModeDto = {
+  key: 'image',
+  labelAr: 'تصميم',
+  labelEn: 'Design',
+  descriptionAr: 'صور من وصفك',
+  descriptionEn: 'Images from your description',
+  pricing: {
+    currency: 'USD',
+    inputPerMtok: '0.300000000',
+    outputPerMtok: '30.000000000',
+  },
+  supportsImages: true,
+  generatesImages: true,
+};
 
 let counter = 0;
 

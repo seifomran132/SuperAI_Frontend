@@ -1,4 +1,4 @@
-import type { MessageDto } from '~/api/generated/types.gen';
+import type { AttachmentDto, MessageDto } from '~/api/generated/types.gen';
 import { StreamProtocolError } from '~/platform/stream';
 import { readSse } from './sse-parser';
 
@@ -21,6 +21,16 @@ export interface StartedEvent {
 export interface DeltaEvent {
   event: 'delta';
   data: { text: string };
+}
+
+/**
+ * Image modes only (§9.3): at most once, after the deltas and before the
+ * terminal event. The image is already stored; it is repeated in the final
+ * `message.attachments`.
+ */
+export interface ImageEvent {
+  event: 'image';
+  data: { attachment: AttachmentDto };
 }
 
 export interface DoneEvent {
@@ -49,12 +59,14 @@ export interface ErrorEvent {
   };
 }
 
-export type ChatEvent = StartedEvent | DeltaEvent | DoneEvent | ErrorEvent;
+export type ChatEvent =
+  StartedEvent | DeltaEvent | ImageEvent | DoneEvent | ErrorEvent;
 export type TerminalEvent = DoneEvent | ErrorEvent;
 
 const KNOWN = new Set<ChatEvent['event']>([
   'started',
   'delta',
+  'image',
   'done',
   'error',
 ]);

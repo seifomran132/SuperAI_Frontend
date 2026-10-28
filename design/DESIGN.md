@@ -20,6 +20,12 @@ colors:
   mode-professional: '#4F46E5'
   mode-professional-container: '#EEF2FF'
   mode-professional-border: '#C7D2FE'
+  mode-3: '#0369A1'
+  mode-3-container: '#F0F9FF'
+  mode-3-border: '#BAE6FD'
+  mode-4: '#A21CAF'
+  mode-4-container: '#FDF4FF'
+  mode-4-border: '#F5D0FE'
   # Status (fixed layer)
   success: '#15803D'
   success-container: '#F0FDF4'
@@ -124,6 +130,7 @@ Never write the brand name into reusable component text; screens show the config
 - **Modes.** Each mode the admin creates gets a color pair from the mode palette. The first two:
   - Fast (سريع): text/icon `#0F766E` on `#F0FDFA`, border `#99F6E4` (5.3:1).
   - Professional (احترافي): text/icon `#4F46E5` on `#EEF2FF`, border `#C7D2FE` (5.6:1).
+  - Third: `mode-3` text/icon `#0369A1` on `#F0F9FF`, border `#BAE6FD` (5.9:1). Fourth: `mode-4` `#A21CAF` on `#FDF4FF`, border `#F5D0FE` (6.4:1). Colours stay by position; an image-creating mode is marked by the image icon and «صورة», not by a colour.
   - Further modes take the next palette entry; never reuse status colors for modes.
 - **Status:** success `#15803D` on `#F0FDF4` (4.8:1); warning `#B45309` on `#FFFBEB` (4.8:1); danger `#BE123C` on `#FFF1F2` (5.7:1).
 - Color never carries meaning alone: every status also has an icon and text.

@@ -160,3 +160,26 @@ describe('isSyncStale', () => {
     expect(isSyncStale(run('2026-10-14T23:59:00.000Z'), now)).toBe(true);
   });
 });
+
+describe('prefillFromAvailable image creation', () => {
+  it('copies generatesImages from the catalog and implies image input', () => {
+    const initial = prefillFromAvailable(
+      'acme',
+      availableModel('img-x', {
+        catalog: { ...catalog, supportsImages: null, generatesImages: true },
+      }),
+    );
+    expect(initial.generatesImages).toBe(true);
+    expect(initial.supportsImages).toBe(true);
+    expect(initial.fromCatalog).toContain('generatesImages');
+  });
+
+  it('does not mark generatesImages when the catalog has null', () => {
+    const initial = prefillFromAvailable(
+      'acme',
+      availableModel('x', { catalog }),
+    );
+    expect(initial.generatesImages).toBe(false);
+    expect(initial.fromCatalog).not.toContain('generatesImages');
+  });
+});

@@ -108,6 +108,24 @@ export const testResult: ModelTestResultDto = {
   durationMs: 1300,
 };
 
+/** A valid 1x1 PNG. */
+export const TINY_PNG_BASE64 =
+  'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==';
+
+export const imageModel = (id: string): ModelDto => ({
+  ...model(id),
+  displayName: `نموذج صور ${id}`,
+  supportsImages: true,
+  generatesImages: true,
+  maxOutputTokens: 4000,
+});
+
+export const imageTestResult: ModelTestResultDto = {
+  ...testResult,
+  reply: '',
+  imageCreated: { mediaType: 'image/png', bytes: 68, base64: TINY_PNG_BASE64 },
+};
+
 const hoursAgo = (hours: number) =>
   new Date(Date.now() - hours * 3_600_000).toISOString();
 
@@ -279,6 +297,8 @@ interface CatalogState {
   modes: AdminModeDto[];
   margin: string;
   prompt: string;
+  /** A test of an image model returns the image (false = the model returns none). */
+  imageReturned: boolean;
 }
 
 const initial = (): CatalogState => ({
@@ -306,6 +326,7 @@ const initial = (): CatalogState => ({
   ],
   margin: '30',
   prompt: 'أنت مساعد مفيد.',
+  imageReturned: true,
 });
 
 export const catalogMock: CatalogState = initial();
@@ -586,9 +607,17 @@ export const catalogHandlers = [
     catalogMock.prices.unshift(created as PriceDto);
     return HttpResponse.json(created, { status: 201 });
   }),
-  http.post(`${API}/models/:id/test`, async ({ request }) => {
+  http.post(`${API}/models/:id/test`, async ({ request, params }) => {
     const { failed } = await write('models:test', request);
-    return failed ?? HttpResponse.json(testResult);
+    const found = catalogMock.models.find((m) => m.id === params.id);
+    return (
+      failed ??
+      HttpResponse.json(
+        found?.generatesImages && catalogMock.imageReturned
+          ? imageTestResult
+          : testResult,
+      )
+    );
   }),
 
   http.get(`${API}/modes`, () => HttpResponse.json(catalogMock.modes)),

@@ -1,6 +1,6 @@
 # Manual test cases — F1 (auth) and F2 (chat)
 
-**Covers:** everything built so far (F1 auth, F2 chat, F3 balance, account and plans, F4 admin console).
+**Covers:** everything built so far (F1 auth, F2 chat, F3 balance, account and plans, F4 admin console, F8 image creation).
 **Not covered yet:** landing page.
 **How to record results:** tick each case ✅ / ❌; for ❌ note the browser, screen width, steps and a screenshot.
 
@@ -327,6 +327,71 @@ Every write asks for a reason (3–500 characters). Use a **test** user as the t
 
 ---
 
+## 3d. Image creation (F8) — image modes
+
+**Setup.** Free (mock): in `/admin`, enable the `mock` provider, add a model on it with «يقرأ الصور» + «ينشئ الصور», max output ≥ 2,500 and any price, point an image mode at it (e.g. «تصميم»), enable it and add it to your plan. Every answer is «Echo: …» plus a small red square image. 💲 = needs a real image model (e.g. `gemini-2.5-flash-image`, about $0.04–0.19 per image); run the admin model test first.
+
+### Creating images
+
+| ID | Steps | Expected |
+|---|---|---|
+| IC-01 | Pick the image mode; open the mode menu | Image modes show the image icon + «صورة»; the empty state reads «صِف الصورة التي تريدها» with «أرفق صورة لتعديلها» and 4 idea chips (chips fill the box, never send) |
+| IC-02 | For each ratio (1:1, 3:4, 4:3, 9:16, 16:9) send a prompt | While creating, the placeholder «جارٍ إنشاء الصورة…» has that shape; 💲 the image comes back in that shape |
+| IC-03 | 💲 «تلقائي», attach a portrait photo, «اجعلها بأسلوب كرتوني» | The result follows the photo's shape |
+| IC-04 | 💲 In the same conversation: «اجعلها أكثر إشراقًا» | The last image is edited, not a new unrelated one |
+| IC-05 | An answer with an image and no text | Only the image and its actions; no empty text block, no «يكتب…» |
+| IC-06 | 💲 A request the model answers with text only | A normal answer card; the creating placeholder disappears |
+| IC-07 | 💲 A clearly disallowed image request | Red card with the CONTENT_BLOCKED text, «إعادة المحاولة»; the draft is kept |
+| IC-08 | Press Stop before the image arrives | No image; the "cut" note shows |
+| IC-09 | 💲 Press Stop after the image arrived (slow model) | The image stays; the "cut" note shows |
+| IC-10 | After a failed image answer (IC-07), press «إعادة المحاولة» | It sends again with the same ratio (16:9 stays 16:9) |
+
+### Mode and composer
+
+| ID | Steps | Expected |
+|---|---|---|
+| IC-11 | Switch from the image mode to «سريع», then back | The ratio chip hides in text modes and comes back with this conversation's last choice |
+| IC-12 | Conversation A: 16:9; conversation B: «تلقائي»; switch between them | Each keeps its own ratio |
+| IC-13 | New chat: choose 16:9, send | The new conversation keeps 16:9 |
+| IC-14 | While an image is being created | Ratio chip, mode chip and Send are disabled; Stop is available |
+| IC-15 | In the image mode, attach a photo | Attaching works as in text modes that read images |
+
+### Viewing and download
+
+| ID | Steps | Expected |
+|---|---|---|
+| IC-16 | «فتح بالحجم الكامل»; close with Escape, then with the close button | Full-screen viewer; focus returns to «فتح بالحجم الكامل» |
+| IC-17 | «تنزيل» from the card, then from the viewer; click several times fast | Saves `lam7a-<id>.webp` that opens in the system viewer; one copy per download (the button is disabled while saving) |
+| IC-18 | Reload; open the conversation from the sidebar; sign out and in | Images load each time (placeholder first) |
+| IC-19 | As another user, open the first user's `/chat/<id>` | «لم يتم العثور على المحادثة.» with «بدء محادثة جديدة»; no image is shown or downloadable |
+
+### Balance and limits
+
+| ID | Steps | Expected |
+|---|---|---|
+| IC-20 | Watch the balance chip around an image answer | It drops after each image (mock: tiny; 💲 about $0.04–0.19); no per-answer price is shown |
+| IC-21 | Balance near zero (admin), send in the image mode | INSUFFICIENT_BALANCE: alternatives list only image modes (in a text mode, only text modes); nothing sends or switches by itself |
+| IC-22 | Send many messages quickly | Rate-limit countdown; the draft is kept |
+
+### Mobile (375 px) and accessibility
+
+| ID | Steps | Expected |
+|---|---|---|
+| IC-23 | Phone width: open the ratio menu, create a 9:16 image | Menu fully visible; no sideways scroll; the image fits the screen height (capped at about 512 px) |
+| IC-24 | Keyboard only: Tab to the ratio chip, Enter, arrows, Enter; then open and download | Everything reachable with a visible focus ring |
+| IC-25 | Screen reader (NVDA / VoiceOver) while creating, then on the image | «جارٍ إنشاء الصورة…» announced once; the image reads «صورة أنشأها المساعد» |
+
+### Admin
+
+| ID | Steps | Expected |
+|---|---|---|
+| IC-26 | New model: turn on «ينشئ الصور»; set max output 2000, save | «يقرأ الصور» turns on and locks (with the reason); the image-rate price hint shows; save is refused: «الحد الأدنى 2,500 عند إنشاء الصور» |
+| IC-27 | Model test on the mock image model; then on a model that returns no image | A preview with its size in بايت; otherwise «لم يُرجع النموذج صورة» |
+| IC-28 | An image mode on a provider without an image path (not Gemini / mock) | Modes list: «مزوّد هذا النموذج لا يدعم إنشاء الصور.» |
+| IC-29 | Look through the mode menu, image cards and errors as a user | No provider or model name anywhere |
+
+---
+
 ## 4. Cross-cutting checks
 
 | ID | Check | Expected |
@@ -355,3 +420,4 @@ Every write asks for a reason (3–500 characters). Use a **test** user as the t
 - Contact channels in the request-balance dialog are empty until the brand config has them.
 - Tablet uses the mobile drawer (no icon rail).
 - Refused first sends from before the no-plan check may have left untitled conversations; they're hidden from the list.
+- **Image creation (F8):** the chosen aspect ratio is kept in memory only, so after a reload the chip shows «تلقائي» again. The `mock` provider always returns a small square image whatever ratio is chosen. Created images are full size (up to 4096 px), so long image conversations load slowly on mobile until the backend adds a display size.

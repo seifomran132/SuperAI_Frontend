@@ -32,6 +32,7 @@ import {
 import { NEW_CHAT, useChatStore, type ConversationKey } from './chat-store';
 import { recordMessageCost } from './message-costs';
 import type { MessageAttachment } from './image-input';
+import type { ImageOptions } from './image-options';
 import { conversationKey, messagesKey } from './queries';
 import { toRefusal, unknownRefusal, type Refusal } from './refusals';
 import type { StartedEvent, TerminalEvent } from './stream-events';
@@ -46,6 +47,7 @@ import {
 //   started     → pending user message replaced by `userMessage`, streaming
 //                 `assistantMessage` added, conversation moved to the top
 //   delta       → answer text, written at most once per animation frame
+//   image       → the created image on the streaming answer (image modes)
 //   done/error  → final `message`, cost remembered, balance from `balanceUsd`
 // Stop (abort) and a dropped stream reload the messages; nothing reconnects.
 //
@@ -60,6 +62,8 @@ export interface SendMessageInput {
   modeKey: string;
   /** The uploaded image, if any (§8.2). The text may be empty when there is one. */
   attachments?: MessageAttachment[];
+  /** Image modes (§9.2): sent only with an `aspectRatio` (none = automatic). */
+  imageOptions?: ImageOptions;
   /** Only to retry the same send after a network failure; otherwise a new UUID. */
   clientRequestId?: string;
   /**
@@ -200,6 +204,11 @@ export async function sendMessage(
   } = deps;
   const { key, content, modeKey } = input;
   const attachments = input.attachments ?? [];
+  // "Automatic" sends no imageOptions at all.
+  const aspectRatio = input.imageOptions?.aspectRatio;
+  const imageOptions: ImageOptions | undefined = aspectRatio
+    ? { aspectRatio }
+    : undefined;
   const isNew = key === NEW_CHAT;
 
   if (content.trim() === '' && attachments.length === 0) {
@@ -252,7 +261,13 @@ export async function sendMessage(
   };
   const networkRefusal = (): Refusal => ({
     code: 'NETWORK',
-    retry: { content, modeKey, clientRequestId, attachments },
+    retry: {
+      content,
+      modeKey,
+      clientRequestId,
+      attachments,
+      ...(imageOptions && { imageOptions }),
+    },
   });
 
   try {
@@ -318,6 +333,7 @@ export async function sendMessage(
     let started: StartedEvent['data'] | null = null;
     let terminal: TerminalEvent | null = null;
     let text = '';
+    let gotImage = false;
     const frame = frameWriter(() => {
       if (!started || !alive()) return;
       updateMessage(qc, id, started.assistantMessage.id, (m) => ({
@@ -336,6 +352,7 @@ export async function sendMessage(
           ...(attachments.length > 0 && {
             attachments: attachments.map((a) => ({ uploadId: a.id })),
           }),
+          ...(imageOptions && { imageOptions }),
         },
         controller.signal,
       )) {
@@ -349,12 +366,26 @@ export async function sendMessage(
             return ended();
           }
           updateStream(registryKey, controller, { status: 'streaming' });
-          if (isNew) store().setNewChatConversationId(null);
+          if (isNew) {
+            store().setNewChatConversationId(null);
+            // The new conversation keeps the ratio it was sent with, as it
+            // keeps the mode (set in onStarted).
+            store().setAspectRatio(id, aspectRatio ?? null);
+          }
           input.onStarted?.(id);
         } else if (event.event === 'delta') {
           if (!started) continue;
           text += event.data.text;
           frame.request();
+        } else if (event.event === 'image') {
+          // At most once by contract; the final message repeats it.
+          if (!started || gotImage) continue;
+          gotImage = true;
+          const { attachment } = event.data;
+          updateMessage(qc, id, started.assistantMessage.id, (m) => ({
+            ...m,
+            attachments: [attachment],
+          }));
         } else {
           frame.cancel();
           terminal = event;
@@ -388,7 +419,10 @@ export async function sendMessage(
             // DUPLICATE_REQUEST: the first attempt reached the server, so the
             // conversation holds the message — as after `started`.
             void refetchMessages(qc, id);
-            if (isNew) store().setNewChatConversationId(null);
+            if (isNew) {
+              store().setNewChatConversationId(null);
+              store().setAspectRatio(id, aspectRatio ?? null);
+            }
             input.onStarted?.(id);
             return { kind: 'duplicate', conversationId: id };
           }

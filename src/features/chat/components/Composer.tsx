@@ -28,6 +28,7 @@ import {
 } from './ImageAttach';
 import { AttachmentTile } from './AttachmentTile';
 import { ImageModeNotice, TooManyImagesNotice } from './ImageNotices';
+import { ImageRatioMenu } from './ImageRatioMenu';
 import { ModeSelector } from './ModeSelector';
 
 const MAX_HEIGHT_PX = 200;
@@ -63,6 +64,14 @@ export function Composer({
     conversationModeKey,
   );
   const fieldError = isFieldRefusal(refusal);
+
+  // The ratio menu exists only in an image mode; «تلقائي» is null and sends nothing.
+  const generatesImages =
+    modes.find((mode) => mode.key === modeKey)?.generatesImages === true;
+  const aspectRatio = useChatStore((s) => s.aspectRatios[storeKey] ?? null);
+  const setAspectRatio = useChatStore((s) => s.setAspectRatio);
+  const imageOptions =
+    generatesImages && aspectRatio ? { aspectRatio } : undefined;
 
   const online = useOnline();
 
@@ -126,7 +135,8 @@ export function Composer({
     if (!canSubmit || modeKey === null) return;
     const ready = imageDraft.status === 'ready' ? imageDraft : null;
     if (!ready || !image) {
-      void send.send(draft, modeKey);
+      if (imageOptions) void send.send(draft, modeKey, { imageOptions });
+      else void send.send(draft, modeKey);
       return;
     }
     // The message shows the local file at once instead of downloading it back.
@@ -136,6 +146,7 @@ export function Composer({
       .send(draft, modeKey, {
         attachments: [ready.attachment],
         onAccepted: image.remove,
+        imageOptions,
       })
       .then((outcome) => {
         setSendingImage(false);
@@ -216,6 +227,13 @@ export function Composer({
               onSelect={setMode}
               supportsImages={image?.modeSupportsImages}
             />
+            {generatesImages ? (
+              <ImageRatioMenu
+                ratio={aspectRatio}
+                onChange={(next) => setAspectRatio(storeKey, next)}
+                disabled={send.isBusy}
+              />
+            ) : null}
           </div>
           {/* One button for both roles: swapping elements would drop focus to the page. */}
           <Button

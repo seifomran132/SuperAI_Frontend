@@ -14,6 +14,7 @@ import {
 } from './active-streams';
 import { NEW_CHAT, useChatStore, type ConversationKey } from './chat-store';
 import type { MessageAttachment } from './image-input';
+import type { ImageOptions } from './image-options';
 import type { Refusal } from './refusals';
 import { sendMessage, type SendOutcome } from './send-message';
 
@@ -103,6 +104,8 @@ export function useSendMessage(
         attachments?: MessageAttachment[];
         /** The server holds the message (`started` or DUPLICATE_REQUEST). */
         onAccepted?: () => void;
+        /** Image modes: the picked aspect ratio; none (or no ratio) = automatic. */
+        imageOptions?: ImageOptions;
       } = {},
     ): Promise<SendOutcome> =>
       sendMessage(qc, {
@@ -110,6 +113,7 @@ export function useSendMessage(
         content,
         modeKey,
         attachments: options.attachments,
+        imageOptions: options.imageOptions,
         onStarted: (id) => {
           options.onAccepted?.();
           onStarted.current?.(id);
@@ -118,7 +122,7 @@ export function useSendMessage(
     [qc, key],
   );
 
-  /** Resends after a network failure with the same clientRequestId (no double send). */
+  /** Resends after a network failure with the same clientRequestId, attachments and imageOptions (no double send). */
   const retry = useCallback((): Promise<SendOutcome> => {
     const last = useChatStore.getState().refusals[key];
     if (last?.code !== 'NETWORK') return Promise.resolve({ kind: 'ignored' });

@@ -151,6 +151,14 @@
       "chip3": "Explain a concept in simple terms",
       "chip4": "Help me write Python code"
     },
+    "emptyImage": {
+      "title": "Describe the image you want",
+      "hint": "Attach an image to edit it",
+      "chip1": "A simple logo for a coffee shop",
+      "chip2": "A calm sunset over the sea",
+      "chip3": "An illustration of a child reading",
+      "chip4": "An icon for a weather app"
+    },
     "composer": {
       "label": "Your message",
       "placeholder": "Type your message…",
@@ -214,6 +222,19 @@
       "uploaded": "Image uploaded",
       "modeNotice": "This mode can't read images. Choose another mode to send the image.",
       "readsImages": "Reads images",
+      "imageBadge": "Image",
+      "ratio": "Image ratio",
+      "ratioAuto": "Auto",
+      "ratioSquare": "Square",
+      "ratioPortrait": "Portrait",
+      "ratioLandscape": "Landscape",
+      "ratioTall": "Tall",
+      "ratioWide": "Wide",
+      "creating": "Creating the image…",
+      "openFull": "Open full size",
+      "download": "Download",
+      "downloadFailed": "Couldn't download the image. Try again.",
+      "generatedAlt": "Image created by the assistant",
       "view": "View image",
       "close": "Close",
       "loading": "Loading the image",
@@ -766,7 +787,11 @@
         "maxOutputInvalid": "Enter a number from 1 to 256",
         "imageSent": "Image sent",
         "yes": "Yes",
-        "no": "No"
+        "no": "No",
+        "imageAlt": "Image the model created in the test",
+        "imageSize": "Image size",
+        "noImage": "The model did not return an image",
+        "imageBytes": "{{bytes}} bytes"
       },
       "supportsImages": "Reads images",
       "supportsImagesHint": "Turn on only if the model accepts images. Modes that use it are shown to users as reading images, and the model test sends a small image.",
@@ -826,7 +851,13 @@
         "tiersWarning": "The provider charges more above a certain context size, and we bill one rate. Lower the context window to the tier limit or price at the higher tier.",
         "deprecatedWarning": "The provider is retiring this model; don't rely on it in new modes.",
         "createdNote": "The model is created disabled; you can enable it from its page."
-      }
+      },
+      "generatesImages": "Creates images",
+      "generatesImagesHint": "Turn on for image-generation models only. This model's output price is its image rate per 1M output tokens, so it looks high; one image costs roughly a few cents.",
+      "generatesImagesBadge": "Creates images",
+      "supportsImagesLocked": "Always on because the model creates images. Turn off \"Creates images\" first to change it.",
+      "maxOutputImageHint": "Minimum 2,500 when creating images",
+      "maxOutputImageMin": "Minimum 2,500 when creating images"
     },
     "modes": {
       "new": "New mode",
@@ -851,7 +882,8 @@
         "MODEL_DISABLED": "The model is disabled.",
         "PROVIDER_DISABLED": "The provider is disabled.",
         "NO_API_KEY": "The provider has no key.",
-        "NO_CURRENT_PRICE": "The model has no price in effect."
+        "NO_CURRENT_PRICE": "The model has no price in effect.",
+        "IMAGE_GENERATION_UNSUPPORTED": "This model's provider does not support image creation."
       },
       "noModel": "No model",
       "formTitle": "Mode details",

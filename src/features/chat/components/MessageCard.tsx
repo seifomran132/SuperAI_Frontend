@@ -9,6 +9,9 @@ import type {
   MessageAttachment,
   UseAttachmentImage,
 } from '../model/image-input';
+import type { AspectRatio } from '../model/image-options';
+import { useAttachmentImage } from '../model/useAttachmentImage';
+import { GeneratedImage, ImagePlaceholder } from './GeneratedImage';
 import { MessageImage } from './MessageImage';
 import { BrandMark, useBrandName } from './BrandMark';
 import { Markdown } from './Markdown';
@@ -105,6 +108,8 @@ export interface AssistantMessageProps {
   retryText?: string;
   /** Re-sends the question as a new message (must be a stable function). */
   onRetry?: (text: string, modeKey: string | null) => void;
+  /** Ratio the conversation asked for, for the «creating» placeholder; null/undefined is square. */
+  creatingRatio?: AspectRatio | null;
 }
 
 export const AssistantMessage = memo(function AssistantMessage({
@@ -113,6 +118,7 @@ export const AssistantMessage = memo(function AssistantMessage({
   local,
   retryText,
   onRetry,
+  creatingRatio,
 }: AssistantMessageProps) {
   const { t, i18n } = useTranslation();
   const brandName = useBrandName();
@@ -121,6 +127,17 @@ export const AssistantMessage = memo(function AssistantMessage({
   const streaming = state === 'streaming';
   const failed = state === 'failed';
   const hasText = message.content.trim() !== '';
+  const images = message.attachments ?? [];
+  // An image answer still being written, with no image yet: show where it will appear.
+  const creating =
+    streaming &&
+    images.length === 0 &&
+    modes.find((mode) => mode.key === message.modeKey)?.generatesImages ===
+      true;
+  const [ratioW, ratioH] = (creatingRatio ?? '1:1').split(':').map(Number) as [
+    number,
+    number,
+  ];
   const showFooter = !streaming && !failed && hasText;
 
   const failureKey = `errors:${message.errorCode}`;
@@ -147,7 +164,8 @@ export const AssistantMessage = memo(function AssistantMessage({
       </header>
 
       <div className="border-border-subtle bg-surface rounded-lg border px-5 py-4">
-        {streaming && !hasText ? (
+        {/* While an image is being created its placeholder is the only status (one announcement). */}
+        {streaming && !hasText && !creating ? (
           <p
             role="status"
             className="text-fg-muted flex items-center gap-2 text-sm"
@@ -187,6 +205,25 @@ export const AssistantMessage = memo(function AssistantMessage({
           <Markdown text={message.content} streaming={streaming} />
         ) : null}
 
+        {images.length > 0 || creating ? (
+          <div className={cn('flex flex-col gap-3', hasText && 'mt-4')}>
+            {images.map((attachment) => (
+              <GeneratedImage
+                key={attachment.id}
+                attachment={attachment}
+                useImage={useAttachmentImage}
+              />
+            ))}
+            {creating ? (
+              <ImagePlaceholder
+                width={ratioW}
+                height={ratioH}
+                label={t('chat.image.creating')}
+              />
+            ) : null}
+          </div>
+        ) : null}
+
         {partialError && hasText ? (
           <p
             role="alert"
@@ -200,7 +237,7 @@ export const AssistantMessage = memo(function AssistantMessage({
           </p>
         ) : null}
 
-        {cutShort && hasText ? (
+        {cutShort && (hasText || images.length > 0) ? (
           <p className="text-fg-subtle mt-3 flex items-center gap-1.5 text-sm">
             <Info aria-hidden="true" className="size-4 shrink-0" />
             {t('chat.message.cut')}

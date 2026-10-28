@@ -348,3 +348,159 @@ export async function adminContext(browser: Browser): Promise<BrowserContext> {
   if (!creds) throw new Error(ADMIN_SKIP_MESSAGE);
   return signedInContext(browser, creds.email, creds.password);
 }
+
+// ---------------------------------------------------------------------------
+// Image-creation fixtures (F8): free `mock` provider, dedicated mode and plan.
+// Everything is find-or-create; existing plans, modes and models are untouched.
+
+export const IMAGE_MODE_KEY = 'e2e-design';
+export const IMAGE_PLAN_KEY = 'e2e-images';
+
+async function adminCall<T>(
+  method: 'GET' | 'POST' | 'PATCH' | 'PUT',
+  path: string,
+  body?: unknown,
+): Promise<T> {
+  const res = await fetch(`${API}/api/v1${path}`, {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${await adminToken()}`,
+    },
+    body: body === undefined ? undefined : JSON.stringify(body),
+  });
+  if (res.status >= 300) {
+    const code = ((await res.json().catch(() => null)) as { code?: string })
+      ?.code;
+    throw new Error(`${method} ${path} failed (${res.status} ${code ?? ''})`);
+  }
+  return (await res.json().catch(() => null)) as T;
+}
+
+const REASON = 'e2e image fixtures';
+
+/** Ensures the mock image model, the `e2e-design` mode and the `e2e-images` plan exist. */
+export async function ensureImageFixtures(): Promise<void> {
+  const providers = await adminCall<
+    { code: string; kind: string; isEnabled: boolean }[]
+  >('GET', '/admin/providers');
+  const mock = providers.find((p) => p.kind === 'mock');
+  if (!mock) throw new Error('No mock provider in the local catalog');
+  if (!mock.isEnabled) {
+    await adminCall('PATCH', `/admin/providers/${mock.code}`, {
+      reason: REASON,
+      isEnabled: true,
+    });
+  }
+
+  const models = await adminCall<
+    {
+      id: string;
+      providerCode: string;
+      providerModelId: string;
+      generatesImages: boolean;
+      supportsImages: boolean;
+      isEnabled: boolean;
+      currentPrice: unknown;
+    }[]
+  >('GET', '/admin/models');
+  let model = models.find(
+    (m) => m.providerCode === mock.code && m.providerModelId === 'mock-image',
+  );
+  if (!model) {
+    model = await adminCall('POST', '/admin/models', {
+      reason: REASON,
+      providerCode: mock.code,
+      providerModelId: 'mock-image',
+      displayName: 'Mock image e2e',
+      contextWindow: 8000,
+      maxOutputTokens: 4000,
+      supportsImages: true,
+      generatesImages: true,
+      isEnabled: true,
+      price: { inputPerMtok: '1.00', outputPerMtok: '10.00' },
+    });
+  } else {
+    if (!model.generatesImages || !model.supportsImages || !model.isEnabled) {
+      await adminCall('PATCH', `/admin/models/${model.id}`, {
+        reason: REASON,
+        supportsImages: true,
+        generatesImages: true,
+        isEnabled: true,
+      });
+    }
+    if (!model.currentPrice) {
+      await adminCall('POST', `/admin/models/${model.id}/prices`, {
+        reason: REASON,
+        inputPerMtok: '1.00',
+        outputPerMtok: '10.00',
+      });
+    }
+  }
+
+  const modes = await adminCall<{ key: string; isEnabled: boolean }[]>(
+    'GET',
+    '/admin/modes',
+  );
+  const mode = modes.find((m) => m.key === IMAGE_MODE_KEY);
+  if (!mode) {
+    await adminCall('POST', '/admin/modes', {
+      reason: REASON,
+      key: IMAGE_MODE_KEY,
+      labelAr: 'تصميم e2e',
+      labelEn: 'Design e2e',
+      descriptionAr: 'إنشاء صور للاختبار',
+      descriptionEn: 'Image creation for tests',
+      sortOrder: 900,
+      modelId: model!.id,
+    });
+  }
+  if (!mode || !mode.isEnabled) {
+    await adminCall('PATCH', `/admin/modes/${IMAGE_MODE_KEY}`, {
+      reason: REASON,
+      modelId: model!.id,
+      isEnabled: true,
+    });
+  }
+
+  const plans = await adminCall<{ key: string }[]>('GET', '/admin/plans');
+  if (!plans.some((p) => p.key === IMAGE_PLAN_KEY)) {
+    await adminCall('POST', '/admin/plans', {
+      reason: REASON,
+      key: IMAGE_PLAN_KEY,
+      nameAr: 'صور e2e',
+      nameEn: 'Images e2e',
+      descriptionAr: 'باقة اختبار الصور',
+      descriptionEn: 'Image test plan',
+      monthlyPriceUsd: '0',
+      sortOrder: 900,
+      isPublic: false,
+      isActive: true,
+      modeKeys: [IMAGE_MODE_KEY],
+    });
+  } else {
+    await adminCall('PUT', `/admin/plans/${IMAGE_PLAN_KEY}/modes`, {
+      reason: REASON,
+      modeKeys: [IMAGE_MODE_KEY],
+    });
+  }
+}
+
+/** A fresh user on the `e2e-images` plan with balance; the page is left signed in. */
+export async function createImageUser(
+  page: Page,
+  prefix = 'e2e-image',
+): Promise<{ email: string; password: string; userId: string }> {
+  await ensureImageFixtures();
+  const email = freshEmail(prefix);
+  await signUpConfirmed(page, email, E2E_PASSWORD);
+  const userId = await myId(await accessToken(page));
+  await adminCall('POST', `/admin/users/${userId}/subscriptions`, {
+    planKey: IMAGE_PLAN_KEY,
+    reason: REASON,
+    idempotencyKey: randomUUID(),
+  });
+  const { status } = await adjustBalance(userId, '0.50');
+  if (status >= 300) throw new Error(`Funding failed (${status})`);
+  return { email, password: E2E_PASSWORD, userId };
+}

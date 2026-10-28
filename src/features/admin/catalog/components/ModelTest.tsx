@@ -28,7 +28,13 @@ function Stat({ label, children }: { label: string; children: ReactNode }) {
 const ms = (value: number | null) =>
   value === null ? null : `${value.toLocaleString('en')} ms`;
 
-function TestResult({ result }: { result: ModelTestResultDto }) {
+function TestResult({
+  result,
+  generatesImages,
+}: {
+  result: ModelTestResultDto;
+  generatesImages: boolean;
+}) {
   const { t } = useTranslation();
   const none = t('admin.common.none');
   return (
@@ -56,6 +62,25 @@ function TestResult({ result }: { result: ModelTestResultDto }) {
           {result.reply || none}
         </p>
       </div>
+      {result.imageCreated ? (
+        <figure className="grid justify-items-start gap-1">
+          <img
+            src={`data:${result.imageCreated.mediaType};base64,${result.imageCreated.base64}`}
+            alt={t('admin.models.test.imageAlt')}
+            className="border-border-subtle max-h-60 max-w-60 rounded-md border"
+          />
+          <figcaption className="text-fg-muted text-sm tabular-nums">
+            {t('admin.models.test.imageSize')}{' '}
+            <bdi dir="ltr">
+              {t('admin.models.test.imageBytes', {
+                bytes: result.imageCreated.bytes.toLocaleString('en'),
+              })}
+            </bdi>
+          </figcaption>
+        </figure>
+      ) : generatesImages ? (
+        <Alert variant="warning">{t('admin.models.test.noImage')}</Alert>
+      ) : null}
       <dl className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Stat label={t('admin.models.test.finishReason')}>
           <bdi dir="ltr">{result.finishReason}</bdi>
@@ -205,7 +230,9 @@ export function ModelTest({ model }: { model: ModelDto }) {
       }
     >
       <p className="text-fg-muted text-sm">{t('admin.models.test.intro')}</p>
-      {result ? <TestResult result={result} /> : null}
+      {result ? (
+        <TestResult result={result} generatesImages={model.generatesImages} />
+      ) : null}
       {open ? (
         <TestDialog
           model={model}

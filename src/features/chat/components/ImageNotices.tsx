@@ -1,4 +1,4 @@
-import { Eye } from 'lucide-react';
+import { Eye, Image as ImageIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { ChatNotice } from './ChatNotice';
 
@@ -21,6 +21,17 @@ export function ReadsImagesBadge() {
     <span className="bg-surface-muted text-fg-muted mt-1 inline-flex w-fit items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium">
       <Eye aria-hidden="true" className="size-3.5" />
       {t('chat.image.readsImages')}
+    </span>
+  );
+}
+
+/** «صورة» mark in the mode menu: this mode creates images. */
+export function CreatesImagesBadge() {
+  const { t } = useTranslation();
+  return (
+    <span className="bg-fg text-surface mt-1 inline-flex w-fit items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium">
+      <ImageIcon aria-hidden="true" className="size-3.5" />
+      {t('chat.image.imageBadge')}
     </span>
   );
 }

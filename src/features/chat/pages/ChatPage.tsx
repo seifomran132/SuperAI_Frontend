@@ -74,6 +74,10 @@ export function ChatPage({ conversationId }: { conversationId?: string }) {
   const noPlan = useNoPlan();
   const selected = useSelectedMode(key, conversation.data?.modeKey);
   const setDraft = useChatStore((s) => s.setDraft);
+  const aspectRatio = useChatStore((s) => s.aspectRatios[key] ?? null);
+  const imageMode =
+    selected.modes.find((m) => m.key === selected.modeKey)?.generatesImages ===
+    true;
 
   const send = useSendMessage(key, {
     // A new chat becomes /chat/:id once the server has accepted the message.
@@ -194,7 +198,15 @@ export function ChatPage({ conversationId }: { conversationId?: string }) {
       modeKey && selected.modes.some((m) => m.key === modeKey)
         ? modeKey
         : selected.modeKey;
-    if (usable) void send.send(text, usable);
+    if (!usable) return;
+    // A retried image answer keeps the conversation's chosen ratio, as Send does.
+    const retriesImage =
+      selected.modes.find((m) => m.key === usable)?.generatesImages === true;
+    if (retriesImage && aspectRatio) {
+      void send.send(text, usable, { imageOptions: { aspectRatio } });
+    } else {
+      void send.send(text, usable);
+    }
   };
 
   const preparing =
@@ -242,6 +254,7 @@ export function ChatPage({ conversationId }: { conversationId?: string }) {
   } else if (messages.length === 0 && !preparing) {
     body = (
       <EmptyState
+        imageMode={imageMode}
         onPick={(text) => {
           setDraft(key, text);
           textarea.current?.focus();
@@ -259,6 +272,7 @@ export function ChatPage({ conversationId }: { conversationId?: string }) {
         local={send.isBusy}
         canRetry={send.canSend && !noPlan}
         onRetry={onRetryAnswer}
+        creatingRatio={aspectRatio}
         hasOlder={Boolean(messagesQuery.hasOlder)}
         isFetchingOlder={messagesQuery.isFetchingOlder}
         olderFailed={messagesQuery.isFetchNextPageError}

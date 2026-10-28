@@ -5,6 +5,7 @@ import { Button } from '~/components/ui/button';
 import type { MessageDto, ModeDto } from '~/api/generated/types.gen';
 import { cn } from '~/lib/utils';
 import { useAttachmentImage } from '../model/useAttachmentImage';
+import type { AspectRatio } from '../model/image-options';
 import { AssistantMessage, UserMessage } from './MessageCard';
 
 /** How far from the bottom still counts as "following" the answer. */
@@ -20,6 +21,8 @@ export interface MessageListProps {
   local: boolean;
   canRetry: boolean;
   onRetry: (text: string, modeKey: string | null) => void;
+  /** Chosen image ratio of this conversation, for the «creating» placeholder. */
+  creatingRatio?: AspectRatio | null;
   hasOlder: boolean;
   isFetchingOlder: boolean;
   olderFailed: boolean;
@@ -54,6 +57,7 @@ export function MessageList({
   local,
   canRetry,
   onRetry,
+  creatingRatio,
   hasOlder,
   isFetchingOlder,
   olderFailed,
@@ -197,6 +201,7 @@ export function MessageList({
                   : undefined
               }
               onRetry={stableRetry}
+              creatingRatio={creatingRatio}
             />
           ),
         )}
@@ -206,6 +211,7 @@ export function MessageList({
             message={placeholder(preparing.modeKey)}
             modes={modes}
             local
+            creatingRatio={creatingRatio}
           />
         ) : null}
       </div>

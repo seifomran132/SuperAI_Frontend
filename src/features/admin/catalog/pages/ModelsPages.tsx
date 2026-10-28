@@ -1,9 +1,11 @@
 import { Link, useParams, useSearch } from '@tanstack/react-router';
 import { useQuery } from '@tanstack/react-query';
+import { ImagePlus } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { errorMessageKey, isApiError } from '~/api/errors';
 import { Money } from '~/components/Money';
 import { toDecimal } from '~/lib/money';
+import { Badge } from '../../components/Badge';
 import { td, th } from '../../components/FormControls';
 import {
   BackLink,
@@ -77,6 +79,13 @@ export function ModelsPage() {
                     >
                       {m.displayName}
                     </Link>
+                    {m.generatesImages ? (
+                      <span className="ms-2 align-middle">
+                        <Badge tone="info" Icon={ImagePlus}>
+                          {t('admin.models.generatesImagesBadge')}
+                        </Badge>
+                      </span>
+                    ) : null}
                     <div className="text-fg-muted text-xs">
                       <Ltr>{m.providerModelId}</Ltr>
                     </div>

@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import type { AspectRatio } from './image-options';
 import type { Refusal } from './refusals';
 
 // UI-only chat state (F2_CHAT §3). Server data lives in the TanStack Query
@@ -10,6 +11,12 @@ export type ConversationKey = string;
 export interface ChatState {
   /** Selected mode per conversation; NEW_CHAT holds the new chat's choice. */
   modes: Record<ConversationKey, string>;
+  /**
+   * Aspect ratio picked for image modes, per conversation. No key means
+   * automatic (nothing sent). A new chat's choice moves to its conversation
+   * at `started`.
+   */
+  aspectRatios: Record<ConversationKey, AspectRatio>;
   /** Unsent text per conversation. Survives every refusal. */
   drafts: Record<ConversationKey, string>;
   /** Why the last send in a conversation did not start, until dismissed or the next send. */
@@ -26,6 +33,8 @@ export interface ChatState {
   drawerOpen: boolean;
 
   setMode: (key: ConversationKey, modeKey: string) => void;
+  /** null = automatic: removes the key. */
+  setAspectRatio: (key: ConversationKey, ratio: AspectRatio | null) => void;
   setDraft: (key: ConversationKey, text: string) => void;
   clearDraft: (key: ConversationKey) => void;
   /** Puts unsent text back without overwriting what the user typed meanwhile. */
@@ -40,6 +49,7 @@ export interface ChatState {
 
 const initial = {
   modes: {},
+  aspectRatios: {},
   drafts: {},
   refusals: {},
   newChatConversationId: null,
@@ -58,6 +68,13 @@ export const useChatStore = create<ChatState>()((set) => ({
   ...initial,
   setMode: (key, modeKey) =>
     set((s) => ({ modes: { ...s.modes, [key]: modeKey } })),
+  setAspectRatio: (key, ratio) =>
+    set((s) => ({
+      aspectRatios:
+        ratio === null
+          ? without(s.aspectRatios, key)
+          : { ...s.aspectRatios, [key]: ratio },
+    })),
   setDraft: (key, text) =>
     set((s) => ({ drafts: { ...s.drafts, [key]: text } })),
   clearDraft: (key) => set((s) => ({ drafts: without(s.drafts, key) })),

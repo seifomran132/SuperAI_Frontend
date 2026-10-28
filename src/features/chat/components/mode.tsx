@@ -16,6 +16,14 @@ const tones = [
     chip: 'border-mode-2-border bg-mode-2-container text-mode-2',
     dot: 'bg-mode-2',
   },
+  {
+    chip: 'border-mode-3-border bg-mode-3-container text-mode-3',
+    dot: 'bg-mode-3',
+  },
+  {
+    chip: 'border-mode-4-border bg-mode-4-container text-mode-4',
+    dot: 'bg-mode-4',
+  },
 ] as const;
 
 /** Tone for a 1-based position; positions past the palette wrap around. */

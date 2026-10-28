@@ -2,6 +2,7 @@ import type { FieldErrorDto } from '~/api/generated/types.gen';
 import { isApiError, type ApiError } from '~/api/errors';
 import { StreamApiError } from '~/platform/stream';
 import type { MessageAttachment } from './image-input';
+import type { ImageOptions } from './image-options';
 
 // Why a send did not start, as typed state for the UI (F2_CHAT §2 table).
 // The draft is kept for every refusal; DUPLICATE_REQUEST is not a refusal
@@ -18,6 +19,8 @@ export interface RetryableSend {
   modeKey: string;
   clientRequestId: string;
   attachments?: MessageAttachment[];
+  /** The ratio of the failed send, so the retry asks for the same image. */
+  imageOptions?: ImageOptions;
 }
 
 export type Refusal =

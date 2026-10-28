@@ -11,6 +11,12 @@ export interface ChatSendRequest {
   clientRequestId: string;
   /** At most one uploaded image (§8.2); omitted for text-only messages. */
   attachments?: { uploadId: string }[];
+  /**
+   * Image modes only (§9.2); ignored by text modes. Omitted means automatic.
+   * Written out here (not imported) so this layer stays independent of the
+   * chat feature; its `ImageOptions` is assignable to it.
+   */
+  imageOptions?: { aspectRatio?: '1:1' | '3:4' | '4:3' | '9:16' | '16:9' };
 }
 
 /**

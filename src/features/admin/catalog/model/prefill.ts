@@ -24,6 +24,7 @@ export type CatalogField =
   | 'contextWindow'
   | 'maxOutputTokens'
   | 'supportsImages'
+  | 'generatesImages'
   | keyof PriceFields;
 
 /** Starting values of the create form. All numbers are text, as typed in the form. */
@@ -34,6 +35,7 @@ export interface ModelInitial {
   contextWindow: string;
   maxOutputTokens: string;
   supportsImages: boolean;
+  generatesImages: boolean;
   price: PriceFields;
   /** Fields that hold a value taken from the public catalog. */
   fromCatalog: CatalogField[];
@@ -57,6 +59,7 @@ export function emptyInitial(providerCode = ''): ModelInitial {
     contextWindow: '',
     maxOutputTokens: '',
     supportsImages: false,
+    generatesImages: false,
     price: emptyPrice(),
     fromCatalog: [],
     deprecated: false,
@@ -82,6 +85,7 @@ export function prefillFromAvailable(
   if (catalog?.contextWindow != null) fromCatalog.push('contextWindow');
   if (catalog?.maxOutputTokens != null) fromCatalog.push('maxOutputTokens');
   if (catalog?.supportsImages != null) fromCatalog.push('supportsImages');
+  if (catalog?.generatesImages != null) fromCatalog.push('generatesImages');
 
   const price = emptyPrice();
   for (const field of PRICE_FIELDS) {
@@ -98,7 +102,10 @@ export function prefillFromAvailable(
     displayName: catalog?.name || model.displayName || model.providerModelId,
     contextWindow: text(catalog?.contextWindow ?? model.contextWindow),
     maxOutputTokens: text(catalog?.maxOutputTokens ?? model.maxOutputTokens),
-    supportsImages: catalog?.supportsImages ?? false,
+    // An image model also accepts images (the form enforces the same).
+    supportsImages:
+      (catalog?.supportsImages ?? false) || catalog?.generatesImages === true,
+    generatesImages: catalog?.generatesImages ?? false,
     price,
     fromCatalog,
     deprecated: catalog?.deprecated ?? false,

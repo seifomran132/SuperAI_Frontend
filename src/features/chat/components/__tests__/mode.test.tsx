@@ -10,7 +10,9 @@ describe('mode colours by position', () => {
   it('maps positions to the mode palette and wraps past it', () => {
     expect(modeTone(1).chip).toContain('mode-1');
     expect(modeTone(2).chip).toContain('mode-2');
-    expect(modeTone(3).chip).toContain('mode-1');
+    expect(modeTone(3).chip).toContain('mode-3');
+    expect(modeTone(4).chip).toContain('mode-4');
+    expect(modeTone(5).chip).toContain('mode-1');
   });
 
   it('colours a chip by where the mode sits in the list, not by its key', () => {

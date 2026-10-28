@@ -1,6 +1,6 @@
 # F8 — Image creation (image modes)
 
-**Status:** Plan, 2026-10-27. Design S17 **approved** 2026-10-27. Slice 0 done 2026-10-27 (backend answered §8 questions 1–2); slice 1 next.
+**Status:** Plan, 2026-10-27. Design S17 **approved** 2026-10-27. Slice 0 done 2026-10-27; slice 1 done 2026-10-28 (verified end to end locally with the mock provider); slice 2 done 2026-10-28; slice 3 done 2026-10-28. **F8 frontend complete, not committed.**
 **Brief:** [F8_IMAGE_CREATION_BRIEF.md](F8_IMAGE_CREATION_BRIEF.md). **Binding contract:** `../SuperAI_Backend/docs/API_CONTRACT.md` §9 (and §6 for the stream).
 **Backend state:** built and tested in the backend working tree, not committed or deployed. The first slice runs against it locally.
 **Builds on:** F6 image input (upload, `blob:` loading, `MessageImage`, `ImageViewer`), F7 catalog sync (model prefill).
@@ -56,7 +56,9 @@ Synced against backend `2d8a45e` (image creation committed). The free trial is g
 - Check the `ModelPicker` loading test (it times out at 5 s).
 - Commit the regenerated files together with these fixes, so `main` always typechecks.
 
-### Slice 1 — chat, local end to end with the `mock` provider (the goal)
+### Slice 1 — chat, local end to end with the `mock` provider ✅ done 2026-10-28
+Verified against the backend working tree with a mock image mode («تصميم»): image empty state → 16:9 chosen (`imageOptions` sent only then) → streamed answer → created image (`blob:`) → full-size viewer → download (`lam7a-<id>.webp`) → reload keeps the image; 375px: RTL, no horizontal scroll. Created images are capped at ~512px high (`imageBox`), so tall ratios stay on screen. The chosen ratio lives in memory only (back to «تلقائي» after a reload). The "Stop after the image" data test runs in its own file: a request left over from an earlier test in the same file could fail its POST.
+
 Owner: `chat-engineer` (stream and cache) + `ui-builder` (cards, picker, composer). Needs the S17 design approved first (§4).
 1. **Stream:**
    - add `image` to `stream-events.ts` (`KNOWN` set and type)
@@ -81,7 +83,10 @@ Owner: `chat-engineer` (stream and cache) + `ui-builder` (cards, picker, compose
 - Stop, a blocked image and text-only answers render correctly
 - RTL holds at 375/768/1280 px
 
-### Slice 2 — admin
+### Slice 2 — admin ✅ done 2026-10-28
+Verified locally: «ينشئ الصور» toggle (turns on and locks «يقرأ الصور», image-rate hint, 2,500 minimum checked before saving), model test preview of the created image on the mock model, «ينشئ الصور» badge in the models list (no horizontal scroll at 1280/768), readable `IMAGE_GENERATION_UNSUPPORTED` reason. **Not built:** an image badge in the modes list — `ModeModelSummaryDto` has no `generatesImages` (backend ask in §8).
+
+Original scope:
 Owner: `ui-builder`. No new design: it reuses the existing form and test patterns (as in F4b).
 1. **Model form:**
    - a `generatesImages` toggle, prefilled from discovery (`catalog.generatesImages`)
@@ -92,7 +97,13 @@ Owner: `ui-builder`. No new design: it reuses the existing form and test pattern
 3. **Modes:** a readable Arabic/English reason for `IMAGE_GENERATION_UNSUPPORTED`, and the image badge in the modes list.
 4. **Models list:** an image badge next to the model name.
 
-### Slice 3 — tests and review
+### Slice 3 — tests and review ✅ done 2026-10-28
+- `tests/image-creation.spec.ts` (6 tests, local stack, mock provider; own `e2e-design` mode, non-public `e2e-images` plan and a fresh user — the `free` plan and existing modes are untouched): empty state + ratio menu, 16:9 sent as `imageOptions`, image renders, viewer, download, reload, automatic sends no options, axe/RTL + no horizontal scroll at 375px. All pass.
+- Unit: 496 pass (incl. PROVIDER_ERROR with a charge in an image mode, retry keeps the ratio, one download at a time).
+- `frontend-reviewer` findings fixed: retry of a failed image answer kept no ratio (medium); hard-coded brand in the download fallback name; double status while creating; repeated downloads from the viewer; viewer alt text for created images; ratio not carried over on DUPLICATE_REQUEST of a new chat; byte unit not translated.
+- Known flake, unrelated: `refusals.test.tsx` rate-limit countdown can time out under full-suite load (passes alone).
+
+Original scope:
 Owner: `test-engineer`, then `frontend-reviewer`.
 - **Unit tests:**
   - `image` event parsing and cache update
@@ -148,3 +159,4 @@ Mobile at 375 px for states 2 and 4. Admin screens need no design.
 4. **Document the 2,500 `maxOutputTokens` minimum** for image models in API_CONTRACT §9 (and, if possible, OpenAPI). Only the brief states it now.
 5. **Placeholder before the `image` event:** is the aspect ratio of the coming image known at `started` (when the user picked one)? If the backend echoed `imageOptions` in `started`, the placeholder could take the right shape right away. Optional; otherwise the frontend uses the chosen ratio, or square for "automatic".
 6. No per-image price estimate on `ModeDto` is needed for now (decision 3).
+7. **`generatesImages` on `ModeModelSummaryDto`** (admin modes list), so the modes list can mark image modes. Small; not blocking.

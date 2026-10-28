@@ -10,6 +10,7 @@ import {
   message,
   mockId,
   modeFast,
+  modeImage,
   modeProfessional,
 } from './fixtures';
 
@@ -52,7 +53,22 @@ export type SendScenario =
   /** 200 but not an event stream. */
   | { kind: 'wrong-content-type' }
   /** Nothing is saved or sent until `delayMs` passes (Stop before `started`); then a normal answer. */
-  | { kind: 'slow-start'; delayMs?: number; deltas?: string[] };
+  | { kind: 'slow-start'; delayMs?: number; deltas?: string[] }
+  /**
+   * Image mode (§9.3): started → delta (`text`; '' = image only, no delta) →
+   * image → done with the image in `message.attachments`. `delayMs` waits
+   * before the image (to see the placeholder); `hang` waits for Stop after
+   * the image instead of `done` (the image is kept, answer `partial`).
+   * A text-only image answer is just `normal`; a blocked one is
+   * `{ kind: 'error-event', code: 'CONTENT_BLOCKED', deltas: [] }`.
+   */
+  | {
+      kind: 'image';
+      text?: string;
+      attachment?: Partial<AttachmentDto>;
+      delayMs?: number;
+      hang?: boolean;
+    };
 
 export interface ChatMockState {
   modes: ModeDto[];
@@ -79,6 +95,10 @@ export interface ChatMockState {
   uploads: Map<string, { attachment: AttachmentDto; used: boolean }>;
   /** Answer to `GET /attachments/:id`: the stored image, or a failure. */
   download: { kind: 'ok' } | { kind: 'not-found' } | { kind: 'network-error' };
+  /** Opt-in: GET /modes (and the plan) also offer `modeImage`. */
+  imageModes: boolean;
+  /** Images created by image answers; downloadable, never usable as uploads. */
+  createdImages: Map<string, AttachmentDto>;
   /** Every request the handlers saw, for assertions. */
   calls: { name: string; body: unknown; authorization?: string | null }[];
 }
@@ -97,8 +117,14 @@ const initial = (): ChatMockState => ({
   upload: { kind: 'ok' },
   uploads: new Map(),
   download: { kind: 'ok' },
+  imageModes: false,
+  createdImages: new Map(),
   calls: [],
 });
+
+/** The modes the mock server offers. */
+const offeredModes = () =>
+  chatMock.imageModes ? [...chatMock.modes, modeImage] : chatMock.modes;
 
 export const chatMock: ChatMockState = initial();
 
@@ -254,7 +280,12 @@ function streamResponse(
   clientSignal: AbortSignal,
 ) {
   const encoder = new TextEncoder();
-  const deltas = scenario.deltas ?? ['تعمل ', 'الباقات ', 'هكذا.'];
+  const deltas =
+    scenario.kind === 'image'
+      ? scenario.text === ''
+        ? []
+        : [scenario.text ?? 'تفضل، هذه صورتك:']
+      : (scenario.deltas ?? ['تعمل ', 'الباقات ', 'هكذا.']);
   const delayMs = scenario.kind === 'normal' ? (scenario.delayMs ?? 0) : 0;
   const { assistant } = turn;
   let cancelled = false;
@@ -298,6 +329,36 @@ function streamResponse(
           write(sseEvent('delta', { text }));
         }
         switch (scenario.kind) {
+          case 'image': {
+            if (scenario.delayMs) await sleep(scenario.delayMs);
+            if (cancelled) return;
+            const attachment: AttachmentDto = {
+              id: mockId(),
+              mimeType: 'image/webp',
+              width: 2048,
+              height: 1152,
+              ...scenario.attachment,
+            };
+            chatMock.createdImages.set(attachment.id, attachment);
+            assistant.attachments = [attachment];
+            write(sseEvent('image', { attachment }));
+            if (scenario.hang) {
+              // Stop after the image: the server keeps it (partial, charged).
+              for (let i = 0; i < 500 && !cancelled; i++) await sleep(10);
+              break;
+            }
+            settle(assistant, { status: 'complete', finishReason: 'stop' });
+            write(
+              sseEvent('done', {
+                status: assistant.status,
+                finishReason: assistant.finishReason,
+                message: { ...assistant },
+                chargeUsd: chatMock.chargeUsd,
+                balanceUsd: chatMock.balanceUsd,
+              }),
+            );
+            break;
+          }
           case 'normal':
           case 'length': {
             const partial = scenario.kind === 'length';
@@ -379,6 +440,12 @@ const PIXEL = Uint8Array.from(
   (c) => c.charCodeAt(0),
 );
 
+/** A 1×1 lossy WebP: what created images are served as (§9.4). */
+const WEBP_PIXEL = Uint8Array.from(
+  atob('UklGRiIAAABXRUJQVlA4IBYAAAAwAQCdASoBAAEADsD+JaQAA3AAAAAA'),
+  (c) => c.charCodeAt(0),
+);
+
 /** Stores an upload on the mock server, as `POST /uploads` would. */
 export function seedUpload(
   overrides: Partial<AttachmentDto> = {},
@@ -416,13 +483,19 @@ export const chatHandlers = [
       { status: 201 },
     );
   }),
-  http.get(`${API}/attachments/:id`, ({ params }) => {
-    chatMock.calls.push({ name: 'download', body: params.id });
+  http.get(`${API}/attachments/:id`, ({ params, request }) => {
+    const id = params.id as string;
+    chatMock.calls.push({
+      name: 'download',
+      body: id,
+      authorization: request.headers.get('authorization'),
+    });
     const scenario = chatMock.download;
     if (scenario.kind === 'network-error') return HttpResponse.error();
+    const created = chatMock.createdImages.has(id);
     if (
       scenario.kind === 'not-found' ||
-      !chatMock.uploads.has(params.id as string)
+      (!created && !chatMock.uploads.has(id))
     ) {
       return apiError({
         kind: 'refuse',
@@ -430,13 +503,20 @@ export const chatHandlers = [
         code: 'ATTACHMENT_NOT_FOUND',
       });
     }
-    return new HttpResponse(PIXEL, {
-      headers: { 'Content-Type': 'image/webp' },
+    // ?download=1 saves the file instead of showing it (§9.4).
+    const download = new URL(request.url).searchParams.get('download') === '1';
+    return new HttpResponse(created ? WEBP_PIXEL : PIXEL, {
+      headers: {
+        'Content-Type': 'image/webp',
+        'Content-Disposition': download
+          ? `attachment; filename="lam7a-${id}.webp"`
+          : 'inline',
+      },
     });
   }),
   http.get(`${API}/modes`, () => {
     chatMock.calls.push({ name: 'listModes', body: null });
-    return HttpResponse.json(chatMock.modes);
+    return HttpResponse.json(offeredModes());
   }),
 
   http.get(`${API}/me/subscription`, () => {
@@ -461,7 +541,7 @@ export const chatHandlers = [
               currentPeriodEnd: null,
             }
           : null,
-      modeKeys: chatMock.modes.map((m) => m.key),
+      modeKeys: offeredModes().map((m) => m.key),
     });
   }),
 
@@ -532,12 +612,25 @@ export const chatHandlers = [
         modeKey: string;
         clientRequestId: string;
         attachments?: { uploadId: string }[];
+        imageOptions?: { aspectRatio?: string };
       };
       chatMock.calls.push({
         name: 'sendMessage',
         body,
         authorization: request.headers.get('authorization'),
       });
+      const ratio = body.imageOptions?.aspectRatio;
+      if (
+        ratio !== undefined &&
+        !['1:1', '3:4', '4:3', '9:16', '16:9'].includes(ratio)
+      ) {
+        return apiError({
+          kind: 'refuse',
+          status: 400,
+          code: 'VALIDATION_FAILED',
+          details: [{ field: 'imageOptions.aspectRatio', errors: ['invalid'] }],
+        });
+      }
       const conv = chatMock.conversations.find((c) => c.id === id);
       if (!conv) return apiError(refusals.CONVERSATION_NOT_FOUND);
       const seen = chatMock.seenRequestIds.get(body.clientRequestId);
@@ -569,7 +662,7 @@ export const chatHandlers = [
             code: 'ATTACHMENT_ALREADY_USED',
           });
         }
-        const mode = chatMock.modes.find((m) => m.key === body.modeKey);
+        const mode = offeredModes().find((m) => m.key === body.modeKey);
         if (!mode?.supportsImages) {
           return apiError({
             kind: 'refuse',
