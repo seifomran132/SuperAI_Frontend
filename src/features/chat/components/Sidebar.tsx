@@ -52,7 +52,7 @@ export function Sidebar({
         <h2 className="text-fg-subtle px-3 pb-2 text-xs font-medium">
           {t('shell.recent')}
         </h2>
-        <div className="min-h-0 flex-1 overflow-y-auto pb-3">
+        <div className="relative min-h-0 flex-1 overflow-y-auto pb-3">
           <ConversationList onNavigate={onNavigate} />
         </div>
       </nav>

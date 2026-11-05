@@ -40,7 +40,7 @@ export function AdminShell() {
   const title = t(`admin.titles.${titleKey(pathname)}`);
 
   return (
-    <div className="bg-canvas flex h-dvh overflow-hidden">
+    <div className="bg-canvas relative flex h-dvh overflow-hidden">
       <aside
         aria-label={t('admin.nav.panel')}
         className="bg-surface border-border-subtle hidden w-70 shrink-0 border-e lg:block"
@@ -108,7 +108,7 @@ export function AdminShell() {
           ) : null}
         </header>
         <OfflineBanner />
-        <main className="min-h-0 flex-1 overflow-y-auto">
+        <main className="relative min-h-0 flex-1 overflow-y-auto">
           <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-6 px-4 py-6 sm:px-8">
             <Outlet />
           </div>

@@ -38,7 +38,7 @@ export function AppShell({ children }: { children?: ReactNode }) {
   }, [setDrawerOpen]);
 
   return (
-    <div className="bg-canvas flex h-dvh overflow-hidden">
+    <div className="bg-canvas relative flex h-dvh overflow-hidden">
       <aside
         aria-label={t('shell.sidebarTitle')}
         className="bg-surface border-border-subtle hidden w-70 shrink-0 border-e lg:block"

@@ -141,7 +141,7 @@ export function MessageList({
     <div
       ref={scroller}
       onScroll={onScroll}
-      className="h-full overflow-y-auto overscroll-contain"
+      className="relative h-full overflow-y-auto overscroll-contain"
     >
       <div
         className={cn(

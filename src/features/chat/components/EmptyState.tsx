@@ -16,7 +16,7 @@ export function EmptyState({
   const { t } = useTranslation();
   const prefix = imageMode ? 'chat.emptyImage' : 'chat.empty';
   return (
-    <div className="h-full overflow-y-auto">
+    <div className="relative h-full overflow-y-auto">
       <div className="flex min-h-full flex-col items-center justify-center gap-3 px-4 py-8 text-center">
         <BrandMark className="size-14 rounded-lg" textClassName="text-2xl" />
         <h1 className="text-fg mt-3 text-2xl leading-9 font-bold">
