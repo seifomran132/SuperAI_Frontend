@@ -18,6 +18,12 @@ import type { useSendMessage } from '../model/useSendMessage';
 import { useSelectedMode } from '../model/useChatQueries';
 import { FieldRefusalText, isFieldRefusal } from './ChatNotice';
 import { canSend, modeBlocksImage } from '../model/can-send';
+import {
+  initialAttachmentState,
+  liveCount,
+  MAX_IMAGES,
+  readyAttachments,
+} from '../model/attachment-draft';
 import { attachmentKey } from '../model/queries';
 import type { ComposerImageInput } from '../model/image-input';
 import {
@@ -80,14 +86,14 @@ export function Composer({
     imageInput !== undefined &&
     modes.some((mode) => imageInput.modeSupportsImages(mode.key));
   const image = imagesAvailable ? imageInput : undefined;
-  const imageDraft = image?.draft.draft ?? { status: 'empty' as const };
+  const images = image?.draft ?? initialAttachmentState;
   const modeReadsImages =
     image !== undefined && modeKey !== null
       ? image.modeSupportsImages(modeKey)
       : true;
   const draftOk = image
     ? canSend({
-        draft: imageDraft,
+        images,
         text: draft,
         modeSupportsImages: modeReadsImages,
       })
@@ -126,38 +132,41 @@ export function Composer({
     wasBusy.current = send.isBusy;
   }, [send.isBusy, textareaRef]);
 
-  // The image being sent: its tile is hidden until the server accepts the
-  // message (then the image is cleared) or refuses it (then it shows again).
+  // The images being sent: their tiles are hidden until the server accepts the
+  // message (then they are cleared) or refuses it (then they show again).
   const [sendingImage, setSendingImage] = useState(false);
   const qc = useQueryClient();
 
   const submit = () => {
     if (!canSubmit || modeKey === null) return;
-    const ready = imageDraft.status === 'ready' ? imageDraft : null;
-    if (!ready || !image) {
+    // In the order the user added them, each upload once.
+    const ready = readyAttachments(images);
+    if (ready.length === 0 || !image) {
       if (imageOptions) void send.send(draft, modeKey, { imageOptions });
       else void send.send(draft, modeKey);
       return;
     }
-    // The message shows the local file at once instead of downloading it back.
-    qc.setQueryData(attachmentKey(ready.uploadId), ready.file);
+    // The message shows the local files at once instead of downloading them back.
+    for (const item of ready) {
+      qc.setQueryData(attachmentKey(item.uploadId), item.file);
+    }
     setSendingImage(true);
     void send
       .send(draft, modeKey, {
-        attachments: [ready.attachment],
-        onAccepted: image.remove,
+        attachments: ready.map((item) => item.attachment),
+        onAccepted: image.clear,
         imageOptions,
       })
       .then((outcome) => {
         setSendingImage(false);
-        // The upload is gone or used: it cannot be sent again; attach anew.
+        // An upload is gone or used: it cannot be sent again; attach anew.
         if (
           outcome.kind === 'refused' &&
           outcome.refusal.code === 'OTHER' &&
           (outcome.refusal.errorCode === 'ATTACHMENT_NOT_FOUND' ||
             outcome.refusal.errorCode === 'ATTACHMENT_ALREADY_USED')
         ) {
-          image.remove();
+          image.clear();
         }
       });
   };
@@ -173,7 +182,7 @@ export function Composer({
   return (
     <div className="flex flex-col gap-2">
       {dragging ? <DropZoneOverlay /> : null}
-      {image && modeBlocksImage(imageDraft, modeReadsImages) ? (
+      {image && modeBlocksImage(images, modeReadsImages) ? (
         <ImageModeNotice />
       ) : null}
       {image?.draft.notice ? <TooManyImagesNotice /> : null}
@@ -188,12 +197,28 @@ export function Composer({
           fieldError ? 'border-danger' : 'border-border-control',
         )}
       >
-        {image && !sendingImage ? (
-          <AttachmentTile
-            draft={imageDraft}
-            onRemove={image.remove}
-            onRetry={image.retry}
-          />
+        {image && !sendingImage && images.tiles.length > 0 ? (
+          <div className="flex flex-col gap-1.5">
+            <ul
+              aria-label={t('chat.image.attachedList')}
+              className="flex flex-wrap items-start gap-3"
+            >
+              {images.tiles.map((tile) => (
+                <li key={tile.key} className="max-w-full">
+                  <AttachmentTile
+                    draft={tile.draft}
+                    onRemove={() => image.remove(tile.key)}
+                    onRetry={() => image.retry(tile.key)}
+                  />
+                </li>
+              ))}
+            </ul>
+            {liveCount(images) < MAX_IMAGES ? (
+              <p className="text-fg-subtle px-1 text-xs">
+                {t('chat.image.limitHint', { max: MAX_IMAGES })}
+              </p>
+            ) : null}
+          </div>
         ) : null}
         <textarea
           ref={textareaRef}

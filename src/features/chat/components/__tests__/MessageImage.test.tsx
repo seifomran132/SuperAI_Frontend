@@ -1,4 +1,10 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  within,
+} from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import '~/i18n';
 import ar from '~/i18n/ar.json';
@@ -72,6 +78,46 @@ describe('MessageImage', () => {
       />,
     );
     expect(screen.getByRole('img')).toBeInTheDocument();
+  });
+
+  it('shows three images in order, smaller, each opening the viewer', () => {
+    const m = message({ sequence: 1, role: 'user', content: 'نص' });
+    const atts: MessageAttachment[] = ['a1', 'a2', 'a3'].map((id) => ({
+      ...att,
+      id,
+    }));
+    const requested: string[] = [];
+    const useImage = (id: string) => {
+      requested.push(id);
+      return {
+        url: `blob:${id}`,
+        isPending: false,
+        isError: false,
+        refetch: vi.fn(),
+      };
+    };
+    render(<UserMessage message={m} attachments={atts} useImage={useImage} />);
+    expect(Array.from(new Set(requested))).toEqual(['a1', 'a2', 'a3']);
+    const imgs = screen.getAllByRole('img');
+    expect(imgs.map((i) => i.getAttribute('src'))).toEqual([
+      'blob:a1',
+      'blob:a2',
+      'blob:a3',
+    ]);
+    expect(imgs[0]).toHaveStyle({ maxHeight: '140px' });
+    const openers = screen.getAllByRole('button', { name: ar.chat.image.view });
+    expect(openers).toHaveLength(3);
+    openers.forEach((opener, i) => {
+      fireEvent.click(opener);
+      const dialog = screen.getByRole('dialog');
+      expect(dialog).toBeInTheDocument();
+      expect(within(dialog).getByRole('img').getAttribute('src')).toBe(
+        `blob:a${i + 1}`,
+      );
+      fireEvent.keyDown(document.activeElement ?? document.body, {
+        key: 'Escape',
+      });
+    });
   });
 
   it('without attachments the message renders as before', () => {

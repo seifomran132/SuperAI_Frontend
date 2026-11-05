@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type ClipboardEvent } from 'react';
 import { ImagePlus, Upload } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { MAX_IMAGES } from '../model/attachment-draft';
 import { IMAGE_ACCEPT } from '../model/image-validation';
 
 /** Image-bearing files of a paste, or none when it is plain text. */
@@ -27,6 +28,7 @@ export function AttachButton({
         type="button"
         disabled={disabled}
         aria-label={t('chat.image.attach')}
+        title={t('chat.image.limitHint', { max: MAX_IMAGES })}
         onClick={() => input.current?.click()}
         className="text-fg-muted hover:text-fg focus-visible:outline-focus inline-flex size-11 shrink-0 items-center justify-center rounded-full outline-hidden focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-60"
       >
@@ -36,6 +38,7 @@ export function AttachButton({
         ref={input}
         type="file"
         accept={IMAGE_ACCEPT}
+        multiple
         hidden
         tabIndex={-1}
         data-testid="image-input"

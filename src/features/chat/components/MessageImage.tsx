@@ -13,9 +13,12 @@ const MAX_HEIGHT_PX = 240;
 export function MessageImage({
   attachment,
   useImage,
+  maxHeight = MAX_HEIGHT_PX,
 }: {
   attachment: MessageAttachment;
   useImage: UseAttachmentImage;
+  /** Smaller when a message carries several images side by side. */
+  maxHeight?: number;
 }) {
   const { t } = useTranslation();
   const { url, isPending, isError, refetch } = useImage(attachment.id);
@@ -27,10 +30,10 @@ export function MessageImage({
   // The box keeps the stored ratio so the layout does not jump when it loads.
   const box = {
     aspectRatio: `${width} / ${height}`,
-    maxHeight: MAX_HEIGHT_PX,
+    maxHeight,
     maxWidth: '100%',
     // Never wider than the max height allows for this ratio.
-    width: Math.round((MAX_HEIGHT_PX * width) / height),
+    width: Math.round((maxHeight * width) / height),
   };
 
   if (isError || broken) {
@@ -84,7 +87,7 @@ export function MessageImage({
           width={width}
           height={height}
           onError={() => setBroken(true)}
-          style={{ maxHeight: MAX_HEIGHT_PX }}
+          style={{ maxHeight }}
           className="h-auto max-w-full rounded-xl object-contain"
         />
       </button>

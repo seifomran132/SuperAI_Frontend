@@ -63,8 +63,11 @@ export type UseAttachmentImage = (id: string) => AttachmentImageResult;
 export interface ComposerImageInput {
   draft: AttachmentDraftState;
   addFiles: (files: readonly File[]) => void;
-  remove: () => void;
-  retry: () => void;
+  /** Removes one image (aborts its upload). */
+  remove: (key: string) => void;
+  /** Empties the composer once the message is accepted (or the conversation changes). */
+  clear: () => void;
+  retry: (key: string) => void;
   dismissNotice: () => void;
   /** `supportsImages` of a mode from `GET /modes`. */
   modeSupportsImages: (modeKey: string) => boolean;

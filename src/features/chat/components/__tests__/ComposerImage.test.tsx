@@ -1,13 +1,20 @@
 import { createRef } from 'react';
 import { QueryClientProvider } from '@tanstack/react-query';
-import { createEvent, fireEvent, render, screen } from '@testing-library/react';
+import {
+  createEvent,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  within,
+} from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import '~/i18n';
 import { createQueryClient } from '~/api/query-client';
 import ar from '~/i18n/ar.json';
 import arErrors from '~/i18n/errors.ar.json';
 import { modeFast, modeProfessional } from '~/mocks/chat';
-import type { AttachmentDraft } from '../../model/attachment-draft';
+import type { AttachmentDraft, DraftTile } from '../../model/attachment-draft';
 import type { ComposerImageInput } from '../../model/image-input';
 import { NEW_CHAT, useChatStore } from '../../model/chat-store';
 import { modesKey } from '../../model/queries';
@@ -32,14 +39,30 @@ const send = {
 const file = new File(['x'], 'a.png', { type: 'image/png' });
 const png = () => new File(['x'], 'b.png', { type: 'image/png' });
 
+type Real = DraftTile['draft'];
+const readyDraft = (id: string): Real => ({
+  status: 'ready',
+  file: new File(['x'], `${id}.png`, { type: 'image/png' }),
+  previewUrl: `blob:${id}`,
+  uploadId: id,
+  attachment: { id, mimeType: 'image/webp', width: 800, height: 600 },
+});
+
 function input(
-  draft: AttachmentDraft = { status: 'empty' },
+  draft: AttachmentDraft | AttachmentDraft[] = { status: 'empty' },
   overrides: Partial<ComposerImageInput> = {},
 ): ComposerImageInput {
+  const list = (Array.isArray(draft) ? draft : [draft]).filter(
+    (d): d is Real => d.status !== 'empty',
+  );
   return {
-    draft: { draft, notice: null },
+    draft: {
+      tiles: list.map((d, i) => ({ key: `k${i}`, draft: d })),
+      notice: null,
+    },
     addFiles: vi.fn(),
     remove: vi.fn(),
+    clear: vi.fn(),
     retry: vi.fn(),
     dismissNotice: vi.fn(),
     modeSupportsImages: (key) => key === 'professional',
@@ -64,7 +87,10 @@ function setup(imageInput?: ComposerImageInput, modeKey?: string) {
   );
 }
 
-beforeEach(() => useChatStore.getState().reset());
+beforeEach(() => {
+  useChatStore.getState().reset();
+  vi.mocked(send.send).mockReset();
+});
 afterEach(() => useChatStore.getState().reset());
 
 describe('composer image input', () => {
@@ -180,7 +206,7 @@ describe('composer image input', () => {
     ).toBeDisabled();
   });
 
-  it('shows the one-image notice', () => {
+  it('shows the too-many-images notice', () => {
     const im = input({
       status: 'ready',
       file,
@@ -204,5 +230,125 @@ describe('composer image input', () => {
     expect(await screen.findAllByText(ar.chat.image.readsImages)).toHaveLength(
       1,
     );
+  });
+});
+
+describe('composer with several images', () => {
+  const three = () => [readyDraft('u1'), readyDraft('u2'), readyDraft('u3')];
+  const type = (text: string) =>
+    fireEvent.change(screen.getByLabelText(ar.chat.composer.label), {
+      target: { value: text },
+    });
+  const hint = ar.chat.image.limitHint.replace('{{max}}', '3');
+  type SendResult = Awaited<ReturnType<Send['send']>>;
+
+  it('passes every file of a multi-file pick to addFiles', () => {
+    const im = input();
+    setup(im);
+    expect(screen.getByTestId('image-input')).toHaveAttribute('multiple');
+    const files = [file, png()];
+    fireEvent.change(screen.getByTestId('image-input'), { target: { files } });
+    expect(im.addFiles).toHaveBeenCalledWith(files);
+  });
+
+  it('lists the tiles, each with its own remove and retry', () => {
+    const im = input([
+      readyDraft('u1'),
+      { status: 'uploading', file, previewUrl: 'blob:2', progress: 30 },
+      { status: 'error', code: 'UPLOAD_FAILED', retryable: true },
+    ]);
+    setup(im, 'professional');
+    const list = screen.getByRole('list', { name: ar.chat.image.attachedList });
+    expect(within(list).getAllByRole('listitem')).toHaveLength(3);
+    expect(
+      within(list).getByRole('progressbar', { name: ar.chat.image.uploading }),
+    ).toHaveAttribute('aria-valuenow', '30');
+    const removes = within(list).getAllByRole('button', {
+      name: ar.chat.image.remove,
+    });
+    expect(removes).toHaveLength(3);
+    fireEvent.click(removes[1]!);
+    expect(im.remove).toHaveBeenCalledWith('k1');
+    fireEvent.click(
+      within(list).getByRole('button', { name: ar.common.retry }),
+    );
+    expect(im.retry).toHaveBeenCalledWith('k2');
+  });
+
+  it('shows the limit hint until three are attached', () => {
+    setup(input([readyDraft('u1'), readyDraft('u2')]), 'professional');
+    expect(screen.getByText(hint)).toBeInTheDocument();
+  });
+
+  it('hides the limit hint with three live tiles', () => {
+    setup(input(three()), 'professional');
+    expect(screen.queryByText(hint)).not.toBeInTheDocument();
+  });
+
+  it('blocks send while any tile failed', () => {
+    setup(
+      input([
+        readyDraft('u1'),
+        readyDraft('u2'),
+        { status: 'error', code: 'UPLOAD_FAILED', retryable: true },
+      ]),
+      'professional',
+    );
+    type('hi');
+    expect(
+      screen.getByRole('button', { name: ar.chat.composer.send }),
+    ).toBeDisabled();
+  });
+
+  it('sends all three attachments in order, with the clear handler as onAccepted', () => {
+    const im = input(three());
+    vi.mocked(send.send).mockResolvedValue({
+      kind: 'done',
+    } as unknown as SendResult);
+    setup(im, 'professional');
+    // Images alone are enough: the text may be empty.
+    fireEvent.click(
+      screen.getByRole('button', { name: ar.chat.composer.send }),
+    );
+    expect(send.send).toHaveBeenCalledTimes(1);
+    const [text, mode, options] = vi.mocked(send.send).mock.calls[0]!;
+    expect(text).toBe('');
+    expect(mode).toBe('professional');
+    expect(options?.attachments?.map((a) => a.id)).toEqual(['u1', 'u2', 'u3']);
+    expect(options?.onAccepted).toBe(im.clear);
+  });
+
+  it('a refused send keeps all three tiles and the text', async () => {
+    const im = input(three());
+    vi.mocked(send.send).mockResolvedValue({
+      kind: 'refused',
+      conversationId: null,
+      refusal: { code: 'INSUFFICIENT_BALANCE' },
+    } as unknown as SendResult);
+    setup(im, 'professional');
+    type('hello');
+    fireEvent.click(
+      screen.getByRole('button', { name: ar.chat.composer.send }),
+    );
+    const list = await screen.findByRole('list', {
+      name: ar.chat.image.attachedList,
+    });
+    expect(within(list).getAllByRole('listitem')).toHaveLength(3);
+    expect(im.clear).not.toHaveBeenCalled();
+    expect(screen.getByLabelText(ar.chat.composer.label)).toHaveValue('hello');
+  });
+
+  it('clears the images when an upload is gone or already used', async () => {
+    const im = input(three());
+    vi.mocked(send.send).mockResolvedValue({
+      kind: 'refused',
+      conversationId: null,
+      refusal: { code: 'OTHER', errorCode: 'ATTACHMENT_ALREADY_USED' },
+    } as unknown as SendResult);
+    setup(im, 'professional');
+    fireEvent.click(
+      screen.getByRole('button', { name: ar.chat.composer.send }),
+    );
+    await waitFor(() => expect(im.clear).toHaveBeenCalledTimes(1));
   });
 });

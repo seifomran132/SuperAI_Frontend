@@ -7,6 +7,9 @@ import {
 } from './image-input';
 import { validateImageFile } from './image-validation';
 
+/** Images per message (API_CONTRACT §8.2); a fourth is TOO_MANY_ATTACHMENTS. */
+export const MAX_IMAGES = 3;
+
 export type AttachmentDraft =
   | { status: 'empty' }
   | { status: 'validating'; file: File; previewUrl: string }
@@ -27,104 +30,171 @@ export type AttachmentDraft =
       previewUrl?: string;
     };
 
+/** One image of the message, in the order the user added it. */
+export interface DraftTile {
+  key: string;
+  draft: Exclude<AttachmentDraft, { status: 'empty' }>;
+}
+
 export interface AttachmentDraftState {
-  draft: AttachmentDraft;
-  /** A rejected extra image: the first one stays, the notice is shown. */
+  tiles: DraftTile[];
+  /** Images over the limit were refused; the ones already attached stay. */
   notice: 'TOO_MANY_ATTACHMENTS' | null;
 }
 
 export type AttachmentAction =
-  | { type: 'add'; file: File; previewUrl: string }
+  | { type: 'add'; key: string; file: File; previewUrl: string }
   | { type: 'too-many' }
-  | { type: 'invalid'; code: ImageErrorCode }
-  | { type: 'upload-start' }
-  | { type: 'progress'; percent: number }
-  | { type: 'uploaded'; uploadId: string; attachment: MessageAttachment }
-  | { type: 'failed'; code: ImageErrorCode; retryable: boolean }
-  | { type: 'remove' }
+  | { type: 'invalid'; key: string; code: ImageErrorCode }
+  | { type: 'upload-start'; key: string }
+  | { type: 'progress'; key: string; percent: number }
+  | {
+      type: 'uploaded';
+      key: string;
+      uploadId: string;
+      attachment: MessageAttachment;
+    }
+  | { type: 'failed'; key: string; code: ImageErrorCode; retryable: boolean }
+  | { type: 'remove'; key: string }
+  | { type: 'clear' }
   | { type: 'dismiss-notice' };
 
 export const initialAttachmentState: AttachmentDraftState = {
-  draft: { status: 'empty' },
+  tiles: [],
   notice: null,
 };
 
-/** An image occupies the slot unless it is gone or already failed. */
+/** A tile counts against the limit unless it failed (it can be removed or retried). */
 export const hasImage = (draft: AttachmentDraft) =>
   draft.status !== 'empty' && draft.status !== 'error';
+
+/** Images still taking a place: everything except failed tiles. */
+export const liveCount = (state: AttachmentDraftState) =>
+  state.tiles.filter((tile) => hasImage(tile.draft)).length;
+
+/** The uploads to send, in order, each once. */
+export function readyAttachments(state: AttachmentDraftState) {
+  const seen = new Set<string>();
+  const out: { uploadId: string; file: File; attachment: MessageAttachment }[] =
+    [];
+  for (const { draft } of state.tiles) {
+    if (draft.status !== 'ready' || seen.has(draft.uploadId)) continue;
+    seen.add(draft.uploadId);
+    out.push({
+      uploadId: draft.uploadId,
+      file: draft.file,
+      attachment: draft.attachment,
+    });
+  }
+  return out;
+}
+
+function update(
+  state: AttachmentDraftState,
+  key: string,
+  next: (draft: DraftTile['draft']) => DraftTile['draft'] | null,
+): AttachmentDraftState {
+  let changed = false;
+  const tiles = state.tiles.map((tile) => {
+    if (tile.key !== key) return tile;
+    const draft = next(tile.draft);
+    if (!draft || draft === tile.draft) return tile;
+    changed = true;
+    return { key, draft };
+  });
+  return changed ? { ...state, tiles } : state;
+}
 
 export function attachmentReducer(
   state: AttachmentDraftState,
   action: AttachmentAction,
 ): AttachmentDraftState {
-  const { draft } = state;
   switch (action.type) {
     case 'add':
-      // Only one image: a failed tile is replaced, a live image stays.
-      if (hasImage(draft)) return { ...state, notice: 'TOO_MANY_ATTACHMENTS' };
+      if (liveCount(state) >= MAX_IMAGES) {
+        return { ...state, notice: 'TOO_MANY_ATTACHMENTS' };
+      }
       return {
-        draft: {
-          status: 'validating',
-          file: action.file,
-          previewUrl: action.previewUrl,
-        },
+        tiles: [
+          ...state.tiles,
+          {
+            key: action.key,
+            draft: {
+              status: 'validating',
+              file: action.file,
+              previewUrl: action.previewUrl,
+            },
+          },
+        ],
         notice: null,
       };
     case 'too-many':
       return { ...state, notice: 'TOO_MANY_ATTACHMENTS' };
     case 'invalid':
       return {
-        draft: { status: 'error', code: action.code, retryable: false },
+        tiles: [
+          ...state.tiles,
+          {
+            key: action.key,
+            draft: { status: 'error', code: action.code, retryable: false },
+          },
+        ],
         notice: null,
       };
     case 'upload-start':
-      if (draft.status !== 'validating' && draft.status !== 'error') {
-        return state;
-      }
-      if (!draft.file || !draft.previewUrl) return state;
-      return {
-        ...state,
-        draft: {
+      return update(state, action.key, (draft) => {
+        if (draft.status !== 'validating' && draft.status !== 'error') {
+          return null;
+        }
+        if (!draft.file || !draft.previewUrl) return null;
+        return {
           status: 'uploading',
           file: draft.file,
           previewUrl: draft.previewUrl,
           progress: 0,
-        },
-      };
+        };
+      });
     case 'progress':
-      if (draft.status !== 'uploading') return state;
-      return {
-        ...state,
-        draft: {
-          ...draft,
-          progress: Math.max(0, Math.min(100, Math.round(action.percent))),
-        },
-      };
+      return update(state, action.key, (draft) =>
+        draft.status === 'uploading'
+          ? {
+              ...draft,
+              progress: Math.max(0, Math.min(100, Math.round(action.percent))),
+            }
+          : null,
+      );
     case 'uploaded':
-      if (draft.status !== 'uploading') return state;
-      return {
-        ...state,
-        draft: {
-          status: 'ready',
-          file: draft.file,
-          previewUrl: draft.previewUrl,
-          uploadId: action.uploadId,
-          attachment: action.attachment,
-        },
-      };
+      return update(state, action.key, (draft) =>
+        draft.status === 'uploading'
+          ? {
+              status: 'ready',
+              file: draft.file,
+              previewUrl: draft.previewUrl,
+              uploadId: action.uploadId,
+              attachment: action.attachment,
+            }
+          : null,
+      );
     case 'failed':
-      if (draft.status !== 'uploading') return state;
-      return {
-        ...state,
-        draft: {
-          status: 'error',
-          code: action.code,
-          retryable: action.retryable,
-          file: draft.file,
-          previewUrl: draft.previewUrl,
-        },
-      };
-    case 'remove':
+      return update(state, action.key, (draft) =>
+        draft.status === 'uploading'
+          ? {
+              status: 'error',
+              code: action.code,
+              retryable: action.retryable,
+              file: draft.file,
+              previewUrl: draft.previewUrl,
+            }
+          : null,
+      );
+    case 'remove': {
+      const tiles = state.tiles.filter((tile) => tile.key !== action.key);
+      return tiles.length === state.tiles.length
+        ? state
+        : // Room again for another image: the notice no longer applies.
+          { tiles, notice: null };
+    }
+    case 'clear':
       return initialAttachmentState;
     case 'dismiss-notice':
       return { ...state, notice: null };
@@ -134,9 +204,14 @@ export function attachmentReducer(
 const previewOf = (draft: AttachmentDraft) =>
   draft.status === 'empty' ? undefined : draft.previewUrl;
 
+/** Same file picked again (picker, paste or drop): name, size and date match. */
+const sameFile = (a: File, b: File) =>
+  a.name === b.name && a.size === b.size && a.lastModified === b.lastModified;
+
 /**
- * The composer's single image: validate, upload through the injected function,
- * remove (aborts the upload) and retry. Owns the preview object URL.
+ * The composer's images (up to MAX_IMAGES): validate, upload each through the
+ * injected function, remove one (aborts its upload), retry one, clear all.
+ * Owns the preview object URLs.
  */
 export function useAttachmentDraft(upload: UploadImage) {
   const [state, dispatch] = useReducer(
@@ -147,41 +222,52 @@ export function useAttachmentDraft(upload: UploadImage) {
   uploadRef.current = upload;
   const stateRef = useRef(state);
   stateRef.current = state;
-  const controller = useRef<AbortController | null>(null);
+  const controllers = useRef(new Map<string, AbortController>());
+  const nextKey = useRef(0);
 
-  const startUpload = useCallback((file: File) => {
-    controller.current?.abort();
+  const startUpload = useCallback((key: string, file: File) => {
+    controllers.current.get(key)?.abort();
     const ctrl = new AbortController();
-    controller.current = ctrl;
-    dispatch({ type: 'upload-start' });
+    controllers.current.set(key, ctrl);
+    dispatch({ type: 'upload-start', key });
     uploadRef
       .current(
         file,
         (percent) => {
-          if (!ctrl.signal.aborted) dispatch({ type: 'progress', percent });
+          if (!ctrl.signal.aborted) {
+            dispatch({ type: 'progress', key, percent });
+          }
         },
         ctrl.signal,
       )
       .then(
         (result) => {
-          if (!ctrl.signal.aborted) {
-            dispatch({
-              type: 'uploaded',
-              uploadId: result.uploadId,
-              attachment: result.attachment,
-            });
-          }
+          if (ctrl.signal.aborted) return;
+          controllers.current.delete(key);
+          dispatch({
+            type: 'uploaded',
+            key,
+            uploadId: result.uploadId,
+            attachment: result.attachment,
+          });
         },
         (error: unknown) => {
           if (ctrl.signal.aborted) return;
+          controllers.current.delete(key);
           dispatch(
             error instanceof ImageUploadError
               ? {
                   type: 'failed',
+                  key,
                   code: error.code,
                   retryable: error.retryable,
                 }
-              : { type: 'failed', code: 'UPLOAD_FAILED', retryable: true },
+              : {
+                  type: 'failed',
+                  key,
+                  code: 'UPLOAD_FAILED',
+                  retryable: true,
+                },
           );
         },
       );
@@ -189,46 +275,72 @@ export function useAttachmentDraft(upload: UploadImage) {
 
   const addFiles = useCallback(
     (files: readonly File[]) => {
-      const [file] = files;
-      if (!file) return;
-      const current = stateRef.current.draft;
-      if (hasImage(current)) {
-        dispatch({ type: 'too-many' });
-        return;
+      const tiles = stateRef.current.tiles;
+      // A file already attached (and not failed) is not added again.
+      const fresh = files.filter(
+        (file) =>
+          !tiles.some(
+            ({ draft }) =>
+              hasImage(draft) && 'file' in draft && sameFile(draft.file, file),
+          ),
+      );
+      let room = MAX_IMAGES - liveCount(stateRef.current);
+      let refused = false;
+      for (const file of fresh) {
+        if (room <= 0) {
+          refused = true;
+          break;
+        }
+        const key = `img-${nextKey.current++}`;
+        const code = validateImageFile(file);
+        if (code) {
+          dispatch({ type: 'invalid', key, code });
+          continue;
+        }
+        dispatch({
+          type: 'add',
+          key,
+          file,
+          previewUrl: URL.createObjectURL(file),
+        });
+        room -= 1;
+        startUpload(key, file);
       }
-      const code = validateImageFile(file);
-      // A replaced failed tile gives up its preview.
-      const old = previewOf(current);
-      if (old) URL.revokeObjectURL(old);
-      if (code) {
-        dispatch({ type: 'invalid', code });
-        return;
-      }
-      dispatch({
-        type: 'add',
-        file,
-        previewUrl: URL.createObjectURL(file),
-      });
-      startUpload(file);
-      if (files.length > 1) dispatch({ type: 'too-many' });
+      if (refused) dispatch({ type: 'too-many' });
     },
     [startUpload],
   );
 
-  const remove = useCallback(() => {
-    controller.current?.abort();
-    controller.current = null;
-    const url = previewOf(stateRef.current.draft);
+  const remove = useCallback((key: string) => {
+    controllers.current.get(key)?.abort();
+    controllers.current.delete(key);
+    const tile = stateRef.current.tiles.find((t) => t.key === key);
+    const url = tile && previewOf(tile.draft);
     if (url) URL.revokeObjectURL(url);
-    dispatch({ type: 'remove' });
+    dispatch({ type: 'remove', key });
   }, []);
 
-  const retry = useCallback(() => {
-    const draft = stateRef.current.draft;
-    if (draft.status === 'error' && draft.retryable && draft.file) {
-      startUpload(draft.file);
+  /** After the server accepted the message: every image went with it. */
+  const clear = useCallback(() => {
+    for (const ctrl of controllers.current.values()) ctrl.abort();
+    controllers.current.clear();
+    for (const { draft } of stateRef.current.tiles) {
+      const url = previewOf(draft);
+      if (url) URL.revokeObjectURL(url);
     }
-  }, [startUpload]);
+    dispatch({ type: 'clear' });
+  }, []);
+
+  const retry = useCallback(
+    (key: string) => {
+      const tile = stateRef.current.tiles.find((t) => t.key === key);
+      const draft = tile?.draft;
+      if (draft?.status === 'error' && draft.retryable && draft.file) {
+        startUpload(key, draft.file);
+      }
+    },
+    [startUpload],
+  );
 
   const dismissNotice = useCallback(
     () => dispatch({ type: 'dismiss-notice' }),
@@ -237,12 +349,14 @@ export function useAttachmentDraft(upload: UploadImage) {
 
   useEffect(
     () => () => {
-      controller.current?.abort();
-      const url = previewOf(stateRef.current.draft);
-      if (url) URL.revokeObjectURL(url);
+      for (const ctrl of controllers.current.values()) ctrl.abort();
+      for (const { draft } of stateRef.current.tiles) {
+        const url = previewOf(draft);
+        if (url) URL.revokeObjectURL(url);
+      }
     },
     [],
   );
 
-  return { state, addFiles, remove, retry, dismissNotice };
+  return { state, addFiles, remove, clear, retry, dismissNotice };
 }

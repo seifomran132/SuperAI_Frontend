@@ -36,6 +36,9 @@ function clockFormat(language: string) {
   return format;
 }
 
+/** Height of each image when a message carries more than one. */
+const MULTI_IMAGE_HEIGHT_PX = 140;
+
 /** What the user typed, shown exactly (no Markdown). */
 export const UserMessage = memo(function UserMessage({
   message,
@@ -59,13 +62,24 @@ export const UserMessage = memo(function UserMessage({
             pending && 'opacity-70',
           )}
         >
-          {images.map((attachment) => (
-            <MessageImage
-              key={attachment.id}
-              attachment={attachment}
-              useImage={useImage}
-            />
-          ))}
+          {/* Several images sit side by side (smaller), in the order they were sent. */}
+          <div
+            className={cn(
+              'flex gap-2',
+              images.length > 1 ? 'flex-wrap items-start' : 'flex-col',
+            )}
+          >
+            {images.map((attachment) => (
+              <MessageImage
+                key={attachment.id}
+                attachment={attachment}
+                useImage={useImage}
+                maxHeight={
+                  images.length > 1 ? MULTI_IMAGE_HEIGHT_PX : undefined
+                }
+              />
+            ))}
+          </div>
           {message.content !== '' ? (
             <div
               dir="auto"

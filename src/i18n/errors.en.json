@@ -49,7 +49,7 @@
   "PROVIDER_TIMEOUT": "The answer took too long. Please try again.",
   "PROVIDER_UNAVAILABLE": "The service is busy right now. Please try again shortly.",
   "RATE_LIMITED": "You're sending messages too quickly. Please wait a moment and try again.",
-  "TOO_MANY_ATTACHMENTS": "You can attach only one image per message.",
+  "TOO_MANY_ATTACHMENTS": "You can attach up to 3 images per message.",
   "UNAUTHENTICATED": "Please sign in to continue.",
   "USER_NOT_FOUND": "User not found.",
   "VALIDATION_FAILED": "Some information is invalid. Please check and try again."

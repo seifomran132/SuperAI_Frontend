@@ -9,7 +9,7 @@
 
 | # | Decision |
 |---|---|
-| 1 | **One image per message.** The API accepts an array (`attachments`) capped at 1, so raising the cap later needs no contract change. |
+| 1 | **Up to 3 images per message** (F6b, 2026-11-05; was one). The API accepts an array (`attachments`) capped at 3 (`422 TOO_MANY_ATTACHMENTS` above), each upload once (`400 VALIDATION_FAILED` for a duplicate). See [F6B_THREE_IMAGES_BRIEF.md](F6B_THREE_IMAGES_BRIEF.md). Created images (F8) stay at one per answer. |
 | 2 | **Max 5 MB per upload.** Allowed types: JPEG, PNG and WebP. No GIF, HEIC or SVG at launch. The backend reads the type from the file's bytes, not from the name or the header the client sends. |
 | 3 | **The frontend does not resize.** It checks the type and the 5 MB limit for quick feedback, then uploads the original. |
 | 4 | **The backend preprocesses every image before storing it** (§3), so each model call uses fewer tokens and stored images are small. Only the processed image is kept; the original is discarded. |

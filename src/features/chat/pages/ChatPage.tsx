@@ -93,13 +93,14 @@ export function ChatPage({ conversationId }: { conversationId?: string }) {
   useResumeRefresh(conversationId);
 
   const attachment = useAttachmentDraft(uploadImage);
-  const { remove: removeImage } = attachment;
-  // An image belongs to the conversation it was attached in.
-  useEffect(() => removeImage, [key, removeImage]);
+  const { clear: clearImages } = attachment;
+  // Images belong to the conversation they were attached in.
+  useEffect(() => clearImages, [key, clearImages]);
   const imageInput: ComposerImageInput = {
     draft: attachment.state,
     addFiles: attachment.addFiles,
     remove: attachment.remove,
+    clear: attachment.clear,
     retry: attachment.retry,
     dismissNotice: attachment.dismissNotice,
     modeSupportsImages: (modeKey) =>

@@ -220,7 +220,7 @@
       "remove": "Remove the image",
       "uploading": "Uploading the image…",
       "uploaded": "Image uploaded",
-      "modeNotice": "This mode can't read images. Choose another mode to send the image.",
+      "modeNotice": "This mode can't read images. Choose another mode to send the images.",
       "readsImages": "Reads images",
       "imageBadge": "Image",
       "ratio": "Image ratio",
@@ -242,7 +242,9 @@
       "alt": "Image",
       "errors": {
         "UPLOAD_FAILED": "The image couldn't be uploaded. Try again."
-      }
+      },
+      "limitHint": "You can attach up to {{max}} images",
+      "attachedList": "Attached images"
     }
   },
   "balance": {

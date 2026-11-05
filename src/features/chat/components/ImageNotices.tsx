@@ -8,7 +8,7 @@ export function ImageModeNotice() {
   return <ChatNotice>{t('chat.image.modeNotice')}</ChatNotice>;
 }
 
-/** A second image was refused; the first one stays. */
+/** Images over the limit (3) were refused; the ones attached stay. */
 export function TooManyImagesNotice() {
   const { t } = useTranslation();
   return <ChatNotice>{t('errors:TOO_MANY_ATTACHMENTS')}</ChatNotice>;
