@@ -1,4 +1,5 @@
-import { createRef } from 'react';
+import { createRef, useState } from 'react';
+import { flushSync } from 'react-dom';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
@@ -107,6 +108,47 @@ describe('composer', () => {
     expect(
       screen.queryByRole('button', { name: ar.chat.composer.send }),
     ).not.toBeInTheDocument();
+  });
+
+  it('Stop before the first stream event does not send the restored draft again (CH-16)', () => {
+    const qc = createQueryClient();
+    qc.setQueryData(modesKey(), [modeFast, modeProfessional]);
+    const sendFn = vi.fn(() => Promise.resolve({ kind: 'ignored' as const }));
+    // Like useSendMessage: stopping before any event puts the draft back and
+    // ends the busy state while the click is still being handled.
+    function Harness() {
+      const [busy, setBusy] = useState(true);
+      const send = fakeSend({
+        send: sendFn as unknown as Send['send'],
+        isBusy: busy,
+        status: busy ? 'preparing' : 'idle',
+        stop: () => {
+          useChatStore.getState().setDraft(NEW_CHAT, 'مرحبا');
+          flushSync(() => setBusy(false));
+        },
+      });
+      return (
+        <Composer
+          storeKey={NEW_CHAT}
+          send={send}
+          noPlan={false}
+          textareaRef={createRef<HTMLTextAreaElement>()}
+        />
+      );
+    }
+    render(
+      <QueryClientProvider client={qc}>
+        <Harness />
+      </QueryClientProvider>,
+    );
+    fireEvent.click(
+      screen.getByRole('button', { name: ar.chat.composer.stop }),
+    );
+    expect(screen.getByLabelText(ar.chat.composer.label)).toHaveValue('مرحبا');
+    expect(
+      screen.getByRole('button', { name: ar.chat.composer.send }),
+    ).toBeInTheDocument();
+    expect(sendFn).not.toHaveBeenCalled();
   });
 
   it('keeps focus on the action button when Send becomes Stop, and moves it to the box when the answer ends', () => {

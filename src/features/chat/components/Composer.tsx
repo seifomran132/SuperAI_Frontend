@@ -265,7 +265,17 @@ export function Composer({
             ref={actionRef}
             type={send.isBusy ? 'button' : 'submit'}
             size={send.isBusy ? 'sm' : 'icon'}
-            onClick={send.isBusy ? send.stop : undefined}
+            onClick={
+              send.isBusy
+                ? (event) => {
+                    // Stopping before the first stream event restores the draft and
+                    // re-renders this button as type="submit" while the click is still
+                    // being handled; the browser would then submit the form again.
+                    event.preventDefault();
+                    send.stop();
+                  }
+                : undefined
+            }
             disabled={!send.isBusy && !canSubmit}
             aria-label={
               send.isBusy ? t('chat.composer.stop') : t('chat.composer.send')
