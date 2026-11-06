@@ -28,9 +28,7 @@ const createdImage = () =>
   page.getByRole('article').last().getByRole('img').first();
 
 async function pickDesignMode() {
-  await page
-    .getByRole('button', { name: text.chat.composer.modeMenu })
-    .click();
+  await page.getByRole('button', { name: text.chat.composer.modeMenu }).click();
   await page.getByRole('menuitemradio', { name: /تصميم e2e/ }).click();
 }
 
@@ -44,7 +42,7 @@ test.beforeAll(async ({ browser }) => {
   });
   page = await context.newPage();
   page.on('request', (req) => {
-    if (req.method() === 'POST' && /\/messages$/.test(req.url())) {
+    if (req.method() === 'POST' && req.url().endsWith('/messages')) {
       sentBodies.push(req.postDataJSON());
     }
   });

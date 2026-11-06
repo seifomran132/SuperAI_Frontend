@@ -173,6 +173,10 @@ test('connection drop mid-stream: no reconnect; the settled answer offers retry'
     errorCode: null,
     createdAt: now,
     completedAt: now,
+    // Fields every message carries since image input (F6b); the app reads `attachments`.
+    attachments: [] as unknown[],
+    costUsd: null,
+    usage: null,
   };
   const assistant = {
     ...userMessage,

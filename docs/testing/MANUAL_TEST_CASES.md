@@ -2,7 +2,33 @@
 
 **Covers:** everything built so far (F1 auth, F2 chat, F3 balance, account and plans, F4 admin console, F8 image creation).
 **Not covered yet:** landing page.
-**How to record results:** tick each case ✅ / ❌; for ❌ note the browser, screen width, steps and a screenshot.
+**How to record results:** in each case's **Result** column change `[ ]` to `[x]` when it passes, `[!]` when it fails, or `[-]` when skipped. Use **Notes** for anything worth keeping: for `[!]` the browser, screen width, what happened and the screenshot name; for `[-]` why it was skipped. Keep notes on one line (no `|`; use `<br>` for a line break).
+
+### Automated coverage
+
+Most cases also run as Playwright tests in `tests/cases/<file>.spec.ts`, titled with the case ID. The tests run against the local stack, on Chromium, Firefox, WebKit and two phone sizes. The **Notes** column says which file runs each case:
+- **auto** `<file>`: fully automated.
+- **auto, partly** `<file>`: only the part named is automated; check the rest by hand.
+- **auto (fixme)** `<file>`: the test is written but marked `test.fixme` (right now only the mode-chip part of IC-14, listed as partly), used when the app doesn't do this yet or a product decision is open. It doesn't fail the run.
+- No mark: manual only (AU-44, AU-45, IC-03, IC-04, IC-25).
+
+Run them with `npm run test:e2e` (Chromium) or `npm run test:e2e:all` (every browser), then `npm run test:e2e:report`. The chat and image tests use local `e2e-*` modes and plans on the backend's free mock provider, which the tests create themselves. No real provider is called. Some error paths that the screen can't reach are tested with mocked API answers (AD-07 last admin, AD-18, AD-20, IC-28).
+
+Open questions from automation (the expected text is unchanged until decided):
+- **IC-12 / IC-13:** after sending at 16:9, a new chat still shows 16:9 instead of «تلقائي». Decide what a new chat starts with.
+- **X-12:** arriving from the email link, `/auth/callback#access_token=…` is briefly in the address bar (GoTrue's implicit flow) until the app replaces it. The test allows that moment only.
+
+### Test run
+
+| Field | Value |
+|---|---|
+| Date | |
+| Tester | |
+| Environment | local / production (https://lam7ai.com) |
+| Frontend commit | |
+| Backend commit | |
+| Browsers and widths | |
+| Summary | passed 0 · failed 0 · skipped 0 · not run 0 |
 
 ---
 
@@ -45,85 +71,71 @@ Run §1–§3 at least once in **Chrome desktop (1440px)** and once on **mobile 
 
 ### 1.1 Sign up — `/sign-up`
 
-| ID | Steps | Expected |
-|---|---|---|
-| AU-01 | Open `/sign-up` | Arabic, right-to-left; monogram «ب» with «بيان» under it; fields name, email, password; «8 أحرف على الأقل» shown under password before typing; no terms checkbox |
-| AU-02 | Press «إنشاء حساب» with everything empty | «أدخل اسمك الكامل.», «أدخل بريدًا إلكترونيًا صحيحًا.», password error; focus moves to the name field; nothing sent |
-| AU-03 | Email `abc`, password `1234` | Invalid email + «كلمة المرور قصيرة. استخدم 8 أحرف على الأقل.» |
-| AU-04 | Name of 101+ characters | Name-too-long error |
-| AU-05 | Email and password fields | Typed text runs left-to-right; the eye button shows/hides the password and its label changes (screen reader: «إظهار/إخفاء كلمة المرور») |
-| AU-06 | Valid name/email/password for **A**, submit | Button shows a spinner and can't be double-clicked; lands on `/check-email?reason=signup`; the URL does **not** contain the email |
-| AU-07 | Sign up again with **A**'s email | Also lands on «تحقق من بريدك الإلكتروني» — never says the email exists |
+| ID | Steps | Expected | Result | Notes |
+|---|---|---|---|---|
+| AU-01 | Open `/sign-up` | Arabic, right-to-left; monogram «ل» with «لمحة AI» under it; fields name, email, password; «8 أحرف على الأقل» shown under password before typing; no terms checkbox | [x] | **auto** `auth` |
+| AU-02 | Press «إنشاء حساب» with everything empty | «أدخل اسمك الكامل.», «أدخل بريدًا إلكترونيًا صحيحًا.», password error; focus moves to the name field; nothing sent | [x] | **auto** `auth` |
+| AU-03 | Email `abc`, password `1234` | Invalid email + «كلمة المرور قصيرة. استخدم 8 أحرف على الأقل.» | [x] | **auto** `auth` |
+| AU-04 | Name of 101+ characters | Name-too-long error | [x] | **auto** `auth` |
+| AU-05 | Email and password fields | Typed text runs left-to-right; the eye button shows/hides the password and its label changes (screen reader: «إظهار/إخفاء كلمة المرور») | [x] | **auto** `auth` |
+| AU-06 | Valid name/email/password for **A**, submit | Button shows a spinner and can't be double-clicked; lands on `/check-email?reason=signup`; the URL does **not** contain the email | [x] | **auto** `auth` |
+| AU-07 | Sign up again with **A**'s email (after A confirmed it) | Stays on sign-up; under the email field «هذا البريد الإلكتروني مسجّل بالفعل. سجّل الدخول أو استعد كلمة المرور.»; the field is focused and the values are kept; no email is sent | [ ] | **auto** `auth`<br>Decided 2026-11-06: say the email exists (it was «تحقق من بريدك الإلكتروني»). Sign-up attempts are limited per IP by GoTrue (see AU-18). |
 
 ### 1.2 Check your email — `/check-email`
 
-| ID | Steps | Expected |
-|---|---|---|
-| AU-08 | After AU-06 | Shows the address A; «إعادة الإرسال» disabled with a live countdown (60 s) |
-| AU-09 | Wait for the countdown, press resend | Note «…» that the email was resent; countdown restarts; Mailpit has a second email |
-| AU-10 | Reload the page | Generic text without the address; no resend button |
-| AU-11 | «العودة لتسجيل الدخول» | Goes to `/sign-in`; arrow points to the right (back in RTL) |
+| ID | Steps | Expected | Result | Notes |
+|---|---|---|---|---|
+| AU-08 | After AU-06 | Shows the address A; «إعادة الإرسال» disabled with a live countdown (60 s) | [x] | **auto** `auth` |
+| AU-09 | Wait for the countdown, press resend | Note «…» that the email was resent; countdown restarts; Mailpit has a second email | [x] | **auto** `auth` |
+| AU-10 | Reload the page | Generic text without the address; no resend button | [x] | **auto** `auth` |
+| AU-11 | «العودة لتسجيل الدخول» | Goes to `/sign-in`; arrow points to the right (back in RTL) | [x] | **auto** `auth` |
 
 ### 1.3 Email confirmation — Mailpit
 
-| ID | Steps | Expected |
-|---|---|---|
-| AU-12 | Open the newest «Confirm your email address» in Mailpit, click the link | Brief «checking» state, then `/chat`; signed in; the address bar has no tokens |
-| AU-13 | Click the same link again (signed out first: account menu → «تسجيل الخروج») | Centered amber clock «انتهت صلاحية الرابط» with «طلب رابط جديد» and the sign-in hint |
-| AU-14 | Open the confirmation link in a **different browser** | That browser is signed in too (cross-device works) |
+| ID | Steps | Expected | Result | Notes |
+|---|---|---|---|---|
+| AU-12 | Open the newest «Confirm your email address» in Mailpit, click the link | Brief «checking» state, then `/chat`; signed in; the address bar has no tokens | [x] | **auto** `auth` |
+| AU-13 | Click the same link again (signed out first: account menu → «تسجيل الخروج») | Centered amber clock «انتهت صلاحية الرابط» with «طلب رابط جديد» and the sign-in hint | [x] | **auto** `auth` |
+| AU-14 | Open the confirmation link in a **different browser** | That browser is signed in too (cross-device works) | [x] | **auto** `auth` |
 
 ### 1.4 Sign in — `/sign-in`
 
-| ID | Steps | Expected |
-|---|---|---|
-| AU-15 | Wrong password for A | «البريد الإلكتروني أو كلمة المرور غير صحيحة.»; email and password stay in the fields |
-| AU-16 | Unknown email | Same generic message (never says the email doesn't exist) |
-| AU-17 | Sign up a new address but don't confirm; sign in with it | Amber «لم تؤكد بريدك الإلكتروني بعد…» with «إعادة إرسال رابط التأكيد»; pressing it sends an email |
-| AU-18 | Wrong password many times quickly (GoTrue's limit may need ~30 tries) | Amber «محاولات كثيرة…» (rate limit), values kept |
-| AU-19 | Correct password | Lands on `/chat` |
-| AU-20 | Signed out, open `/chat/anything` | Redirected to `/sign-in?redirect=…`; after signing in, lands back on that path |
-| AU-21 | Open `/sign-in?redirect=https://example.com` and `?redirect=//example.com`, sign in | Lands on `/chat` (external redirects ignored) |
-| AU-22 | Signed in, open `/sign-in`, `/sign-up`, `/forgot-password` | Each redirects to `/chat` |
-| AU-23 | Network off (DevTools → Offline), submit | «تعذّر الاتصال…» with «إعادة المحاولة»; back online, retry works |
+| ID | Steps | Expected | Result | Notes |
+|---|---|---|---|---|
+| AU-15 | Wrong password for A | «البريد الإلكتروني أو كلمة المرور غير صحيحة.»; email and password stay in the fields | [x] | **auto** `auth` |
+| AU-16 | Unknown email | Same generic message (never says the email doesn't exist) | [x] | **auto** `auth` |
+| AU-17 | Sign up a new address but don't confirm; sign in with it | Amber «لم تؤكد بريدك الإلكتروني بعد…» with «إعادة إرسال رابط التأكيد»; pressing it sends an email | [ ] | **auto** `auth` |
+| AU-18 | Wrong password about 31 times quickly (GoTrue allows 30, then about one more every 2 s per IP). Locally the limit needs an `X-Real-IP` header, so use the e2e test or send it with a tool; in production Caddy sets it | Amber «محاولات كثيرة…» (rate limit), values kept | [ ] | **auto** `auth`<br>Was: more than 60 tries and no limit. Fixed 2026-11-06: `GOTRUE_RATE_LIMIT_HEADER=X-Real-IP` (GoTrue applies no per-IP limit without it) |
+| AU-19 | Correct password | Lands on `/chat` | [x] | **auto** `auth` |
+| AU-20 | Signed out, open `/chat/anything` | Redirected to `/sign-in?redirect=…`; after signing in, lands back on that path | [x] | **auto** `auth` |
+| AU-21 | Open `/sign-in?redirect=https://example.com` and `?redirect=//example.com`, sign in | Lands on `/chat` (external redirects ignored) | [x] | **auto** `auth` |
+| AU-22 | Signed in, open `/sign-in`, `/sign-up`, `/forgot-password` | Each redirects to `/chat` | [x] | **auto** `auth` |
+| AU-23 | Network off (DevTools → Offline), submit | «تعذّر الاتصال…» with «إعادة المحاولة»; back online, retry works | [x] | **auto** `auth` |
 
 ### 1.5 Forgot / reset password
 
-| ID | Steps | Expected |
-|---|---|---|
-| AU-24 | `/forgot-password`, invalid email | Field error |
-| AU-25 | A's email, submit | `/check-email?reason=reset` (reset wording) |
-| AU-26 | An email that has no account | Same reset «check your email» (never reveals existence) |
-| AU-27 | Click the newest «Reset your password» link in Mailpit | `/reset-password` with two password fields; no tokens left in the address bar |
-| AU-28 | Different passwords | «كلمتا المرور غير متطابقتين.» |
-| AU-29 | Short password | Too-short error |
-| AU-30 | The current password as the new one | «…مطابقة للقديمة…» (same password) |
-| AU-31 | Valid new password | Toast «تم حفظ كلمة المرور.», lands on `/chat`; signing in later works with the new password only |
-| AU-32 | Reuse the same reset link | Expired-link state with «طلب رابط جديد» → `/forgot-password` |
-| AU-33 | Signed in normally, open `/reset-password?type=recovery` | Expired state, **not** the form |
+| ID | Steps | Expected | Result | Notes |
+|---|---|---|---|---|
+| AU-24 | `/forgot-password`, invalid email | Field error | [x] | **auto** `auth` |
+| AU-25 | A's email, submit | `/check-email?reason=reset` (reset wording) | [x] | **auto** `auth` |
+| AU-26 | An email that has no account | Same reset «check your email» (never reveals existence) | [x] | **auto** `auth` |
+| AU-27 | Click the newest «Reset your password» link in Mailpit | `/reset-password` with two password fields; no tokens left in the address bar | [x] | **auto** `auth` |
+| AU-28 | Different passwords | «كلمتا المرور غير متطابقتين.» | [x] | **auto** `auth` |
+| AU-29 | Short password | Too-short error | [x] | **auto** `auth` |
+| AU-30 | The current password as the new one | «…مطابقة للقديمة…» (same password) | [x] | **auto** `auth` |
+| AU-31 | Valid new password | Toast «تم حفظ كلمة المرور.», lands on `/chat`; signing in later works with the new password only | [x] | **auto** `auth` |
+| AU-32 | Reuse the same reset link | Expired-link state with «طلب رابط جديد» → `/forgot-password` | [x] | **auto** `auth` |
+| AU-33 | Signed in normally, open `/reset-password?type=recovery` | Expired state, **not** the form | [x] | **auto** `auth` |
 
-### 1.6 Complete profile — `/complete-profile`
-
-Setup: clear B's or A's name: `PATCH /api/v1/me { "fullName": null }` with that user's token, or ask an admin.
-
-| ID | Steps | Expected |
-|---|---|---|
-| AU-34 | Open `/chat` | Redirected to `/complete-profile`; auth layout (no sidebar) |
-| AU-35 | Submit with empty name | Name required |
-| AU-36 | Name only, phone empty | Saves (phone stays empty), lands on `/chat` |
-| AU-37 | Phone `+966 50-123-4567` | Saves; account shows `+966501234567` (normalised) |
-| AU-38 | Phone `abc` | Server field error on phone; name kept |
-| AU-39 | User with a name opens `/complete-profile` | Redirected to `/chat` |
 
 ### 1.7 Suspended / deleted / session
 
-| ID | Steps | Expected |
-|---|---|---|
-| AU-40 | Suspend A (admin), then reload `/chat` as A | `/account-unavailable?reason=suspended`, «تم إيقاف حسابك مؤقتًا», signed out |
-| AU-41 | Same with deleted status (if available) | Deleted variant text |
-| AU-42 | Suspend A **while** A is typing in chat, then send | Signed out → account unavailable; no error spinner |
-| AU-43 | Reactivate A, sign in | Works normally |
-| AU-44 | Sign in as A in tab 1; in tab 2 sign out and sign in as B; return to tab 1 | Tab 1 now shows B's data only (no A conversations, drafts or balance) |
-| AU-45 | Leave the app open > 1 hour, then send a message | Token refreshes silently; message sends |
+| ID | Steps | Expected | Result | Notes |
+|---|---|---|---|---|
+| AU-40 | Suspend A (admin), then reload `/chat` as A | `/account-unavailable?reason=suspended`, «تم إيقاف حسابك مؤقتًا», signed out | [x] | **auto** `auth` |
+| AU-43 | Reactivate A, sign in | Works normally | [ ] | **auto** `auth` |
+| AU-44 | Sign in as A in tab 1; in tab 2 sign out and sign in as B; return to tab 1 | Tab 1 now shows B's data only (no A conversations, drafts or balance) | [x] |  |
+| AU-45 | Leave the app open > 1 hour, then send a message | Token refreshes silently; message sends | [x] |  |
 
 ---
 
@@ -131,36 +143,36 @@ Setup: clear B's or A's name: `PATCH /api/v1/me { "fullName": null }` with that 
 
 ### 2.1 Layout
 
-| ID | Steps | Expected |
-|---|---|---|
-| SH-01 | `/chat` at 1440px | Sidebar on the **right** (≈280px), chat to the left, header: title (none on new chat), balance chip, avatar button |
-| SH-02 | Resize to 800px and 390px | Sidebar becomes a menu button (top-right); no horizontal scrolling at any width |
-| SH-03 | Menu button | Drawer slides from the right with «محادثة جديدة», list, «الرصيد», «الحساب», «تسجيل الخروج»; background dimmed |
-| SH-04 | Close the drawer with ✕, Esc, and a tap outside | Each closes it; keyboard focus returns to the menu button |
-| SH-05 | Drawer open, widen the window to ≥1024px | Drawer closes; desktop sidebar shown |
-| SH-06 | Tap a conversation in the drawer | Opens it and closes the drawer; tapping empty space or «retry» in the list doesn't close it |
+| ID | Steps | Expected | Result | Notes |
+|---|---|---|---|---|
+| SH-01 | `/chat` at 1440px | Sidebar on the **right** (≈280px), chat to the left, header: title (none on new chat), balance chip, avatar button | [x] | **auto** `app-shell` |
+| SH-02 | Resize to 800px and 390px | Sidebar becomes a menu button (top-right); no horizontal scrolling at any width | [x] | **auto** `app-shell` |
+| SH-03 | Menu button | Drawer slides from the right with «محادثة جديدة», list, «الرصيد», «الحساب», «تسجيل الخروج»; background dimmed | [x] | **auto** `app-shell` |
+| SH-04 | Close the drawer with ✕, Esc, and a tap outside | Each closes it; keyboard focus returns to the menu button | [x] | **auto** `app-shell` |
+| SH-05 | Drawer open, widen the window to ≥1024px | Drawer closes; desktop sidebar shown | [x] | **auto** `app-shell` |
+| SH-06 | Tap a conversation in the drawer | Opens it and closes the drawer; tapping empty space or «retry» in the list doesn't close it | [x] | **auto** `app-shell` |
 
 ### 2.2 Account menu and balance chip
 
-| ID | Steps | Expected |
-|---|---|---|
-| SH-07 | Avatar initials | First letter of the first and last name (e.g. «سيف عمران» → «سع») |
-| SH-08 | Open the account menu (click and keyboard Enter) | Name, email, «الرصيد» with amount, «الحساب», «تسجيل الخروج»; arrow keys move between items; Esc closes and returns focus |
-| SH-09 | «الرصيد» / «الحساب» (menu and sidebar) | Open the Balance and Account pages (§3b); the active link is highlighted |
-| SH-10 | «تسجيل الخروج» from the menu and from the drawer | `/sign-in`; signing in as another user shows none of the previous user's conversations or drafts |
-| SH-11 | Balance chip as B | Shows `1.00$` style (2 decimals), dollar after the number |
+| ID | Steps | Expected | Result | Notes |
+|---|---|---|---|---|
+| SH-07 | Avatar initials | First letter of the first and last name (e.g. «سيف عمران» → «سع») | [x] | **auto** `app-shell` |
+| SH-08 | Open the account menu (click and keyboard Enter) | Name, email, «الرصيد» with amount, «الحساب», «تسجيل الخروج»; arrow keys move between items; Esc closes and returns focus | [x] | **auto** `app-shell` |
+| SH-09 | «الرصيد» / «الحساب» (menu and sidebar) | Open the Balance and Account pages (§3b); the active link is highlighted | [x] | **auto** `app-shell` |
+| SH-10 | «تسجيل الخروج» from the menu and from the drawer | `/sign-in`; signing in as another user shows none of the previous user's conversations or drafts | [x] | **auto** `app-shell` |
+| SH-11 | Balance chip as B | Shows `1.00$` style (2 decimals), dollar after the number | [x] | **auto** `app-shell` |
 
 ### 2.3 Conversation list
 
-| ID | Steps | Expected |
-|---|---|---|
-| SH-12 | New account (A) | «لا توجد محادثات بعد» + «ابدأ محادثتك الأولى وستظهر هنا.» |
-| SH-13 | Account with empty (untitled) conversations from refused sends | They are **not** listed |
-| SH-14 | After sending messages | Conversations listed newest first, with relative time; the open one highlighted with a bar on the right edge |
-| SH-15 | More than 20 conversations, scroll the list | Older ones load at the bottom; while loading, skeleton rows |
-| SH-16 | Stop the API, reload | List shows an error with retry; start the API, retry loads it |
-| SH-17 | `/chat/00000000-0000-0000-0000-000000000000` | «لم يتم العثور على المحادثة.» with «بدء محادثة جديدة» |
-| SH-18 | Another user's conversation id (copy one from account B into account A's session) | Same not-found state (never shows their content) |
+| ID | Steps | Expected | Result | Notes |
+|---|---|---|---|---|
+| SH-12 | New account (A) | «لا توجد محادثات بعد» + «ابدأ محادثتك الأولى وستظهر هنا.» | [x] | **auto** `app-shell` |
+| SH-13 | Account with empty (untitled) conversations from refused sends | They are **not** listed | [x] | **auto** `app-shell` |
+| SH-14 | After sending messages | Conversations listed newest first, with relative time; the open one highlighted with a bar on the right edge | [x] | **auto** `app-shell` |
+| SH-15 | More than 20 conversations, scroll the list | Older ones load at the bottom; while loading, skeleton rows | [x] | **auto** `app-shell` |
+| SH-16 | Stop the API, reload | List shows an error with retry; start the API, retry loads it | [x] | **auto** `app-shell` |
+| SH-17 | `/chat/00000000-0000-0000-0000-000000000000` | «لم يتم العثور على المحادثة.» with «بدء محادثة جديدة» | [x] | **auto** `app-shell` |
+| SH-18 | Another user's conversation id (copy one from account B into account A's session) | Same not-found state (never shows their content) | [x] | **auto** `app-shell` |
 
 ---
 
@@ -168,71 +180,70 @@ Setup: clear B's or A's name: `PATCH /api/v1/me { "fullName": null }` with that 
 
 ### 3.1 New chat and modes
 
-| ID | Steps | Expected |
-|---|---|---|
-| CH-01 | «محادثة جديدة» | Empty state: monogram, «كيف أساعدك اليوم؟», 4 example chips, mode chip «سريع» in the message box |
-| CH-02 | Click an example chip | Its text fills the message box; **nothing is sent** |
-| CH-03 | Open the mode chip | Menu with «سريع» and «احترافي», each with a description and colour dot; current one checked; keyboard arrows + Enter work |
-| CH-04 | Pick «احترافي» | Chip shows «احترافي» (indigo); nothing is sent |
-| CH-05 | Enter / Shift+Enter in the box | Enter sends; Shift+Enter adds a new line; the box grows with the text |
-| CH-06 | Type a draft, switch to another conversation and back | The draft is still there (per conversation) |
+| ID | Steps | Expected | Result | Notes |
+|---|---|---|---|---|
+| CH-01 | «محادثة جديدة» | Empty state: monogram, «كيف أساعدك اليوم؟», 4 example chips, mode chip «سريع» in the message box | [x] | **auto** `chat` |
+| CH-02 | Click an example chip | Its text fills the message box; **nothing is sent** | [x] | **auto** `chat` |
+| CH-03 | Open the mode chip | Menu with «سريع» and «احترافي», each with a description and colour dot; current one checked; keyboard arrows + Enter work | [x] | **auto** `chat` |
+| CH-04 | Pick «احترافي» | Chip shows «احترافي» (indigo); nothing is sent | [x] | **auto** `chat` |
+| CH-05 | Enter / Shift+Enter in the box | Enter sends; Shift+Enter adds a new line; the box grows with the text | [x] | **auto** `chat` |
+| CH-06 | Type a draft, switch to another conversation and back | The draft is still there (per conversation) | [x] | **auto** `chat` |
 
 ### 3.2 Sending and streaming
 
-| ID | Steps | Expected |
-|---|---|---|
-| CH-07 | Send «اشرح لي الفرق بين الإيجار التمليكي والإيجار العادي» from a new chat | Your message appears at once; assistant card shows «جاري الإعداد…» then text streams in with a caret at the end of the text; Send becomes «إيقاف»; URL changes to `/chat/<id>`; the conversation appears at the top of the sidebar with a title |
-| CH-08 | When the answer finishes | Footer «التكلفة 0.00xx$ · الرصيد المتبقي …» (4 decimals for small costs); balance chip drops by that amount without reloading; copy button |
-| CH-09 | Copy the answer, paste into a text editor | The original Markdown text |
-| CH-10 | Reload the page | Messages remain; the cost line is **gone** (known limitation: cost isn't stored on messages yet) |
-| CH-11 | Send in «احترافي» | The answer card shows the «احترافي» chip; costs more than Fast |
-| CH-12 | Scroll up in a long conversation (> 50 messages) | Older messages load at the top without the view jumping |
-| CH-13 | While an answer streams, scroll up | It stops auto-scrolling; scroll back near the bottom and it follows again |
-| CH-14 | Scrolled up, send a new message | The view jumps to your new message |
+| ID | Steps | Expected | Result | Notes |
+|---|---|---|---|---|
+| CH-07 | Send «اشرح لي الفرق بين الإيجار التمليكي والإيجار العادي» from a new chat | Your message appears at once; assistant card shows «جاري الإعداد…» then text streams in with a caret at the end of the text; Send becomes «إيقاف»; URL changes to `/chat/<id>`; the conversation appears at the top of the sidebar with a title | [x] | **auto** `chat` |
+| CH-09 | Copy the answer, paste into a text editor | The original Markdown text | [x] | **auto** `chat` |
+| CH-10 | Reload the page | Messages remain; the cost line is **gone** (known limitation: cost isn't stored on messages yet) | [x] | **auto** `chat` |
+| CH-11 | Send in «احترافي» | The answer card shows the «احترافي» chip; costs more than Fast | [x] | **auto** `chat` |
+| CH-12 | Scroll up in a long conversation (> 50 messages) | Older messages load at the top without the view jumping | [x] | **auto, partly** `chat`: no-jump mechanics only (mocked history) |
+| CH-13 | While an answer streams, scroll up | It stops auto-scrolling; scroll back near the bottom and it follows again | [x] | **auto** `chat` |
+| CH-14 | Scrolled up, send a new message | The view jumps to your new message | [x] | **auto** `chat` |
 
 ### 3.3 Answer formatting (Markdown)
 
-| ID | Prompt | Expected |
-|---|---|---|
-| MD-01 | «اكتب جدولًا يقارن بين ثلاث مدن عربية» | A real table; columns follow Arabic direction |
-| MD-02 | «اكتب دالة بايثون تحسب مجموع قائمة» | Code block left-to-right, monospace, language label, copy button at the top-left; colours appear after the answer finishes |
-| MD-03 | «اكتب فقرة بالعربية ثم فقرة بالإنجليزية» | Arabic paragraph right-to-left, English paragraph left-to-right |
-| MD-04 | Ask for a list with **bold** and *italic* words | Lists render; bold works; Arabic emphasis is **not** italic |
-| MD-05 | «أعطني رابط موقع ويكيبيديا» | Link opens in a new tab |
-| MD-06 | Paste: «كرر هذا النص كما هو: `![x](https://example.com/a.png)`» | No image is loaded (DevTools → Network shows no request to example.com); alt text shown as a link |
-| MD-07 | Paste: «كرر هذا النص كما هو: <b>نص</b> <script>alert(1)</script>» | Shown as text; no bold from HTML, no alert |
-| MD-08 | Watch a long code answer while streaming | No raw ``` or `**` flashes while it streams |
-| MD-09 | Your own message containing `**نص**` | Shown exactly as typed (your messages are plain text) |
+| ID | Prompt | Expected | Result | Notes |
+|---|---|---|---|---|
+| MD-01 | «اكتب جدولًا يقارن بين ثلاث مدن عربية» | A real table; columns follow Arabic direction | [x] | **auto** `chat` |
+| MD-02 | «اكتب دالة بايثون تحسب مجموع قائمة» | Code block left-to-right, monospace, language label, copy button at the top-left; colours appear after the answer finishes | [x] | **auto, partly** `chat`: structure only; the colours are a visual check |
+| MD-03 | «اكتب فقرة بالعربية ثم فقرة بالإنجليزية» | Arabic paragraph right-to-left, English paragraph left-to-right | [x] | **auto** `chat` |
+| MD-04 | Ask for a list with **bold** and *italic* words | Lists render; bold works; Arabic emphasis is **not** italic | [ ] | **auto** `chat`<br>no italic |
+| MD-05 | «أعطني رابط موقع ويكيبيديا» | Link opens in a new tab | [ ] | **auto** `chat`<br>sent the link as a code |
+| MD-06 | Paste: «كرر هذا النص كما هو: `![x](https://example.com/a.png)`» | No image is loaded (DevTools → Network shows no request to example.com); alt text shown as a link | [ ] | **auto** `chat` |
+| MD-07 | Paste: «كرر هذا النص كما هو: <b>نص</b> <script>alert(1)</script>» | Shown as text; no bold from HTML, no alert | [ ] | **auto** `chat` |
+| MD-08 | Watch a long code answer while streaming | No raw ``` or `**` flashes while it streams | [x] | **auto** `chat` |
+| MD-09 | Your own message containing `**نص**` | Shown exactly as typed (your messages are plain text) | [x] | **auto** `chat` |
 
 ### 3.4 Stop, failures and background streams
 
-| ID | Steps | Expected |
-|---|---|---|
-| CH-15 | Ask for a long answer («اكتب مقالًا من 1500 كلمة…»), press «إيقاف» mid-way | Streaming stops; text so far kept with «توقف الرد قبل اكتماله»; cost line for what was used |
-| CH-16 | Press «إيقاف» immediately after sending (before text appears) | Your message disappears from the list and is back in the message box |
-| CH-17 | Ask for a very long answer and let it finish | If it hits the length limit: kept text + «توقف الرد قبل اكتماله» |
-| CH-18 | Start a long answer, then open another conversation | The first conversation shows «يكتب…» (grey, animated dots) in the sidebar; go back — the answer completed in the background |
-| CH-19 | Start a long answer, reload the page | The answer shows as being written («جاري كتابة الرد…») and settles within seconds |
-| CH-20 | Two tabs on the same conversation; send from tab 1, then send from tab 2 while tab 1 is streaming | Tab 2: «لا يزال الرد السابق قيد الكتابة.»; draft kept |
-| CH-21 | Start an answer, go Offline in DevTools mid-stream, then back Online | The answer is reloaded from the server (partial or complete); nothing is sent twice |
-| CH-22 | Offline, press Send | «تعذّر الاتصال…» notice with «إعادة المحاولة»; draft kept; back online, retry sends **once** (one message on the server) |
-| CH-23 | Switch to another app/tab during an answer, come back after it ends | The conversation and balance are up to date |
-| CH-24 | Prompt likely to be blocked by the provider's content policy | Failed or partial card with «تعذّر إكمال الرد بسبب سياسة المحتوى…» and «إعادة المحاولة» (re-sends as a new message) |
+| ID | Steps | Expected | Result | Notes |
+|---|---|---|---|---|
+| CH-15 | Ask for a long answer («اكتب مقالًا من 1500 كلمة…»), press «إيقاف» mid-way | Streaming stops; text so far kept with «توقف الرد قبل اكتماله»; cost line for what was used | [ ] | **auto** `chat` |
+| CH-16 | Press «إيقاف» immediately after sending (before text appears) | Your message disappears from the list and is back in the message box | [ ] | **auto** `chat` |
+| CH-17 | Ask for a very long answer and let it finish | If it hits the length limit: kept text + «توقف الرد قبل اكتماله» | [ ] | **auto** `chat` |
+| CH-18 | Start a long answer, then open another conversation | The first conversation shows «يكتب…» (grey, animated dots) in the sidebar; go back — the answer completed in the background | [ ] | **auto** `chat` |
+| CH-19 | Start a long answer, reload the page | The answer shows as being written («جاري كتابة الرد…») and settles within seconds | [ ] | **auto** `chat` |
+| CH-20 | Two tabs on the same conversation; send from tab 1, then send from tab 2 while tab 1 is streaming | Tab 2: «لا يزال الرد السابق قيد الكتابة.»; draft kept | [ ] | **auto** `chat` |
+| CH-21 | Start an answer, go Offline in DevTools mid-stream, then back Online | The answer is reloaded from the server (partial or complete); nothing is sent twice | [ ] | **auto** `chat` |
+| CH-22 | Go offline; then go online, press Send and drop the request (DevTools: block the request URL) | Offline: Send is disabled, with a "no connection" title; draft kept. Failed request: «تعذّر الاتصال…» notice with «إعادة المحاولة»; draft kept; retry sends **once** (one message on the server) | [ ] | **auto** `chat` |
+| CH-23 | Switch to another app/tab during an answer, come back after it ends | The conversation and balance are up to date | [ ] | **auto** `chat` |
+| CH-24 | Prompt likely to be blocked by the provider's content policy | Failed or partial card with «تعذّر إكمال الرد بسبب سياسة المحتوى…» and «إعادة المحاولة» (re-sends as a new message) | [ ] | **auto, partly** `chat`: CONTENT_BLOCKED card only (mocked); a real block needs a person |
 
 ### 3.5 Refusals
 
-| ID | Setup | Steps | Expected |
-|---|---|---|---|
-| RF-01 | Account **C** (no plan) | Open `/chat` | Amber «ليست لديك باقة نشطة. تواصل معنا للاشتراك.» + «تواصل معنا» above the box from the start; Send disabled; typing + Enter sends nothing and creates no conversation |
-| RF-02 | RF-01 | «تواصل معنا» | Request-balance dialog; contact channels hidden (not configured yet); Esc closes and focus returns to the button; draft kept |
-| RF-03 | Plan active, balance set to **0.015$** | Send in «احترافي» | «رصيدك غير كافٍ لهذه الرسالة في وضع «احترافي» (التكلفة المتوقعة …، رصيدك 0.0150$).» + «التبديل إلى «سريع» (… تقريبًا)»; draft kept |
-| RF-04 | RF-03 | Press the switch button | Mode chip becomes «سريع»; **nothing is sent**; notice still names «احترافي»; the button for the selected mode is hidden |
-| RF-05 | RF-04 | Press Send | Sends in Fast and streams normally |
-| RF-06 | Balance set to **0.005$** | Send in «سريع» | Insufficient notice with no switch button, «تواصل معنا لإضافة رصيد» → request-balance dialog |
-| RF-07 | Any funded account | Send 21+ messages within one minute (short prompts, Stop each) | «أرسلت رسائل كثيرة خلال وقت قصير. حاول بعد N ثانية.» with a live countdown; Send disabled until it reaches 0; draft kept |
-| RF-08 | — | Paste more than 20,000 characters and send | Validation error under the box; draft kept |
-| RF-09 | Disable mode «احترافي» (admin), keep it selected in the UI | Send | «هذا الوضع غير متاح في باقتك الحالية.»; the selection falls back to «سريع»; nothing sent automatically. **Re-enable the mode afterwards.** |
-| RF-10 | Clear the user's name (§1.6) while the chat is open | Send | Redirected to `/complete-profile` |
+| ID | Setup | Steps | Expected | Result | Notes |
+|---|---|---|---|---|---|
+| RF-01 | Account **C** (no plan) | Open `/chat` | Amber «ليست لديك باقة نشطة. تواصل معنا للاشتراك.» + «تواصل معنا» above the box from the start; Send disabled; typing + Enter sends nothing and creates no conversation | [x] | **auto** `chat` |
+| RF-02 | RF-01 | «تواصل معنا» | Request-balance dialog with one contact link (email, `mailto:` from the brand config; WhatsApp and phone removed for now); Esc closes and focus returns to the button; draft kept | [x] | **auto** `chat` |
+| RF-03 | Plan active, balance set to **0.02$** (above the Fast reservation, below Professional) | Send in «احترافي» | «رصيدك غير كافٍ لهذه الرسالة في وضع «احترافي» … رصيدك 0.02$» + «التبديل إلى «سريع»…»; nothing streams; draft kept. Amounts under 0.01$ show 4 decimals, others 2 | [ ] | **auto** `chat` |
+| RF-04 | RF-03 | Press the switch button | Mode chip becomes «سريع»; **nothing is sent**; notice still names «احترافي»; the button for the selected mode is hidden | [x] | **auto** `chat` |
+| RF-05 | RF-04 | Press Send | Sends in Fast and streams normally | [x] | **auto** `chat` |
+| RF-06 | Balance set to **0.005$** | Send in «سريع» | Insufficient notice with no switch button, «تواصل معنا لإضافة رصيد» → request-balance dialog | [x] | **auto** `chat` |
+| RF-07 | Any funded account | Send 21+ messages within one minute (short prompts, Stop each) | «أرسلت رسائل كثيرة خلال وقت قصير. حاول بعد N ثانية.» with a live countdown; Send disabled until it reaches 0; draft kept | [ ] | **auto** `chat` |
+| RF-08 | — | Paste more than 20,000 characters and send | Validation error under the box; draft kept | [x] | **auto** `chat` |
+| RF-09 | Disable mode «احترافي» (admin), keep it selected in the UI | Send | «هذا الوضع غير متاح في باقتك الحالية.»; the selection falls back to «سريع»; nothing sent automatically. **Re-enable the mode afterwards.** | [x] | **auto** `chat` |
+| RF-10 | Chat open; clear the user's name on the server (admin, or `PATCH /me` with a blank `fullName`) | Send | Goes to `/complete-profile` and stays there until the name is saved; then back to the chat | [ ] | **auto** `chat` |
 
 Restore balances and modes after this section.
 
@@ -242,40 +253,40 @@ Restore balances and modes after this section.
 
 ### Balance — `/balance`
 
-| ID | Setup / steps | Expected |
-|---|---|---|
-| BA-01 | Account **B** (plan + balance) | Large spendable balance (same as the header chip), «طلب رصيد», plan name and «ينتهي رصيدك بانتهاء الباقة في {date}» |
-| BA-02 | B's activity list | Newest first; each row: type label + icon, signed amount (+ green, − neutral, e.g. `−0.0015$`), «الرصيد بعد العملية», «اليوم/أمس HH:mm» or full date |
-| BA-03 | Labels | Plan credit «رصيد الباقة», admin adjustment «تعديل من الفريق», chat use «استخدام المحادثة» (plus «إضافة رصيد», «انتهاء الرصيد», «استرداد», «رصيد قسيمة» when present) |
-| BA-04 | Send a chat message, return to `/balance` | New «استخدام المحادثة» row; balance equals the header chip |
-| BA-05 | Account with > 30 activity rows, scroll down | Older rows load; on failure, retry button |
-| BA-06 | Account **C** (no plan) | No-plan notice with «تواصل معنا»; «لا توجد عمليات بعد» for a new account |
-| BA-07 | «طلب رصيد» / «تواصل معنا» | Request-balance dialog; Esc returns focus |
-| BA-08 | 390px | Rows show amount + date only; no horizontal scroll |
+| ID | Setup / steps | Expected | Result | Notes |
+|---|---|---|---|---|
+| BA-01 | Account **B** (plan + balance) | Large spendable balance (same as the header chip), «طلب رصيد», plan name and «ينتهي رصيدك بانتهاء الباقة في {date}» | [x] | **auto** `balance-account` |
+| BA-02 | B's activity list | Newest first; each row: type label + icon, signed amount (+ green, − neutral, e.g. `−0.0015$`), «الرصيد بعد العملية», «اليوم/أمس HH:mm» or full date | [x] | **auto** `balance-account` |
+| BA-03 | Labels | Plan credit «رصيد الباقة», admin adjustment «تعديل من الفريق», chat use «استخدام المحادثة» (plus «إضافة رصيد», «انتهاء الرصيد», «استرداد», «رصيد قسيمة» when present) | [x] | **auto** `balance-account` |
+| BA-04 | Send a chat message, return to `/balance` | New «استخدام المحادثة» row; balance equals the header chip | [x] | **auto** `balance-account` |
+| BA-05 | Account with > 30 activity rows, scroll down | Older rows load; on failure, retry button | [x] | **auto** `balance-account` |
+| BA-06 | Account **C** (no plan) | No-plan notice with «تواصل معنا»; «لا توجد عمليات بعد» for a new account | [x] | **auto** `balance-account` |
+| BA-07 | «طلب رصيد» / «تواصل معنا» | Request-balance dialog; Esc returns focus | [x] | **auto** `balance-account` |
+| BA-08 | 390px | Rows show amount + date only; no horizontal scroll | [x] | **auto** `balance-account` |
 
 ### Account — `/account`
 
-| ID | Setup / steps | Expected |
-|---|---|---|
-| AC-01 | Open as B | Profile (name, phone optional LTR, email read-only with lock and note), plan card (name, start/end dates, «مجاني» when price 0, mode chips), change password, session card |
-| AC-02 | Change name, «حفظ» | Toast «تم حفظ التغييرات.»; the account menu / avatar initials update without reload |
-| AC-03 | Clear the name, save | «أدخل اسمك الكامل.»; nothing saved |
-| AC-04 | Clear the phone, save | Saved as empty; `abc` as phone → server field error |
-| AC-05 | Change password: mismatch / short / same as current | Matching errors; nothing changed |
-| AC-06 | Change password: valid | Success; you stay signed in; sign out and sign in with the new password works |
-| AC-07 | «تسجيل الخروج» on the session card | Signed out to `/sign-in` |
-| AC-08 | Account **C** | Plan card shows the no-plan notice; «تواصل معنا» opens the dialog |
-| AC-09 | 390px | Order: profile → plan → password → session (sign-out last) |
+| ID | Setup / steps | Expected | Result | Notes |
+|---|---|---|---|---|
+| AC-01 | Open as B | Profile (name, phone optional LTR, email read-only with lock and note), plan card (name, start/end dates, «مجاني» when price 0, mode chips), change password, session card | [ ] | **auto** `balance-account` |
+| AC-02 | Change name, «حفظ» | Toast «تم حفظ التغييرات.»; the account menu / avatar initials update without reload | [ ] | **auto** `balance-account` |
+| AC-03 | Clear the name, save | «أدخل اسمك الكامل.»; nothing saved | [ ] | **auto** `balance-account` |
+| AC-04 | Clear the phone, save | Saved as empty; `abc` as phone → server field error | [ ] | **auto** `balance-account` |
+| AC-05 | Change password: mismatch / short / same as current | Matching errors; nothing changed | [ ] | **auto** `balance-account` |
+| AC-06 | Change password: valid | Success; you stay signed in; sign out and sign in with the new password works | [ ] | **auto** `balance-account` |
+| AC-07 | «تسجيل الخروج» on the session card | Signed out to `/sign-in` | [ ] | **auto** `balance-account` |
+| AC-08 | Account **C** | Plan card shows the no-plan notice; «تواصل معنا» opens the dialog | [ ] | **auto** `balance-account` |
+| AC-09 | 390px | Order: profile → plan → password → session (sign-out last) | [ ] | **auto** `balance-account` |
 
 ### Plans — `/plans`
 
-| ID | Setup / steps | Expected |
-|---|---|---|
-| PL-01 | Signed out, open `/plans` | Header with «تسجيل الدخول» / «إنشاء حساب»; plan cards from the backend (name, description, price or «مجاني», modes with descriptions); expiry note; «تواصل معنا للاشتراك» opens the dialog |
-| PL-02 | A plan with 0 included balance | No «الرصيد الحالي» line on that card |
-| PL-03 | Signed in as B | Page inside the app shell; B's plan marked «باقتك الحالية» |
-| PL-04 | Signed in as C (no subscription) | No card marked «باقتك الحالية» |
-| PL-05 | View source of `/plans` (signed out) | Page content is present in the HTML (prerendered) |
+| ID | Setup / steps | Expected | Result | Notes |
+|---|---|---|---|---|
+| PL-01 | Signed out, open `/plans` | Header with «تسجيل الدخول» / «إنشاء حساب»; plan cards from the backend (name, description, price or «مجاني», modes with descriptions); expiry note; «تواصل معنا للاشتراك» opens the dialog | [ ] | **auto** `balance-account` |
+| PL-02 | A plan with 0 included balance | No «الرصيد الحالي» line on that card | [ ] | **auto** `balance-account` |
+| PL-03 | Signed in as B | Page inside the app shell; B's plan marked «باقتك الحالية» | [ ] | **auto** `balance-account` |
+| PL-04 | Signed in as C (no subscription) | No card marked «باقتك الحالية» | [ ] | **auto** `balance-account` |
+| PL-05 | View source of `/plans` (signed out) | Page content is present in the HTML (prerendered) | [ ] | **auto** `balance-account` |
 
 ---
 
@@ -285,45 +296,45 @@ Every write asks for a reason (3–500 characters). Use a **test** user as the t
 
 ### Access and users
 
-| ID | Steps | Expected |
-|---|---|---|
-| AD-01 | Signed in as a normal user, open `/admin/users` | «الصفحة غير موجودة»; account menu has no «لوحة الإدارة» |
-| AD-02 | As admin, account menu → «لوحة الإدارة» | Admin shell with its own right-side sidebar; «العودة إلى التطبيق» goes to `/chat` |
-| AD-03 | Users: search by part of an email/name, filter status and role, page | Results update; filters stay in the URL (reload keeps them); «1–20 من N» |
-| AD-04 | Row menu → «تفعيل باقة» / «إضافة رصيد» | Opens that user with the dialog open |
-| AD-05 | `/admin/users/<unknown id>` | User not found state |
+| ID | Steps | Expected | Result | Notes |
+|---|---|---|---|---|
+| AD-01 | Signed in as a normal user, open `/admin/users` | «الصفحة غير موجودة»; account menu has no «لوحة الإدارة» | [ ] | **auto** `admin` |
+| AD-02 | As admin, account menu → «لوحة الإدارة» | Admin shell with its own right-side sidebar; «العودة إلى التطبيق» goes to `/chat` | [ ] | **auto** `admin` |
+| AD-03 | Users: search by part of an email/name, filter status and role, page | Results update; filters stay in the URL (reload keeps them); «1–20 من N» | [ ] | **auto** `admin` |
+| AD-04 | Row menu → «تفعيل باقة» / «إضافة رصيد» | Opens that user with the dialog open | [ ] | **auto** `admin` |
+| AD-05 | `/admin/users/<unknown id>` | User not found state | [ ] | **auto** `admin` |
 
 ### User detail
 
-| ID | Steps | Expected |
-|---|---|---|
-| AD-06 | Overview → suspend a test user with a reason | Status «موقوف»; that user is signed out on their next request (AU-40); reactivate restores it |
-| AD-07 | Try to suspend yourself / remove admin from the only admin | «لا يمكنك تنفيذ هذا الإجراء على حسابك.» / «لا يمكن إزالة آخر مسؤول.» |
-| AD-08 | Subscription → «تفعيل باقة» (no end date) | Active, ends one month later; included balance credited (see Balance tab) |
-| AD-09 | Activate with a custom end date | That end date shown |
-| AD-10 | «إنهاء الباقة» | Danger confirm with «سينتهي كل رصيد المستخدم فورًا»; after it, the user's balance is 0 and the ledger shows «انتهاء الرصيد» |
-| AD-11 | Balance → «إضافة أو خصم رصيد» `0.5` then `-0.2` | Balance +0.50 then −0.20; ledger rows «تعديل يدوي» with your email and reason; the user's own Balance page matches |
-| AD-12 | Amount `abc`, `1.2.3`, empty reason | Field errors; nothing sent |
-| AD-13 | «تسجيل دفعة» amount + reference `INV-TEST-1` | Ledger «تسجيل دفعة»; repeating the same reference with a different amount → «رقم الدفعة هذا مسجّل بالفعل…» |
-| AD-14 | Ledger reference / actor ids | Shortened to 8 characters, full value on hover, copy button works |
-| AD-15 | Adjust your **own** balance as admin, then open `/balance` | Customer balance already updated (no reload needed) |
+| ID | Steps | Expected | Result | Notes |
+|---|---|---|---|---|
+| AD-06 | Overview → suspend a test user with a reason | Status «موقوف»; that user is signed out on their next request (AU-40); reactivate restores it | [ ] | **auto** `admin` |
+| AD-07 | Try to suspend yourself / remove admin from the only admin | «لا يمكنك تنفيذ هذا الإجراء على حسابك.» (the only admin acting on themself always gets this; «لا يمكن إزالة آخر مسؤول.» is reachable only by another admin, so the test mocks it) | [ ] | **auto** `admin` |
+| AD-08 | Subscription → «تفعيل باقة» (no end date) | Active, ends one month later; included balance credited (see Balance tab) | [ ] | **auto** `admin` |
+| AD-09 | Activate with a custom end date | That end date shown | [ ] | **auto** `admin` |
+| AD-10 | «إنهاء الباقة» | Danger confirm with «سينتهي كل رصيد المستخدم فورًا»; after it, the user's balance is 0 and the ledger shows «انتهاء الرصيد» | [ ] | **auto** `admin` |
+| AD-11 | Balance → «إضافة أو خصم رصيد» `0.5` then `-0.2` | Balance +0.50 then −0.20; ledger rows «تعديل يدوي» with «مسؤول: <first 8 characters of your id>» (copy button) and the reason; the user's own Balance page matches | [ ] | **auto** `admin` |
+| AD-12 | Amount `abc`, `1.2.3`, empty reason | Field errors; nothing sent | [ ] | **auto** `admin` |
+| AD-13 | «تسجيل دفعة» amount + reference `INV-TEST-1` | Ledger «تسجيل دفعة»; repeating the same reference with a different amount → «رقم الدفعة هذا مسجّل بالفعل…» | [ ] | **auto** `admin` |
+| AD-14 | Ledger reference / actor ids | Shortened to 8 characters, full value on hover, copy button works | [ ] | **auto** `admin` |
+| AD-15 | Adjust your **own** balance as admin, then open `/balance` | Customer balance already updated (no reload needed) | [ ] | **auto** `admin` |
 
 ### Catalog and settings
 
-| ID | Steps | Expected |
-|---|---|---|
-| AD-16 | Plans list | Price, included balance, mode **labels**, active/public/default, subscriber count |
-| AD-17 | Create a test plan (key `qa-plan`), set its modes; try key `new` and a duplicate key | Created and listed; `/plans` (customer) shows it if public; `new` rejected; duplicate → «توجد باقة بهذا المفتاح بالفعل.» |
-| AD-18 | Make the default plan non-default with no other default | «يجب أن تكون هناك باقة افتراضية دائمًا.» |
-| AD-19 | Providers | Keys only as `••••1234` or «لا يوجد مفتاح»; mock/dev providers visible to admins only |
-| AD-20 | Set a provider key that is invalid (e.g. `invalid-key-123`) | «رفض المزوّد مفتاح الواجهة البرمجية.»; the field is cleared; the key never appears again |
-| AD-21 | Models list at 1440px | All columns visible incl. current price; margin like `40%`; mode labels |
-| AD-22 | Model detail → schedule a price in the future; then one overlapping an existing period | Listed in history with date and time; overlap → «يتعارض هذا السعر مع سعر آخر مجدول.» |
-| AD-23 | Model test: prompt > 500 chars or tokens > 256 | Blocked before the paid confirmation |
-| AD-24 | Model test with a short prompt, confirm the paid-request dialog | Reply, finish reason, usage, timings, provider cost and customer charge with full precision (e.g. `0.000092$`) — **costs real money** |
-| AD-25 | Modes list | «جاهز» or the not-ready reason; disable a mode → customers lose it in the mode menu (RF-09); re-enable |
-| AD-26 | Mode own system prompt / Settings default prompt | Counter, max 10,000; empty default prompt rejected; text `dir="auto"` |
-| AD-27 | Settings → margin `35` | Saved; models list margin and customer `/modes` prices reflect it; **restore 40** |
+| ID | Steps | Expected | Result | Notes |
+|---|---|---|---|---|
+| AD-16 | Plans list | Price, included balance, mode **labels**, active/public/default, subscriber count | [ ] | **auto** `admin` |
+| AD-17 | Create a test plan (key `qa-plan`), set its modes; try key `new` and a duplicate key | Created and listed; `/plans` (customer) shows it if public; `new` rejected; duplicate → «توجد باقة بهذا المفتاح بالفعل.» | [ ] | **auto** `admin` |
+| AD-18 | Make the default plan non-default with no other default | The default plan's «الباقة الافتراضية» and «نشطة» boxes are locked, so it can't be made non-default from the screen; the API answers `DEFAULT_PLAN_REQUIRED` («يجب أن تكون هناك باقة افتراضية دائمًا.») | [ ] | **auto** `admin` |
+| AD-19 | Providers | Keys only as `••••1234` or «لا يوجد مفتاح»; mock/dev providers visible to admins only | [ ] | **auto** `admin` |
+| AD-20 | Set a provider key that is invalid (e.g. `invalid-key-123`) | «رفض المزوّد مفتاح الواجهة البرمجية.»; the field is cleared; the key never appears again | [ ] | **auto** `admin` |
+| AD-21 | Models list at 1440px | All columns visible incl. current price; margin like `40%`; mode labels | [ ] | **auto** `admin` |
+| AD-22 | Model detail → schedule a price in the future; then one overlapping an existing period | Listed in history with date and time; overlap → «يتعارض هذا السعر مع سعر آخر مجدول.» | [ ] | **auto** `admin` |
+| AD-23 | Model test: prompt > 500 chars or tokens > 256 | Blocked before the paid confirmation | [ ] | **auto** `admin` |
+| AD-24 | Model test with a short prompt, confirm the paid-request dialog | Reply, finish reason, usage, timings, provider cost and customer charge with full precision (e.g. `0.000092$`) — **costs real money** | [ ] | **auto** `admin` |
+| AD-25 | Modes list | «جاهز» or the not-ready reason; disable a mode → customers lose it in the mode menu (RF-09); re-enable | [ ] | **auto** `admin` |
+| AD-26 | Mode own system prompt / Settings default prompt | Counter, max 10,000; empty default prompt rejected; text `dir="auto"` | [ ] | **auto** `admin` |
+| AD-27 | Settings → margin `35` | Saved; models list margin and customer `/modes` prices reflect it; **restore 40** | [ ] | **auto** `admin` |
 
 ---
 
@@ -333,81 +344,81 @@ Every write asks for a reason (3–500 characters). Use a **test** user as the t
 
 ### Creating images
 
-| ID | Steps | Expected |
-|---|---|---|
-| IC-01 | Pick the image mode; open the mode menu | Image modes show the image icon + «صورة»; the empty state reads «صِف الصورة التي تريدها» with «أرفق صورة لتعديلها» and 4 idea chips (chips fill the box, never send) |
-| IC-02 | For each ratio (1:1, 3:4, 4:3, 9:16, 16:9) send a prompt | While creating, the placeholder «جارٍ إنشاء الصورة…» has that shape; 💲 the image comes back in that shape |
-| IC-03 | 💲 «تلقائي», attach a portrait photo, «اجعلها بأسلوب كرتوني» | The result follows the photo's shape |
-| IC-04 | 💲 In the same conversation: «اجعلها أكثر إشراقًا» | The last image is edited, not a new unrelated one |
-| IC-05 | An answer with an image and no text | Only the image and its actions; no empty text block, no «يكتب…» |
-| IC-06 | 💲 A request the model answers with text only | A normal answer card; the creating placeholder disappears |
-| IC-07 | 💲 A clearly disallowed image request | Red card with the CONTENT_BLOCKED text, «إعادة المحاولة»; the draft is kept |
-| IC-08 | Press Stop before the image arrives | No image; the "cut" note shows |
-| IC-09 | 💲 Press Stop after the image arrived (slow model) | The image stays; the "cut" note shows |
-| IC-10 | After a failed image answer (IC-07), press «إعادة المحاولة» | It sends again with the same ratio (16:9 stays 16:9) |
+| ID | Steps | Expected | Result | Notes |
+|---|---|---|---|---|
+| IC-01 | Pick the image mode; open the mode menu | Image modes show the image icon + «صورة»; the empty state reads «صِف الصورة التي تريدها» with «أرفق صورة لتعديلها» and 4 idea chips (chips fill the box, never send) | [ ] | **auto** `image-creation` |
+| IC-02 | For each ratio (1:1, 3:4, 4:3, 9:16, 16:9) send a prompt | While creating, the placeholder «جارٍ إنشاء الصورة…» has that shape; 💲 the image comes back in that shape | [ ] | **auto, partly** `image-creation`: placeholder shape only; the returned shape needs a real model |
+| IC-03 | 💲 «تلقائي», attach a portrait photo, «اجعلها بأسلوب كرتوني» | The result follows the photo's shape | [ ] |  |
+| IC-04 | 💲 In the same conversation: «اجعلها أكثر إشراقًا» | The last image is edited, not a new unrelated one | [ ] |  |
+| IC-05 | An answer with an image and no text | Only the image and its actions; no empty text block, no «يكتب…» | [ ] | **auto** `image-creation` |
+| IC-06 | 💲 A request the model answers with text only | A normal answer card; the creating placeholder disappears | [ ] | **auto** `image-creation` |
+| IC-07 | 💲 A clearly disallowed image request | Red card with the CONTENT_BLOCKED text, «إعادة المحاولة»; the box is empty (the message was sent) and «إعادة المحاولة» resends the same prompt | [ ] | **auto** `image-creation` |
+| IC-08 | Press Stop immediately after sending, before the server starts answering (as CH-16) | Your message disappears from the list and is back in the message box; nothing is sent again. Stop after the image arrived is IC-09 | [ ] | **auto** `image-creation` |
+| IC-09 | 💲 Press Stop after the image arrived (slow model) | The image stays; the "cut" note shows | [ ] | **auto, partly** `image-creation`: the returned shape needs a real model |
+| IC-10 | After a failed image answer (IC-07), press «إعادة المحاولة» | It sends again with the same ratio (16:9 stays 16:9) | [ ] | **auto** `image-creation` |
 
 ### Mode and composer
 
-| ID | Steps | Expected |
-|---|---|---|
-| IC-11 | Switch from the image mode to «سريع», then back | The ratio chip hides in text modes and comes back with this conversation's last choice |
-| IC-12 | Conversation A: 16:9; conversation B: «تلقائي»; switch between them | Each keeps its own ratio |
-| IC-13 | New chat: choose 16:9, send | The new conversation keeps 16:9 |
-| IC-14 | While an image is being created | Ratio chip, mode chip and Send are disabled; Stop is available |
-| IC-15 | In the image mode, attach a photo | Attaching works as in text modes that read images |
+| ID | Steps | Expected | Result | Notes |
+|---|---|---|---|---|
+| IC-11 | Switch from the image mode to «سريع», then back | The ratio chip hides in text modes and comes back with this conversation's last choice | [ ] | **auto** `image-creation` |
+| IC-12 | Conversation A: 16:9; conversation B: «تلقائي»; switch between them | Each keeps its own ratio | [ ] | **auto** `image-creation` |
+| IC-13 | New chat: choose 16:9, send | The new conversation keeps 16:9 | [ ] | **auto** `image-creation` |
+| IC-14 | While an image is being created | Ratio chip, mode chip and Send are disabled; Stop is available | [ ] | **auto, partly** `image-creation`: ratio chip and Send automated; mode chip is fixme (suspected app bug) |
+| IC-15 | In the image mode, attach a photo | Attaching works as in text modes that read images | [ ] | **auto** `image-creation` |
 
 ### Viewing and download
 
-| ID | Steps | Expected |
-|---|---|---|
-| IC-16 | «فتح بالحجم الكامل»; close with Escape, then with the close button | Full-screen viewer; focus returns to «فتح بالحجم الكامل» |
-| IC-17 | «تنزيل» from the card, then from the viewer; click several times fast | Saves `lam7a-<id>.webp` that opens in the system viewer; one copy per download (the button is disabled while saving) |
-| IC-18 | Reload; open the conversation from the sidebar; sign out and in | Images load each time (placeholder first) |
-| IC-19 | As another user, open the first user's `/chat/<id>` | «لم يتم العثور على المحادثة.» with «بدء محادثة جديدة»; no image is shown or downloadable |
+| ID | Steps | Expected | Result | Notes |
+|---|---|---|---|---|
+| IC-16 | «فتح بالحجم الكامل»; close with Escape, then with the close button | Full-screen viewer; focus returns to «فتح بالحجم الكامل» | [ ] | **auto** `image-creation` |
+| IC-17 | «تنزيل» from the card, then from the viewer; click several times fast | Saves `lam7a-<id>.webp` that opens in the system viewer; one copy per download (the button is disabled while saving) | [ ] | **auto** `image-creation` |
+| IC-18 | Reload; open the conversation from the sidebar; sign out and in | Images load each time (placeholder first) | [ ] | **auto** `image-creation` |
+| IC-19 | As another user, open the first user's `/chat/<id>` | «لم يتم العثور على المحادثة.» with «بدء محادثة جديدة»; no image is shown or downloadable | [ ] | **auto** `image-creation` |
 
 ### Balance and limits
 
-| ID | Steps | Expected |
-|---|---|---|
-| IC-20 | Watch the balance chip around an image answer | It drops after each image (mock: tiny; 💲 about $0.04–0.19); no per-answer price is shown |
-| IC-21 | Balance near zero (admin), send in the image mode | INSUFFICIENT_BALANCE: alternatives list only image modes (in a text mode, only text modes); nothing sends or switches by itself |
-| IC-22 | Send many messages quickly | Rate-limit countdown; the draft is kept |
+| ID | Steps | Expected | Result | Notes |
+|---|---|---|---|---|
+| IC-20 | Watch the balance chip around an image answer | It drops after each image (mock: tiny; 💲 about $0.04–0.19); no per-answer price is shown | [ ] | **auto** `image-creation` |
+| IC-21 | Balance near zero (admin), send in the image mode | INSUFFICIENT_BALANCE: alternatives list only image modes (in a text mode, only text modes); nothing sends or switches by itself | [ ] | **auto** `image-creation` |
+| IC-22 | Send many messages quickly | Rate-limit countdown; the draft is kept | [ ] | **auto** `image-creation` |
 
 ### Mobile (375 px) and accessibility
 
-| ID | Steps | Expected |
-|---|---|---|
-| IC-23 | Phone width: open the ratio menu, create a 9:16 image | Menu fully visible; no sideways scroll; the image fits the screen height (capped at about 512 px) |
-| IC-24 | Keyboard only: Tab to the ratio chip, Enter, arrows, Enter; then open and download | Everything reachable with a visible focus ring |
-| IC-25 | Screen reader (NVDA / VoiceOver) while creating, then on the image | «جارٍ إنشاء الصورة…» announced once; the image reads «صورة أنشأها المساعد» |
+| ID | Steps | Expected | Result | Notes |
+|---|---|---|---|---|
+| IC-23 | Phone width: open the ratio menu, create a 9:16 image | Menu fully visible; no sideways scroll; the image fits the screen height (capped at about 512 px) | [ ] | **auto** `image-creation` |
+| IC-24 | Keyboard only: Tab to the ratio chip, Enter, arrows, Enter; then open and download | Everything reachable with a visible focus ring | [ ] | **auto** `image-creation` |
+| IC-25 | Screen reader (NVDA / VoiceOver) while creating, then on the image | «جارٍ إنشاء الصورة…» announced once; the image reads «صورة أنشأها المساعد» | [ ] |  |
 
 ### Admin
 
-| ID | Steps | Expected |
-|---|---|---|
-| IC-26 | New model: turn on «ينشئ الصور»; set max output 2000, save | «يقرأ الصور» turns on and locks (with the reason); the image-rate price hint shows; save is refused: «الحد الأدنى 2,500 عند إنشاء الصور» |
-| IC-27 | Model test on the mock image model; then on a model that returns no image | A preview with its size in بايت; otherwise «لم يُرجع النموذج صورة» |
-| IC-28 | An image mode on a provider without an image path (not Gemini / mock) | Modes list: «مزوّد هذا النموذج لا يدعم إنشاء الصور.» |
-| IC-29 | Look through the mode menu, image cards and errors as a user | No provider or model name anywhere |
+| ID | Steps | Expected | Result | Notes |
+|---|---|---|---|---|
+| IC-26 | New model: turn on «ينشئ الصور»; set max output 2000, save | «يقرأ الصور» turns on and locks (with the reason); the image-rate price hint shows; save is refused: «الحد الأدنى 2,500 عند إنشاء الصور» | [ ] | **auto** `image-creation` |
+| IC-27 | Model test on the mock image model; then on a model that returns no image | A preview with its size in بايت; otherwise «لم يُرجع النموذج صورة» | [ ] | **auto** `image-creation` |
+| IC-28 | An image mode on a provider without an image path (not Gemini / mock) | Modes list: «مزوّد هذا النموذج لا يدعم إنشاء الصور.» | [ ] | **auto** `image-creation` |
+| IC-29 | Look through the mode menu, image cards and errors as a user | No provider or model name anywhere | [ ] | **auto** `image-creation` |
 
 ---
 
 ## 4. Cross-cutting checks
 
-| ID | Check | Expected |
-|---|---|---|
-| X-01 | Language | No English UI text anywhere (except code, emails and URLs); no model or provider names (Gemini, GPT, Claude…) |
-| X-02 | Money | Always `0.0015$` / `14.48$` style, dollar after the number, Western digits; never `$0.0015` inside Arabic text |
-| X-03 | Digits and dates | Western digits everywhere (times, counts, money) |
-| X-04 | Keyboard only | Tab through sign-in, chat, menus, drawer and dialogs: every control reachable in a sensible order, visible indigo focus ring, Esc closes popups |
-| X-05 | Screen reader (NVDA/VoiceOver spot check) | Icon buttons have names (menu, send/stop, copy, show password, account menu); errors are announced |
-| X-06 | Touch targets on mobile | Buttons and links are comfortable to tap (≥44px) |
-| X-07 | Reduced motion (OS setting) | No flickering caret/dots; no animations |
-| X-08 | Zoom 200% | Layout still usable, no overlapping text |
-| X-09 | Cursor | Pointer on all enabled buttons; default on disabled ones |
-| X-10 | Brand | Name and monogram «بيان» / «ب» everywhere; the browser tab title is «بيان» |
-| X-11 | Console | DevTools console has no errors during the flows above |
-| X-12 | Privacy | Address bar never contains email addresses or tokens; DevTools → Network: requests only to `localhost:3000` (API) and `localhost:9999` (auth), plus Google Fonts |
+| ID | Check | Expected | Result | Notes |
+|---|---|---|---|---|
+| X-01 | Language | No English UI text anywhere (except code, emails and URLs); no model or provider names (Gemini, GPT, Claude…) | [ ] | **auto** `cross-cutting` |
+| X-02 | Money | Always `0.0015$` / `14.48$` style, dollar after the number, Western digits; never `$0.0015` inside Arabic text | [ ] | **auto** `cross-cutting` |
+| X-03 | Digits and dates | Western digits everywhere (times, counts, money) | [ ] | **auto** `cross-cutting` |
+| X-04 | Keyboard only | Tab through sign-in, chat, menus, drawer and dialogs: every control reachable in a sensible order, visible indigo focus ring, Esc closes popups | [ ] | **auto** `cross-cutting` |
+| X-05 | Screen reader (NVDA/VoiceOver spot check) | Icon buttons have names (menu, send/stop, copy, show password, account menu); errors are announced | [ ] | **auto, partly** `cross-cutting`: names and announcements only; the screen-reader pass stays manual |
+| X-06 | Touch targets on mobile | Buttons and links are comfortable to tap (≥44px) | [ ] | **auto** `cross-cutting` |
+| X-07 | Reduced motion (OS setting) | No flickering caret/dots; no animations | [ ] | **auto, partly** `cross-cutting`: emulated in the browser; the OS setting stays manual |
+| X-08 | Zoom 200% | Layout still usable, no overlapping text | [ ] | **auto, partly** `cross-cutting`: no sideways scroll and controls reachable; overlap is a visual check |
+| X-09 | Cursor | Pointer on all enabled buttons; default on disabled ones | [ ] | **auto** `cross-cutting` |
+| X-10 | Brand | Name and monogram «لمحة AI» / «ل» everywhere; the browser tab title is «لمحة AI» | [ ] | **auto** `cross-cutting` |
+| X-11 | Console | DevTools console has no errors during the flows above | [ ] | **auto** `cross-cutting` |
+| X-12 | Privacy | Address bar never contains email addresses or tokens; DevTools → Network: requests only to `localhost:3000` (API) and `localhost:9999` (auth), plus Google Fonts | [ ] | **auto** `cross-cutting` |
 
 ---
 
