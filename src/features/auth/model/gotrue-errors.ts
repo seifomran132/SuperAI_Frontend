@@ -10,6 +10,9 @@ const keyByCode: Record<string, string> = {
   over_request_rate_limit: 'authErrors.rateLimited',
   otp_expired: 'authErrors.otpExpired',
   same_password: 'authErrors.samePassword',
+  // Returned instead of the stand-in user when email confirmation is off.
+  user_already_exists: 'authErrors.emailExists',
+  email_exists: 'authErrors.emailExists',
 };
 
 /**

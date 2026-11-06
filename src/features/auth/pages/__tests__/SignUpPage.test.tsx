@@ -77,6 +77,20 @@ describe('sign-up page', () => {
     );
   });
 
+  it('says the email is already registered on the email field and stays (AU-07)', async () => {
+    authMock.signUp = 'exists';
+    const { here } = await open();
+    fillAll();
+    expect(
+      await screen.findByText(t.authErrors.emailExists),
+    ).toBeInTheDocument();
+    const email = screen.getByLabelText(t.auth.fields.email);
+    expect(email).toHaveAttribute('aria-invalid', 'true');
+    expect(email).toHaveFocus();
+    expect(email).toHaveValue('sara@test.local');
+    expect(here()).toBe('/sign-up');
+  });
+
   it('shows the rate limit message', async () => {
     authMock.signUp = 'rate_limited';
     await open();

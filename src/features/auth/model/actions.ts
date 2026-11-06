@@ -25,11 +25,26 @@ const resetUrl = () => `${window.location.origin}/reset-password`;
 export const signInWithPassword = (email: string, password: string) =>
   run(() => auth.signInWithPassword({ email, password }));
 
-export const signUpWithEmail = (input: {
+export const EMAIL_EXISTS_KEY = 'authErrors.emailExists';
+
+export async function signUpWithEmail(input: {
   email: string;
   password: string;
   fullName: string;
-}) => run(() => signUp(input));
+}): Promise<AuthResult> {
+  try {
+    const { data, error } = await signUp(input);
+    if (error) return { errorKey: authErrorKey(error) };
+    // With email confirmation on, GoTrue answers an address that is already
+    // registered with a stand-in user that has no identities instead of an
+    // error. We tell the user (product decision 2026-11-06, AU-07).
+    if (data.user?.identities?.length === 0)
+      return { errorKey: EMAIL_EXISTS_KEY };
+    return ok;
+  } catch (error) {
+    return { errorKey: authErrorKey(error) };
+  }
+}
 
 export const resendSignupEmail = (email: string) =>
   run(() =>

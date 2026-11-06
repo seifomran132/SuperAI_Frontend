@@ -119,7 +119,8 @@
     "weakPassword": "The password is too weak. Use at least 8 characters.",
     "rateLimited": "Too many attempts. Wait a moment and try again.",
     "otpExpired": "The link has expired or was already used. Request a new one.",
-    "samePassword": "The new password is the same as the old one. Choose a different password."
+    "samePassword": "The new password is the same as the old one. Choose a different password.",
+    "emailExists": "This email is already registered. Sign in or reset your password."
   },
   "shell": {
     "openMenu": "Open menu",

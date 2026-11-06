@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { TextLink } from '~/components/TextLink';
 import { Button } from '~/components/ui/button';
 import { Form } from '~/components/ui/form';
-import { signUpWithEmail } from '../model/actions';
+import { EMAIL_EXISTS_KEY, signUpWithEmail } from '../model/actions';
 import { AuthLayout } from '../components/AuthLayout';
 import { EmailField, NameField, PasswordField } from '../components/fields';
 import { FormAlert } from '../components/FormAlert';
@@ -30,11 +30,18 @@ export function SignUpPage() {
       form.setError('password', { message: result.errorKey });
       return;
     }
+    if (result.errorKey === EMAIL_EXISTS_KEY) {
+      form.setError(
+        'email',
+        { message: result.errorKey },
+        { shouldFocus: true },
+      );
+      return;
+    }
     if (result.errorKey) {
       setErrorKey(result.errorKey);
       return;
     }
-    // GoTrue answers the same way for an existing email, so we always end here.
     setPendingEmail(values.email);
     await navigate({ to: '/check-email', search: { reason: 'signup' } });
   }

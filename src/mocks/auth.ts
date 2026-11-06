@@ -11,7 +11,8 @@ export type Failing = 'rate_limited' | 'network_error';
 
 export interface AuthMockState {
   signIn: 'ok' | 'invalid_credentials' | 'email_not_confirmed' | Failing;
-  signUp: 'ok' | 'weak_password' | Failing;
+  /** `exists`: the address is already registered (GoTrue's stand-in user). */
+  signUp: 'ok' | 'weak_password' | 'exists' | Failing;
   /** Token refresh (used after a 401 from the API). */
   refresh: 'ok' | 'fail';
   resend: 'ok' | Failing;
@@ -151,8 +152,14 @@ export const authHandlers = [
     authMock.calls.push({ name: 'signup', body });
     if (authMock.signUp === 'weak_password')
       return gotrueError(422, 'weak_password', 'Password is too weak');
+    // An existing address gets a stand-in user with no identities, no error.
+    if (authMock.signUp === 'exists')
+      return HttpResponse.json({
+        ...gotrueUser(body.email),
+        email_confirmed_at: undefined,
+        identities: [],
+      });
     if (authMock.signUp !== 'ok') return failure(authMock.signUp);
-    // Same answer for new and existing addresses (no account enumeration).
     return HttpResponse.json({
       ...gotrueUser(body.email),
       email_confirmed_at: undefined,
