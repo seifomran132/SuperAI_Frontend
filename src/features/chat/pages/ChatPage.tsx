@@ -3,7 +3,9 @@ import { Link, useNavigate } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import { Alert } from '~/components/ui/alert';
 import { Button } from '~/components/ui/button';
-import type { MessageDto } from '~/api/generated/types.gen';
+import { useQueryClient } from '@tanstack/react-query';
+import { meGetQueryKey } from '~/api/generated/@tanstack/react-query.gen';
+import type { MeResponse, MessageDto } from '~/api/generated/types.gen';
 import { isApiError } from '~/api/errors';
 import {
   ChatNotice,
@@ -56,6 +58,7 @@ function CenteredState({ children }: { children: ReactNode }) {
 export function ChatPage({ conversationId }: { conversationId?: string }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const key = conversationId ?? NEW_CHAT;
   const [balanceDialog, setBalanceDialog] = useState(false);
   const textarea = useRef<HTMLTextAreaElement>(null);
@@ -114,8 +117,17 @@ export function ChatPage({ conversationId }: { conversationId?: string }) {
   }, []);
 
   const refusal = send.refusal;
+  const dismissRefusal = send.dismissRefusal;
   useEffect(() => {
     if (refusal?.code === 'PROFILE_INCOMPLETE') {
+      // Handled by leaving: kept, it would send the user back here again on
+      // return from /complete-profile.
+      dismissRefusal();
+      // The cached /me still has the old name, so the /complete-profile guard
+      // would send the user straight back. The API just told us it is missing.
+      queryClient.setQueryData<MeResponse>(meGetQueryKey(), (me) =>
+        me ? { ...me, fullName: null } : me,
+      );
       void navigate({
         to: '/complete-profile',
         search: {
@@ -123,7 +135,7 @@ export function ChatPage({ conversationId }: { conversationId?: string }) {
         },
       });
     }
-  }, [refusal, navigate, conversationId]);
+  }, [refusal, dismissRefusal, navigate, conversationId, queryClient]);
 
   // Before the conversation exists the optimistic message lives in the registry only.
   const messages = useMemo<MessageDto[]>(() => {

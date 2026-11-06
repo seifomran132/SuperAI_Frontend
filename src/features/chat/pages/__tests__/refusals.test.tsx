@@ -148,9 +148,17 @@ describe('refusals keep the draft and show the right notice', () => {
     expect(sends()).toHaveLength(1);
   });
 
-  it('PROFILE_INCOMPLETE goes to /complete-profile', async () => {
-    const { here } = await refuseWith(refusals.PROFILE_INCOMPLETE);
-    await waitFor(() => expect(here()).toMatch(/^\/complete-profile/));
+  it('PROFILE_INCOMPLETE goes to /complete-profile and stays there (RF-10)', async () => {
+    const { here, conv } = await refuseWith(refusals.PROFILE_INCOMPLETE);
+    // The cached /me still has a name; the page must not bounce back to the chat.
+    expect(
+      await screen.findByRole('heading', {
+        name: ar.auth.completeProfile.title,
+      }),
+    ).toBeInTheDocument();
+    expect(here()).toMatch(/^\/complete-profile/);
+    // Handled by leaving, so coming back to the chat doesn't send the user away again.
+    expect(useChatStore.getState().refusals[conv.id]).toBeUndefined();
   });
 
   it('a network failure keeps the draft; Retry reuses the same clientRequestId', async () => {
