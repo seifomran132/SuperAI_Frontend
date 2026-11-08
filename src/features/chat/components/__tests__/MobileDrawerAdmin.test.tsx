@@ -14,7 +14,7 @@ describe('mobile drawer: admin link', () => {
     await renderApp('/chat');
     const { dialog } = await openDrawer();
     expect(
-      await within(dialog).findByRole('link', { name: ar.admin.entry }),
+      await within(dialog).findByRole('link', { name: ar.shell.adminEntry }),
     ).toHaveAttribute('href', '/admin');
   });
 });

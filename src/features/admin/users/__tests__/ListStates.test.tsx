@@ -1,7 +1,7 @@
 import { fireEvent, screen } from '@testing-library/react';
 import { http, HttpResponse } from 'msw';
 import { describe, expect, it } from 'vitest';
-import ar from '~/i18n/ar.json';
+import ar from '~/test/ar';
 import { server } from '~/mocks/server';
 import { renderApp } from '~/test/render-app';
 import { useAdminSession } from './harness';

@@ -6,6 +6,7 @@ import {
   publicPlansListOptions,
 } from '~/api/generated/@tanstack/react-query.gen';
 import { RequestBalanceDialog } from '~/components/RequestBalanceDialog';
+import { RedeemCodeBox } from '~/features/balance/ui';
 import { RetryAlert } from '~/components/RetryAlert';
 import { PlanCard } from './PlanCard';
 
@@ -81,6 +82,7 @@ export function PlansContent({ signedIn }: { signedIn: boolean }) {
         </p>
       </div>
       {body}
+      {signedIn ? <RedeemCodeBox showPlansLink={false} /> : null}
       <RequestBalanceDialog open={dialog} onOpenChange={setDialog} />
     </>
   );

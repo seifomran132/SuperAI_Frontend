@@ -1,3 +1,5 @@
+import { validatePeriodSearch, type PeriodSearch } from '~/lib/period';
+
 export const USER_STATUSES = ['active', 'suspended', 'deleted'] as const;
 export type UserStatus = (typeof USER_STATUSES)[number];
 
@@ -31,13 +33,18 @@ export function validateUsersSearch(raw: Record<string, unknown>): UsersSearch {
   return result;
 }
 
-export const USER_TABS = ['overview', 'subscription', 'balance'] as const;
+export const USER_TABS = [
+  'overview',
+  'subscription',
+  'balance',
+  'usage',
+] as const;
 export type UserTab = (typeof USER_TABS)[number];
 
 export const USER_ACTIONS = ['activate-plan', 'add-funds'] as const;
 export type UserAction = (typeof USER_ACTIONS)[number];
 
-export interface UserDetailSearch {
+export interface UserDetailSearch extends PeriodSearch {
   tab?: UserTab;
   /** A dialog to open on arrival (row shortcuts on the users list). */
   action?: UserAction;
@@ -51,5 +58,7 @@ export function validateUserDetailSearch(
   if (USER_ACTIONS.includes(raw.action as UserAction)) {
     result.action = raw.action as UserAction;
   }
+  // The period belongs to the Usage tab only; other tabs drop it.
+  if (result.tab === 'usage') Object.assign(result, validatePeriodSearch(raw));
   return result;
 }

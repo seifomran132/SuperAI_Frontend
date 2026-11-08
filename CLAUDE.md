@@ -95,6 +95,7 @@ features/<name>/
 
 ### Text
 - Every user-visible string goes through i18next (`useTranslation`). Arabic is written first; keep `en.json` in sync.
+- Admin text lives in `src/i18n/admin.{ar,en}.json` and loads with the admin screens (`src/features/admin/i18n.ts`), so it stays out of the first-screen bundle.
 - Errors are shown by `code` (`t('errors:CODE')`, see `src/api/errors.ts`); the API's `message` is a developer fallback only. Form fields highlight from `details`.
 
 ### Money

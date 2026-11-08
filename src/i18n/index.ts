@@ -2,12 +2,10 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { brand } from '~/brand';
 import ar from './ar.json';
-import en from './en.json';
 import errorsAr from './errors.ar.json';
-import errorsEn from './errors.en.json';
 
-// Arabic is the default and only shipped language at launch; English is kept
-// in sync so another language can be enabled without code changes.
+// Arabic is the default and only shipped language at launch. English is kept
+// in sync but stays out of the first-screen bundle: `loadEnglish` loads it.
 export const defaultLanguage = 'ar';
 
 void i18n.use(initReactI18next).init({
@@ -16,7 +14,6 @@ void i18n.use(initReactI18next).init({
   supportedLngs: ['ar', 'en'],
   resources: {
     ar: { translation: ar, errors: errorsAr },
-    en: { translation: en, errors: errorsEn },
   },
   interpolation: {
     escapeValue: false,
@@ -24,6 +21,18 @@ void i18n.use(initReactI18next).init({
   },
   returnNull: false,
 });
+
+/** Enables English on demand; call it before switching the language to `en`. */
+export async function loadEnglish() {
+  const [en, adminEn, errorsEn] = await Promise.all([
+    import('./en.json'),
+    import('./admin.en.json'),
+    import('./errors.en.json'),
+  ]);
+  i18n.addResourceBundle('en', 'translation', en.default);
+  i18n.addResourceBundle('en', 'translation', adminEn.default, true, true);
+  i18n.addResourceBundle('en', 'errors', errorsEn.default);
+}
 
 export function directionOf(language: string): 'rtl' | 'ltr' {
   return i18n.dir(language);

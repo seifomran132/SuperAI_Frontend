@@ -1,6 +1,7 @@
 import { Link } from '@tanstack/react-router';
 import { useQuery } from '@tanstack/react-query';
 import {
+  BarChart3,
   ChevronDown,
   CreditCard,
   LogOut,
@@ -92,6 +93,12 @@ export function AccountMenu() {
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
+          <Link to="/usage">
+            <BarChart3 aria-hidden="true" className="text-fg-muted size-5" />
+            {t('shell.usage')}
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
           <Link to="/account">
             <User aria-hidden="true" className="text-fg-muted size-5" />
             {t('shell.account')}
@@ -104,7 +111,7 @@ export function AccountMenu() {
                 aria-hidden="true"
                 className="text-fg-muted size-5"
               />
-              {t('admin.entry')}
+              {t('shell.adminEntry')}
             </Link>
           </DropdownMenuItem>
         ) : null}

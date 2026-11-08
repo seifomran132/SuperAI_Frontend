@@ -12,13 +12,27 @@ import { AdminSidebar } from './AdminSidebar';
 /** Title key (admin.titles.*) for an admin path. */
 function titleKey(pathname: string): string {
   const [, , area, rest] = pathname.split('/');
-  if (area === 'plans' || area === 'models' || area === 'modes') {
+  if (
+    area === 'plans' ||
+    area === 'models' ||
+    area === 'modes' ||
+    area === 'vouchers'
+  ) {
     const one =
-      area === 'plans' ? 'plan' : area === 'models' ? 'model' : 'mode';
+      area === 'plans'
+        ? 'plan'
+        : area === 'models'
+          ? 'model'
+          : area === 'vouchers'
+            ? 'voucher'
+            : 'mode';
     return !rest ? area : rest === 'new' ? `${one}New` : `${one}Detail`;
   }
   if (area === 'providers' || area === 'settings') return area;
   if (area === 'price-updates') return 'priceUpdates';
+  if (area === 'overview') return 'overview';
+  if (area === 'requests') return 'flagged';
+  if (area === 'audit') return 'audit';
   return area === 'users' && rest ? 'userDetail' : 'users';
 }
 

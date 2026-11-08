@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it } from 'vitest';
-import ar from '~/i18n/ar.json';
+import ar from '~/test/ar';
 import { server } from '~/mocks/server';
 import { resetAdminMock } from '~/mocks/admin';
 import { authMock, defaultProfile } from '~/mocks/auth';
@@ -34,11 +34,15 @@ describe('admin guard', () => {
     expect(adminRequests).toEqual([]);
   });
 
-  it('opens the users list for an admin and /admin goes there', async () => {
+  it('opens the overview for an admin and /admin goes there', async () => {
     asAdmin(true);
     const { here } = await renderApp('/admin');
-    expect(await screen.findByText('sara@example.com')).toBeInTheDocument();
-    expect(here()).toBe('/admin/users');
+    expect(
+      await screen.findByRole('heading', {
+        name: ar.admin.reports.overview.attention.title,
+      }),
+    ).toBeInTheDocument();
+    expect(here()).toBe('/admin/overview');
     expect(
       screen.getByRole('link', { name: ar.admin.nav.backToApp }),
     ).toHaveAttribute('href', '/chat');

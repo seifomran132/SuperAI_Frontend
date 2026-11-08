@@ -9,9 +9,10 @@ import {
   type BrowserContext,
   type Page,
 } from '@playwright/test';
+import adminAr from '../src/i18n/admin.ar.json' with { type: 'json' };
 import ar from '../src/i18n/ar.json' with { type: 'json' };
 
-export const text = ar;
+export const text = { ...ar, ...adminAr };
 
 export const API = 'http://localhost:3000';
 export const GOTRUE = 'http://localhost:9999';

@@ -1,4 +1,13 @@
-import { formatUsd } from '~/lib/money';
+import { formatUsd, moneyTick } from '~/lib/money';
+
+describe('moneyTick', () => {
+  it('rounds float noise and keeps small values readable', () => {
+    expect(moneyTick(0.15000000000000002)).toBe('0.15$');
+    expect(moneyTick(0.0005)).toBe('0.0005$');
+    expect(moneyTick(0)).toBe('0.00$');
+    expect(moneyTick(1250, 'en')).toBe('$1,250.00');
+  });
+});
 
 describe('formatUsd', () => {
   it('formats API decimal strings with two decimals', () => {

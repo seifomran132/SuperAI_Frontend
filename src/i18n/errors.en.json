@@ -52,5 +52,11 @@
   "TOO_MANY_ATTACHMENTS": "You can attach up to 3 images per message.",
   "UNAUTHENTICATED": "Please sign in to continue.",
   "USER_NOT_FOUND": "User not found.",
-  "VALIDATION_FAILED": "Some information is invalid. Please check and try again."
+  "VALIDATION_FAILED": "Some information is invalid. Please check and try again.",
+  "VOUCHER_ALREADY_REDEEMED": "You've already used this code.",
+  "VOUCHER_CODE_TAKEN": "A voucher with this code already exists.",
+  "VOUCHER_EXPIRED": "This code has expired or is not active yet.",
+  "VOUCHER_NOT_ELIGIBLE": "This code can't be used on your account.",
+  "VOUCHER_NOT_FOUND": "This code isn't valid. Check it and try again.",
+  "VOUCHER_USED_UP": "This code has been fully used."
 }

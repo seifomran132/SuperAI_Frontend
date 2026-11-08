@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import '~/i18n';
-import ar from '~/i18n/ar.json';
+import ar from '~/test/ar';
 import { ReasonDialog } from '../ReasonDialog';
 import { Section } from '../Section';
 

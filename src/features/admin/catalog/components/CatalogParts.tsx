@@ -7,7 +7,8 @@ import { buttonVariants } from '~/components/ui/button';
 import { cn } from '~/lib/utils';
 import { Badge } from '../../components/Badge';
 
-type Area = '/admin/plans' | '/admin/models' | '/admin/modes';
+type Area =
+  '/admin/plans' | '/admin/models' | '/admin/modes' | '/admin/vouchers';
 
 /** Loading / recoverable error; renders `children` once data is there. */
 export function QueryState({

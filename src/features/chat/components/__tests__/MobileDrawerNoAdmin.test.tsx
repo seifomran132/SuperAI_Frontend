@@ -12,7 +12,7 @@ describe('mobile drawer: admin link', () => {
     const { dialog } = await openDrawer();
     await within(dialog).findByRole('link', { name: ar.shell.account });
     expect(
-      within(dialog).queryByRole('link', { name: ar.admin.entry }),
+      within(dialog).queryByRole('link', { name: ar.shell.adminEntry }),
     ).not.toBeInTheDocument();
   });
 });

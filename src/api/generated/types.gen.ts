@@ -217,7 +217,7 @@ export type FieldErrorDto = {
 
 export type ApiErrorResponseDto = {
     statusCode: number;
-    code: 'UNAUTHENTICATED' | 'INVALID_TOKEN' | 'ACCOUNT_NOT_FOUND' | 'ACCOUNT_SUSPENDED' | 'ACCOUNT_DELETED' | 'FORBIDDEN' | 'VALIDATION_FAILED' | 'USER_NOT_FOUND' | 'EMAIL_NOT_CONFIRMED' | 'ACCOUNT_NOT_ACTIVE' | 'CANNOT_MODIFY_SELF' | 'LAST_ADMIN' | 'PROVIDER_NOT_FOUND' | 'PROVIDER_ALREADY_EXISTS' | 'PROVIDER_KEY_INVALID' | 'PROVIDER_KEY_NOT_USED' | 'PROVIDER_KEY_MISSING' | 'PROVIDER_UNAVAILABLE' | 'MODEL_NOT_FOUND' | 'MODEL_ALREADY_EXISTS' | 'MODEL_IN_USE' | 'CATALOG_FINDING_NOT_FOUND' | 'CATALOG_FINDING_NOT_OPEN' | 'CATALOG_FINDING_NOT_APPLICABLE' | 'CATALOG_FINDING_OUTDATED' | 'CATALOG_SYNC_RUNNING' | 'MODE_NOT_FOUND' | 'MODE_ALREADY_EXISTS' | 'MODE_NOT_AVAILABLE' | 'PRICE_PERIOD_CONFLICT' | 'PLAN_NOT_FOUND' | 'PLAN_ALREADY_EXISTS' | 'PLAN_NOT_ACTIVE' | 'DEFAULT_PLAN_REQUIRED' | 'NO_ACTIVE_SUBSCRIPTION' | 'INSUFFICIENT_BALANCE' | 'IDEMPOTENCY_KEY_REUSED' | 'PAYMENT_REFERENCE_REUSED' | 'CONVERSATION_NOT_FOUND' | 'CONVERSATION_BUSY' | 'CONTEXT_TOO_LONG' | 'PROFILE_INCOMPLETE' | 'DUPLICATE_REQUEST' | 'RATE_LIMITED' | 'PROVIDER_MISCONFIGURED' | 'PROVIDER_TIMEOUT' | 'PROVIDER_ERROR' | 'CONTENT_BLOCKED' | 'ATTACHMENT_TOO_LARGE' | 'ATTACHMENT_TYPE_NOT_ALLOWED' | 'ATTACHMENT_NOT_FOUND' | 'ATTACHMENT_ALREADY_USED' | 'TOO_MANY_ATTACHMENTS' | 'MODE_NO_IMAGE_SUPPORT';
+    code: 'UNAUTHENTICATED' | 'INVALID_TOKEN' | 'ACCOUNT_NOT_FOUND' | 'ACCOUNT_SUSPENDED' | 'ACCOUNT_DELETED' | 'FORBIDDEN' | 'VALIDATION_FAILED' | 'USER_NOT_FOUND' | 'EMAIL_NOT_CONFIRMED' | 'ACCOUNT_NOT_ACTIVE' | 'CANNOT_MODIFY_SELF' | 'LAST_ADMIN' | 'PROVIDER_NOT_FOUND' | 'PROVIDER_ALREADY_EXISTS' | 'PROVIDER_KEY_INVALID' | 'PROVIDER_KEY_NOT_USED' | 'PROVIDER_KEY_MISSING' | 'PROVIDER_UNAVAILABLE' | 'MODEL_NOT_FOUND' | 'MODEL_ALREADY_EXISTS' | 'MODEL_IN_USE' | 'CATALOG_FINDING_NOT_FOUND' | 'CATALOG_FINDING_NOT_OPEN' | 'CATALOG_FINDING_NOT_APPLICABLE' | 'CATALOG_FINDING_OUTDATED' | 'CATALOG_SYNC_RUNNING' | 'MODE_NOT_FOUND' | 'MODE_ALREADY_EXISTS' | 'MODE_NOT_AVAILABLE' | 'PRICE_PERIOD_CONFLICT' | 'PLAN_NOT_FOUND' | 'PLAN_ALREADY_EXISTS' | 'PLAN_NOT_ACTIVE' | 'DEFAULT_PLAN_REQUIRED' | 'NO_ACTIVE_SUBSCRIPTION' | 'VOUCHER_NOT_FOUND' | 'VOUCHER_EXPIRED' | 'VOUCHER_USED_UP' | 'VOUCHER_ALREADY_REDEEMED' | 'VOUCHER_NOT_ELIGIBLE' | 'VOUCHER_CODE_TAKEN' | 'INSUFFICIENT_BALANCE' | 'IDEMPOTENCY_KEY_REUSED' | 'PAYMENT_REFERENCE_REUSED' | 'CONVERSATION_NOT_FOUND' | 'CONVERSATION_BUSY' | 'CONTEXT_TOO_LONG' | 'PROFILE_INCOMPLETE' | 'DUPLICATE_REQUEST' | 'RATE_LIMITED' | 'PROVIDER_MISCONFIGURED' | 'PROVIDER_TIMEOUT' | 'PROVIDER_ERROR' | 'CONTENT_BLOCKED' | 'ATTACHMENT_TOO_LARGE' | 'ATTACHMENT_TYPE_NOT_ALLOWED' | 'ATTACHMENT_NOT_FOUND' | 'ATTACHMENT_ALREADY_USED' | 'TOO_MANY_ATTACHMENTS' | 'MODE_NO_IMAGE_SUPPORT';
     /**
      * English fallback; clients localize by `code`.
      */
@@ -341,6 +341,79 @@ export type UpdateConversationDto = {
      * New title; whitespace is collapsed and trimmed, 1 to 60 characters
      */
     title: string;
+};
+
+export type MyUsageTotalsDto = {
+    messages: number;
+    /**
+     * What you were charged
+     */
+    chargedUsd: string;
+    inputTokens: number;
+    outputTokens: number;
+};
+
+export type MyUsageByModeDto = {
+    modeKey: string;
+    /**
+     * Null if the mode was removed
+     */
+    labelAr: string | null;
+    labelEn: string | null;
+    messages: number;
+    chargedUsd: string;
+};
+
+export type MyUsageByDayDto = {
+    date: string;
+    messages: number;
+    chargedUsd: string;
+};
+
+export type MyUsageDto = {
+    month: string;
+    totals: MyUsageTotalsDto;
+    /**
+     * Most charged first
+     */
+    byMode: Array<MyUsageByModeDto>;
+    /**
+     * Every day of the month up to today, oldest first
+     */
+    byDay: Array<MyUsageByDayDto>;
+};
+
+export type RedeemVoucherDto = {
+    /**
+     * Case and spaces around it do not matter
+     */
+    code: string;
+};
+
+export type RedeemedPlanDto = {
+    key: string;
+    nameAr: string;
+    nameEn: string;
+    /**
+     * When the trial ends
+     */
+    currentPeriodEnd: string;
+};
+
+export type RedeemResultDto = {
+    kind: 'balance' | 'trial';
+    /**
+     * Balance added: the code amount, or the plan balance a trial credited
+     */
+    creditedUsd: string;
+    /**
+     * Trials: the plan started
+     */
+    plan: RedeemedPlanDto | null;
+    /**
+     * Spendable balance after
+     */
+    balanceUsd: string;
 };
 
 export type AdminUserDto = {
@@ -1313,6 +1386,452 @@ export type UpdateChatSettingsDto = {
     defaultSystemPrompt: string;
 };
 
+export type OverviewUsersDto = {
+    /**
+     * Accounts, deleted ones excluded
+     */
+    total: number;
+    /**
+     * Signed up in the period
+     */
+    new: number;
+    /**
+     * Sent at least one message in the period
+     */
+    active: number;
+};
+
+export type OverviewPlanDto = {
+    planKey: string;
+    nameAr: string;
+    nameEn: string;
+    /**
+     * Active subscriptions now
+     */
+    active: number;
+};
+
+export type OverviewMoneyDto = {
+    /**
+     * Offline payments recorded
+     */
+    purchasesUsd: string;
+    /**
+     * Plan balance credited on activation
+     */
+    subscriptionCreditsUsd: string;
+    /**
+     * Voucher balance credited
+     */
+    voucherCreditsUsd: string;
+    /**
+     * Admin adjustments, net (gifts minus corrections)
+     */
+    adjustmentsUsd: string;
+    /**
+     * Balance expired with ended plans
+     */
+    expiredUsd: string;
+};
+
+export type UsageTotalsDto = {
+    /**
+     * Messages answered (or attempted)
+     */
+    requests: number;
+    /**
+     * Of those, flagged `reconciliation_required` for review
+     */
+    flaggedRequests: number;
+    inputTokens: number;
+    cachedInputTokens: number;
+    /**
+     * Including thinking and created images
+     */
+    outputTokens: number;
+    /**
+     * What users were charged
+     */
+    chargedUsd: string;
+    /**
+     * What the providers cost us
+     */
+    providerCostUsd: string;
+    /**
+     * chargedUsd − providerCostUsd (can be negative)
+     */
+    marginUsd: string;
+    /**
+     * Cost above the hold, paid by us (never charged)
+     */
+    absorbedUsd: string;
+};
+
+export type OverviewCountDto = {
+    key: string;
+    requests: number;
+    chargedUsd: string;
+};
+
+export type OverviewDayDto = {
+    date: string;
+    requests: number;
+    chargedUsd: string;
+    providerCostUsd: string;
+    newUsers: number;
+};
+
+export type OverviewDto = {
+    from: string;
+    to: string;
+    users: OverviewUsersDto;
+    /**
+     * Now, by plan
+     */
+    subscriptions: Array<OverviewPlanDto>;
+    /**
+     * Ledger in the period
+     */
+    money: OverviewMoneyDto;
+    /**
+     * Usage in the period
+     */
+    usage: UsageTotalsDto;
+    /**
+     * Images created by image modes in the period
+     */
+    imagesCreated: number;
+    /**
+     * Images users uploaded in the period
+     */
+    imagesUploaded: number;
+    /**
+     * Open catalog sync findings now
+     */
+    openCatalogFindings: number;
+    /**
+     * Requests flagged for review now (any period)
+     */
+    requestsToReview: number;
+    /**
+     * Top 10 modes
+     */
+    topModes: Array<OverviewCountDto>;
+    /**
+     * Top 10 models (key = provider/model id)
+     */
+    topModels: Array<OverviewCountDto>;
+    /**
+     * Every day, oldest first
+     */
+    byDay: Array<OverviewDayDto>;
+};
+
+export type UsageByModeDto = {
+    /**
+     * Messages answered (or attempted)
+     */
+    requests: number;
+    /**
+     * Of those, flagged `reconciliation_required` for review
+     */
+    flaggedRequests: number;
+    inputTokens: number;
+    cachedInputTokens: number;
+    /**
+     * Including thinking and created images
+     */
+    outputTokens: number;
+    /**
+     * What users were charged
+     */
+    chargedUsd: string;
+    /**
+     * What the providers cost us
+     */
+    providerCostUsd: string;
+    /**
+     * chargedUsd − providerCostUsd (can be negative)
+     */
+    marginUsd: string;
+    /**
+     * Cost above the hold, paid by us (never charged)
+     */
+    absorbedUsd: string;
+    modeKey: string;
+};
+
+export type UsageByModelDto = {
+    /**
+     * Messages answered (or attempted)
+     */
+    requests: number;
+    /**
+     * Of those, flagged `reconciliation_required` for review
+     */
+    flaggedRequests: number;
+    inputTokens: number;
+    cachedInputTokens: number;
+    /**
+     * Including thinking and created images
+     */
+    outputTokens: number;
+    /**
+     * What users were charged
+     */
+    chargedUsd: string;
+    /**
+     * What the providers cost us
+     */
+    providerCostUsd: string;
+    /**
+     * chargedUsd − providerCostUsd (can be negative)
+     */
+    marginUsd: string;
+    /**
+     * Cost above the hold, paid by us (never charged)
+     */
+    absorbedUsd: string;
+    modelId: string;
+    providerCode: string;
+    providerModelId: string;
+    displayName: string;
+};
+
+export type UsageByDayDto = {
+    /**
+     * Messages answered (or attempted)
+     */
+    requests: number;
+    /**
+     * Of those, flagged `reconciliation_required` for review
+     */
+    flaggedRequests: number;
+    inputTokens: number;
+    cachedInputTokens: number;
+    /**
+     * Including thinking and created images
+     */
+    outputTokens: number;
+    /**
+     * What users were charged
+     */
+    chargedUsd: string;
+    /**
+     * What the providers cost us
+     */
+    providerCostUsd: string;
+    /**
+     * chargedUsd − providerCostUsd (can be negative)
+     */
+    marginUsd: string;
+    /**
+     * Cost above the hold, paid by us (never charged)
+     */
+    absorbedUsd: string;
+    /**
+     * UTC day
+     */
+    date: string;
+};
+
+export type UserUsageDto = {
+    userId: string;
+    /**
+     * First day (UTC)
+     */
+    from: string;
+    /**
+     * Last day (UTC)
+     */
+    to: string;
+    totals: UsageTotalsDto;
+    /**
+     * Most charged first
+     */
+    byMode: Array<UsageByModeDto>;
+    /**
+     * Most charged first
+     */
+    byModel: Array<UsageByModelDto>;
+    /**
+     * Every day of the period, oldest first (zeros included)
+     */
+    byDay: Array<UsageByDayDto>;
+};
+
+export type AdminChatRequestDto = {
+    requestId: string;
+    createdAt: string;
+    settledAt: string | null;
+    userId: string;
+    userEmail: string | null;
+    conversationId: string;
+    modeKey: string;
+    modelId: string;
+    modelDisplayName: string | null;
+    providerCode: string | null;
+    providerModelId: string | null;
+    status: 'reserved' | 'settled' | 'released' | 'reconciliation_required';
+    /**
+     * `estimated`: the provider reported no usage
+     */
+    usageSource: 'provider' | 'estimated';
+    inputTokens: number | null;
+    cachedInputTokens: number | null;
+    outputTokens: number | null;
+    /**
+     * Amount held before the answer
+     */
+    reservedUsd: string;
+    chargedUsd: string | null;
+    providerCostUsd: string | null;
+    absorbedUsd: string | null;
+};
+
+export type ChatRequestPageDto = {
+    items: Array<AdminChatRequestDto>;
+    nextCursor: string | null;
+};
+
+export type AuditEntryDto = {
+    id: string;
+    occurredAt: string;
+    actorType: 'user' | 'admin' | 'system' | 'cli';
+    actorId: string | null;
+    actorEmail: string | null;
+    actorLabel: string | null;
+    action: string;
+    resourceType: string;
+    resourceId: string;
+    oldValue: {
+        [key: string]: unknown;
+    } | null;
+    newValue: {
+        [key: string]: unknown;
+    } | null;
+    reason: string | null;
+};
+
+export type AuditPageDto = {
+    items: Array<AuditEntryDto>;
+    nextBefore: number | null;
+};
+
+export type CreateVoucherDto = {
+    /**
+     * Why the change is made. Stored in the audit log.
+     */
+    reason: string;
+    /**
+     * Letters, digits and dashes, 4-40 (stored upper case). Omit to generate one like LAM7A-7KQ2-XH9M
+     */
+    code?: string;
+    /**
+     * `balance`: adds amountUsd (needs an active plan). `trial`: starts planKey for trialDays days, crediting its included balance
+     */
+    kind: 'balance' | 'trial';
+    /**
+     * `balance` only: USD to add, above 0, at most 1000
+     */
+    amountUsd?: string;
+    /**
+     * `trial` only: an active plan other than the default one
+     */
+    planKey?: string;
+    /**
+     * `trial` only: days of the plan, 1-365
+     */
+    trialDays?: number;
+    /**
+     * How many users can redeem it (each once)
+     */
+    maxRedemptions: number;
+    /**
+     * Redeemable from (default: now)
+     */
+    startsAt?: string;
+    /**
+     * Redeemable until (default: no end)
+     */
+    endsAt?: string;
+    /**
+     * Only users who never had a plan other than the default one
+     */
+    newUsersOnly?: boolean;
+    /**
+     * Internal note (campaign, partner); never shown to users
+     */
+    note?: string;
+};
+
+export type VoucherPlanDto = {
+    key: string;
+    nameAr: string;
+    nameEn: string;
+};
+
+export type VoucherDto = {
+    id: string;
+    code: string;
+    kind: 'balance' | 'trial';
+    amountUsd: string | null;
+    plan: VoucherPlanDto | null;
+    trialDays: number | null;
+    maxRedemptions: number;
+    redemptionCount: number;
+    startsAt: string | null;
+    endsAt: string | null;
+    newUsersOnly: boolean;
+    isActive: boolean;
+    note: string | null;
+    createdBy: string | null;
+    createdAt: string;
+    updatedAt: string;
+};
+
+export type VoucherPageDto = {
+    items: Array<VoucherDto>;
+    nextCursor: string | null;
+};
+
+export type UpdateVoucherDto = {
+    /**
+     * Why the change is made. Stored in the audit log.
+     */
+    reason: string;
+    /**
+     * Turn the code off (it then reads as unknown) or on
+     */
+    isActive?: boolean;
+    /**
+     * New end; null removes the end
+     */
+    endsAt?: string | null;
+    /**
+     * New limit, not below the redemptions already made
+     */
+    maxRedemptions?: number;
+    note?: string | null;
+};
+
+export type VoucherRedemptionDto = {
+    id: string;
+    userId: string;
+    userEmail: string | null;
+    redeemedAt: string;
+    /**
+     * Balance added (balance codes) or plan balance credited (trials)
+     */
+    creditedUsd: string | null;
+    subscriptionId: string | null;
+};
+
+export type VoucherRedemptionPageDto = {
+    items: Array<VoucherRedemptionDto>;
+    nextCursor: string | null;
+};
+
 export type SetProviderApiKeyDtoWritable = {
     /**
      * Why the change is made. Stored in the audit log.
@@ -1744,6 +2263,63 @@ export type ConversationsMessagesResponses = {
 };
 
 export type ConversationsMessagesResponse = ConversationsMessagesResponses[keyof ConversationsMessagesResponses];
+
+export type MeUsageUsageData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Month (UTC). Default: the current month
+         */
+        month?: string;
+    };
+    url: '/api/v1/me/usage';
+};
+
+export type MeUsageUsageErrors = {
+    /**
+     * VALIDATION_FAILED (bad or future month)
+     */
+    400: ApiErrorResponseDto;
+};
+
+export type MeUsageUsageError = MeUsageUsageErrors[keyof MeUsageUsageErrors];
+
+export type MeUsageUsageResponses = {
+    200: MyUsageDto;
+};
+
+export type MeUsageUsageResponse = MeUsageUsageResponses[keyof MeUsageUsageResponses];
+
+export type MeVouchersRedeemData = {
+    body: RedeemVoucherDto;
+    path?: never;
+    query?: never;
+    url: '/api/v1/me/vouchers/redeem';
+};
+
+export type MeVouchersRedeemErrors = {
+    /**
+     * VOUCHER_NOT_FOUND
+     */
+    404: ApiErrorResponseDto;
+    /**
+     * VOUCHER_EXPIRED, VOUCHER_USED_UP, VOUCHER_ALREADY_REDEEMED, VOUCHER_NOT_ELIGIBLE, NO_ACTIVE_SUBSCRIPTION (balance code without a plan)
+     */
+    409: ApiErrorResponseDto;
+    /**
+     * RATE_LIMITED (too many wrong codes; data.retryAfterSeconds)
+     */
+    429: ApiErrorResponseDto;
+};
+
+export type MeVouchersRedeemError = MeVouchersRedeemErrors[keyof MeVouchersRedeemErrors];
+
+export type MeVouchersRedeemResponses = {
+    200: RedeemResultDto;
+};
+
+export type MeVouchersRedeemResponse = MeVouchersRedeemResponses[keyof MeVouchersRedeemResponses];
 
 export type AdminUsersListData = {
     body?: never;
@@ -2981,3 +3557,327 @@ export type AdminChatSettingsUpdateResponses = {
 };
 
 export type AdminChatSettingsUpdateResponse = AdminChatSettingsUpdateResponses[keyof AdminChatSettingsUpdateResponses];
+
+export type AdminReportsOverviewData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * First day (UTC, included). Default: 29 days before `to`
+         */
+        from?: string;
+        /**
+         * Last day (UTC, included). Default: today. At most 366 days
+         */
+        to?: string;
+    };
+    url: '/api/v1/admin/overview';
+};
+
+export type AdminReportsOverviewErrors = {
+    /**
+     * VALIDATION_FAILED (bad dates, `from` after `to`, over 366 days)
+     */
+    400: ApiErrorResponseDto;
+    /**
+     * FORBIDDEN
+     */
+    403: ApiErrorResponseDto;
+};
+
+export type AdminReportsOverviewError = AdminReportsOverviewErrors[keyof AdminReportsOverviewErrors];
+
+export type AdminReportsOverviewResponses = {
+    200: OverviewDto;
+};
+
+export type AdminReportsOverviewResponse = AdminReportsOverviewResponses[keyof AdminReportsOverviewResponses];
+
+export type AdminReportsUserUsageData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: {
+        /**
+         * First day (UTC, included). Default: 29 days before `to`
+         */
+        from?: string;
+        /**
+         * Last day (UTC, included). Default: today. At most 366 days
+         */
+        to?: string;
+    };
+    url: '/api/v1/admin/users/{id}/usage';
+};
+
+export type AdminReportsUserUsageErrors = {
+    /**
+     * VALIDATION_FAILED (bad dates, `from` after `to`, over 366 days)
+     */
+    400: ApiErrorResponseDto;
+    /**
+     * FORBIDDEN
+     */
+    403: ApiErrorResponseDto;
+    /**
+     * USER_NOT_FOUND
+     */
+    404: ApiErrorResponseDto;
+};
+
+export type AdminReportsUserUsageError = AdminReportsUserUsageErrors[keyof AdminReportsUserUsageErrors];
+
+export type AdminReportsUserUsageResponses = {
+    200: UserUsageDto;
+};
+
+export type AdminReportsUserUsageResponse = AdminReportsUserUsageResponses[keyof AdminReportsUserUsageResponses];
+
+export type AdminReportsChatRequestsData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Only this user
+         */
+        userId?: string;
+        /**
+         * `reconciliation_required`: charged from an estimate or with absorbed cost, worth a look
+         */
+        status?: 'reserved' | 'settled' | 'released' | 'reconciliation_required';
+        limit?: number;
+        /**
+         * Cursor from `nextCursor` of the previous page
+         */
+        cursor?: string;
+    };
+    url: '/api/v1/admin/chat-requests';
+};
+
+export type AdminReportsChatRequestsErrors = {
+    /**
+     * VALIDATION_FAILED (bad dates, `from` after `to`, over 366 days)
+     */
+    400: ApiErrorResponseDto;
+    /**
+     * FORBIDDEN
+     */
+    403: ApiErrorResponseDto;
+};
+
+export type AdminReportsChatRequestsError = AdminReportsChatRequestsErrors[keyof AdminReportsChatRequestsErrors];
+
+export type AdminReportsChatRequestsResponses = {
+    200: ChatRequestPageDto;
+};
+
+export type AdminReportsChatRequestsResponse = AdminReportsChatRequestsResponses[keyof AdminReportsChatRequestsResponses];
+
+export type AdminReportsAuditData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * First day (UTC, included). Default: 29 days before `to`
+         */
+        from?: string;
+        /**
+         * Last day (UTC, included). Default: today. At most 366 days
+         */
+        to?: string;
+        /**
+         * Who made the change
+         */
+        actorId?: string;
+        action?: string;
+        resourceType?: string;
+        /**
+         * With resourceType: one record
+         */
+        resourceId?: string;
+        limit?: number;
+        /**
+         * Cursor from `nextBefore` of the previous page
+         */
+        before?: number;
+    };
+    url: '/api/v1/admin/audit';
+};
+
+export type AdminReportsAuditErrors = {
+    /**
+     * VALIDATION_FAILED (bad dates, `from` after `to`, over 366 days)
+     */
+    400: ApiErrorResponseDto;
+    /**
+     * FORBIDDEN
+     */
+    403: ApiErrorResponseDto;
+};
+
+export type AdminReportsAuditError = AdminReportsAuditErrors[keyof AdminReportsAuditErrors];
+
+export type AdminReportsAuditResponses = {
+    200: AuditPageDto;
+};
+
+export type AdminReportsAuditResponse = AdminReportsAuditResponses[keyof AdminReportsAuditResponses];
+
+export type AdminVouchersListData = {
+    body?: never;
+    path?: never;
+    query?: {
+        status?: 'active' | 'inactive';
+        limit?: number;
+        /**
+         * Cursor from `nextCursor` of the previous page
+         */
+        cursor?: string;
+    };
+    url: '/api/v1/admin/vouchers';
+};
+
+export type AdminVouchersListErrors = {
+    /**
+     * FORBIDDEN
+     */
+    403: ApiErrorResponseDto;
+};
+
+export type AdminVouchersListError = AdminVouchersListErrors[keyof AdminVouchersListErrors];
+
+export type AdminVouchersListResponses = {
+    200: VoucherPageDto;
+};
+
+export type AdminVouchersListResponse = AdminVouchersListResponses[keyof AdminVouchersListResponses];
+
+export type AdminVouchersCreateData = {
+    body: CreateVoucherDto;
+    path?: never;
+    query?: never;
+    url: '/api/v1/admin/vouchers';
+};
+
+export type AdminVouchersCreateErrors = {
+    /**
+     * VALIDATION_FAILED
+     */
+    400: ApiErrorResponseDto;
+    /**
+     * FORBIDDEN
+     */
+    403: ApiErrorResponseDto;
+    /**
+     * PLAN_NOT_FOUND
+     */
+    404: ApiErrorResponseDto;
+    /**
+     * VOUCHER_CODE_TAKEN, PLAN_NOT_ACTIVE
+     */
+    409: ApiErrorResponseDto;
+};
+
+export type AdminVouchersCreateError = AdminVouchersCreateErrors[keyof AdminVouchersCreateErrors];
+
+export type AdminVouchersCreateResponses = {
+    201: VoucherDto;
+};
+
+export type AdminVouchersCreateResponse = AdminVouchersCreateResponses[keyof AdminVouchersCreateResponses];
+
+export type AdminVouchersGetData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/admin/vouchers/{id}';
+};
+
+export type AdminVouchersGetErrors = {
+    /**
+     * FORBIDDEN
+     */
+    403: ApiErrorResponseDto;
+    /**
+     * VOUCHER_NOT_FOUND
+     */
+    404: ApiErrorResponseDto;
+};
+
+export type AdminVouchersGetError = AdminVouchersGetErrors[keyof AdminVouchersGetErrors];
+
+export type AdminVouchersGetResponses = {
+    200: VoucherDto;
+};
+
+export type AdminVouchersGetResponse = AdminVouchersGetResponses[keyof AdminVouchersGetResponses];
+
+export type AdminVouchersUpdateData = {
+    body: UpdateVoucherDto;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/admin/vouchers/{id}';
+};
+
+export type AdminVouchersUpdateErrors = {
+    /**
+     * VALIDATION_FAILED (e.g. limit below redemptions made)
+     */
+    400: ApiErrorResponseDto;
+    /**
+     * FORBIDDEN
+     */
+    403: ApiErrorResponseDto;
+    /**
+     * VOUCHER_NOT_FOUND
+     */
+    404: ApiErrorResponseDto;
+};
+
+export type AdminVouchersUpdateError = AdminVouchersUpdateErrors[keyof AdminVouchersUpdateErrors];
+
+export type AdminVouchersUpdateResponses = {
+    200: VoucherDto;
+};
+
+export type AdminVouchersUpdateResponse = AdminVouchersUpdateResponses[keyof AdminVouchersUpdateResponses];
+
+export type AdminVouchersRedemptionsData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: {
+        status?: 'active' | 'inactive';
+        limit?: number;
+        /**
+         * Cursor from `nextCursor` of the previous page
+         */
+        cursor?: string;
+    };
+    url: '/api/v1/admin/vouchers/{id}/redemptions';
+};
+
+export type AdminVouchersRedemptionsErrors = {
+    /**
+     * FORBIDDEN
+     */
+    403: ApiErrorResponseDto;
+    /**
+     * VOUCHER_NOT_FOUND
+     */
+    404: ApiErrorResponseDto;
+};
+
+export type AdminVouchersRedemptionsError = AdminVouchersRedemptionsErrors[keyof AdminVouchersRedemptionsErrors];
+
+export type AdminVouchersRedemptionsResponses = {
+    200: VoucherRedemptionPageDto;
+};
+
+export type AdminVouchersRedemptionsResponse = AdminVouchersRedemptionsResponses[keyof AdminVouchersRedemptionsResponses];

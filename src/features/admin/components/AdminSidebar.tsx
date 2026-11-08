@@ -2,11 +2,15 @@ import { Link } from '@tanstack/react-router';
 import {
   Boxes,
   CreditCard,
+  Flag,
+  LayoutDashboard,
   LogOut,
   Menu,
+  ScrollText,
   Settings,
   SlidersHorizontal,
   Tag,
+  Ticket,
   Users,
   type LucideIcon,
 } from 'lucide-react';
@@ -22,19 +26,26 @@ const sections: {
   key: string;
   to:
     | '/admin/plans'
+    | '/admin/vouchers'
     | '/admin/providers'
     | '/admin/models'
     | '/admin/modes'
     | '/admin/price-updates'
-    | '/admin/settings';
+    | '/admin/settings'
+    | '/admin/requests'
+    | '/admin/audit';
   Icon: LucideIcon;
 }[] = [
   { key: 'plans', to: '/admin/plans', Icon: CreditCard },
+  { key: 'vouchers', to: '/admin/vouchers', Icon: Ticket },
   { key: 'providers', to: '/admin/providers', Icon: Menu },
   { key: 'models', to: '/admin/models', Icon: Boxes },
   { key: 'modes', to: '/admin/modes', Icon: SlidersHorizontal },
   { key: 'priceUpdates', to: '/admin/price-updates', Icon: Tag },
   { key: 'settings', to: '/admin/settings', Icon: Settings },
+  // Last, after settings (F9 decision 1); no badges until requests can be marked reviewed.
+  { key: 'flagged', to: '/admin/requests', Icon: Flag },
+  { key: 'audit', to: '/admin/audit', Icon: ScrollText },
 ];
 
 /** Admin navigation: brand, sections, and the way back to the app. */
@@ -59,6 +70,23 @@ export function AdminSidebar({ onNavigate }: { onNavigate?: () => void }) {
       </div>
       <nav aria-label={t('admin.nav.menu')} className="flex-1 px-3 pt-2">
         <ul className="flex flex-col gap-1">
+          <li>
+            <Link
+              to="/admin/overview"
+              onClick={onNavigate}
+              className={cn(
+                item,
+                'text-fg-muted hover:bg-surface-muted hover:text-fg',
+              )}
+              activeProps={{
+                className: 'bg-surface-muted text-fg font-semibold',
+                'aria-current': 'page',
+              }}
+            >
+              <LayoutDashboard aria-hidden="true" className="size-5" />
+              {t('admin.nav.overview')}
+            </Link>
+          </li>
           <li>
             <Link
               to="/admin/users"

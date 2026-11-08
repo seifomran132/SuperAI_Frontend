@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { errorMessageKey, isApiError } from '~/api/errors';
 import { RetryAlert } from '~/components/RetryAlert';
 import { Badge } from '../../components/Badge';
+import { UsageTab } from '../../reports/components/UsageTab';
 import { BalanceTab } from '../components/BalanceTab';
 import { OverviewTab } from '../components/OverviewTab';
 import { SubscriptionTab } from '../components/SubscriptionTab';
@@ -21,9 +22,11 @@ import { USER_TABS, validateUserDetailSearch } from '../model/search';
 export function UserDetailPage() {
   const { t } = useTranslation();
   const { userId } = useParams({ strict: false }) as { userId: string };
-  const { tab = 'overview', action } = validateUserDetailSearch(
-    useSearch({ strict: false }),
-  );
+  const {
+    tab = 'overview',
+    action,
+    ...period
+  } = validateUserDetailSearch(useSearch({ strict: false }));
   const navigate = useNavigate();
   const query = useUser(userId);
 
@@ -149,6 +152,7 @@ export function UserDetailPage() {
           onActionHandled={clearAction}
         />
       ) : null}
+      {tab === 'usage' ? <UsageTab userId={userId} period={period} /> : null}
       {tab === 'balance' ? (
         <BalanceTab
           user={user}

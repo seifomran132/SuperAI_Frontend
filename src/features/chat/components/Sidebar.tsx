@@ -1,6 +1,13 @@
 import { Link } from '@tanstack/react-router';
 import { useQuery } from '@tanstack/react-query';
-import { CreditCard, LogOut, Plus, ShieldCheck, User } from 'lucide-react';
+import {
+  BarChart3,
+  CreditCard,
+  LogOut,
+  Plus,
+  ShieldCheck,
+  User,
+} from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { meGetOptions } from '~/api/generated/@tanstack/react-query.gen';
 import { Button } from '~/components/ui/button';
@@ -61,6 +68,13 @@ export function Sidebar({
           <CreditCard aria-hidden="true" className="size-5" />
           {t('shell.balance')}
         </Link>
+        {/* Drawer only: the desktop sidebar has no usage item (decision 10). */}
+        {withSignOut ? (
+          <Link to="/usage" className={footerLink} onClick={onNavigate}>
+            <BarChart3 aria-hidden="true" className="size-5" />
+            {t('shell.usage')}
+          </Link>
+        ) : null}
         <Link to="/account" className={footerLink} onClick={onNavigate}>
           <User aria-hidden="true" className="size-5" />
           {t('shell.account')}
@@ -68,7 +82,7 @@ export function Sidebar({
         {withSignOut && me?.isAdmin ? (
           <Link to="/admin" className={footerLink} onClick={onNavigate}>
             <ShieldCheck aria-hidden="true" className="size-5" />
-            {t('admin.entry')}
+            {t('shell.adminEntry')}
           </Link>
         ) : null}
         {withSignOut ? (

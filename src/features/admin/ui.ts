@@ -1,5 +1,7 @@
 // Admin screens, kept out of index.ts so they stay in lazily loaded route
 // chunks. Only route files import from here.
+import './i18n';
+
 export { AdminShell } from './components/AdminShell';
 export { UsersPage } from './users/pages/UsersPage';
 export { UserDetailPage } from './users/pages/UserDetailPage';
@@ -21,3 +23,11 @@ export {
   ModeDetailPage,
 } from './catalog/pages/ModesPages';
 export { SettingsPage } from './settings/pages/SettingsPage';
+export { VouchersPage } from './vouchers/pages/VouchersPage';
+export {
+  VoucherNewPage,
+  VoucherDetailPage,
+} from './vouchers/pages/VoucherPages';
+export { OverviewPage } from './reports/pages/OverviewPage';
+export { RequestsPage } from './reports/pages/RequestsPage';
+export { AuditPage } from './reports/pages/AuditPage';

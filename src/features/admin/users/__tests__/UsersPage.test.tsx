@@ -1,6 +1,6 @@
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it } from 'vitest';
-import ar from '~/i18n/ar.json';
+import ar from '~/test/ar';
 import { adminCalls, adminMock, resetAdminMock, sara } from '~/mocks/admin';
 import { authMock, defaultProfile } from '~/mocks/auth';
 import { resetChatMock } from '~/mocks/chat';

@@ -25,7 +25,11 @@ import { Route as GuestSignUpRouteImport } from './routes/_guest/sign-up'
 import { Route as authAuthCallbackRouteImport } from './routes/(auth)/auth/callback'
 import { Route as AuthedAppAccountRouteImport } from './routes/_authed/_app/account'
 import { Route as AuthedAppBalanceRouteImport } from './routes/_authed/_app/balance'
+import { Route as AuthedAppUsageRouteImport } from './routes/_authed/_app/usage'
 import { Route as AuthedAdminIndexRouteImport } from './routes/_authed/admin/index'
+import { Route as AuthedAdminAuditRouteImport } from './routes/_authed/admin/audit'
+import { Route as AuthedAdminOverviewRouteImport } from './routes/_authed/admin/overview'
+import { Route as AuthedAdminRequestsRouteImport } from './routes/_authed/admin/requests'
 import { Route as AuthedAppChatIndexRouteImport } from './routes/_authed/_app/chat/index'
 import { Route as AuthedAppChatConversationIdRouteImport } from './routes/_authed/_app/chat/$conversationId'
 import { Route as AuthedAdminModelsIndexRouteImport } from './routes/_authed/admin/models/index'
@@ -42,6 +46,9 @@ import { Route as AuthedAdminProvidersIndexRouteImport } from './routes/_authed/
 import { Route as AuthedAdminSettingsIndexRouteImport } from './routes/_authed/admin/settings/index'
 import { Route as AuthedAdminUsersIndexRouteImport } from './routes/_authed/admin/users/index'
 import { Route as AuthedAdminUsersUserIdRouteImport } from './routes/_authed/admin/users/$userId'
+import { Route as AuthedAdminVouchersIndexRouteImport } from './routes/_authed/admin/vouchers/index'
+import { Route as AuthedAdminVouchersVoucherIdRouteImport } from './routes/_authed/admin/vouchers/$voucherId'
+import { Route as AuthedAdminVouchersNewRouteImport } from './routes/_authed/admin/vouchers/new'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -120,9 +127,29 @@ const AuthedAppBalanceRoute = AuthedAppBalanceRouteImport.update({
   path: '/balance',
   getParentRoute: () => AuthedAppRouteRoute,
 } as any)
+const AuthedAppUsageRoute = AuthedAppUsageRouteImport.update({
+  id: '/usage',
+  path: '/usage',
+  getParentRoute: () => AuthedAppRouteRoute,
+} as any)
 const AuthedAdminIndexRoute = AuthedAdminIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AuthedAdminRouteRoute,
+} as any)
+const AuthedAdminAuditRoute = AuthedAdminAuditRouteImport.update({
+  id: '/audit',
+  path: '/audit',
+  getParentRoute: () => AuthedAdminRouteRoute,
+} as any)
+const AuthedAdminOverviewRoute = AuthedAdminOverviewRouteImport.update({
+  id: '/overview',
+  path: '/overview',
+  getParentRoute: () => AuthedAdminRouteRoute,
+} as any)
+const AuthedAdminRequestsRoute = AuthedAdminRequestsRouteImport.update({
+  id: '/requests',
+  path: '/requests',
   getParentRoute: () => AuthedAdminRouteRoute,
 } as any)
 const AuthedAppChatIndexRoute = AuthedAppChatIndexRouteImport.update({
@@ -209,6 +236,23 @@ const AuthedAdminUsersUserIdRoute = AuthedAdminUsersUserIdRouteImport.update({
   path: '/users/$userId',
   getParentRoute: () => AuthedAdminRouteRoute,
 } as any)
+const AuthedAdminVouchersIndexRoute =
+  AuthedAdminVouchersIndexRouteImport.update({
+    id: '/vouchers/',
+    path: '/vouchers/',
+    getParentRoute: () => AuthedAdminRouteRoute,
+  } as any)
+const AuthedAdminVouchersVoucherIdRoute =
+  AuthedAdminVouchersVoucherIdRouteImport.update({
+    id: '/vouchers/$voucherId',
+    path: '/vouchers/$voucherId',
+    getParentRoute: () => AuthedAdminRouteRoute,
+  } as any)
+const AuthedAdminVouchersNewRoute = AuthedAdminVouchersNewRouteImport.update({
+  id: '/vouchers/new',
+  path: '/vouchers/new',
+  getParentRoute: () => AuthedAdminRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -224,6 +268,10 @@ export interface FileRoutesByFullPath {
   '/auth/callback': typeof authAuthCallbackRoute
   '/account': typeof AuthedAppAccountRoute
   '/balance': typeof AuthedAppBalanceRoute
+  '/usage': typeof AuthedAppUsageRoute
+  '/admin/audit': typeof AuthedAdminAuditRoute
+  '/admin/overview': typeof AuthedAdminOverviewRoute
+  '/admin/requests': typeof AuthedAdminRequestsRoute
   '/admin/': typeof AuthedAdminIndexRoute
   '/chat/$conversationId': typeof AuthedAppChatConversationIdRoute
   '/admin/models/$id': typeof AuthedAdminModelsIdRoute
@@ -233,6 +281,8 @@ export interface FileRoutesByFullPath {
   '/admin/plans/$key': typeof AuthedAdminPlansKeyRoute
   '/admin/plans/new': typeof AuthedAdminPlansNewRoute
   '/admin/users/$userId': typeof AuthedAdminUsersUserIdRoute
+  '/admin/vouchers/$voucherId': typeof AuthedAdminVouchersVoucherIdRoute
+  '/admin/vouchers/new': typeof AuthedAdminVouchersNewRoute
   '/chat/': typeof AuthedAppChatIndexRoute
   '/admin/models/': typeof AuthedAdminModelsIndexRoute
   '/admin/modes/': typeof AuthedAdminModesIndexRoute
@@ -241,6 +291,7 @@ export interface FileRoutesByFullPath {
   '/admin/providers/': typeof AuthedAdminProvidersIndexRoute
   '/admin/settings/': typeof AuthedAdminSettingsIndexRoute
   '/admin/users/': typeof AuthedAdminUsersIndexRoute
+  '/admin/vouchers/': typeof AuthedAdminVouchersIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -255,6 +306,10 @@ export interface FileRoutesByTo {
   '/auth/callback': typeof authAuthCallbackRoute
   '/account': typeof AuthedAppAccountRoute
   '/balance': typeof AuthedAppBalanceRoute
+  '/usage': typeof AuthedAppUsageRoute
+  '/admin/audit': typeof AuthedAdminAuditRoute
+  '/admin/overview': typeof AuthedAdminOverviewRoute
+  '/admin/requests': typeof AuthedAdminRequestsRoute
   '/admin': typeof AuthedAdminIndexRoute
   '/chat/$conversationId': typeof AuthedAppChatConversationIdRoute
   '/admin/models/$id': typeof AuthedAdminModelsIdRoute
@@ -264,6 +319,8 @@ export interface FileRoutesByTo {
   '/admin/plans/$key': typeof AuthedAdminPlansKeyRoute
   '/admin/plans/new': typeof AuthedAdminPlansNewRoute
   '/admin/users/$userId': typeof AuthedAdminUsersUserIdRoute
+  '/admin/vouchers/$voucherId': typeof AuthedAdminVouchersVoucherIdRoute
+  '/admin/vouchers/new': typeof AuthedAdminVouchersNewRoute
   '/chat': typeof AuthedAppChatIndexRoute
   '/admin/models': typeof AuthedAdminModelsIndexRoute
   '/admin/modes': typeof AuthedAdminModesIndexRoute
@@ -272,6 +329,7 @@ export interface FileRoutesByTo {
   '/admin/providers': typeof AuthedAdminProvidersIndexRoute
   '/admin/settings': typeof AuthedAdminSettingsIndexRoute
   '/admin/users': typeof AuthedAdminUsersIndexRoute
+  '/admin/vouchers': typeof AuthedAdminVouchersIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -291,6 +349,10 @@ export interface FileRoutesById {
   '/(auth)/auth/callback': typeof authAuthCallbackRoute
   '/_authed/_app/account': typeof AuthedAppAccountRoute
   '/_authed/_app/balance': typeof AuthedAppBalanceRoute
+  '/_authed/_app/usage': typeof AuthedAppUsageRoute
+  '/_authed/admin/audit': typeof AuthedAdminAuditRoute
+  '/_authed/admin/overview': typeof AuthedAdminOverviewRoute
+  '/_authed/admin/requests': typeof AuthedAdminRequestsRoute
   '/_authed/admin/': typeof AuthedAdminIndexRoute
   '/_authed/_app/chat/$conversationId': typeof AuthedAppChatConversationIdRoute
   '/_authed/admin/models/$id': typeof AuthedAdminModelsIdRoute
@@ -300,6 +362,8 @@ export interface FileRoutesById {
   '/_authed/admin/plans/$key': typeof AuthedAdminPlansKeyRoute
   '/_authed/admin/plans/new': typeof AuthedAdminPlansNewRoute
   '/_authed/admin/users/$userId': typeof AuthedAdminUsersUserIdRoute
+  '/_authed/admin/vouchers/$voucherId': typeof AuthedAdminVouchersVoucherIdRoute
+  '/_authed/admin/vouchers/new': typeof AuthedAdminVouchersNewRoute
   '/_authed/_app/chat/': typeof AuthedAppChatIndexRoute
   '/_authed/admin/models/': typeof AuthedAdminModelsIndexRoute
   '/_authed/admin/modes/': typeof AuthedAdminModesIndexRoute
@@ -308,6 +372,7 @@ export interface FileRoutesById {
   '/_authed/admin/providers/': typeof AuthedAdminProvidersIndexRoute
   '/_authed/admin/settings/': typeof AuthedAdminSettingsIndexRoute
   '/_authed/admin/users/': typeof AuthedAdminUsersIndexRoute
+  '/_authed/admin/vouchers/': typeof AuthedAdminVouchersIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -325,6 +390,10 @@ export interface FileRouteTypes {
     | '/auth/callback'
     | '/account'
     | '/balance'
+    | '/usage'
+    | '/admin/audit'
+    | '/admin/overview'
+    | '/admin/requests'
     | '/admin/'
     | '/chat/$conversationId'
     | '/admin/models/$id'
@@ -334,6 +403,8 @@ export interface FileRouteTypes {
     | '/admin/plans/$key'
     | '/admin/plans/new'
     | '/admin/users/$userId'
+    | '/admin/vouchers/$voucherId'
+    | '/admin/vouchers/new'
     | '/chat/'
     | '/admin/models/'
     | '/admin/modes/'
@@ -342,6 +413,7 @@ export interface FileRouteTypes {
     | '/admin/providers/'
     | '/admin/settings/'
     | '/admin/users/'
+    | '/admin/vouchers/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -356,6 +428,10 @@ export interface FileRouteTypes {
     | '/auth/callback'
     | '/account'
     | '/balance'
+    | '/usage'
+    | '/admin/audit'
+    | '/admin/overview'
+    | '/admin/requests'
     | '/admin'
     | '/chat/$conversationId'
     | '/admin/models/$id'
@@ -365,6 +441,8 @@ export interface FileRouteTypes {
     | '/admin/plans/$key'
     | '/admin/plans/new'
     | '/admin/users/$userId'
+    | '/admin/vouchers/$voucherId'
+    | '/admin/vouchers/new'
     | '/chat'
     | '/admin/models'
     | '/admin/modes'
@@ -373,6 +451,7 @@ export interface FileRouteTypes {
     | '/admin/providers'
     | '/admin/settings'
     | '/admin/users'
+    | '/admin/vouchers'
   id:
     | '__root__'
     | '/'
@@ -391,6 +470,10 @@ export interface FileRouteTypes {
     | '/(auth)/auth/callback'
     | '/_authed/_app/account'
     | '/_authed/_app/balance'
+    | '/_authed/_app/usage'
+    | '/_authed/admin/audit'
+    | '/_authed/admin/overview'
+    | '/_authed/admin/requests'
     | '/_authed/admin/'
     | '/_authed/_app/chat/$conversationId'
     | '/_authed/admin/models/$id'
@@ -400,6 +483,8 @@ export interface FileRouteTypes {
     | '/_authed/admin/plans/$key'
     | '/_authed/admin/plans/new'
     | '/_authed/admin/users/$userId'
+    | '/_authed/admin/vouchers/$voucherId'
+    | '/_authed/admin/vouchers/new'
     | '/_authed/_app/chat/'
     | '/_authed/admin/models/'
     | '/_authed/admin/modes/'
@@ -408,6 +493,7 @@ export interface FileRouteTypes {
     | '/_authed/admin/providers/'
     | '/_authed/admin/settings/'
     | '/_authed/admin/users/'
+    | '/_authed/admin/vouchers/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -535,11 +621,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthedAppBalanceRouteImport
       parentRoute: typeof AuthedAppRouteRoute
     }
+    '/_authed/_app/usage': {
+      id: '/_authed/_app/usage'
+      path: '/usage'
+      fullPath: '/usage'
+      preLoaderRoute: typeof AuthedAppUsageRouteImport
+      parentRoute: typeof AuthedAppRouteRoute
+    }
     '/_authed/admin/': {
       id: '/_authed/admin/'
       path: '/'
       fullPath: '/admin/'
       preLoaderRoute: typeof AuthedAdminIndexRouteImport
+      parentRoute: typeof AuthedAdminRouteRoute
+    }
+    '/_authed/admin/audit': {
+      id: '/_authed/admin/audit'
+      path: '/audit'
+      fullPath: '/admin/audit'
+      preLoaderRoute: typeof AuthedAdminAuditRouteImport
+      parentRoute: typeof AuthedAdminRouteRoute
+    }
+    '/_authed/admin/overview': {
+      id: '/_authed/admin/overview'
+      path: '/overview'
+      fullPath: '/admin/overview'
+      preLoaderRoute: typeof AuthedAdminOverviewRouteImport
+      parentRoute: typeof AuthedAdminRouteRoute
+    }
+    '/_authed/admin/requests': {
+      id: '/_authed/admin/requests'
+      path: '/requests'
+      fullPath: '/admin/requests'
+      preLoaderRoute: typeof AuthedAdminRequestsRouteImport
       parentRoute: typeof AuthedAdminRouteRoute
     }
     '/_authed/_app/chat/': {
@@ -654,12 +768,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthedAdminUsersUserIdRouteImport
       parentRoute: typeof AuthedAdminRouteRoute
     }
+    '/_authed/admin/vouchers/': {
+      id: '/_authed/admin/vouchers/'
+      path: '/vouchers'
+      fullPath: '/admin/vouchers/'
+      preLoaderRoute: typeof AuthedAdminVouchersIndexRouteImport
+      parentRoute: typeof AuthedAdminRouteRoute
+    }
+    '/_authed/admin/vouchers/$voucherId': {
+      id: '/_authed/admin/vouchers/$voucherId'
+      path: '/vouchers/$voucherId'
+      fullPath: '/admin/vouchers/$voucherId'
+      preLoaderRoute: typeof AuthedAdminVouchersVoucherIdRouteImport
+      parentRoute: typeof AuthedAdminRouteRoute
+    }
+    '/_authed/admin/vouchers/new': {
+      id: '/_authed/admin/vouchers/new'
+      path: '/vouchers/new'
+      fullPath: '/admin/vouchers/new'
+      preLoaderRoute: typeof AuthedAdminVouchersNewRouteImport
+      parentRoute: typeof AuthedAdminRouteRoute
+    }
   }
 }
 
 interface AuthedAppRouteRouteChildren {
   AuthedAppAccountRoute: typeof AuthedAppAccountRoute
   AuthedAppBalanceRoute: typeof AuthedAppBalanceRoute
+  AuthedAppUsageRoute: typeof AuthedAppUsageRoute
   AuthedAppChatConversationIdRoute: typeof AuthedAppChatConversationIdRoute
   AuthedAppChatIndexRoute: typeof AuthedAppChatIndexRoute
 }
@@ -667,6 +803,7 @@ interface AuthedAppRouteRouteChildren {
 const AuthedAppRouteRouteChildren: AuthedAppRouteRouteChildren = {
   AuthedAppAccountRoute: AuthedAppAccountRoute,
   AuthedAppBalanceRoute: AuthedAppBalanceRoute,
+  AuthedAppUsageRoute: AuthedAppUsageRoute,
   AuthedAppChatConversationIdRoute: AuthedAppChatConversationIdRoute,
   AuthedAppChatIndexRoute: AuthedAppChatIndexRoute,
 }
@@ -676,6 +813,9 @@ const AuthedAppRouteRouteWithChildren = AuthedAppRouteRoute._addFileChildren(
 )
 
 interface AuthedAdminRouteRouteChildren {
+  AuthedAdminAuditRoute: typeof AuthedAdminAuditRoute
+  AuthedAdminOverviewRoute: typeof AuthedAdminOverviewRoute
+  AuthedAdminRequestsRoute: typeof AuthedAdminRequestsRoute
   AuthedAdminIndexRoute: typeof AuthedAdminIndexRoute
   AuthedAdminModelsIdRoute: typeof AuthedAdminModelsIdRoute
   AuthedAdminModelsNewRoute: typeof AuthedAdminModelsNewRoute
@@ -684,6 +824,8 @@ interface AuthedAdminRouteRouteChildren {
   AuthedAdminPlansKeyRoute: typeof AuthedAdminPlansKeyRoute
   AuthedAdminPlansNewRoute: typeof AuthedAdminPlansNewRoute
   AuthedAdminUsersUserIdRoute: typeof AuthedAdminUsersUserIdRoute
+  AuthedAdminVouchersVoucherIdRoute: typeof AuthedAdminVouchersVoucherIdRoute
+  AuthedAdminVouchersNewRoute: typeof AuthedAdminVouchersNewRoute
   AuthedAdminModelsIndexRoute: typeof AuthedAdminModelsIndexRoute
   AuthedAdminModesIndexRoute: typeof AuthedAdminModesIndexRoute
   AuthedAdminPlansIndexRoute: typeof AuthedAdminPlansIndexRoute
@@ -691,9 +833,13 @@ interface AuthedAdminRouteRouteChildren {
   AuthedAdminProvidersIndexRoute: typeof AuthedAdminProvidersIndexRoute
   AuthedAdminSettingsIndexRoute: typeof AuthedAdminSettingsIndexRoute
   AuthedAdminUsersIndexRoute: typeof AuthedAdminUsersIndexRoute
+  AuthedAdminVouchersIndexRoute: typeof AuthedAdminVouchersIndexRoute
 }
 
 const AuthedAdminRouteRouteChildren: AuthedAdminRouteRouteChildren = {
+  AuthedAdminAuditRoute: AuthedAdminAuditRoute,
+  AuthedAdminOverviewRoute: AuthedAdminOverviewRoute,
+  AuthedAdminRequestsRoute: AuthedAdminRequestsRoute,
   AuthedAdminIndexRoute: AuthedAdminIndexRoute,
   AuthedAdminModelsIdRoute: AuthedAdminModelsIdRoute,
   AuthedAdminModelsNewRoute: AuthedAdminModelsNewRoute,
@@ -702,6 +848,8 @@ const AuthedAdminRouteRouteChildren: AuthedAdminRouteRouteChildren = {
   AuthedAdminPlansKeyRoute: AuthedAdminPlansKeyRoute,
   AuthedAdminPlansNewRoute: AuthedAdminPlansNewRoute,
   AuthedAdminUsersUserIdRoute: AuthedAdminUsersUserIdRoute,
+  AuthedAdminVouchersVoucherIdRoute: AuthedAdminVouchersVoucherIdRoute,
+  AuthedAdminVouchersNewRoute: AuthedAdminVouchersNewRoute,
   AuthedAdminModelsIndexRoute: AuthedAdminModelsIndexRoute,
   AuthedAdminModesIndexRoute: AuthedAdminModesIndexRoute,
   AuthedAdminPlansIndexRoute: AuthedAdminPlansIndexRoute,
@@ -709,6 +857,7 @@ const AuthedAdminRouteRouteChildren: AuthedAdminRouteRouteChildren = {
   AuthedAdminProvidersIndexRoute: AuthedAdminProvidersIndexRoute,
   AuthedAdminSettingsIndexRoute: AuthedAdminSettingsIndexRoute,
   AuthedAdminUsersIndexRoute: AuthedAdminUsersIndexRoute,
+  AuthedAdminVouchersIndexRoute: AuthedAdminVouchersIndexRoute,
 }
 
 const AuthedAdminRouteRouteWithChildren =

@@ -8,6 +8,12 @@
       "port": 3001
     },
     {
+      "name": "api",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "../SuperAI_Backend", "run", "start:dev"],
+      "port": 3000
+    },
+    {
       "name": "design-preview",
       "runtimeExecutable": "npx",
       "runtimeArgs": ["-y", "http-server", "design", "-p", "4178", "-c-1", "--silent"],

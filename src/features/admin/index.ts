@@ -14,3 +14,13 @@ export {
   type ModelNewSearch,
   type PriceUpdatesSearch,
 } from './catalog/model/search';
+export {
+  validateVouchersSearch,
+  type VouchersSearch,
+} from './vouchers/model/search';
+export {
+  validateAuditSearch,
+  validateRequestsSearch,
+  type AuditSearch,
+  type RequestsSearch,
+} from './reports/model/search';

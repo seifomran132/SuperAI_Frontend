@@ -1,7 +1,7 @@
 import { fireEvent, screen, waitFor, within } from '@testing-library/react';
 import { http, HttpResponse } from 'msw';
 import { describe, expect, it } from 'vitest';
-import ar from '~/i18n/ar.json';
+import ar from '~/test/ar';
 import { adminCalls, adminMock, ledgerEntry } from '~/mocks/admin';
 import { server } from '~/mocks/server';
 import { a, openUser, useAdminSession } from './harness';
