@@ -1,6 +1,6 @@
 # Manual test cases — F1 (auth) and F2 (chat)
 
-**Covers:** everything built so far (F1 auth, F2 chat, F3 balance, account and plans, F4 admin console, F8 image creation).
+**Covers:** everything built so far (F1 auth, F2 chat, F3 balance, account and plans, F4 admin console, F8 image creation, F9 reports, F10 vouchers).
 **Not covered yet:** landing page.
 **How to record results:** in each case's **Result** column change `[ ]` to `[x]` when it passes, `[!]` when it fails, or `[-]` when skipped. Use **Notes** for anything worth keeping: for `[!]` the browser, screen width, what happened and the screenshot name; for `[-]` why it was skipped. Keep notes on one line (no `|`; use `<br>` for a line break).
 
@@ -10,7 +10,7 @@ Most cases also run as Playwright tests in `tests/cases/<file>.spec.ts`, titled 
 - **auto** `<file>`: fully automated.
 - **auto, partly** `<file>`: only the part named is automated; check the rest by hand.
 - **auto (fixme)** `<file>`: the test is written but marked `test.fixme` (right now only the mode-chip part of IC-14, listed as partly), used when the app doesn't do this yet or a product decision is open. It doesn't fail the run.
-- No mark: manual only (AU-44, AU-45, IC-03, IC-04, IC-25).
+- No mark: manual only (AU-44, AU-45, IC-03, IC-04, IC-25). RP-20, RP-21 and VC-21 are marked manual with the reason.
 
 Run them with `npm run test:e2e` (Chromium) or `npm run test:e2e:all` (every browser), then `npm run test:e2e:report`. The chat and image tests use local `e2e-*` modes and plans on the backend's free mock provider, which the tests create themselves. No real provider is called. Some error paths that the screen can't reach are tested with mocked API answers (AD-07 last admin, AD-18, AD-20, IC-28).
 
@@ -400,6 +400,88 @@ Every write asks for a reason (3–500 characters). Use a **test** user as the t
 | IC-27 | Model test on the mock image model; then on a model that returns no image | A preview with its size in بايت; otherwise «لم يُرجع النموذج صورة» | [ ] | **auto** `image-creation` |
 | IC-28 | An image mode on a provider without an image path (not Gemini / mock) | Modes list: «مزوّد هذا النموذج لا يدعم إنشاء الصور.» | [ ] | **auto** `image-creation` |
 | IC-29 | Look through the mode menu, image cards and errors as a user | No provider or model name anywhere | [ ] | **auto** `image-creation` |
+
+---
+
+## 3e. Reports (F9) — admin dashboard, requests, audit, «استهلاكي»
+
+Use a user who has sent at least one message this month, so the reports have data.
+
+### Admin overview — `/admin/overview`
+
+| ID | Steps | Expected | Result | Notes |
+|---|---|---|---|---|
+| RP-01 | Open `/admin` | Goes to `/admin/overview`: «تحتاج إلى انتباه», money, users, plans and images cards; «عرض الطلبات» opens `/admin/requests` | [ ] | **auto** `reports` |
+| RP-02 | Press «آخر 7 أيام»; open «فترة مخصصة»; set one day; «تطبيق»; reload | `?days=7` and a summary with «7 أيام»; the custom fields open filled with the shown period; `?from&to` stays after reload | [ ] | **auto** `reports` |
+| RP-03 | Custom range: start after end; then over 366 days; then type Arabic digits | «يجب أن يكون تاريخ البداية…»; «أقصى فترة هي 366 يومًا…»; «تطبيق» off for both; the digits become Western | [ ] | **auto** `reports` |
+| RP-04 | Look at the chart; switch to «الطلبات»; «عرض كجدول» | First day on the right, today on the left; Y axis numbers on the right, not cut off; title changes; table with exact values; «عرض كرسم بياني» returns | [ ] | **auto** `reports` |
+| RP-05 | Look at the margin card | «نسبة الهامش: 28.6%» with the number before the sign | [ ] | **auto** `reports` |
+| RP-06 | Open at 375 px | No sideways page scroll; the chart scrolls inside its card and opens at today (left end) | [ ] | **auto** `reports` |
+
+### Requests and audit
+
+| ID | Steps | Expected | Result | Notes |
+|---|---|---|---|---|
+| RP-07 | Open `/admin/requests`; press «مُسوّاة», then «الكل» | Opens on «مُعلَّمة» with the "not a to-do list" note; `?status=settled` shows settled requests; «الكل» shows every status | [ ] | **auto** `reports` |
+| RP-08 | `/admin/audit`: filter by action and resource id; expand a row; «مسح الفلاتر» | Filters in the URL; only matching rows, with the reason; old and new values as LTR code; clear resets | [ ] | **auto** `reports` |
+| RP-09 | Audit: admin id `not-a-uuid` and an incomplete date; «تطبيق» | Field errors; nothing applied; no-date hint says the whole log is shown | [ ] | **auto** `reports` |
+| RP-10 | User detail, tab «الاستهلاك» | Totals, the mode, the daily chart, recent requests with the note that they ignore the period | [ ] | **auto** `reports` |
+| RP-11 | As a normal user open `/admin/overview`, `/admin/requests`, `/admin/audit` | Not found | [ ] | **auto** `reports` |
+
+### «استهلاكي» — `/usage`
+
+| ID | Steps | Expected | Result | Notes |
+|---|---|---|---|---|
+| RP-12 | Open with usage this month | Messages, «المبلغ المخصوم», by mode with its label, daily chart, «يُحسب الشهر بتوقيت UTC.»; no provider or model name | [ ] | **auto** `reports` |
+| RP-13 | At 375 px with a full month | No sideways page scroll; chart opens at today, «اليوم» on the left | [ ] | **auto** `reports` (mocked month) |
+| RP-14 | New account, current month | «لا يوجد استهلاك في هذا الشهر» with «محادثة جديدة» | [ ] | **auto** `reports` |
+| RP-15 | Open `?month=2026-01` with no use | Same message, no button | [ ] | **auto** `reports` |
+| RP-16 | New account: month arrows and list; Esc | Both arrows off; one month listed; Esc closes and focus returns to the month button | [ ] | **auto** `reports` |
+| RP-17 | Load fails, then «إعادة المحاولة» | Error with retry; the page recovers | [ ] | **auto** `reports` (mocked failure) |
+| RP-18 | «عرض الاستهلاك» on `/balance`; account menu (drawer on phones) | Both open `/usage` | [ ] | **auto** `reports` |
+
+### Accessibility and judgement
+
+| ID | Steps | Expected | Result | Notes |
+|---|---|---|---|---|
+| RP-19 | Run axe on the report pages | RTL; no serious or critical violations | [ ] | **auto** `reports` |
+| RP-20 | Compare a day's chart and table with the ledger for a known user | The figures match | [ ] | manual: needs a judgement over the data |
+| RP-21 | Screen reader on the chart | Reads the chart's description and offers the table | [ ] | manual: needs a screen reader |
+
+---
+
+## 3f. Vouchers (F10) — redeem box and admin codes
+
+### Redeeming — `/balance` and `/plans`
+
+| ID | Steps | Expected | Result | Notes |
+|---|---|---|---|---|
+| VC-01 | Press «لديك كود؟»; «إغلاق» | Opens with focus in an LTR field; closing returns focus to the button | [ ] | **auto** `vouchers` |
+| VC-02 | Submit empty; type `abc123` | «اكتب الكود أولًا.», nothing sent; shows `ABC123` | [ ] | **auto** `vouchers` |
+| VC-03 | Redeem a balance code | «أُضيف +2.50$ إلى رصيدك.»; balance up by that amount; «رصيد كود» in the activity; «استخدام كود آخر» reopens the field | [ ] | **auto** `vouchers` |
+| VC-04 | Redeem a trial code | «تم تفعيل باقة «…» حتى …»; the plan shows after reload | [ ] | **auto** `vouchers` |
+| VC-05 | Redeem the same code again | «لقد استخدمت هذا الكود من قبل.»; the code stays in the field | [ ] | **auto** `vouchers` |
+| VC-06 | Wrong code; code not started; used-up code | Each code's own message under the field | [ ] | **auto** `vouchers` |
+| VC-07 | New-users-only code on a user with a plan | «لا يمكنك استخدام هذا الكود على حسابك.» | [ ] | **auto** `vouchers` |
+| VC-08 | Balance code with no active plan on `/balance` | Notice with the extra line, «عرض الباقات» and «طلب رصيد» (opens the contact dialog) | [ ] | **auto** `vouchers` |
+| VC-09 | Same on `/plans` | Notice without «عرض الباقات» | [ ] | **auto** `vouchers` |
+| VC-10 | Enter wrong codes until refused | «أدخلت أكواد خاطئة كثيرة…» with a countdown; button off until it ends | [ ] | **auto** `vouchers` |
+| VC-11 | Lose the network, submit, restore, «إعادة المحاولة» | Error with retry; code kept; the retry succeeds | [ ] | **auto** `vouchers` (mocked failure) |
+
+### Admin — `/admin/vouchers`
+
+| ID | Steps | Expected | Result | Notes |
+|---|---|---|---|---|
+| VC-12 | Create a balance code with the code left empty | Result view with the generated code and «نسخ الكود»; the code is in the list | [ ] | **auto** `vouchers` |
+| VC-13 | Amount over 1000, limit over 1,000,000, bad code, no reason | Each field's error; nothing sent | [ ] | **auto** `vouchers` |
+| VC-14 | Dates: type Arabic digits; 31 Feb; end before start | Western digits as `YYYY-MM-DD HH:mm`; «التاريخ غير صحيح.»; «يجب أن يكون تاريخ الانتهاء بعد تاريخ البدء.» | [ ] | **auto** `vouchers` |
+| VC-15 | Create with a code that exists | «يوجد كود بهذا الاسم بالفعل.» | [ ] | **auto** `vouchers` |
+| VC-16 | Create a trial code | Plan and days instead of amount; result view | [ ] | **auto** `vouchers` |
+| VC-17 | Detail: limit 0; then a valid limit and note, with a reason | Field error; the dialog lists the changes; saved after reload | [ ] | **auto** `vouchers` |
+| VC-18 | «إيقاف الكود»; redeem it; «تفعيل الكود» | Banner; the user gets "not found"; works again once activated | [ ] | **auto** `vouchers` |
+| VC-19 | List filter «مفعّل» / «موقوف»; open a used code | Filter in the URL; the user who redeemed is listed | [ ] | **auto** `vouchers` |
+| VC-20 | Run axe on the box and admin screens, at each width | RTL; no serious or critical violations; no sideways page scroll | [ ] | **auto** `vouchers` |
+| VC-21 | Copy a new code; paste it in another browser | Pastes the exact code | [ ] | manual: needs a real clipboard across browsers |
 
 ---
 

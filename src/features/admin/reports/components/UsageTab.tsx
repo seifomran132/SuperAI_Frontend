@@ -196,7 +196,7 @@ export function UsageTab({
     });
 
   return (
-    <div className="grid gap-6">
+    <div className="grid grid-cols-1 gap-6">
       <PeriodPicker
         value={period}
         onChange={setPeriod}

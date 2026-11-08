@@ -85,6 +85,13 @@ test.describe('signed in', () => {
     const rows = page
       .getByRole('listitem')
       .filter({ hasText: text.balance.activity.types.usage_charge });
+    await expect(rows.first()).toBeVisible();
+    // The next page loads only once the end of the list is on screen.
+    await page.evaluate(() =>
+      document.querySelectorAll('main, main > *').forEach((n) => {
+        n.scrollTop = n.scrollHeight;
+      }),
+    );
     await expect(rows).toHaveCount(5);
     expect(befores).toEqual([null, '7']);
     await page.unroute(/\/api\/v1\/me\/balance\/activity/);

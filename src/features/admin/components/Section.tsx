@@ -14,7 +14,8 @@ export function Section({
   return (
     <section
       aria-labelledby={id}
-      className="bg-surface border-border-subtle grid content-start gap-4 rounded-lg border p-5"
+      // grid-cols-1: an auto column would grow to a wide table and widen the page.
+      className="bg-surface border-border-subtle grid grid-cols-1 content-start gap-4 rounded-lg border p-5"
     >
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h3

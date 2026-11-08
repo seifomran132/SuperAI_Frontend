@@ -275,7 +275,12 @@ export function DailyChart<T extends { date: string }>({
               // In RTL the tick text would grow leftwards, out of this narrow column.
               dir="ltr"
             >
-              <ComposedChart data={data} margin={MARGIN}>
+              {/* This copy is aria-hidden, so it must not take keyboard focus. */}
+              <ComposedChart
+                data={data}
+                margin={MARGIN}
+                accessibilityLayer={false}
+              >
                 <XAxis {...xAxisProps} tick={false} axisLine={false} />
                 <YAxis
                   {...yAxisProps}

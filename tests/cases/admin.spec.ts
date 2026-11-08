@@ -128,7 +128,9 @@ test.describe('3c access and users', () => {
       await page.getByRole('button', { name: text.shell.accountMenu }).click();
       await expect(page.getByRole('menu')).toBeVisible();
     }
-    await expect(page.getByText(a.entry, { exact: true })).toHaveCount(0);
+    await expect(
+      page.getByText(text.shell.adminEntry, { exact: true }),
+    ).toHaveCount(0);
   });
 
   test('AD-02 admin entry opens the admin shell with its own right-side sidebar; back goes to /chat', async ({
@@ -139,16 +141,18 @@ test.describe('3c access and users', () => {
       await admin.goto('/chat');
       if (isMobile) {
         await admin.getByRole('button', { name: text.shell.openMenu }).click();
-        await admin.getByRole('link', { name: a.entry }).click();
+        await admin.getByRole('link', { name: text.shell.adminEntry }).click();
       } else {
         await admin
           .getByRole('button', { name: text.shell.accountMenu })
           .click();
-        await admin.getByRole('menuitem', { name: a.entry }).click();
+        await admin
+          .getByRole('menuitem', { name: text.shell.adminEntry })
+          .click();
       }
       await expect(admin).toHaveURL(/\/admin/);
       await expect(
-        admin.getByRole('heading', { name: a.titles.users, level: 1 }),
+        admin.getByRole('heading', { name: a.titles.overview, level: 1 }),
       ).toBeVisible();
       let backToApp: Locator;
       if (isMobile) {
@@ -653,12 +657,27 @@ test.describe('3c user detail', () => {
       // From there, by in-app links only (no page load), to the admin console.
       if (isMobile) {
         await page.getByRole('button', { name: text.shell.openMenu }).click();
-        await page.getByRole('link', { name: a.entry }).click();
+        await page.getByRole('link', { name: text.shell.adminEntry }).click();
       } else {
         await page
           .getByRole('button', { name: text.shell.accountMenu })
           .click();
-        await page.getByRole('menuitem', { name: a.entry }).click();
+        await page
+          .getByRole('menuitem', { name: text.shell.adminEntry })
+          .click();
+      }
+      // The console opens on the overview; the users list is one link away.
+      if (isMobile) {
+        await page.getByRole('button', { name: a.nav.openMenu }).click();
+        await page
+          .getByRole('dialog', { name: a.nav.panel })
+          .getByRole('link', { name: a.nav.users })
+          .click();
+      } else {
+        await page
+          .getByRole('complementary', { name: a.nav.panel })
+          .getByRole('link', { name: a.nav.users })
+          .click();
       }
       await page
         .getByRole('searchbox', { name: a.users.searchLabel })
