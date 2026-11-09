@@ -1,6 +1,6 @@
 # Arabic copy review
 
-Generated from `src/i18n` by `npm run copy:table` — 1444 strings. Do not edit the Arabic here: write the correction in **Notes**, and the frontend team applies it to `ar.json`.
+Generated from `src/i18n` by `npm run copy:table` — 1473 strings. Do not edit the Arabic here: write the correction in **Notes**, and the frontend team applies it to `ar.json`.
 
 - `{{name}}` parts are filled in by the app (brand name, amounts, dates); keep them as they are.
 - `errors.*` strings are shown when the API returns that error code.
@@ -55,6 +55,7 @@ Generated from `src/i18n` by `npm run copy:table` — 1444 strings. Do not edit 
 - [reports.month](#reportsmonth)
 - [reports.chart](#reportschart)
 - [reports.state](#reportsstate)
+- [legal](#legal)
 - [admin.nav](#adminnav)
 - [admin.titles](#admintitles)
 - [admin.reports](#adminreports)
@@ -81,6 +82,7 @@ Generated from `src/i18n` by `npm run copy:table` — 1444 strings. Do not edit 
 - [landing.faq](#landingfaq)
 - [landing.closing](#landingclosing)
 - [landing.footer](#landingfooter)
+- [landing.privacy](#landingprivacy)
 - [errors](#errors)
 
 ## common
@@ -647,6 +649,13 @@ Generated from `src/i18n` by `npm run copy:table` — 1444 strings. Do not edit 
 | `loading` | جارٍ تحميل التقرير… | Loading the report… | |
 | `errorTitle` | تعذّر تحميل التقرير | Couldn't load the report | |
 | `errorBody` | تحقق من اتصالك ثم أعد المحاولة. | Check your connection and try again. | |
+
+## legal
+
+| Key | العربية | English | Notes |
+|---|---|---|---|
+| `privacyTitle` | سياسة الخصوصية | Privacy policy | |
+| `privacyDescription` | كيف تتعامل {{brandName}} مع بياناتك: ما نجمعه، ولماذا، ومع من نشاركه، وأين يُحفظ، وكيف تطلب نسخة منه أو حذفه. | How {{brandName}} handles your data: what we collect, why, who we share it with, where it is kept, and how to get a copy or have it deleted. | |
 
 ## admin.nav
 
@@ -1830,6 +1839,38 @@ Generated from `src/i18n` by `npm run copy:table` — 1444 strings. Do not edit 
 | `terms` | الشروط والأحكام | Terms and conditions | |
 | `privacy` | سياسة الخصوصية | Privacy policy | |
 | `rights` | جميع الحقوق محفوظة | All rights reserved | |
+
+## landing.privacy
+
+| Key | العربية | English | Notes |
+|---|---|---|---|
+| `title` | سياسة الخصوصية | Privacy policy | |
+| `interim` | إشعار مؤقت يوضح كيف نتعامل مع بياناتك، إلى أن ننشر سياسة الخصوصية الكاملة وشروط الاستخدام. | An interim notice on how we handle your data, until we publish the full privacy policy and terms of use. | |
+| `updated` | آخر تحديث: 10 نوفمبر 2026 | Last updated: 10 November 2026 | |
+| `collectTitle` | ما نجمعه | What we collect | |
+| `collect1` | بيانات الحساب: الاسم والبريد الإلكتروني وكلمة المرور، وهي محفوظة مشفّرة ولا يمكننا قراءتها. | Account details: name, email and password, which is stored hashed so we cannot read it. | |
+| `collect2` | المحادثات: رسائلك والإجابات، والصور التي ترفعها أو تُنشئها. | Conversations: your messages and the answers, and images you upload or create. | |
+| `collect3` | الرصيد والاستخدام: الباقة، والرصيد، وتكلفة كل إجابة، والوضع المستخدم، والأكواد المستخدمة. | Balance and usage: your plan, balance, the cost of each answer, the mode used, and codes redeemed. | |
+| `collect4` | بيانات تقنية: عنوان IP ونوع المتصفح، في سجلات الدخول والأمان. | Technical data: IP address and browser type, in sign-in and security logs. | |
+| `useTitle` | كيف نستخدمها | How we use it | |
+| `use1` | لتقديم الخدمة: إنتاج الإجابات والصور، وحفظ محادثاتك، وحساب رصيدك. | To provide the service: producing answers and images, keeping your conversations, and working out your balance. | |
+| `use2` | لحماية الحسابات ومنع إساءة الاستخدام، وللتواصل معك بشأن حسابك. | To protect accounts, prevent abuse, and contact you about your account. | |
+| `use3` | لا نبيع بياناتك، ولا نستخدمها للإعلانات، ولا ندرّب نماذج على محادثاتك. لا نستخدم ملفات تتبع ولا أدوات تحليل. | We do not sell your data, use it for advertising, or train models on your conversations. We use no tracking cookies or analytics. | |
+| `shareTitle` | مع من نشاركها | Who we share it with | |
+| `share1` | مزودو نماذج الذكاء الاصطناعي: تصلهم رسالتك وما سبقها من المحادثة والصور المرفقة لإنتاج الإجابة فقط، دون اسمك أو بريدك، ويعالجونها وفق شروطهم. | AI model providers: they receive your message, the earlier messages of the conversation and attached images, only to produce the answer, without your name or email, and handle them under their own terms. | |
+| `share2` | مزود البريد الإلكتروني: لإرسال رسائل تأكيد البريد واستعادة كلمة المرور. | Our email provider: to send email confirmation and password-reset messages. | |
+| `share3` | لا أحد غيرهم، إلا إذا ألزمنا القانون بذلك. | No one else, unless the law requires it. | |
+| `whereTitle` | أين تُحفظ | Where it is kept | |
+| `whereBody` | تُحفظ بياناتك على خوادمنا في ليتوانيا (الاتحاد الأوروبي). ويعالج مزودو النماذج والبريد بعضها خارج مصر. | Your data is kept on our servers in Lithuania (European Union). Model and email providers process some of it outside Egypt. | |
+| `rightsTitle` | حقوقك | Your rights | |
+| `rights1` | أن تحصل على نسخة من بياناتك. | Get a copy of your data. | |
+| `rights2` | أن تصحّحها؛ يمكنك تعديل اسمك من صفحة الحساب. | Correct it; you can change your name on the account page. | |
+| `rights3` | أن تحذف محادثاتك أو حسابك. | Have your conversations or your account deleted. | |
+| `rightsHow` | أرسل طلبك من البريد المسجّل في حسابك. | Send your request from the email address on your account. | |
+| `ageTitle` | العمر | Age | |
+| `ageBody` | الخدمة لمن هم في الثامنة عشرة أو أكبر. | The service is for people aged 18 or over. | |
+| `contactTitle` | تواصل معنا | Contact us | |
+| `contactBody` | لأي سؤال عن بياناتك: | For any question about your data: | |
 
 ## errors
 

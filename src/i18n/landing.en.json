@@ -65,6 +65,35 @@
       "terms": "Terms and conditions",
       "privacy": "Privacy policy",
       "rights": "All rights reserved"
+    },
+    "privacy": {
+      "title": "Privacy policy",
+      "interim": "An interim notice on how we handle your data, until we publish the full privacy policy and terms of use.",
+      "updated": "Last updated: 10 November 2026",
+      "collectTitle": "What we collect",
+      "collect1": "Account details: name, email and password, which is stored hashed so we cannot read it.",
+      "collect2": "Conversations: your messages and the answers, and images you upload or create.",
+      "collect3": "Balance and usage: your plan, balance, the cost of each answer, the mode used, and codes redeemed.",
+      "collect4": "Technical data: IP address and browser type, in sign-in and security logs.",
+      "useTitle": "How we use it",
+      "use1": "To provide the service: producing answers and images, keeping your conversations, and working out your balance.",
+      "use2": "To protect accounts, prevent abuse, and contact you about your account.",
+      "use3": "We do not sell your data, use it for advertising, or train models on your conversations. We use no tracking cookies or analytics.",
+      "shareTitle": "Who we share it with",
+      "share1": "AI model providers: they receive your message, the earlier messages of the conversation and attached images, only to produce the answer, without your name or email, and handle them under their own terms.",
+      "share2": "Our email provider: to send email confirmation and password-reset messages.",
+      "share3": "No one else, unless the law requires it.",
+      "whereTitle": "Where it is kept",
+      "whereBody": "Your data is kept on our servers in Lithuania (European Union). Model and email providers process some of it outside Egypt.",
+      "rightsTitle": "Your rights",
+      "rights1": "Get a copy of your data.",
+      "rights2": "Correct it; you can change your name on the account page.",
+      "rights3": "Have your conversations or your account deleted.",
+      "rightsHow": "Send your request from the email address on your account.",
+      "ageTitle": "Age",
+      "ageBody": "The service is for people aged 18 or over.",
+      "contactTitle": "Contact us",
+      "contactBody": "For any question about your data:"
     }
   }
 }

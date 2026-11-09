@@ -9,6 +9,7 @@ const budgets = {
   'dist/client/_shell.html': 240,
   'dist/client/plans/index.html': 270,
   'dist/client/index.html': 256,
+  'dist/client/privacy/index.html': 245,
 };
 
 let failed = false;

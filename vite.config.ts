@@ -16,7 +16,7 @@ export default defineConfig(({ mode }) => ({
       // The shell renders from a route other than `/`, which is the prerendered
       // landing page. Only the root layout ends up in the shell.
       spa: { enabled: true, maskPath: '/sign-in' },
-      pages: [{ path: '/' }, { path: '/plans' }],
+      pages: [{ path: '/' }, { path: '/plans' }, { path: '/privacy' }],
       // Only listed pages: crawling would prerender the _guest pages too.
       prerender: { crawlLinks: false },
     }),

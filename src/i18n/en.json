@@ -422,5 +422,9 @@
       "errorTitle": "Couldn't load the report",
       "errorBody": "Check your connection and try again."
     }
+  },
+  "legal": {
+    "privacyTitle": "Privacy policy",
+    "privacyDescription": "How {{brandName}} handles your data: what we collect, why, who we share it with, where it is kept, and how to get a copy or have it deleted."
   }
 }

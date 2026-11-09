@@ -1,6 +1,6 @@
 # F11 — Landing page and legal pages
 
-**Status:** Home page built 2026-11-09 from approved S13 on `landing-page`; share image, favicon, `robots.txt` and sitemap added 2026-11-10. Terms and Privacy wait for approved text and the legal entity name.
+**Status:** Home page built 2026-11-09 from approved S13 on `landing-page`; share image, favicon, `robots.txt` and sitemap added 2026-11-10. Terms and Privacy drafted 2026-11-10 for Lam7a, Egypt ([terms](../legal/lam7a/terms.md), [privacy](../legal/lam7a/privacy.md)); **on hold until the company is registered and a lawyer reviews them** (user, 2026-11-10). Meanwhile a short interim privacy notice is live at `/privacy` (prerendered, text in `landing.privacy.*`), linked from the footer; the terms link stays hidden.
 **Goal:** a visitor to `/` understands what the product is, what the modes and the shared balance mean, and can sign up or see plans. Search engines and link previews get real content.
 **Backend:** none needed; `GET /plans` and `GET /modes` already exist.
 

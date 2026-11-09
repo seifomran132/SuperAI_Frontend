@@ -18,7 +18,7 @@ if (!site) {
 
 // Only the prerendered public pages. The app itself serves one shell for
 // every path, which says nothing to a search engine.
-const pages = ['/', '/plans'];
+const pages = ['/', '/plans', '/privacy'];
 
 // Signed-in, email-link and one-time pages: nothing to index there.
 const privatePaths = [

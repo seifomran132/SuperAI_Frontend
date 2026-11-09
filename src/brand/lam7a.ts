@@ -13,6 +13,6 @@ export const lam7a: BrandConfig = {
   contact: {
     email: 'contact@lam7ai.com',
   },
-  // [Placeholder until the legal pages exist]
-  legal: {},
+  // Interim privacy notice; terms wait for the company registration and a lawyer.
+  legal: { privacyUrl: '/privacy' },
 };

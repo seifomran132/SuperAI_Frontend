@@ -117,7 +117,7 @@ describe('landing page', () => {
     ).toBeInTheDocument();
   });
 
-  it('hides the legal links until the brand has published them', async () => {
+  it('links the privacy notice; terms stay hidden until published', async () => {
     plansReturn([]);
     await renderApp('/');
     await screen.findByRole('heading', { level: 1 });
@@ -125,8 +125,8 @@ describe('landing page', () => {
       screen.queryByRole('link', { name: ar.landing.footer.terms }),
     ).toBeNull();
     expect(
-      screen.queryByRole('link', { name: ar.landing.footer.privacy }),
-    ).toBeNull();
+      screen.getByRole('link', { name: ar.landing.footer.privacy }),
+    ).toHaveAttribute('href', '/privacy');
   });
 
   it('fills the brand name into the copy', async () => {

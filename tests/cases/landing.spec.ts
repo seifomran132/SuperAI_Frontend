@@ -118,3 +118,18 @@ test('LP-06 frequently asked questions open and close', async ({ page }) => {
   await page.getByText(text.landing.faq.q5).click();
   await expect(answer).toBeHidden();
 });
+
+test('LP-10 the footer opens the privacy notice', async ({ page }) => {
+  await openLanding(page);
+  await page
+    .getByRole('contentinfo')
+    .getByRole('link', { name: text.landing.footer.privacy })
+    .click();
+  await expect(page).toHaveURL(/\/privacy$/);
+  await expect(
+    page.getByRole('heading', { level: 1, name: text.landing.privacy.title }),
+  ).toBeVisible();
+  await expect(page.getByText(text.landing.privacy.whereBody)).toBeVisible();
+  await expectNoHorizontalScroll(page);
+  await expectAccessibleRtl(page);
+});

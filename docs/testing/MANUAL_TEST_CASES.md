@@ -301,7 +301,8 @@ Restore balances and modes after this section.
 | LP-06 | Open and close a question | The answer shows and hides | [ ] | **auto** `landing` |
 | LP-07 | Open `/` signed in | Goes to `/chat`; note how visible the landing page is first | [ ] | **manual** |
 | LP-08 | View the source of `/` on the production build | Headline and description are in the HTML; no React #418 in the console | [ ] | **manual** |
-| LP-09 | Paste the site link into a messaging app | The preview shows the name and tagline | [ ] | **manual** |
+| LP-09 | Paste the site link into a messaging app | The preview shows the name, tagline and share image | [ ] | **manual** |
+| LP-10 | Open «سياسة الخصوصية» in the footer | `/privacy` shows the interim notice, right-to-left, no sideways scroll, no accessibility violations | [ ] | **auto** `landing` |
 
 ## 3c. Admin console (F4) — sign in as the admin account
 
