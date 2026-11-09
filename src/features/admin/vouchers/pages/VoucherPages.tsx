@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useParams } from '@tanstack/react-router';
+import { Link, useParams } from '@tanstack/react-router';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Info } from 'lucide-react';
 import { toast } from 'sonner';
@@ -24,6 +24,7 @@ import { CreateForm } from '../components/CreateForm';
 import { Redemptions } from '../components/Redemptions';
 import { SettingsForm } from '../components/SettingsForm';
 import { VoucherValue } from '../components/VoucherValue';
+import { useBatch } from '../model/batches';
 import { invalidateVouchers, useVoucher } from '../model/queries';
 import { voucherStatus } from '../model/status';
 
@@ -162,6 +163,31 @@ function ToggleButton({ voucher }: { voucher: VoucherDto }) {
   );
 }
 
+/** S23 frame 7: limits of a batch code are managed by its batch. */
+function BatchNotice({ batchId }: { batchId: string }) {
+  const { t } = useTranslation();
+  const batch = useBatch(batchId);
+  return (
+    <Alert
+      variant="info"
+      action={
+        <Button asChild variant="secondary" size="sm">
+          <Link to="/admin/vouchers/batches/$batchId" params={{ batchId }}>
+            {t('admin.vouchers.batches.openBatch')}
+          </Link>
+        </Button>
+      }
+    >
+      <strong className="block">
+        {t('admin.vouchers.batches.batchCodeTitle', {
+          name: batch.data?.name ?? '…',
+        })}
+      </strong>
+      {t('admin.vouchers.batches.batchCodeBody')}
+    </Alert>
+  );
+}
+
 /** S22 frame 4: summary, settings, redemptions. */
 export function VoucherDetailPage() {
   const { t } = useTranslation();
@@ -198,11 +224,12 @@ export function VoucherDetailPage() {
               </div>
               <ToggleButton voucher={voucher} />
             </div>
+            {voucher.batchId ? <BatchNotice batchId={voucher.batchId} /> : null}
             {status === 'inactive' ? (
               <Alert variant="warning">
                 {t('admin.vouchers.inactiveBanner')}
               </Alert>
-            ) : status === 'usedUp' ? (
+            ) : status === 'usedUp' && !voucher.batchId ? (
               <Alert variant="warning">
                 {t('admin.vouchers.usedUpBanner', {
                   used: voucher.redemptionCount,

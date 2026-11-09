@@ -3,8 +3,8 @@
 import { type DefaultError, type InfiniteData, infiniteQueryOptions, queryOptions, type UseMutationOptions } from '@tanstack/react-query';
 
 import { client } from '../client.gen';
-import { adminCatalogSyncApply, adminCatalogSyncDismiss, adminCatalogSyncList, adminCatalogSyncRun, adminCatalogSyncStatus, adminChatSettingsGet, adminChatSettingsUpdate, adminLedgerAdjust, adminLedgerBalance, adminLedgerEntries, adminLedgerRecordPurchase, adminModelsCreate, adminModelsGet, adminModelsList, adminModelsPrices, adminModelsSetPrice, adminModelsTest, adminModelsUpdate, adminModesCreate, adminModesGet, adminModesList, adminModesUpdate, adminPlansCreate, adminPlansGet, adminPlansList, adminPlansSetModes, adminPlansUpdate, adminPricingSettingsGet, adminPricingSettingsUpdate, adminProvidersAvailableModels, adminProvidersCreate, adminProvidersList, adminProvidersRemoveApiKey, adminProvidersSetApiKey, adminProvidersUpdate, adminReportsAudit, adminReportsChatRequests, adminReportsOverview, adminReportsUserUsage, adminSubscriptionsAssign, adminSubscriptionsEnd, adminSubscriptionsHistory, adminUsersGet, adminUsersList, adminUsersSetAdminRole, adminUsersSetStatus, adminVouchersCreate, adminVouchersGet, adminVouchersList, adminVouchersRedemptions, adminVouchersUpdate, attachmentsDownload, attachmentsUpload, conversationsCreate, conversationsGet, conversationsList, conversationsMessages, conversationsRemove, conversationsRename, healthLive, healthReady, meBalanceActivity, meBalanceBalance, meGet, meSubscriptionGet, meUpdate, meUsageUsage, meVouchersRedeem, modesList, type Options, publicPlansList } from '../sdk.gen';
-import type { AdminCatalogSyncApplyData, AdminCatalogSyncApplyError, AdminCatalogSyncApplyResponse, AdminCatalogSyncDismissData, AdminCatalogSyncDismissError, AdminCatalogSyncDismissResponse, AdminCatalogSyncListData, AdminCatalogSyncListError, AdminCatalogSyncListResponse, AdminCatalogSyncRunData, AdminCatalogSyncRunError, AdminCatalogSyncRunResponse, AdminCatalogSyncStatusData, AdminCatalogSyncStatusError, AdminCatalogSyncStatusResponse, AdminChatSettingsGetData, AdminChatSettingsGetError, AdminChatSettingsGetResponse, AdminChatSettingsUpdateData, AdminChatSettingsUpdateError, AdminChatSettingsUpdateResponse, AdminLedgerAdjustData, AdminLedgerAdjustError, AdminLedgerAdjustResponse, AdminLedgerBalanceData, AdminLedgerBalanceError, AdminLedgerBalanceResponse, AdminLedgerEntriesData, AdminLedgerEntriesError, AdminLedgerEntriesResponse, AdminLedgerRecordPurchaseData, AdminLedgerRecordPurchaseError, AdminLedgerRecordPurchaseResponse, AdminModelsCreateData, AdminModelsCreateError, AdminModelsCreateResponse, AdminModelsGetData, AdminModelsGetError, AdminModelsGetResponse, AdminModelsListData, AdminModelsListError, AdminModelsListResponse, AdminModelsPricesData, AdminModelsPricesError, AdminModelsPricesResponse, AdminModelsSetPriceData, AdminModelsSetPriceError, AdminModelsSetPriceResponse, AdminModelsTestData, AdminModelsTestError, AdminModelsTestResponse, AdminModelsUpdateData, AdminModelsUpdateError, AdminModelsUpdateResponse, AdminModesCreateData, AdminModesCreateError, AdminModesCreateResponse, AdminModesGetData, AdminModesGetError, AdminModesGetResponse, AdminModesListData, AdminModesListError, AdminModesListResponse, AdminModesUpdateData, AdminModesUpdateError, AdminModesUpdateResponse, AdminPlansCreateData, AdminPlansCreateError, AdminPlansCreateResponse, AdminPlansGetData, AdminPlansGetError, AdminPlansGetResponse, AdminPlansListData, AdminPlansListError, AdminPlansListResponse, AdminPlansSetModesData, AdminPlansSetModesError, AdminPlansSetModesResponse, AdminPlansUpdateData, AdminPlansUpdateError, AdminPlansUpdateResponse, AdminPricingSettingsGetData, AdminPricingSettingsGetError, AdminPricingSettingsGetResponse, AdminPricingSettingsUpdateData, AdminPricingSettingsUpdateError, AdminPricingSettingsUpdateResponse, AdminProvidersAvailableModelsData, AdminProvidersAvailableModelsError, AdminProvidersAvailableModelsResponse, AdminProvidersCreateData, AdminProvidersCreateError, AdminProvidersCreateResponse, AdminProvidersListData, AdminProvidersListError, AdminProvidersListResponse, AdminProvidersRemoveApiKeyData, AdminProvidersRemoveApiKeyError, AdminProvidersRemoveApiKeyResponse, AdminProvidersSetApiKeyData, AdminProvidersSetApiKeyError, AdminProvidersSetApiKeyResponse, AdminProvidersUpdateData, AdminProvidersUpdateError, AdminProvidersUpdateResponse, AdminReportsAuditData, AdminReportsAuditError, AdminReportsAuditResponse, AdminReportsChatRequestsData, AdminReportsChatRequestsError, AdminReportsChatRequestsResponse, AdminReportsOverviewData, AdminReportsOverviewError, AdminReportsOverviewResponse, AdminReportsUserUsageData, AdminReportsUserUsageError, AdminReportsUserUsageResponse, AdminSubscriptionsAssignData, AdminSubscriptionsAssignError, AdminSubscriptionsAssignResponse, AdminSubscriptionsEndData, AdminSubscriptionsEndError, AdminSubscriptionsEndResponse, AdminSubscriptionsHistoryData, AdminSubscriptionsHistoryError, AdminSubscriptionsHistoryResponse, AdminUsersGetData, AdminUsersGetError, AdminUsersGetResponse, AdminUsersListData, AdminUsersListError, AdminUsersListResponse, AdminUsersSetAdminRoleData, AdminUsersSetAdminRoleError, AdminUsersSetAdminRoleResponse, AdminUsersSetStatusData, AdminUsersSetStatusError, AdminUsersSetStatusResponse, AdminVouchersCreateData, AdminVouchersCreateError, AdminVouchersCreateResponse, AdminVouchersGetData, AdminVouchersGetError, AdminVouchersGetResponse, AdminVouchersListData, AdminVouchersListError, AdminVouchersListResponse, AdminVouchersRedemptionsData, AdminVouchersRedemptionsError, AdminVouchersRedemptionsResponse, AdminVouchersUpdateData, AdminVouchersUpdateError, AdminVouchersUpdateResponse, AttachmentsDownloadData, AttachmentsDownloadError, AttachmentsDownloadResponse, AttachmentsUploadData, AttachmentsUploadError, AttachmentsUploadResponse, ConversationsCreateData, ConversationsCreateError, ConversationsCreateResponse, ConversationsGetData, ConversationsGetError, ConversationsGetResponse, ConversationsListData, ConversationsListResponse, ConversationsMessagesData, ConversationsMessagesError, ConversationsMessagesResponse, ConversationsRemoveData, ConversationsRemoveError, ConversationsRemoveResponse, ConversationsRenameData, ConversationsRenameError, ConversationsRenameResponse, HealthLiveData, HealthReadyData, HealthReadyError, HealthReadyResponse, MeBalanceActivityData, MeBalanceActivityResponse, MeBalanceBalanceData, MeBalanceBalanceResponse, MeGetData, MeGetResponse, MeSubscriptionGetData, MeSubscriptionGetResponse, MeUpdateData, MeUpdateResponse, MeUsageUsageData, MeUsageUsageError, MeUsageUsageResponse, MeVouchersRedeemData, MeVouchersRedeemError, MeVouchersRedeemResponse, ModesListData, ModesListResponse, PublicPlansListData, PublicPlansListResponse } from '../types.gen';
+import { adminCatalogSyncApply, adminCatalogSyncDismiss, adminCatalogSyncList, adminCatalogSyncRun, adminCatalogSyncStatus, adminChatSettingsGet, adminChatSettingsUpdate, adminLedgerAdjust, adminLedgerBalance, adminLedgerEntries, adminLedgerRecordPurchase, adminModelsCreate, adminModelsGet, adminModelsList, adminModelsPrices, adminModelsSetPrice, adminModelsTest, adminModelsUpdate, adminModesCreate, adminModesGet, adminModesList, adminModesUpdate, adminPlansCreate, adminPlansGet, adminPlansList, adminPlansSetModes, adminPlansUpdate, adminPricingSettingsGet, adminPricingSettingsUpdate, adminProvidersAvailableModels, adminProvidersCreate, adminProvidersList, adminProvidersRemoveApiKey, adminProvidersSetApiKey, adminProvidersUpdate, adminReportsAudit, adminReportsAuditFacets, adminReportsChatRequests, adminReportsOverview, adminReportsUserUsage, adminSubscriptionsAssign, adminSubscriptionsEnd, adminSubscriptionsHistory, adminUsersGet, adminUsersList, adminUsersSetAdminRole, adminUsersSetStatus, adminVoucherBatchesCodes, adminVoucherBatchesCreate, adminVoucherBatchesExport, adminVoucherBatchesGet, adminVoucherBatchesList, adminVoucherBatchesUpdate, adminVouchersCreate, adminVouchersGet, adminVouchersList, adminVouchersRedemptions, adminVouchersUpdate, attachmentsDownload, attachmentsUpload, conversationsCreate, conversationsGet, conversationsList, conversationsMessages, conversationsRemove, conversationsRename, healthLive, healthReady, meBalanceActivity, meBalanceBalance, meGet, meSubscriptionGet, meUpdate, meUsageUsage, meVouchersRedeem, modesList, type Options, publicPlansList } from '../sdk.gen';
+import type { AdminCatalogSyncApplyData, AdminCatalogSyncApplyError, AdminCatalogSyncApplyResponse, AdminCatalogSyncDismissData, AdminCatalogSyncDismissError, AdminCatalogSyncDismissResponse, AdminCatalogSyncListData, AdminCatalogSyncListError, AdminCatalogSyncListResponse, AdminCatalogSyncRunData, AdminCatalogSyncRunError, AdminCatalogSyncRunResponse, AdminCatalogSyncStatusData, AdminCatalogSyncStatusError, AdminCatalogSyncStatusResponse, AdminChatSettingsGetData, AdminChatSettingsGetError, AdminChatSettingsGetResponse, AdminChatSettingsUpdateData, AdminChatSettingsUpdateError, AdminChatSettingsUpdateResponse, AdminLedgerAdjustData, AdminLedgerAdjustError, AdminLedgerAdjustResponse, AdminLedgerBalanceData, AdminLedgerBalanceError, AdminLedgerBalanceResponse, AdminLedgerEntriesData, AdminLedgerEntriesError, AdminLedgerEntriesResponse, AdminLedgerRecordPurchaseData, AdminLedgerRecordPurchaseError, AdminLedgerRecordPurchaseResponse, AdminModelsCreateData, AdminModelsCreateError, AdminModelsCreateResponse, AdminModelsGetData, AdminModelsGetError, AdminModelsGetResponse, AdminModelsListData, AdminModelsListError, AdminModelsListResponse, AdminModelsPricesData, AdminModelsPricesError, AdminModelsPricesResponse, AdminModelsSetPriceData, AdminModelsSetPriceError, AdminModelsSetPriceResponse, AdminModelsTestData, AdminModelsTestError, AdminModelsTestResponse, AdminModelsUpdateData, AdminModelsUpdateError, AdminModelsUpdateResponse, AdminModesCreateData, AdminModesCreateError, AdminModesCreateResponse, AdminModesGetData, AdminModesGetError, AdminModesGetResponse, AdminModesListData, AdminModesListError, AdminModesListResponse, AdminModesUpdateData, AdminModesUpdateError, AdminModesUpdateResponse, AdminPlansCreateData, AdminPlansCreateError, AdminPlansCreateResponse, AdminPlansGetData, AdminPlansGetError, AdminPlansGetResponse, AdminPlansListData, AdminPlansListError, AdminPlansListResponse, AdminPlansSetModesData, AdminPlansSetModesError, AdminPlansSetModesResponse, AdminPlansUpdateData, AdminPlansUpdateError, AdminPlansUpdateResponse, AdminPricingSettingsGetData, AdminPricingSettingsGetError, AdminPricingSettingsGetResponse, AdminPricingSettingsUpdateData, AdminPricingSettingsUpdateError, AdminPricingSettingsUpdateResponse, AdminProvidersAvailableModelsData, AdminProvidersAvailableModelsError, AdminProvidersAvailableModelsResponse, AdminProvidersCreateData, AdminProvidersCreateError, AdminProvidersCreateResponse, AdminProvidersListData, AdminProvidersListError, AdminProvidersListResponse, AdminProvidersRemoveApiKeyData, AdminProvidersRemoveApiKeyError, AdminProvidersRemoveApiKeyResponse, AdminProvidersSetApiKeyData, AdminProvidersSetApiKeyError, AdminProvidersSetApiKeyResponse, AdminProvidersUpdateData, AdminProvidersUpdateError, AdminProvidersUpdateResponse, AdminReportsAuditData, AdminReportsAuditError, AdminReportsAuditFacetsData, AdminReportsAuditFacetsError, AdminReportsAuditFacetsResponse, AdminReportsAuditResponse, AdminReportsChatRequestsData, AdminReportsChatRequestsError, AdminReportsChatRequestsResponse, AdminReportsOverviewData, AdminReportsOverviewError, AdminReportsOverviewResponse, AdminReportsUserUsageData, AdminReportsUserUsageError, AdminReportsUserUsageResponse, AdminSubscriptionsAssignData, AdminSubscriptionsAssignError, AdminSubscriptionsAssignResponse, AdminSubscriptionsEndData, AdminSubscriptionsEndError, AdminSubscriptionsEndResponse, AdminSubscriptionsHistoryData, AdminSubscriptionsHistoryError, AdminSubscriptionsHistoryResponse, AdminUsersGetData, AdminUsersGetError, AdminUsersGetResponse, AdminUsersListData, AdminUsersListError, AdminUsersListResponse, AdminUsersSetAdminRoleData, AdminUsersSetAdminRoleError, AdminUsersSetAdminRoleResponse, AdminUsersSetStatusData, AdminUsersSetStatusError, AdminUsersSetStatusResponse, AdminVoucherBatchesCodesData, AdminVoucherBatchesCodesError, AdminVoucherBatchesCodesResponse, AdminVoucherBatchesCreateData, AdminVoucherBatchesCreateError, AdminVoucherBatchesCreateResponse, AdminVoucherBatchesExportData, AdminVoucherBatchesExportError, AdminVoucherBatchesExportResponse, AdminVoucherBatchesGetData, AdminVoucherBatchesGetError, AdminVoucherBatchesGetResponse, AdminVoucherBatchesListData, AdminVoucherBatchesListError, AdminVoucherBatchesListResponse, AdminVoucherBatchesUpdateData, AdminVoucherBatchesUpdateError, AdminVoucherBatchesUpdateResponse, AdminVouchersCreateData, AdminVouchersCreateError, AdminVouchersCreateResponse, AdminVouchersGetData, AdminVouchersGetError, AdminVouchersGetResponse, AdminVouchersListData, AdminVouchersListError, AdminVouchersListResponse, AdminVouchersRedemptionsData, AdminVouchersRedemptionsError, AdminVouchersRedemptionsResponse, AdminVouchersUpdateData, AdminVouchersUpdateError, AdminVouchersUpdateResponse, AttachmentsDownloadData, AttachmentsDownloadError, AttachmentsDownloadResponse, AttachmentsUploadData, AttachmentsUploadError, AttachmentsUploadResponse, ConversationsCreateData, ConversationsCreateError, ConversationsCreateResponse, ConversationsGetData, ConversationsGetError, ConversationsGetResponse, ConversationsListData, ConversationsListResponse, ConversationsMessagesData, ConversationsMessagesError, ConversationsMessagesResponse, ConversationsRemoveData, ConversationsRemoveError, ConversationsRemoveResponse, ConversationsRenameData, ConversationsRenameError, ConversationsRenameResponse, HealthLiveData, HealthReadyData, HealthReadyError, HealthReadyResponse, MeBalanceActivityData, MeBalanceActivityResponse, MeBalanceBalanceData, MeBalanceBalanceResponse, MeGetData, MeGetResponse, MeSubscriptionGetData, MeSubscriptionGetResponse, MeUpdateData, MeUpdateResponse, MeUsageUsageData, MeUsageUsageError, MeUsageUsageResponse, MeVouchersRedeemData, MeVouchersRedeemError, MeVouchersRedeemResponse, ModesListData, ModesListResponse, PublicPlansListData, PublicPlansListResponse } from '../types.gen';
 
 export type QueryKey<TOptions extends Options> = [
     Pick<TOptions, 'baseUrl' | 'body' | 'headers' | 'path' | 'query'> & {
@@ -1445,7 +1445,7 @@ export const adminReportsChatRequestsQueryKey = (options?: Options<AdminReportsC
 /**
  * Chat requests, newest first
  *
- * Each message billed: user, mode, model, status, tokens, held, charged, provider cost, absorbed. Filter by user or status (`reconciliation_required` lists the ones to review). Page with `cursor` = `nextCursor`. No message content.
+ * Each message billed: user, mode, model, status, tokens, held, charged, provider cost, absorbed. Filter by user, status (`reconciliation_required` lists the ones to review) or period (`from`, `to`; no limit on the period when both are omitted). Page with `cursor` = `nextCursor`. No message content.
  */
 export const adminReportsChatRequestsOptions = (options?: Options<AdminReportsChatRequestsData>) => queryOptions<AdminReportsChatRequestsResponse, AdminReportsChatRequestsError, AdminReportsChatRequestsResponse, ReturnType<typeof adminReportsChatRequestsQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
@@ -1465,7 +1465,7 @@ export const adminReportsChatRequestsInfiniteQueryKey = (options?: Options<Admin
 /**
  * Chat requests, newest first
  *
- * Each message billed: user, mode, model, status, tokens, held, charged, provider cost, absorbed. Filter by user or status (`reconciliation_required` lists the ones to review). Page with `cursor` = `nextCursor`. No message content.
+ * Each message billed: user, mode, model, status, tokens, held, charged, provider cost, absorbed. Filter by user, status (`reconciliation_required` lists the ones to review) or period (`from`, `to`; no limit on the period when both are omitted). Page with `cursor` = `nextCursor`. No message content.
  */
 export const adminReportsChatRequestsInfiniteOptions = (options?: Options<AdminReportsChatRequestsData>) => {
     const opts = infiniteQueryOptions<AdminReportsChatRequestsResponse, AdminReportsChatRequestsError, InfiniteData<AdminReportsChatRequestsResponse>, QueryKey<Options<AdminReportsChatRequestsData>>, string | Pick<QueryKey<Options<AdminReportsChatRequestsData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
@@ -1491,6 +1491,26 @@ export const adminReportsChatRequestsInfiniteOptions = (options?: Options<AdminR
     });
     return opts as Omit<typeof opts, 'initialData'>;
 };
+
+export const adminReportsAuditFacetsQueryKey = (options?: Options<AdminReportsAuditFacetsData>) => createQueryKey('adminReportsAuditFacets', options);
+
+/**
+ * Values for the audit log filters
+ *
+ * Every action and resource type in the log, and the admins who appear in it.
+ */
+export const adminReportsAuditFacetsOptions = (options?: Options<AdminReportsAuditFacetsData>) => queryOptions<AdminReportsAuditFacetsResponse, AdminReportsAuditFacetsError, AdminReportsAuditFacetsResponse, ReturnType<typeof adminReportsAuditFacetsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await adminReportsAuditFacets({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: adminReportsAuditFacetsQueryKey(options)
+});
 
 export const adminReportsAuditQueryKey = (options?: Options<AdminReportsAuditData>) => createQueryKey('adminReportsAudit', options);
 
@@ -1693,3 +1713,173 @@ export const adminVouchersRedemptionsInfiniteOptions = (options: Options<AdminVo
     });
     return opts as Omit<typeof opts, 'initialData'>;
 };
+
+export const adminVoucherBatchesListQueryKey = (options?: Options<AdminVoucherBatchesListData>) => createQueryKey('adminVoucherBatchesList', options);
+
+/**
+ * List batches with their progress, newest first
+ */
+export const adminVoucherBatchesListOptions = (options?: Options<AdminVoucherBatchesListData>) => queryOptions<AdminVoucherBatchesListResponse, AdminVoucherBatchesListError, AdminVoucherBatchesListResponse, ReturnType<typeof adminVoucherBatchesListQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await adminVoucherBatchesList({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: adminVoucherBatchesListQueryKey(options)
+});
+
+export const adminVoucherBatchesListInfiniteQueryKey = (options?: Options<AdminVoucherBatchesListData>): QueryKey<Options<AdminVoucherBatchesListData>> => createQueryKey('adminVoucherBatchesList', options, true);
+
+/**
+ * List batches with their progress, newest first
+ */
+export const adminVoucherBatchesListInfiniteOptions = (options?: Options<AdminVoucherBatchesListData>) => {
+    const opts = infiniteQueryOptions<AdminVoucherBatchesListResponse, AdminVoucherBatchesListError, InfiniteData<AdminVoucherBatchesListResponse>, QueryKey<Options<AdminVoucherBatchesListData>>, string | Pick<QueryKey<Options<AdminVoucherBatchesListData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
+    // @ts-ignore
+    {
+        queryFn: async ({ pageParam, queryKey, signal }) => {
+            // @ts-ignore
+            const page: Pick<QueryKey<Options<AdminVoucherBatchesListData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
+                query: {
+                    cursor: pageParam
+                }
+            };
+            const params = createInfiniteParams(queryKey, page);
+            const { data } = await adminVoucherBatchesList({
+                ...options,
+                ...params,
+                signal,
+                throwOnError: true
+            });
+            return data;
+        },
+        queryKey: adminVoucherBatchesListInfiniteQueryKey(options)
+    });
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
+/**
+ * Generate a batch of single-use codes (audited)
+ *
+ * All codes are made together or not at all. Sending the same idempotencyKey again returns the original batch.
+ */
+export const adminVoucherBatchesCreateMutation = (options?: Partial<Options<AdminVoucherBatchesCreateData>>): UseMutationOptions<AdminVoucherBatchesCreateResponse, AdminVoucherBatchesCreateError, Options<AdminVoucherBatchesCreateData>> => {
+    const mutationOptions: UseMutationOptions<AdminVoucherBatchesCreateResponse, AdminVoucherBatchesCreateError, Options<AdminVoucherBatchesCreateData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await adminVoucherBatchesCreate({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const adminVoucherBatchesGetQueryKey = (options: Options<AdminVoucherBatchesGetData>) => createQueryKey('adminVoucherBatchesGet', options);
+
+/**
+ * A batch with its progress
+ */
+export const adminVoucherBatchesGetOptions = (options: Options<AdminVoucherBatchesGetData>) => queryOptions<AdminVoucherBatchesGetResponse, AdminVoucherBatchesGetError, AdminVoucherBatchesGetResponse, ReturnType<typeof adminVoucherBatchesGetQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await adminVoucherBatchesGet({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: adminVoucherBatchesGetQueryKey(options)
+});
+
+/**
+ * Turn a whole batch off or on, move its end, edit the note (audited)
+ */
+export const adminVoucherBatchesUpdateMutation = (options?: Partial<Options<AdminVoucherBatchesUpdateData>>): UseMutationOptions<AdminVoucherBatchesUpdateResponse, AdminVoucherBatchesUpdateError, Options<AdminVoucherBatchesUpdateData>> => {
+    const mutationOptions: UseMutationOptions<AdminVoucherBatchesUpdateResponse, AdminVoucherBatchesUpdateError, Options<AdminVoucherBatchesUpdateData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await adminVoucherBatchesUpdate({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const adminVoucherBatchesCodesQueryKey = (options: Options<AdminVoucherBatchesCodesData>) => createQueryKey('adminVoucherBatchesCodes', options);
+
+/**
+ * A batch's codes and who used them, newest first
+ */
+export const adminVoucherBatchesCodesOptions = (options: Options<AdminVoucherBatchesCodesData>) => queryOptions<AdminVoucherBatchesCodesResponse, AdminVoucherBatchesCodesError, AdminVoucherBatchesCodesResponse, ReturnType<typeof adminVoucherBatchesCodesQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await adminVoucherBatchesCodes({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: adminVoucherBatchesCodesQueryKey(options)
+});
+
+export const adminVoucherBatchesCodesInfiniteQueryKey = (options: Options<AdminVoucherBatchesCodesData>): QueryKey<Options<AdminVoucherBatchesCodesData>> => createQueryKey('adminVoucherBatchesCodes', options, true);
+
+/**
+ * A batch's codes and who used them, newest first
+ */
+export const adminVoucherBatchesCodesInfiniteOptions = (options: Options<AdminVoucherBatchesCodesData>) => {
+    const opts = infiniteQueryOptions<AdminVoucherBatchesCodesResponse, AdminVoucherBatchesCodesError, InfiniteData<AdminVoucherBatchesCodesResponse>, QueryKey<Options<AdminVoucherBatchesCodesData>>, string | Pick<QueryKey<Options<AdminVoucherBatchesCodesData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
+    // @ts-ignore
+    {
+        queryFn: async ({ pageParam, queryKey, signal }) => {
+            // @ts-ignore
+            const page: Pick<QueryKey<Options<AdminVoucherBatchesCodesData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
+                query: {
+                    cursor: pageParam
+                }
+            };
+            const params = createInfiniteParams(queryKey, page);
+            const { data } = await adminVoucherBatchesCodes({
+                ...options,
+                ...params,
+                signal,
+                throwOnError: true
+            });
+            return data;
+        },
+        queryKey: adminVoucherBatchesCodesInfiniteQueryKey(options)
+    });
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
+export const adminVoucherBatchesExportQueryKey = (options: Options<AdminVoucherBatchesExportData>) => createQueryKey('adminVoucherBatchesExport', options);
+
+/**
+ * Download the codes as CSV (each download is audited)
+ *
+ * Columns: code, kind, amount_usd, plan_key, trial_days, starts_at, ends_at, status (unused, redeemed, inactive, expired), redeemed_at. No user data.
+ */
+export const adminVoucherBatchesExportOptions = (options: Options<AdminVoucherBatchesExportData>) => queryOptions<AdminVoucherBatchesExportResponse, AdminVoucherBatchesExportError, AdminVoucherBatchesExportResponse, ReturnType<typeof adminVoucherBatchesExportQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await adminVoucherBatchesExport({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: adminVoucherBatchesExportQueryKey(options)
+});

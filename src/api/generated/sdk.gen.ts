@@ -2,7 +2,7 @@
 
 import { type Client, type ClientMeta, formDataBodySerializer, type Options as Options2, type RequestResult, type TDataShape } from './client';
 import { client } from './client.gen';
-import type { AdminCatalogSyncApplyData, AdminCatalogSyncApplyErrors, AdminCatalogSyncApplyResponses, AdminCatalogSyncDismissData, AdminCatalogSyncDismissErrors, AdminCatalogSyncDismissResponses, AdminCatalogSyncListData, AdminCatalogSyncListErrors, AdminCatalogSyncListResponses, AdminCatalogSyncRunData, AdminCatalogSyncRunErrors, AdminCatalogSyncRunResponses, AdminCatalogSyncStatusData, AdminCatalogSyncStatusErrors, AdminCatalogSyncStatusResponses, AdminChatSettingsGetData, AdminChatSettingsGetErrors, AdminChatSettingsGetResponses, AdminChatSettingsUpdateData, AdminChatSettingsUpdateErrors, AdminChatSettingsUpdateResponses, AdminLedgerAdjustData, AdminLedgerAdjustErrors, AdminLedgerAdjustResponses, AdminLedgerBalanceData, AdminLedgerBalanceErrors, AdminLedgerBalanceResponses, AdminLedgerEntriesData, AdminLedgerEntriesErrors, AdminLedgerEntriesResponses, AdminLedgerRecordPurchaseData, AdminLedgerRecordPurchaseErrors, AdminLedgerRecordPurchaseResponses, AdminModelsCreateData, AdminModelsCreateErrors, AdminModelsCreateResponses, AdminModelsGetData, AdminModelsGetErrors, AdminModelsGetResponses, AdminModelsListData, AdminModelsListErrors, AdminModelsListResponses, AdminModelsPricesData, AdminModelsPricesErrors, AdminModelsPricesResponses, AdminModelsSetPriceData, AdminModelsSetPriceErrors, AdminModelsSetPriceResponses, AdminModelsTestData, AdminModelsTestErrors, AdminModelsTestResponses, AdminModelsUpdateData, AdminModelsUpdateErrors, AdminModelsUpdateResponses, AdminModesCreateData, AdminModesCreateErrors, AdminModesCreateResponses, AdminModesGetData, AdminModesGetErrors, AdminModesGetResponses, AdminModesListData, AdminModesListErrors, AdminModesListResponses, AdminModesUpdateData, AdminModesUpdateErrors, AdminModesUpdateResponses, AdminPlansCreateData, AdminPlansCreateErrors, AdminPlansCreateResponses, AdminPlansGetData, AdminPlansGetErrors, AdminPlansGetResponses, AdminPlansListData, AdminPlansListErrors, AdminPlansListResponses, AdminPlansSetModesData, AdminPlansSetModesErrors, AdminPlansSetModesResponses, AdminPlansUpdateData, AdminPlansUpdateErrors, AdminPlansUpdateResponses, AdminPricingSettingsGetData, AdminPricingSettingsGetErrors, AdminPricingSettingsGetResponses, AdminPricingSettingsUpdateData, AdminPricingSettingsUpdateErrors, AdminPricingSettingsUpdateResponses, AdminProvidersAvailableModelsData, AdminProvidersAvailableModelsErrors, AdminProvidersAvailableModelsResponses, AdminProvidersCreateData, AdminProvidersCreateErrors, AdminProvidersCreateResponses, AdminProvidersListData, AdminProvidersListErrors, AdminProvidersListResponses, AdminProvidersRemoveApiKeyData, AdminProvidersRemoveApiKeyErrors, AdminProvidersRemoveApiKeyResponses, AdminProvidersSetApiKeyData, AdminProvidersSetApiKeyErrors, AdminProvidersSetApiKeyResponses, AdminProvidersUpdateData, AdminProvidersUpdateErrors, AdminProvidersUpdateResponses, AdminReportsAuditData, AdminReportsAuditErrors, AdminReportsAuditResponses, AdminReportsChatRequestsData, AdminReportsChatRequestsErrors, AdminReportsChatRequestsResponses, AdminReportsOverviewData, AdminReportsOverviewErrors, AdminReportsOverviewResponses, AdminReportsUserUsageData, AdminReportsUserUsageErrors, AdminReportsUserUsageResponses, AdminSubscriptionsAssignData, AdminSubscriptionsAssignErrors, AdminSubscriptionsAssignResponses, AdminSubscriptionsEndData, AdminSubscriptionsEndErrors, AdminSubscriptionsEndResponses, AdminSubscriptionsHistoryData, AdminSubscriptionsHistoryErrors, AdminSubscriptionsHistoryResponses, AdminUsersGetData, AdminUsersGetErrors, AdminUsersGetResponses, AdminUsersListData, AdminUsersListErrors, AdminUsersListResponses, AdminUsersSetAdminRoleData, AdminUsersSetAdminRoleErrors, AdminUsersSetAdminRoleResponses, AdminUsersSetStatusData, AdminUsersSetStatusErrors, AdminUsersSetStatusResponses, AdminVouchersCreateData, AdminVouchersCreateErrors, AdminVouchersCreateResponses, AdminVouchersGetData, AdminVouchersGetErrors, AdminVouchersGetResponses, AdminVouchersListData, AdminVouchersListErrors, AdminVouchersListResponses, AdminVouchersRedemptionsData, AdminVouchersRedemptionsErrors, AdminVouchersRedemptionsResponses, AdminVouchersUpdateData, AdminVouchersUpdateErrors, AdminVouchersUpdateResponses, AttachmentsDownloadData, AttachmentsDownloadErrors, AttachmentsDownloadResponses, AttachmentsUploadData, AttachmentsUploadErrors, AttachmentsUploadResponses, ConversationsCreateData, ConversationsCreateErrors, ConversationsCreateResponses, ConversationsGetData, ConversationsGetErrors, ConversationsGetResponses, ConversationsListData, ConversationsListResponses, ConversationsMessagesData, ConversationsMessagesErrors, ConversationsMessagesResponses, ConversationsRemoveData, ConversationsRemoveErrors, ConversationsRemoveResponses, ConversationsRenameData, ConversationsRenameErrors, ConversationsRenameResponses, HealthLiveData, HealthLiveResponses, HealthReadyData, HealthReadyErrors, HealthReadyResponses, MeBalanceActivityData, MeBalanceActivityResponses, MeBalanceBalanceData, MeBalanceBalanceResponses, MeGetData, MeGetResponses, MeSubscriptionGetData, MeSubscriptionGetResponses, MeUpdateData, MeUpdateResponses, MeUsageUsageData, MeUsageUsageErrors, MeUsageUsageResponses, MeVouchersRedeemData, MeVouchersRedeemErrors, MeVouchersRedeemResponses, ModesListData, ModesListResponses, PublicPlansListData, PublicPlansListResponses } from './types.gen';
+import type { AdminCatalogSyncApplyData, AdminCatalogSyncApplyErrors, AdminCatalogSyncApplyResponses, AdminCatalogSyncDismissData, AdminCatalogSyncDismissErrors, AdminCatalogSyncDismissResponses, AdminCatalogSyncListData, AdminCatalogSyncListErrors, AdminCatalogSyncListResponses, AdminCatalogSyncRunData, AdminCatalogSyncRunErrors, AdminCatalogSyncRunResponses, AdminCatalogSyncStatusData, AdminCatalogSyncStatusErrors, AdminCatalogSyncStatusResponses, AdminChatSettingsGetData, AdminChatSettingsGetErrors, AdminChatSettingsGetResponses, AdminChatSettingsUpdateData, AdminChatSettingsUpdateErrors, AdminChatSettingsUpdateResponses, AdminLedgerAdjustData, AdminLedgerAdjustErrors, AdminLedgerAdjustResponses, AdminLedgerBalanceData, AdminLedgerBalanceErrors, AdminLedgerBalanceResponses, AdminLedgerEntriesData, AdminLedgerEntriesErrors, AdminLedgerEntriesResponses, AdminLedgerRecordPurchaseData, AdminLedgerRecordPurchaseErrors, AdminLedgerRecordPurchaseResponses, AdminModelsCreateData, AdminModelsCreateErrors, AdminModelsCreateResponses, AdminModelsGetData, AdminModelsGetErrors, AdminModelsGetResponses, AdminModelsListData, AdminModelsListErrors, AdminModelsListResponses, AdminModelsPricesData, AdminModelsPricesErrors, AdminModelsPricesResponses, AdminModelsSetPriceData, AdminModelsSetPriceErrors, AdminModelsSetPriceResponses, AdminModelsTestData, AdminModelsTestErrors, AdminModelsTestResponses, AdminModelsUpdateData, AdminModelsUpdateErrors, AdminModelsUpdateResponses, AdminModesCreateData, AdminModesCreateErrors, AdminModesCreateResponses, AdminModesGetData, AdminModesGetErrors, AdminModesGetResponses, AdminModesListData, AdminModesListErrors, AdminModesListResponses, AdminModesUpdateData, AdminModesUpdateErrors, AdminModesUpdateResponses, AdminPlansCreateData, AdminPlansCreateErrors, AdminPlansCreateResponses, AdminPlansGetData, AdminPlansGetErrors, AdminPlansGetResponses, AdminPlansListData, AdminPlansListErrors, AdminPlansListResponses, AdminPlansSetModesData, AdminPlansSetModesErrors, AdminPlansSetModesResponses, AdminPlansUpdateData, AdminPlansUpdateErrors, AdminPlansUpdateResponses, AdminPricingSettingsGetData, AdminPricingSettingsGetErrors, AdminPricingSettingsGetResponses, AdminPricingSettingsUpdateData, AdminPricingSettingsUpdateErrors, AdminPricingSettingsUpdateResponses, AdminProvidersAvailableModelsData, AdminProvidersAvailableModelsErrors, AdminProvidersAvailableModelsResponses, AdminProvidersCreateData, AdminProvidersCreateErrors, AdminProvidersCreateResponses, AdminProvidersListData, AdminProvidersListErrors, AdminProvidersListResponses, AdminProvidersRemoveApiKeyData, AdminProvidersRemoveApiKeyErrors, AdminProvidersRemoveApiKeyResponses, AdminProvidersSetApiKeyData, AdminProvidersSetApiKeyErrors, AdminProvidersSetApiKeyResponses, AdminProvidersUpdateData, AdminProvidersUpdateErrors, AdminProvidersUpdateResponses, AdminReportsAuditData, AdminReportsAuditErrors, AdminReportsAuditFacetsData, AdminReportsAuditFacetsErrors, AdminReportsAuditFacetsResponses, AdminReportsAuditResponses, AdminReportsChatRequestsData, AdminReportsChatRequestsErrors, AdminReportsChatRequestsResponses, AdminReportsOverviewData, AdminReportsOverviewErrors, AdminReportsOverviewResponses, AdminReportsUserUsageData, AdminReportsUserUsageErrors, AdminReportsUserUsageResponses, AdminSubscriptionsAssignData, AdminSubscriptionsAssignErrors, AdminSubscriptionsAssignResponses, AdminSubscriptionsEndData, AdminSubscriptionsEndErrors, AdminSubscriptionsEndResponses, AdminSubscriptionsHistoryData, AdminSubscriptionsHistoryErrors, AdminSubscriptionsHistoryResponses, AdminUsersGetData, AdminUsersGetErrors, AdminUsersGetResponses, AdminUsersListData, AdminUsersListErrors, AdminUsersListResponses, AdminUsersSetAdminRoleData, AdminUsersSetAdminRoleErrors, AdminUsersSetAdminRoleResponses, AdminUsersSetStatusData, AdminUsersSetStatusErrors, AdminUsersSetStatusResponses, AdminVoucherBatchesCodesData, AdminVoucherBatchesCodesErrors, AdminVoucherBatchesCodesResponses, AdminVoucherBatchesCreateData, AdminVoucherBatchesCreateErrors, AdminVoucherBatchesCreateResponses, AdminVoucherBatchesExportData, AdminVoucherBatchesExportErrors, AdminVoucherBatchesExportResponses, AdminVoucherBatchesGetData, AdminVoucherBatchesGetErrors, AdminVoucherBatchesGetResponses, AdminVoucherBatchesListData, AdminVoucherBatchesListErrors, AdminVoucherBatchesListResponses, AdminVoucherBatchesUpdateData, AdminVoucherBatchesUpdateErrors, AdminVoucherBatchesUpdateResponses, AdminVouchersCreateData, AdminVouchersCreateErrors, AdminVouchersCreateResponses, AdminVouchersGetData, AdminVouchersGetErrors, AdminVouchersGetResponses, AdminVouchersListData, AdminVouchersListErrors, AdminVouchersListResponses, AdminVouchersRedemptionsData, AdminVouchersRedemptionsErrors, AdminVouchersRedemptionsResponses, AdminVouchersUpdateData, AdminVouchersUpdateErrors, AdminVouchersUpdateResponses, AttachmentsDownloadData, AttachmentsDownloadErrors, AttachmentsDownloadResponses, AttachmentsUploadData, AttachmentsUploadErrors, AttachmentsUploadResponses, ConversationsCreateData, ConversationsCreateErrors, ConversationsCreateResponses, ConversationsGetData, ConversationsGetErrors, ConversationsGetResponses, ConversationsListData, ConversationsListResponses, ConversationsMessagesData, ConversationsMessagesErrors, ConversationsMessagesResponses, ConversationsRemoveData, ConversationsRemoveErrors, ConversationsRemoveResponses, ConversationsRenameData, ConversationsRenameErrors, ConversationsRenameResponses, HealthLiveData, HealthLiveResponses, HealthReadyData, HealthReadyErrors, HealthReadyResponses, MeBalanceActivityData, MeBalanceActivityResponses, MeBalanceBalanceData, MeBalanceBalanceResponses, MeGetData, MeGetResponses, MeSubscriptionGetData, MeSubscriptionGetResponses, MeUpdateData, MeUpdateResponses, MeUsageUsageData, MeUsageUsageErrors, MeUsageUsageResponses, MeVouchersRedeemData, MeVouchersRedeemErrors, MeVouchersRedeemResponses, ModesListData, ModesListResponses, PublicPlansListData, PublicPlansListResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -771,11 +771,22 @@ export const adminReportsUserUsage = <ThrowOnError extends boolean = false>(opti
 /**
  * Chat requests, newest first
  *
- * Each message billed: user, mode, model, status, tokens, held, charged, provider cost, absorbed. Filter by user or status (`reconciliation_required` lists the ones to review). Page with `cursor` = `nextCursor`. No message content.
+ * Each message billed: user, mode, model, status, tokens, held, charged, provider cost, absorbed. Filter by user, status (`reconciliation_required` lists the ones to review) or period (`from`, `to`; no limit on the period when both are omitted). Page with `cursor` = `nextCursor`. No message content.
  */
 export const adminReportsChatRequests = <ThrowOnError extends boolean = false>(options?: Options<AdminReportsChatRequestsData, ThrowOnError>): RequestResult<AdminReportsChatRequestsResponses, AdminReportsChatRequestsErrors, ThrowOnError> => (options?.client ?? client).get<AdminReportsChatRequestsResponses, AdminReportsChatRequestsErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/api/v1/admin/chat-requests',
+    ...options
+});
+
+/**
+ * Values for the audit log filters
+ *
+ * Every action and resource type in the log, and the admins who appear in it.
+ */
+export const adminReportsAuditFacets = <ThrowOnError extends boolean = false>(options?: Options<AdminReportsAuditFacetsData, ThrowOnError>): RequestResult<AdminReportsAuditFacetsResponses, AdminReportsAuditFacetsErrors, ThrowOnError> => (options?.client ?? client).get<AdminReportsAuditFacetsResponses, AdminReportsAuditFacetsErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/admin/audit/facets',
     ...options
 });
 
@@ -842,5 +853,71 @@ export const adminVouchersUpdate = <ThrowOnError extends boolean = false>(option
 export const adminVouchersRedemptions = <ThrowOnError extends boolean = false>(options: Options<AdminVouchersRedemptionsData, ThrowOnError>): RequestResult<AdminVouchersRedemptionsResponses, AdminVouchersRedemptionsErrors, ThrowOnError> => (options.client ?? client).get<AdminVouchersRedemptionsResponses, AdminVouchersRedemptionsErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/api/v1/admin/vouchers/{id}/redemptions',
+    ...options
+});
+
+/**
+ * List batches with their progress, newest first
+ */
+export const adminVoucherBatchesList = <ThrowOnError extends boolean = false>(options?: Options<AdminVoucherBatchesListData, ThrowOnError>): RequestResult<AdminVoucherBatchesListResponses, AdminVoucherBatchesListErrors, ThrowOnError> => (options?.client ?? client).get<AdminVoucherBatchesListResponses, AdminVoucherBatchesListErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/admin/voucher-batches',
+    ...options
+});
+
+/**
+ * Generate a batch of single-use codes (audited)
+ *
+ * All codes are made together or not at all. Sending the same idempotencyKey again returns the original batch.
+ */
+export const adminVoucherBatchesCreate = <ThrowOnError extends boolean = false>(options: Options<AdminVoucherBatchesCreateData, ThrowOnError>): RequestResult<AdminVoucherBatchesCreateResponses, AdminVoucherBatchesCreateErrors, ThrowOnError> => (options.client ?? client).post<AdminVoucherBatchesCreateResponses, AdminVoucherBatchesCreateErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/admin/voucher-batches',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * A batch with its progress
+ */
+export const adminVoucherBatchesGet = <ThrowOnError extends boolean = false>(options: Options<AdminVoucherBatchesGetData, ThrowOnError>): RequestResult<AdminVoucherBatchesGetResponses, AdminVoucherBatchesGetErrors, ThrowOnError> => (options.client ?? client).get<AdminVoucherBatchesGetResponses, AdminVoucherBatchesGetErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/admin/voucher-batches/{id}',
+    ...options
+});
+
+/**
+ * Turn a whole batch off or on, move its end, edit the note (audited)
+ */
+export const adminVoucherBatchesUpdate = <ThrowOnError extends boolean = false>(options: Options<AdminVoucherBatchesUpdateData, ThrowOnError>): RequestResult<AdminVoucherBatchesUpdateResponses, AdminVoucherBatchesUpdateErrors, ThrowOnError> => (options.client ?? client).patch<AdminVoucherBatchesUpdateResponses, AdminVoucherBatchesUpdateErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/admin/voucher-batches/{id}',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * A batch's codes and who used them, newest first
+ */
+export const adminVoucherBatchesCodes = <ThrowOnError extends boolean = false>(options: Options<AdminVoucherBatchesCodesData, ThrowOnError>): RequestResult<AdminVoucherBatchesCodesResponses, AdminVoucherBatchesCodesErrors, ThrowOnError> => (options.client ?? client).get<AdminVoucherBatchesCodesResponses, AdminVoucherBatchesCodesErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/admin/voucher-batches/{id}/codes',
+    ...options
+});
+
+/**
+ * Download the codes as CSV (each download is audited)
+ *
+ * Columns: code, kind, amount_usd, plan_key, trial_days, starts_at, ends_at, status (unused, redeemed, inactive, expired), redeemed_at. No user data.
+ */
+export const adminVoucherBatchesExport = <ThrowOnError extends boolean = false>(options: Options<AdminVoucherBatchesExportData, ThrowOnError>): RequestResult<AdminVoucherBatchesExportResponses, AdminVoucherBatchesExportErrors, ThrowOnError> => (options.client ?? client).get<AdminVoucherBatchesExportResponses, AdminVoucherBatchesExportErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/admin/voucher-batches/{id}/export',
     ...options
 });

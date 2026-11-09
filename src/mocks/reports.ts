@@ -129,14 +129,20 @@ function overview(query: URLSearchParams): OverviewDto {
     topModes: zero
       ? []
       : [
-          { key: 'fast', requests: 640, chargedUsd: usd('7.9') },
-          { key: 'professional', requests: 210, chargedUsd: usd('12.4') },
+          { key: 'fast', label: 'fast', requests: 640, chargedUsd: usd('7.9') },
+          {
+            key: 'professional',
+            label: 'professional',
+            requests: 210,
+            chargedUsd: usd('12.4'),
+          },
         ],
     topModels: zero
       ? []
       : [
           {
             key: 'google/gemini-2.5-flash',
+            label: 'google/gemini-2.5-flash',
             requests: 700,
             chargedUsd: usd('9.1'),
           },

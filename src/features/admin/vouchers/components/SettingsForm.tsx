@@ -31,6 +31,7 @@ export function SettingsForm({ voucher }: { voucher: VoucherDto }) {
   const [v, setV] = useState(original);
   const [errors, setErrors] = useState<Errors>({});
   const [confirming, setConfirming] = useState(false);
+  const inBatch = voucher.batchId !== null;
 
   const set = <K extends keyof typeof v>(field: K, value: (typeof v)[K]) => {
     setV((current) => ({ ...current, [field]: value }));
@@ -80,7 +81,9 @@ export function SettingsForm({ voucher }: { voucher: VoucherDto }) {
         ? (dateError(v.endsAt) ??
           windowError(toLocalInput(voucher.startsAt), v.endsAt))
         : null,
-      maxRedemptions: limitError(v.maxRedemptions, voucher.redemptionCount),
+      maxRedemptions: inBatch
+        ? null
+        : limitError(v.maxRedemptions, voucher.redemptionCount),
     });
     setErrors(found);
     if (Object.keys(found).length === 0 && changed) setConfirming(true);
@@ -90,40 +93,42 @@ export function SettingsForm({ voucher }: { voucher: VoucherDto }) {
     <>
       <form onSubmit={submit} noValidate>
         <Section title={t('admin.vouchers.settings')}>
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="grid content-start gap-2">
-              <DateTimeField
-                label={t('admin.vouchers.endsAt')}
-                hint={t('admin.vouchers.endsAtHint')}
-                value={v.endsAt}
-                error={err('endsAt')}
-                onChange={(x) => set('endsAt', x)}
+          {inBatch ? null : (
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="grid content-start gap-2">
+                <DateTimeField
+                  label={t('admin.vouchers.endsAt')}
+                  hint={t('admin.vouchers.endsAtHint')}
+                  value={v.endsAt}
+                  error={err('endsAt')}
+                  onChange={(x) => set('endsAt', x)}
+                />
+                {v.endsAt !== '' ? (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="w-fit"
+                    onClick={() => set('endsAt', '')}
+                  >
+                    {t('admin.vouchers.removeEnd')}
+                  </Button>
+                ) : null}
+              </div>
+              <TextField
+                label={t('admin.vouchers.maxRedemptions')}
+                hint={t('admin.vouchers.limitHint', {
+                  used: voucher.redemptionCount,
+                })}
+                required
+                dir="ltr"
+                inputMode="numeric"
+                value={v.maxRedemptions}
+                error={err('maxRedemptions')}
+                onChange={(x) => set('maxRedemptions', x)}
               />
-              {v.endsAt !== '' ? (
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  className="w-fit"
-                  onClick={() => set('endsAt', '')}
-                >
-                  {t('admin.vouchers.removeEnd')}
-                </Button>
-              ) : null}
             </div>
-            <TextField
-              label={t('admin.vouchers.maxRedemptions')}
-              hint={t('admin.vouchers.limitHint', {
-                used: voucher.redemptionCount,
-              })}
-              required
-              dir="ltr"
-              inputMode="numeric"
-              value={v.maxRedemptions}
-              error={err('maxRedemptions')}
-              onChange={(x) => set('maxRedemptions', x)}
-            />
-          </div>
+          )}
           <TextAreaField
             label={t('admin.vouchers.note')}
             maxLength={500}

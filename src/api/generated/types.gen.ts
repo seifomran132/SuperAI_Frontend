@@ -217,7 +217,7 @@ export type FieldErrorDto = {
 
 export type ApiErrorResponseDto = {
     statusCode: number;
-    code: 'UNAUTHENTICATED' | 'INVALID_TOKEN' | 'ACCOUNT_NOT_FOUND' | 'ACCOUNT_SUSPENDED' | 'ACCOUNT_DELETED' | 'FORBIDDEN' | 'VALIDATION_FAILED' | 'USER_NOT_FOUND' | 'EMAIL_NOT_CONFIRMED' | 'ACCOUNT_NOT_ACTIVE' | 'CANNOT_MODIFY_SELF' | 'LAST_ADMIN' | 'PROVIDER_NOT_FOUND' | 'PROVIDER_ALREADY_EXISTS' | 'PROVIDER_KEY_INVALID' | 'PROVIDER_KEY_NOT_USED' | 'PROVIDER_KEY_MISSING' | 'PROVIDER_UNAVAILABLE' | 'MODEL_NOT_FOUND' | 'MODEL_ALREADY_EXISTS' | 'MODEL_IN_USE' | 'CATALOG_FINDING_NOT_FOUND' | 'CATALOG_FINDING_NOT_OPEN' | 'CATALOG_FINDING_NOT_APPLICABLE' | 'CATALOG_FINDING_OUTDATED' | 'CATALOG_SYNC_RUNNING' | 'MODE_NOT_FOUND' | 'MODE_ALREADY_EXISTS' | 'MODE_NOT_AVAILABLE' | 'PRICE_PERIOD_CONFLICT' | 'PLAN_NOT_FOUND' | 'PLAN_ALREADY_EXISTS' | 'PLAN_NOT_ACTIVE' | 'DEFAULT_PLAN_REQUIRED' | 'NO_ACTIVE_SUBSCRIPTION' | 'VOUCHER_NOT_FOUND' | 'VOUCHER_EXPIRED' | 'VOUCHER_USED_UP' | 'VOUCHER_ALREADY_REDEEMED' | 'VOUCHER_NOT_ELIGIBLE' | 'VOUCHER_CODE_TAKEN' | 'INSUFFICIENT_BALANCE' | 'IDEMPOTENCY_KEY_REUSED' | 'PAYMENT_REFERENCE_REUSED' | 'CONVERSATION_NOT_FOUND' | 'CONVERSATION_BUSY' | 'CONTEXT_TOO_LONG' | 'PROFILE_INCOMPLETE' | 'DUPLICATE_REQUEST' | 'RATE_LIMITED' | 'PROVIDER_MISCONFIGURED' | 'PROVIDER_TIMEOUT' | 'PROVIDER_ERROR' | 'CONTENT_BLOCKED' | 'ATTACHMENT_TOO_LARGE' | 'ATTACHMENT_TYPE_NOT_ALLOWED' | 'ATTACHMENT_NOT_FOUND' | 'ATTACHMENT_ALREADY_USED' | 'TOO_MANY_ATTACHMENTS' | 'MODE_NO_IMAGE_SUPPORT';
+    code: 'UNAUTHENTICATED' | 'INVALID_TOKEN' | 'ACCOUNT_NOT_FOUND' | 'ACCOUNT_SUSPENDED' | 'ACCOUNT_DELETED' | 'FORBIDDEN' | 'VALIDATION_FAILED' | 'USER_NOT_FOUND' | 'EMAIL_NOT_CONFIRMED' | 'ACCOUNT_NOT_ACTIVE' | 'CANNOT_MODIFY_SELF' | 'LAST_ADMIN' | 'PROVIDER_NOT_FOUND' | 'PROVIDER_ALREADY_EXISTS' | 'PROVIDER_KEY_INVALID' | 'PROVIDER_KEY_NOT_USED' | 'PROVIDER_KEY_MISSING' | 'PROVIDER_UNAVAILABLE' | 'MODEL_NOT_FOUND' | 'MODEL_ALREADY_EXISTS' | 'MODEL_IN_USE' | 'CATALOG_FINDING_NOT_FOUND' | 'CATALOG_FINDING_NOT_OPEN' | 'CATALOG_FINDING_NOT_APPLICABLE' | 'CATALOG_FINDING_OUTDATED' | 'CATALOG_SYNC_RUNNING' | 'MODE_NOT_FOUND' | 'MODE_ALREADY_EXISTS' | 'MODE_NOT_AVAILABLE' | 'PRICE_PERIOD_CONFLICT' | 'PLAN_NOT_FOUND' | 'PLAN_ALREADY_EXISTS' | 'PLAN_NOT_ACTIVE' | 'DEFAULT_PLAN_REQUIRED' | 'NO_ACTIVE_SUBSCRIPTION' | 'VOUCHER_NOT_FOUND' | 'VOUCHER_EXPIRED' | 'VOUCHER_USED_UP' | 'VOUCHER_ALREADY_REDEEMED' | 'VOUCHER_NOT_ELIGIBLE' | 'VOUCHER_CODE_TAKEN' | 'VOUCHER_BATCH_NOT_FOUND' | 'INSUFFICIENT_BALANCE' | 'IDEMPOTENCY_KEY_REUSED' | 'PAYMENT_REFERENCE_REUSED' | 'CONVERSATION_NOT_FOUND' | 'CONVERSATION_BUSY' | 'CONTEXT_TOO_LONG' | 'PROFILE_INCOMPLETE' | 'DUPLICATE_REQUEST' | 'RATE_LIMITED' | 'PROVIDER_MISCONFIGURED' | 'PROVIDER_TIMEOUT' | 'PROVIDER_ERROR' | 'CONTENT_BLOCKED' | 'ATTACHMENT_TOO_LARGE' | 'ATTACHMENT_TYPE_NOT_ALLOWED' | 'ATTACHMENT_NOT_FOUND' | 'ATTACHMENT_ALREADY_USED' | 'TOO_MANY_ATTACHMENTS' | 'MODE_NO_IMAGE_SUPPORT';
     /**
      * English fallback; clients localize by `code`.
      */
@@ -1468,7 +1468,14 @@ export type UsageTotalsDto = {
 };
 
 export type OverviewCountDto = {
+    /**
+     * Mode key, or provider/model id for models
+     */
     key: string;
+    /**
+     * A readable name: the mode's Arabic label or the model's display name
+     */
+    label: string;
     requests: number;
     chargedUsd: string;
 };
@@ -1694,6 +1701,26 @@ export type ChatRequestPageDto = {
     nextCursor: string | null;
 };
 
+export type AuditAdminDto = {
+    id: string;
+    email: string | null;
+};
+
+export type AuditFacetsDto = {
+    /**
+     * Every action in the log
+     */
+    actions: Array<string>;
+    /**
+     * Every resource type in the log
+     */
+    resourceTypes: Array<string>;
+    /**
+     * Admins who appear in the log; filter with actorId
+     */
+    admins: Array<AuditAdminDto>;
+};
+
 export type AuditEntryDto = {
     id: string;
     occurredAt: string;
@@ -1774,6 +1801,7 @@ export type VoucherPlanDto = {
 export type VoucherDto = {
     id: string;
     code: string;
+    batchId: string | null;
     kind: 'balance' | 'trial';
     amountUsd: string | null;
     plan: VoucherPlanDto | null;
@@ -1829,6 +1857,133 @@ export type VoucherRedemptionDto = {
 
 export type VoucherRedemptionPageDto = {
     items: Array<VoucherRedemptionDto>;
+    nextCursor: string | null;
+};
+
+export type CreateVoucherBatchDto = {
+    /**
+     * Why the change is made. Stored in the audit log.
+     */
+    reason: string;
+    /**
+     * `balance`: adds amountUsd (needs an active plan). `trial`: starts planKey for trialDays days, crediting its included balance
+     */
+    kind: 'balance' | 'trial';
+    /**
+     * `balance` only: USD to add, above 0, at most 1000
+     */
+    amountUsd?: string;
+    /**
+     * `trial` only: an active plan other than the default one
+     */
+    planKey?: string;
+    /**
+     * `trial` only: days of the plan, 1-365
+     */
+    trialDays?: number;
+    /**
+     * Redeemable from (default: now)
+     */
+    startsAt?: string;
+    /**
+     * Redeemable until (default: no end)
+     */
+    endsAt?: string;
+    /**
+     * Only users who never had a plan other than the default one
+     */
+    newUsersOnly?: boolean;
+    /**
+     * Internal note (campaign, partner); never shown to users
+     */
+    note?: string;
+    /**
+     * 1-100 characters
+     */
+    name: string;
+    /**
+     * How many codes. For balance codes, quantity x amountUsd must be at most 10000
+     */
+    quantity?: number;
+    /**
+     * First part of each code (2-12 letters or digits, stored upper case), as in EID-7KQ2-XH9M. Default LAM7A
+     */
+    prefix?: string;
+    /**
+     * Generated once per batch by the client. Sending it again returns the original batch instead of making more codes.
+     */
+    idempotencyKey: string;
+};
+
+export type VoucherBatchDto = {
+    id: string;
+    name: string;
+    kind: 'balance' | 'trial';
+    amountUsd: string | null;
+    plan: VoucherPlanDto | null;
+    trialDays: number | null;
+    /**
+     * Codes generated
+     */
+    quantity: number;
+    prefix: string | null;
+    startsAt: string | null;
+    endsAt: string | null;
+    newUsersOnly: boolean;
+    isActive: boolean;
+    note: string | null;
+    createdBy: string | null;
+    createdAt: string;
+    updatedAt: string;
+    /**
+     * Codes redeemed so far
+     */
+    redeemedCount: number;
+    /**
+     * Balance codes: quantity x amountUsd. Trials: null
+     */
+    totalValueUsd: string | null;
+    /**
+     * Balance actually credited through redemptions so far
+     */
+    creditedUsd: string;
+};
+
+export type VoucherBatchPageDto = {
+    items: Array<VoucherBatchDto>;
+    nextCursor: string | null;
+};
+
+export type UpdateVoucherBatchDto = {
+    /**
+     * Why the change is made. Stored in the audit log.
+     */
+    reason: string;
+    /**
+     * Turn the whole batch off (its codes then read as unknown) or on. Codes turned off one by one stay off.
+     */
+    isActive?: boolean;
+    /**
+     * New end for every code in the batch; null removes the end
+     */
+    endsAt?: string | null;
+    note?: string | null;
+};
+
+export type VoucherBatchCodeDto = {
+    id: string;
+    code: string;
+    /**
+     * False when this code alone was turned off
+     */
+    isActive: boolean;
+    redeemedAt: string | null;
+    redeemedByUserId: string | null;
+    redeemedByEmail: string | null;
+};
+
+export type VoucherBatchCodePageDto = {
+    items: Array<VoucherBatchCodeDto>;
     nextCursor: string | null;
 };
 
@@ -3639,6 +3794,14 @@ export type AdminReportsChatRequestsData = {
     path?: never;
     query?: {
         /**
+         * First day (UTC, included). Default: 29 days before `to`
+         */
+        from?: string;
+        /**
+         * Last day (UTC, included). Default: today. At most 366 days
+         */
+        to?: string;
+        /**
          * Only this user
          */
         userId?: string;
@@ -3673,6 +3836,32 @@ export type AdminReportsChatRequestsResponses = {
 };
 
 export type AdminReportsChatRequestsResponse = AdminReportsChatRequestsResponses[keyof AdminReportsChatRequestsResponses];
+
+export type AdminReportsAuditFacetsData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/admin/audit/facets';
+};
+
+export type AdminReportsAuditFacetsErrors = {
+    /**
+     * VALIDATION_FAILED (bad dates, `from` after `to`, over 366 days)
+     */
+    400: ApiErrorResponseDto;
+    /**
+     * FORBIDDEN
+     */
+    403: ApiErrorResponseDto;
+};
+
+export type AdminReportsAuditFacetsError = AdminReportsAuditFacetsErrors[keyof AdminReportsAuditFacetsErrors];
+
+export type AdminReportsAuditFacetsResponses = {
+    200: AuditFacetsDto;
+};
+
+export type AdminReportsAuditFacetsResponse = AdminReportsAuditFacetsResponses[keyof AdminReportsAuditFacetsResponses];
 
 export type AdminReportsAuditData = {
     body?: never;
@@ -3881,3 +4070,189 @@ export type AdminVouchersRedemptionsResponses = {
 };
 
 export type AdminVouchersRedemptionsResponse = AdminVouchersRedemptionsResponses[keyof AdminVouchersRedemptionsResponses];
+
+export type AdminVoucherBatchesListData = {
+    body?: never;
+    path?: never;
+    query?: {
+        status?: 'active' | 'inactive';
+        limit?: number;
+        /**
+         * Cursor from `nextCursor` of the previous page
+         */
+        cursor?: string;
+    };
+    url: '/api/v1/admin/voucher-batches';
+};
+
+export type AdminVoucherBatchesListErrors = {
+    /**
+     * FORBIDDEN
+     */
+    403: ApiErrorResponseDto;
+};
+
+export type AdminVoucherBatchesListError = AdminVoucherBatchesListErrors[keyof AdminVoucherBatchesListErrors];
+
+export type AdminVoucherBatchesListResponses = {
+    200: VoucherBatchPageDto;
+};
+
+export type AdminVoucherBatchesListResponse = AdminVoucherBatchesListResponses[keyof AdminVoucherBatchesListResponses];
+
+export type AdminVoucherBatchesCreateData = {
+    body: CreateVoucherBatchDto;
+    path?: never;
+    query?: never;
+    url: '/api/v1/admin/voucher-batches';
+};
+
+export type AdminVoucherBatchesCreateErrors = {
+    /**
+     * VALIDATION_FAILED
+     */
+    400: ApiErrorResponseDto;
+    /**
+     * FORBIDDEN
+     */
+    403: ApiErrorResponseDto;
+    /**
+     * PLAN_NOT_FOUND
+     */
+    404: ApiErrorResponseDto;
+    /**
+     * IDEMPOTENCY_KEY_REUSED, PLAN_NOT_ACTIVE, VOUCHER_CODE_TAKEN
+     */
+    409: ApiErrorResponseDto;
+};
+
+export type AdminVoucherBatchesCreateError = AdminVoucherBatchesCreateErrors[keyof AdminVoucherBatchesCreateErrors];
+
+export type AdminVoucherBatchesCreateResponses = {
+    201: VoucherBatchDto;
+};
+
+export type AdminVoucherBatchesCreateResponse = AdminVoucherBatchesCreateResponses[keyof AdminVoucherBatchesCreateResponses];
+
+export type AdminVoucherBatchesGetData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/admin/voucher-batches/{id}';
+};
+
+export type AdminVoucherBatchesGetErrors = {
+    /**
+     * FORBIDDEN
+     */
+    403: ApiErrorResponseDto;
+    /**
+     * VOUCHER_BATCH_NOT_FOUND
+     */
+    404: ApiErrorResponseDto;
+};
+
+export type AdminVoucherBatchesGetError = AdminVoucherBatchesGetErrors[keyof AdminVoucherBatchesGetErrors];
+
+export type AdminVoucherBatchesGetResponses = {
+    200: VoucherBatchDto;
+};
+
+export type AdminVoucherBatchesGetResponse = AdminVoucherBatchesGetResponses[keyof AdminVoucherBatchesGetResponses];
+
+export type AdminVoucherBatchesUpdateData = {
+    body: UpdateVoucherBatchDto;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/admin/voucher-batches/{id}';
+};
+
+export type AdminVoucherBatchesUpdateErrors = {
+    /**
+     * VALIDATION_FAILED
+     */
+    400: ApiErrorResponseDto;
+    /**
+     * FORBIDDEN
+     */
+    403: ApiErrorResponseDto;
+    /**
+     * VOUCHER_BATCH_NOT_FOUND
+     */
+    404: ApiErrorResponseDto;
+};
+
+export type AdminVoucherBatchesUpdateError = AdminVoucherBatchesUpdateErrors[keyof AdminVoucherBatchesUpdateErrors];
+
+export type AdminVoucherBatchesUpdateResponses = {
+    200: VoucherBatchDto;
+};
+
+export type AdminVoucherBatchesUpdateResponse = AdminVoucherBatchesUpdateResponses[keyof AdminVoucherBatchesUpdateResponses];
+
+export type AdminVoucherBatchesCodesData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: {
+        limit?: number;
+        /**
+         * Cursor from `nextCursor` of the previous page
+         */
+        cursor?: string;
+        status?: 'used' | 'unused';
+    };
+    url: '/api/v1/admin/voucher-batches/{id}/codes';
+};
+
+export type AdminVoucherBatchesCodesErrors = {
+    /**
+     * FORBIDDEN
+     */
+    403: ApiErrorResponseDto;
+    /**
+     * VOUCHER_BATCH_NOT_FOUND
+     */
+    404: ApiErrorResponseDto;
+};
+
+export type AdminVoucherBatchesCodesError = AdminVoucherBatchesCodesErrors[keyof AdminVoucherBatchesCodesErrors];
+
+export type AdminVoucherBatchesCodesResponses = {
+    200: VoucherBatchCodePageDto;
+};
+
+export type AdminVoucherBatchesCodesResponse = AdminVoucherBatchesCodesResponses[keyof AdminVoucherBatchesCodesResponses];
+
+export type AdminVoucherBatchesExportData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/admin/voucher-batches/{id}/export';
+};
+
+export type AdminVoucherBatchesExportErrors = {
+    /**
+     * FORBIDDEN
+     */
+    403: ApiErrorResponseDto;
+    /**
+     * VOUCHER_BATCH_NOT_FOUND
+     */
+    404: ApiErrorResponseDto;
+};
+
+export type AdminVoucherBatchesExportError = AdminVoucherBatchesExportErrors[keyof AdminVoucherBatchesExportErrors];
+
+export type AdminVoucherBatchesExportResponses = {
+    200: string;
+};
+
+export type AdminVoucherBatchesExportResponse = AdminVoucherBatchesExportResponses[keyof AdminVoucherBatchesExportResponses];

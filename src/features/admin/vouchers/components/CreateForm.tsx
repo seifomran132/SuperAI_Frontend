@@ -5,14 +5,12 @@ import { useTranslation } from 'react-i18next';
 import { errorMessageKey, isApiError } from '~/api/errors';
 import { adminVouchersCreateMutation } from '~/api/generated/@tanstack/react-query.gen';
 import type { CreateVoucherDto, VoucherDto } from '~/api/generated/types.gen';
-import { RetryAlert } from '~/components/RetryAlert';
 import { Alert } from '~/components/ui/alert';
 import { Button, buttonVariants } from '~/components/ui/button';
 import { cn } from '~/lib/utils';
 import { Field, describedBy, textareaClass } from '../../components/Field';
 import {
   CheckField,
-  SelectField,
   TextAreaField,
   TextField,
 } from '../../components/FormControls';
@@ -34,8 +32,7 @@ import {
   windowError,
 } from '../model/form';
 import { invalidateVouchers, useTrialPlans } from '../model/queries';
-
-type Kind = 'balance' | 'trial';
+import { KindField, PlanField, type VoucherKind } from './KindField';
 
 /** S22 frame 2: create a balance or trial code; the reason is part of the form. */
 export function CreateForm({
@@ -43,12 +40,13 @@ export function CreateForm({
 }: {
   onCreated: (voucher: VoucherDto) => void;
 }) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const create = useMutation(adminVouchersCreateMutation());
-  const trialPlans = useTrialPlans();
+  // Loaded with the form, so the list is ready when trial is chosen.
+  useTrialPlans();
   const [v, setV] = useState({
-    kind: 'balance' as Kind,
+    kind: 'balance' as VoucherKind,
     amountUsd: '',
     planKey: '',
     trialDays: '',
@@ -145,76 +143,16 @@ export function CreateForm({
   return (
     <form onSubmit={submit} noValidate className="grid gap-6">
       <Section title={t('admin.vouchers.formTitle')}>
-        <fieldset className="grid gap-2">
-          <legend className="text-fg mb-2 text-sm font-medium">
-            {t('admin.vouchers.kindLabel')}
-          </legend>
-          <div className="grid gap-3 sm:grid-cols-2">
-            {(['balance', 'trial'] as const).map((kind) => (
-              <label
-                key={kind}
-                className={cn(
-                  'focus-within:outline-focus flex min-h-11 cursor-pointer items-start gap-3 rounded-lg border p-4 focus-within:outline-solid focus-within:outline-2 focus-within:outline-offset-2',
-                  v.kind === kind
-                    ? 'border-brand bg-surface-muted border-2'
-                    : 'border-border-control',
-                )}
-              >
-                <input
-                  type="radio"
-                  name="kind"
-                  value={kind}
-                  checked={v.kind === kind}
-                  onChange={() => set('kind', kind)}
-                  className="accent-brand mt-1 size-5 shrink-0 outline-hidden"
-                />
-                <span className="grid">
-                  <span className="text-fg font-semibold">
-                    {t(`admin.vouchers.kind.${kind}`)}
-                  </span>
-                  <span className="text-fg-muted text-sm">
-                    {t(`admin.vouchers.kindHint.${kind}`)}
-                  </span>
-                </span>
-              </label>
-            ))}
-          </div>
-        </fieldset>
+        <KindField value={v.kind} onChange={(x) => set('kind', x)} />
 
         <div className="grid gap-4 md:grid-cols-2">
           {trial ? (
             <>
-              {trialPlans.isError ? (
-                <div className="grid content-start gap-2">
-                  <span className="text-fg text-sm font-medium">
-                    {t('admin.vouchers.plan')}
-                  </span>
-                  <RetryAlert onRetry={() => void trialPlans.refetch()}>
-                    {t('admin.vouchers.planLoadError')}
-                  </RetryAlert>
-                </div>
-              ) : (
-                <SelectField
-                  label={t('admin.vouchers.plan')}
-                  hint={t('admin.vouchers.planHint')}
-                  required
-                  value={v.planKey}
-                  disabled={trialPlans.isPending}
-                  error={err('planKey')}
-                  onChange={(x) => set('planKey', x)}
-                >
-                  <option value="">
-                    {trialPlans.isPending
-                      ? t('admin.vouchers.planLoading')
-                      : t('admin.vouchers.planPlaceholder')}
-                  </option>
-                  {trialPlans.plans.map((plan) => (
-                    <option key={plan.key} value={plan.key}>
-                      {i18n.language === 'en' ? plan.nameEn : plan.nameAr}
-                    </option>
-                  ))}
-                </SelectField>
-              )}
+              <PlanField
+                value={v.planKey}
+                error={err('planKey')}
+                onChange={(x) => set('planKey', x)}
+              />
               <TextField
                 label={t('admin.vouchers.trialDays')}
                 hint={t('admin.vouchers.trialDaysHint')}

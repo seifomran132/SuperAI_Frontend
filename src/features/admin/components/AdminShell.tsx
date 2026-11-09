@@ -11,7 +11,10 @@ import { AdminSidebar } from './AdminSidebar';
 
 /** Title key (admin.titles.*) for an admin path. */
 function titleKey(pathname: string): string {
-  const [, , area, rest] = pathname.split('/');
+  const [, , area, rest, sub] = pathname.split('/');
+  if (area === 'vouchers' && rest === 'batches') {
+    return sub === 'new' ? 'batchNew' : 'batchDetail';
+  }
   if (
     area === 'plans' ||
     area === 'models' ||

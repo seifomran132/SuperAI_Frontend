@@ -1,6 +1,6 @@
 # Arabic copy review
 
-Generated from `src/i18n` by `npm run copy:table` — 704 strings. Do not edit the Arabic here: write the correction in **Notes**, and the frontend team applies it to `ar.json`.
+Generated from `src/i18n` by `npm run copy:table` — 1394 strings. Do not edit the Arabic here: write the correction in **Notes**, and the frontend team applies it to `ar.json`.
 
 - `{{name}}` parts are filled in by the app (brand name, amounts, dates); keep them as they are.
 - `errors.*` strings are shown when the API returns that error code.
@@ -29,6 +29,7 @@ Generated from `src/i18n` by `npm run copy:table` — 704 strings. Do not edit t
 - [shell.list](#shelllist)
 - [chat](#chat)
 - [chat.empty](#chatempty)
+- [chat.emptyImage](#chatemptyimage)
 - [chat.composer](#chatcomposer)
 - [chat.announce](#chatannounce)
 - [chat.message](#chatmessage)
@@ -36,7 +37,9 @@ Generated from `src/i18n` by `npm run copy:table` — 704 strings. Do not edit t
 - [chat.notFound](#chatnotfound)
 - [chat.notice](#chatnotice)
 - [chat.requestBalance](#chatrequestbalance)
+- [chat.image](#chatimage)
 - [balance](#balance)
+- [balance.redeem](#balanceredeem)
 - [balance.activity](#balanceactivity)
 - [account](#account)
 - [account.profile](#accountprofile)
@@ -44,15 +47,24 @@ Generated from `src/i18n` by `npm run copy:table` — 704 strings. Do not edit t
 - [account.password](#accountpassword)
 - [account.session](#accountsession)
 - [plans](#plans)
+- [usage](#usage)
+- [usage.byMode](#usagebymode)
+- [usage.chart](#usagechart)
+- [usage.empty](#usageempty)
+- [reports.period](#reportsperiod)
+- [reports.month](#reportsmonth)
+- [reports.chart](#reportschart)
+- [reports.state](#reportsstate)
 - [admin.nav](#adminnav)
 - [admin.titles](#admintitles)
-- [admin](#admin)
+- [admin.reports](#adminreports)
 - [admin.common](#admincommon)
 - [admin.users](#adminusers)
 - [admin.detail](#admindetail)
 - [admin.overview](#adminoverview)
 - [admin.subscription](#adminsubscription)
 - [admin.balance](#adminbalance)
+- [admin.vouchers](#adminvouchers)
 - [admin.dialog](#admindialog)
 - [admin.catalog](#admincatalog)
 - [admin.plans](#adminplans)
@@ -60,6 +72,7 @@ Generated from `src/i18n` by `npm run copy:table` — 704 strings. Do not edit t
 - [admin.models](#adminmodels)
 - [admin.modes](#adminmodes)
 - [admin.settings](#adminsettings)
+- [admin.priceUpdates](#adminpriceupdates)
 - [errors](#errors)
 
 ## common
@@ -234,6 +247,7 @@ Generated from `src/i18n` by `npm run copy:table` — 704 strings. Do not edit t
 | `rateLimited` | محاولات كثيرة. انتظر قليلًا ثم حاول مرة أخرى. | Too many attempts. Wait a moment and try again. | |
 | `otpExpired` | انتهت صلاحية الرابط أو استُخدم من قبل. اطلب رابطًا جديدًا. | The link has expired or was already used. Request a new one. | |
 | `samePassword` | كلمة المرور الجديدة مطابقة للقديمة. اختر كلمة مختلفة. | The new password is the same as the old one. Choose a different password. | |
+| `emailExists` | هذا البريد الإلكتروني مسجّل بالفعل. سجّل الدخول أو استعد كلمة المرور. | This email is already registered. Sign in or reset your password. | |
 
 ## shell
 
@@ -246,9 +260,11 @@ Generated from `src/i18n` by `npm run copy:table` — 704 strings. Do not edit t
 | `recent` | المحادثات الأخيرة | Recent chats | |
 | `balance` | الرصيد | Balance | |
 | `account` | الحساب | Account | |
+| `usage` | استهلاكي | My usage | |
 | `accountMenu` | قائمة الحساب | Account menu | |
 | `signOut` | تسجيل الخروج | Sign out | |
 | `writing` | يكتب… | Typing… | |
+| `adminEntry` | لوحة الإدارة | Admin panel | |
 
 ## shell.list
 
@@ -277,6 +293,17 @@ Generated from `src/i18n` by `npm run copy:table` — 704 strings. Do not edit t
 | `chip2` | اكتب رسالة رسمية باحترافية | Write a professional formal message | |
 | `chip3` | اشرح لي مفهومًا بطريقة بسيطة | Explain a concept in simple terms | |
 | `chip4` | ساعدني في كتابة كود بايثون | Help me write Python code | |
+
+## chat.emptyImage
+
+| Key | العربية | English | Notes |
+|---|---|---|---|
+| `title` | صِف الصورة التي تريدها | Describe the image you want | |
+| `hint` | أرفق صورة لتعديلها | Attach an image to edit it | |
+| `chip1` | شعار بسيط لمقهى | A simple logo for a coffee shop | |
+| `chip2` | منظر غروب على البحر | A calm sunset over the sea | |
+| `chip3` | رسم توضيحي لطفل يقرأ | An illustration of a child reading | |
+| `chip4` | أيقونة لتطبيق طقس | An icon for a weather app | |
 
 ## chat.composer
 
@@ -353,6 +380,40 @@ Generated from `src/i18n` by `npm run copy:table` — 704 strings. Do not edit t
 | `body` | تتم إضافة الرصيد وتفعيل الباقات من فريقنا. تواصل معنا بإحدى الطرق التالية وسنساعدك. | Our team adds balance and activates plans. Contact us in one of these ways and we will help. | |
 | `close` | إغلاق | Close | |
 
+## chat.image
+
+| Key | العربية | English | Notes |
+|---|---|---|---|
+| `attach` | إرفاق صورة | Attach an image | |
+| `drop` | أفلت الصورة هنا | Drop the image here | |
+| `dropHint` | صورة JPG أو PNG أو WebP، حتى 5 ميغابايت. | JPG, PNG or WebP image, up to 5 MB. | |
+| `remove` | إزالة الصورة | Remove the image | |
+| `uploading` | جاري رفع الصورة… | Uploading the image… | |
+| `uploaded` | تم رفع الصورة | Image uploaded | |
+| `modeNotice` | هذا الوضع لا يقرأ الصور. اختر وضعًا آخر لإرسال الصور. | This mode can't read images. Choose another mode to send the images. | |
+| `readsImages` | يقرأ الصور | Reads images | |
+| `imageBadge` | صورة | Image | |
+| `ratio` | نسبة الصورة | Image ratio | |
+| `ratioAuto` | تلقائي | Auto | |
+| `ratioSquare` | مربع | Square | |
+| `ratioPortrait` | عمودي | Portrait | |
+| `ratioLandscape` | أفقي | Landscape | |
+| `ratioTall` | طولي | Tall | |
+| `ratioWide` | عريض | Wide | |
+| `creating` | جارٍ إنشاء الصورة… | Creating the image… | |
+| `openFull` | فتح بالحجم الكامل | Open full size | |
+| `download` | تنزيل | Download | |
+| `downloadFailed` | تعذّر تنزيل الصورة. حاول مرة أخرى. | Couldn't download the image. Try again. | |
+| `generatedAlt` | صورة أنشأها المساعد | Image created by the assistant | |
+| `view` | عرض الصورة | View image | |
+| `close` | إغلاق | Close | |
+| `loading` | جاري تحميل الصورة | Loading the image | |
+| `loadFailed` | تعذّر تحميل الصورة | The image couldn't be loaded | |
+| `alt` | صورة | Image | |
+| `errors.UPLOAD_FAILED` | تعذّر رفع الصورة. حاول مرة أخرى. | The image couldn't be uploaded. Try again. | |
+| `limitHint` | يمكنك إرفاق حتى {{max}} صور | You can attach up to {{max}} images | |
+| `attachedList` | الصور المرفقة | Attached images | |
+
 ## balance
 
 | Key | العربية | English | Notes |
@@ -361,11 +422,38 @@ Generated from `src/i18n` by `npm run copy:table` — 704 strings. Do not edit t
 | `available` | الرصيد المتاح | Available balance | |
 | `note` | تُحتسب تكلفة كل رد من هذا الرصيد حسب الوضع المستخدم. | Each answer is charged from this balance according to the mode used. | |
 | `request` | طلب رصيد | Request balance | |
+| `viewUsage` | عرض الاستهلاك | View usage | |
 | `plan` | باقتك: {{name}} | Your plan: {{name}} | |
 | `expiry` | ينتهي رصيدك بانتهاء الباقة في {{date}} | Your balance expires when the plan ends on {{date}} | |
 | `noPlan` | ليست لديك باقة نشطة. تواصل معنا للاشتراك. | You have no active plan. Contact us to subscribe. | |
 | `contactUs` | تواصل معنا | Contact us | |
 | `balanceError` | تعذّر تحميل الرصيد. تحقق من اتصالك ثم حاول مرة أخرى. | Could not load your balance. Check your connection and try again. | |
+
+## balance.redeem
+
+| Key | العربية | English | Notes |
+|---|---|---|---|
+| `open` | لديك كود؟ | Have a code? | |
+| `title` | لديك كود؟ | Have a code? | |
+| `label` | الكود | Code | |
+| `placeholder` | WELCOME5 | WELCOME5 | |
+| `hint` | لا يهم حجم الأحرف. | Capital letters do not matter. | |
+| `submit` | استخدام الكود | Use code | |
+| `verifying` | جارٍ التحقق… | Checking… | |
+| `close` | إغلاق | Close | |
+| `empty` | اكتب الكود أولًا. | Enter the code first. | |
+| `needsPlanExtra` | هذا الكود يضيف رصيدًا، والرصيد يحتاج إلى باقة نشطة. | This code adds balance, and balance needs an active plan. | |
+| `viewPlans` | عرض الباقات | View plans | |
+| `rateLimited` | أدخلت أكواد خاطئة كثيرة. انتظر قليلًا ثم حاول مرة أخرى. | You entered too many wrong codes. Wait a moment and try again. | |
+| `wait_zero` | يمكنك المحاولة الآن. | — | |
+| `wait_one` | يمكنك المحاولة بعد ثانية واحدة. | You can try again in {{count}} second. | |
+| `wait_two` | يمكنك المحاولة بعد ثانيتين. | — | |
+| `wait_few` | يمكنك المحاولة بعد {{count}} ثوانٍ. | — | |
+| `wait_many` | يمكنك المحاولة بعد {{count}} ثانية. | — | |
+| `wait_other` | يمكنك المحاولة بعد {{count}} ثانية. | You can try again in {{count}} seconds. | |
+| `balanceAdded` | أُضيف <money/> إلى رصيدك. | <money/> was added to your balance. | |
+| `trialActivated` | تم تفعيل باقة «{{plan}}» حتى {{date}}. | Your plan “{{plan}}” is active until {{date}}. | |
+| `another` | استخدام كود آخر | Use another code | |
 
 ## balance.activity
 
@@ -384,7 +472,7 @@ Generated from `src/i18n` by `npm run copy:table` — 704 strings. Do not edit t
 | `types.subscription_credit` | رصيد الباقة | Plan balance | |
 | `types.purchase` | إضافة رصيد | Balance added | |
 | `types.usage_charge` | استخدام المحادثة | Chat usage | |
-| `types.voucher_credit` | رصيد قسيمة | Voucher balance | |
+| `types.voucher_credit` | رصيد كود | Code credit | |
 | `types.refund` | استرداد | Refund | |
 | `types.adjustment` | تعديل من الفريق | Adjustment by the team | |
 | `types.expiry` | انتهاء الرصيد | Balance expired | |
@@ -457,6 +545,101 @@ Generated from `src/i18n` by `npm run copy:table` — 704 strings. Do not edit t
 | `error` | تعذّر تحميل الباقات. حاول مرة أخرى. | Could not load the plans. Try again. | |
 | `loading` | جاري تحميل الباقات | Loading plans | |
 
+## usage
+
+| Key | العربية | English | Notes |
+|---|---|---|---|
+| `title` | استهلاكي | My usage | |
+| `messages` | الرسائل | Messages | |
+| `charged` | المبلغ المخصوم | Amount charged | |
+| `utcNote` | يُحسب الشهر بتوقيت UTC. | The month is counted in UTC. | |
+| `loading` | جارٍ تحميل استهلاكك… | Loading your usage… | |
+| `error` | تعذّر تحميل استهلاكك. تحقق من اتصالك ثم حاول مرة أخرى. | Could not load your usage. Check your connection and try again. | |
+
+## usage.byMode
+
+| Key | العربية | English | Notes |
+|---|---|---|---|
+| `title` | حسب الوضع | By mode | |
+| `mode` | الوضع | Mode | |
+| `share` | الحصة من المبلغ | Share of the amount | |
+| `amount` | المبلغ | Amount | |
+| `removed` | وضع محذوف | Removed mode | |
+
+## usage.chart
+
+| Key | العربية | English | Notes |
+|---|---|---|---|
+| `title` | الاستهلاك اليومي | Daily usage | |
+| `amount` | المبلغ | Amount | |
+| `aria` | رسم بياني للاستهلاك اليومي في {{month}} | Daily usage chart for {{month}} | |
+| `emptyHint` | لم تُسجَّل أي رسائل في {{month}}. | No messages were recorded in {{month}}. | |
+
+## usage.empty
+
+| Key | العربية | English | Notes |
+|---|---|---|---|
+| `title` | لا يوجد استهلاك في هذا الشهر | No usage this month | |
+| `body` | لم ترسل أي رسالة في {{month}}. اختر شهرًا آخر من القائمة أعلاه. | You did not send any messages in {{month}}. Pick another month above. | |
+| `bodyCurrent` | لم ترسل أي رسالة في {{month}} بعد. ابدأ محادثة جديدة. | You have not sent any messages in {{month}} yet. Start a new chat. | |
+
+## reports.period
+
+| Key | العربية | English | Notes |
+|---|---|---|---|
+| `label` | الفترة | Period | |
+| `last7` | آخر 7 أيام | Last 7 days | |
+| `last30` | آخر 30 يومًا | Last 30 days | |
+| `last90` | آخر 90 يومًا | Last 90 days | |
+| `custom` | فترة مخصصة | Custom range | |
+| `from` | من | From | |
+| `to` | إلى | To | |
+| `apply` | تطبيق | Apply | |
+| `utcNote` | الأيام بتوقيت UTC | Days are in UTC | |
+| `datePlaceholder` | YYYY-MM-DD | YYYY-MM-DD | |
+| `summary` | من {{from}} إلى {{to}} · {{days}} | From {{from}} to {{to}} · {{days}} | |
+| `lastValid` | آخر فترة صالحة: من {{from}} إلى {{to}} | Last valid period: from {{from}} to {{to}} | |
+| `days_zero` | {{count}} يوم | — | |
+| `days_one` | يوم واحد | {{count}} day | |
+| `days_two` | يومان | — | |
+| `days_few` | {{count}} أيام | — | |
+| `days_many` | {{count}} يومًا | — | |
+| `days_other` | {{count}} يوم | {{count}} days | |
+| `errors.invalid` | اكتب التاريخ بالشكل YYYY-MM-DD. | Write the date as YYYY-MM-DD. | |
+| `errors.startAfterEnd` | يجب أن يكون تاريخ البداية قبل تاريخ النهاية أو مساويًا له. | The start date must be on or before the end date. | |
+| `errors.tooLong` | أقصى فترة هي 366 يومًا. قصّر الفترة وحاول مرة أخرى. | The longest period is 366 days. Shorten it and try again. | |
+| `errors.future` | لا يمكن اختيار تاريخ في المستقبل. | You cannot pick a date in the future. | |
+
+## reports.month
+
+| Key | العربية | English | Notes |
+|---|---|---|---|
+| `label` | الشهر | Month | |
+| `previous` | الشهر السابق | Previous month | |
+| `next` | الشهر التالي | Next month | |
+| `choose` | اختيار الشهر | Choose a month | |
+
+## reports.chart
+
+| Key | العربية | English | Notes |
+|---|---|---|---|
+| `showTable` | عرض كجدول | Show as table | |
+| `showChart` | عرض كرسم بياني | Show as chart | |
+| `emptyTitle` | لا نشاط في هذه الفترة | No activity in this period | |
+| `scrollHint` | مرّر أفقيًا لعرض باقي الأيام. | Scroll sideways to see the other days. | |
+| `scrollRegion` | الرسم البياني، يمكن تمريره أفقيًا | Chart, scrolls sideways | |
+| `views` | نوع الرسم | Chart type | |
+| `date` | التاريخ | Date | |
+| `today` | اليوم | Today | |
+
+## reports.state
+
+| Key | العربية | English | Notes |
+|---|---|---|---|
+| `loading` | جارٍ تحميل التقرير… | Loading the report… | |
+| `errorTitle` | تعذّر تحميل التقرير | Couldn't load the report | |
+| `errorBody` | تحقق من اتصالك ثم أعد المحاولة. | Check your connection and try again. | |
+
 ## admin.nav
 
 | Key | العربية | English | Notes |
@@ -472,6 +655,12 @@ Generated from `src/i18n` by `npm run copy:table` — 704 strings. Do not edit t
 | `menu` | قائمة الإدارة | Admin menu | |
 | `openMenu` | فتح قائمة الإدارة | Open admin menu | |
 | `closeMenu` | إغلاق القائمة | Close menu | |
+| `priceUpdates` | تحديثات الأسعار | Price updates | |
+| `overview` | نظرة عامة | Overview | |
+| `flagged` | الطلبات المُعلَّمة | Flagged requests | |
+| `audit` | سجل التدقيق | Audit log | |
+| `priceUpdatesCount` | تحديثات الأسعار، {{n}} بانتظار المراجعة | Price updates, {{n}} waiting for review | |
+| `vouchers` | الأكواد | Codes | |
 
 ## admin.titles
 
@@ -489,13 +678,174 @@ Generated from `src/i18n` by `npm run copy:table` — 704 strings. Do not edit t
 | `modes` | الأوضاع | Modes | |
 | `modeNew` | وضع جديد | New mode | |
 | `modeDetail` | تفاصيل الوضع | Mode details | |
+| `vouchers` | الأكواد | Codes | |
+| `voucherNew` | كود جديد | New code | |
+| `voucherDetail` | تفاصيل الكود | Code details | |
 | `settings` | الإعدادات | Settings | |
+| `priceUpdates` | تحديثات الأسعار | Price updates | |
+| `overview` | نظرة عامة | Overview | |
+| `flagged` | الطلبات المُعلَّمة | Flagged requests | |
+| `audit` | سجل التدقيق | Audit log | |
+| `batchNew` | مجموعة جديدة | New batch | |
+| `batchDetail` | تفاصيل المجموعة | Batch details | |
 
-## admin
+## admin.reports
 
 | Key | العربية | English | Notes |
 |---|---|---|---|
-| `entry` | لوحة الإدارة | Admin panel | |
+| `usage.loading` | جارٍ تحميل الاستهلاك… | Loading usage… | |
+| `usage.error` | تعذّر تحميل استهلاك المستخدم. | Couldn't load this user's usage. | |
+| `usage.totals.charged` | المحتسب على المستخدم | Charged to the user | |
+| `usage.totals.providerCost` | تكلفة المزوّد | Provider cost | |
+| `usage.totals.margin` | الهامش | Margin | |
+| `usage.totals.requests` | الطلبات | Requests | |
+| `usage.totals.flagged` | طلبات مُعلَّمة | Flagged requests | |
+| `usage.totals.absorbed` | تكلفة متحمَّلة | Absorbed cost | |
+| `usage.totals.absorbedHint` | تجاوزت المبلغ المحجوز ولم تُحتسب عليه | Went over the held amount and was not charged | |
+| `usage.totals.inputTokens` | توكنات الإدخال | Input tokens | |
+| `usage.totals.cachedTokens` | توكنات مخزّنة | Cached tokens | |
+| `usage.totals.outputTokens` | توكنات الإخراج | Output tokens | |
+| `usage.byMode` | حسب الوضع | By mode | |
+| `usage.byModel` | حسب النموذج | By model | |
+| `usage.columns.mode` | الوضع | Mode | |
+| `usage.columns.model` | النموذج | Model | |
+| `usage.columns.requests` | الطلبات | Requests | |
+| `usage.columns.charged` | المحتسب | Charged | |
+| `usage.columns.providerCost` | تكلفة المزوّد | Provider cost | |
+| `usage.columns.margin` | الهامش | Margin | |
+| `usage.emptyTitle` | لا يوجد استهلاك في هذه الفترة | No usage in this period | |
+| `usage.emptyBody` | جرّب فترة أطول. | Try a longer period. | |
+| `usage.daily` | الاستهلاك اليومي | Daily usage | |
+| `usage.chartLabel` | رسم بياني للاستهلاك اليومي للمستخدم | Chart of the user's daily usage | |
+| `usage.chartEmptyHint` | لم تُسجَّل أي طلبات بين {{from}} و{{to}}. | No requests between {{from}} and {{to}}. | |
+| `usage.views.money` | المبالغ | Amounts | |
+| `usage.views.moneyTitle` | المبالغ اليومية | Daily amounts | |
+| `usage.views.requests` | الطلبات | Requests | |
+| `usage.views.requestsTitle` | الطلبات اليومية | Daily requests | |
+| `usage.recent` | أحدث طلبات المستخدم | The user's latest requests | |
+| `usage.recentNote` | تظهر أحدث الطلبات بغض النظر عن الفترة المختارة. | The latest requests are shown whatever period is chosen. | |
+| `usage.recentEmpty` | لا توجد طلبات لهذا المستخدم | No requests for this user | |
+| `usage.recentError` | تعذّر تحميل طلبات المستخدم. | Couldn't load the user's requests. | |
+| `requests.title` | الطلبات | Requests | |
+| `requests.note` | هذا عدّاد للطلبات المُعلَّمة وليس قائمة مهام: لا يمكن بعد تعليم طلب على أنه روجع. | This is a count of flagged requests, not a to-do list: a request cannot be marked as reviewed yet. | |
+| `requests.filterLabel` | حالة الطلب | Request status | |
+| `requests.chips.all` | الكل | All | |
+| `requests.chips.reconciliation_required` | مُعلَّمة | Flagged | |
+| `requests.chips.reserved` | محجوزة | Held | |
+| `requests.chips.settled` | مُسوّاة | Settled | |
+| `requests.chips.released` | مُحرَّرة | Released | |
+| `requests.status.reconciliation_required` | مُعلَّمة | Flagged | |
+| `requests.status.reserved` | محجوزة | Held | |
+| `requests.status.settled` | مُسوّاة | Settled | |
+| `requests.status.released` | مُحرَّرة | Released | |
+| `requests.source.estimated` | تقديري | Estimated | |
+| `requests.source.provider` | من المزوّد | From provider | |
+| `requests.columns.time` | الوقت | Time | |
+| `requests.columns.user` | المستخدم | User | |
+| `requests.columns.mode` | الوضع | Mode | |
+| `requests.columns.model` | النموذج | Model | |
+| `requests.columns.status` | الحالة | Status | |
+| `requests.columns.source` | مصدر الاستهلاك | Usage source | |
+| `requests.columns.reserved` | المحجوز | Held | |
+| `requests.columns.charged` | المحتسب | Charged | |
+| `requests.columns.providerCost` | تكلفة المزوّد | Provider cost | |
+| `requests.columns.absorbed` | المتحمَّل | Absorbed | |
+| `requests.loading` | جارٍ تحميل الطلبات… | Loading requests… | |
+| `requests.error` | تعذّر تحميل الطلبات. | Couldn't load the requests. | |
+| `requests.loadMore` | تحميل المزيد | Load more | |
+| `requests.loadMoreError` | تعذّر تحميل المزيد من الطلبات. | Couldn't load more requests. | |
+| `requests.emptyFlagged` | لا توجد طلبات مُعلَّمة | No flagged requests | |
+| `requests.emptyFlaggedBody` | لا شيء يحتاج إلى مراجعة الآن. | Nothing needs a look right now. | |
+| `requests.emptyOther` | لا توجد طلبات بهذه الحالة | No requests with this status | |
+| `requests.emptyOtherBody` | جرّب حالة أخرى. | Try another status. | |
+| `audit.title` | سجل التدقيق | Audit log | |
+| `audit.loading` | جارٍ تحميل السجل… | Loading the log… | |
+| `audit.error` | تعذّر تحميل سجل التدقيق. | Couldn't load the audit log. | |
+| `audit.loadMore` | تحميل المزيد | Load more | |
+| `audit.loadMoreError` | تعذّر تحميل المزيد من السجلات. | Couldn't load more entries. | |
+| `audit.empty` | لا توجد سجلات | No entries | |
+| `audit.emptyBody` | لا تغييرات مسجّلة في هذه الفترة. | No changes recorded in this period. | |
+| `audit.emptyFiltered` | لا توجد سجلات مطابقة | No matching entries | |
+| `audit.emptyFilteredBody` | غيّر الفلاتر أو امسحها. | Change the filters or clear them. | |
+| `audit.oldValue` | القيمة السابقة | Old value | |
+| `audit.newValue` | القيمة الجديدة | New value | |
+| `audit.noOldValue` | لا توجد قيمة سابقة | No old value | |
+| `audit.noNewValue` | لا توجد قيمة جديدة | No new value | |
+| `audit.expand` | عرض التفاصيل | Show details | |
+| `audit.collapse` | إخفاء التفاصيل | Hide details | |
+| `audit.columns.time` | الوقت | Time | |
+| `audit.columns.actor` | المنفِّذ | Done by | |
+| `audit.columns.action` | الإجراء | Action | |
+| `audit.columns.resource` | المورد | Resource | |
+| `audit.columns.reason` | السبب | Reason | |
+| `audit.columns.details` | التفاصيل | Details | |
+| `audit.actorType.user` | مستخدم | User | |
+| `audit.actorType.admin` | مسؤول | Admin | |
+| `audit.actorType.system` | النظام | System | |
+| `audit.actorType.cli` | سطر الأوامر | Command line | |
+| `audit.filters.label` | فلاتر السجل | Log filters | |
+| `audit.filters.action` | الإجراء | Action | |
+| `audit.filters.resourceType` | نوع المورد | Resource type | |
+| `audit.filters.resourceId` | معرّف المورد | Resource id | |
+| `audit.filters.actorId` | معرّف المسؤول | Admin id | |
+| `audit.filters.actorIdHint` | بصيغة UUID | A UUID | |
+| `audit.filters.datesHint` | بدون تاريخ يُعرض السجل كاملًا (بتوقيت UTC). | With no dates, the whole log is shown (UTC). | |
+| `audit.filters.apply` | تطبيق | Apply | |
+| `audit.filters.clear` | مسح الفلاتر | Clear filters | |
+| `audit.errors.actorId` | اكتب معرّفًا صحيحًا بصيغة UUID. | Enter a valid UUID. | |
+| `overview.attention.title` | تحتاج إلى انتباه | Needs attention | |
+| `overview.attention.flagged` | طلبات مُعلَّمة | Flagged requests | |
+| `overview.attention.flaggedHelp` | محسوبة من تقدير أو تحمّلنا جزءًا من تكلفتها. العدد الحالي لكل الفترات. | Based on an estimate, or we absorbed part of the cost. The current count across all dates. | |
+| `overview.attention.flaggedLink` | عرض الطلبات | View requests | |
+| `overview.attention.flaggedZero` | لا توجد طلبات مُعلَّمة | No flagged requests | |
+| `overview.attention.findings` | تحديثات أسعار مفتوحة | Open price updates | |
+| `overview.attention.findingsHelp` | تغييرات في أسعار النماذج بانتظار مراجعتك. | Model price changes waiting for your review. | |
+| `overview.attention.findingsLink` | عرض تحديثات الأسعار | View price updates | |
+| `overview.attention.findingsZero` | لا توجد تحديثات أسعار مفتوحة | No open price updates | |
+| `overview.money.charged` | المحصَّل | Charged | |
+| `overview.money.chargedHelp` | ما خُصم من أرصدة المستخدمين | Deducted from users' balances | |
+| `overview.money.cost` | تكلفة المزوّد | Provider cost | |
+| `overview.money.costHelp` | ما دفعناه للمزوّدين | What we paid the providers | |
+| `overview.money.margin` | الهامش | Margin | |
+| `overview.money.marginHelp` | المحصَّل ناقص تكلفة المزوّد | Charged minus provider cost | |
+| `overview.money.marginNegativeHelp` | أقل من التكلفة في هذه الفترة | Below cost in this period | |
+| `overview.money.marginPercent` | نسبة الهامش: | Margin: | |
+| `overview.money.absorbed` | المُمتَص | Absorbed | |
+| `overview.money.absorbedHelp` | تكلفة زادت عن المبلغ المحجوز وتحمّلناها | Cost above the reserved amount that we covered | |
+| `overview.users.title` | المستخدمون | Users | |
+| `overview.users.total` | الإجمالي | Total | |
+| `overview.users.totalHelp` | الحسابات غير المحذوفة | Accounts not deleted | |
+| `overview.users.new` | جدد | New | |
+| `overview.users.newHelp` | سجّلوا في الفترة | Signed up in the period | |
+| `overview.users.active` | نشطون | Active | |
+| `overview.users.activeHelp` | لديهم طلب واحد على الأقل في الفترة | At least one request in the period | |
+| `overview.plans.title` | الباقات النشطة | Active plans | |
+| `overview.plans.help` | اشتراكات نشطة الآن | Subscriptions active now | |
+| `overview.plans.total` | الإجمالي | Total | |
+| `overview.plans.empty` | لا توجد اشتراكات نشطة | No active subscriptions | |
+| `overview.images.title` | الصور | Images | |
+| `overview.images.created` | أُنشئت في الفترة | Created in the period | |
+| `overview.images.uploaded` | رفعها المستخدمون | Uploaded by users | |
+| `overview.chart.aria` | رسم بياني يومي للفترة المحددة، والقيم الدقيقة في عرض الجدول | Daily chart for the selected period; exact values are in the table view | |
+| `overview.chart.emptyHint` | لم تُسجَّل أي رسائل بين {{from}} و{{to}}. | No messages were recorded between {{from}} and {{to}}. | |
+| `overview.chart.views.money` | المبالغ | Amounts | |
+| `overview.chart.views.requests` | الطلبات | Requests | |
+| `overview.chart.views.users` | مستخدمون جدد | New users | |
+| `overview.chart.titles.money` | المحصَّل مقابل تكلفة المزوّد | Charged vs provider cost | |
+| `overview.chart.titles.requests` | الطلبات اليومية | Requests per day | |
+| `overview.chart.titles.users` | المستخدمون الجدد يوميًا | New users per day | |
+| `overview.chart.series.charged` | المحصَّل | Charged | |
+| `overview.chart.series.cost` | تكلفة المزوّد | Provider cost | |
+| `overview.chart.series.requests` | الطلبات | Requests | |
+| `overview.chart.series.users` | مستخدمون جدد | New users | |
+| `overview.tops.modes` | أكثر الأوضاع استخدامًا | Most used modes | |
+| `overview.tops.models` | أكثر النماذج استخدامًا | Most used models | |
+| `overview.tops.limit` | أعلى 10 | Top 10 | |
+| `overview.tops.mode` | الوضع | Mode | |
+| `overview.tops.model` | النموذج | Model | |
+| `overview.tops.requests` | الطلبات | Requests | |
+| `overview.tops.charged` | المحصَّل | Charged | |
+| `overview.tops.empty` | لا توجد بيانات في هذه الفترة | No data in this period | |
 
 ## admin.common
 
@@ -555,6 +905,7 @@ Generated from `src/i18n` by `npm run copy:table` — 704 strings. Do not edit t
 | `tabs.overview` | نظرة عامة | Overview | |
 | `tabs.subscription` | الاشتراك | Subscription | |
 | `tabs.balance` | الرصيد | Balance | |
+| `tabs.usage` | الاستهلاك | Usage | |
 | `notFoundTitle` | لم يتم العثور على المستخدم | User not found | |
 | `backToUsers` | العودة إلى المستخدمين | Back to users | |
 | `error` | تعذّر تحميل المستخدم. | Couldn't load the user. | |
@@ -686,10 +1037,234 @@ Generated from `src/i18n` by `npm run copy:table` — 704 strings. Do not edit t
 | `types.subscription_credit` | رصيد الباقة | Plan balance | |
 | `types.purchase` | تسجيل دفعة | Payment recorded | |
 | `types.usage_charge` | استخدام المحادثة | Chat usage | |
-| `types.voucher_credit` | رصيد قسيمة | Voucher credit | |
+| `types.voucher_credit` | رصيد كود | Voucher credit | |
 | `types.refund` | استرداد | Refund | |
 | `types.adjustment` | تعديل يدوي | Manual adjustment | |
 | `types.expiry` | انتهاء الرصيد | Balance expiry | |
+
+## admin.vouchers
+
+| Key | العربية | English | Notes |
+|---|---|---|---|
+| `new` | إنشاء كود | Create code | |
+| `backToList` | العودة إلى القائمة | Back to the list | |
+| `tableLabel` | قائمة الأكواد | Codes | |
+| `filter.label` | الحالة | Status | |
+| `filter.all` | الكل | All | |
+| `filter.active` | مفعّل | Enabled | |
+| `filter.inactive` | موقوف | Stopped | |
+| `columns.code` | الكود | Code | |
+| `columns.kind` | النوع | Type | |
+| `columns.value` | القيمة | Value | |
+| `columns.usage` | الاستخدام | Used | |
+| `columns.period` | الفترة | Period | |
+| `columns.status` | الحالة | Status | |
+| `kind.balance` | رصيد | Balance | |
+| `kind.trial` | تجربة | Trial | |
+| `kindHint.balance` | يضيف مبلغًا إلى رصيد المستخدم، ويحتاج باقة نشطة. | Adds an amount to the user's balance. Needs an active plan. | |
+| `kindHint.trial` | يبدأ باقة لعدد من الأيام ويضيف رصيدها المضمَّن. | Starts a plan for a number of days and adds its included balance. | |
+| `status.active` | فعّال | Active | |
+| `status.notStarted` | لم يبدأ | Not started | |
+| `status.expired` | منتهي | Expired | |
+| `status.usedUp` | مستنفد | Used up | |
+| `status.inactive` | متوقف | Stopped | |
+| `days_zero` | {{count}} يوم | — | |
+| `days_one` | يوم واحد | {{count}} day | |
+| `days_two` | يومان | — | |
+| `days_few` | {{count}} أيام | — | |
+| `days_many` | {{count}} يومًا | — | |
+| `days_other` | {{count}} يوم | {{count}} days | |
+| `trialValue` | {{plan}} · {{days}} | {{plan}} · {{days}} | |
+| `windowFrom` | من {{date}} | From {{date}} | |
+| `windowTo` | حتى {{date}} | Until {{date}} | |
+| `noEnd` | بلا نهاية | No end | |
+| `emptyTitle` | لا توجد أكواد بعد | No codes yet | |
+| `emptyBody` | أنشئ كودًا لمنح مستخدم رصيدًا أو باقة تجريبية. | Create a code to give a user balance or a trial plan. | |
+| `emptyFiltered.active` | لا توجد أكواد مفعّلة | No enabled codes | |
+| `emptyFiltered.inactive` | لا توجد أكواد متوقفة | No stopped codes | |
+| `emptyFilteredBody` | غيّر الفلتر لعرض باقي الأكواد. | Change the filter to see the other codes. | |
+| `showAll` | عرض الكل | Show all | |
+| `error` | تعذّر تحميل الأكواد. تحقق من اتصالك بالإنترنت ثم حاول مرة أخرى. | Could not load the codes. Check your connection and try again. | |
+| `loadMore` | تحميل المزيد | Load more | |
+| `loadMoreError` | تعذّر تحميل المزيد. | Could not load more. | |
+| `formTitle` | كود جديد | New code | |
+| `kindLabel` | نوع الكود | Code type | |
+| `amount` | المبلغ | Amount | |
+| `amountHint` | أكبر من 0 وحتى 1000.00$ | Above 0 and up to $1000.00 | |
+| `plan` | الباقة | Plan | |
+| `planHint` | الباقات النشطة فقط، دون الباقة الافتراضية | Active plans only, except the default plan | |
+| `planPlaceholder` | اختر الباقة | Choose a plan | |
+| `planLoading` | جارٍ تحميل الباقات… | Loading plans… | |
+| `planLoadError` | تعذّر تحميل الباقات. | Could not load the plans. | |
+| `trialDays` | عدد الأيام | Days | |
+| `trialDaysHint` | من 1 إلى 365 | From 1 to 365 | |
+| `maxRedemptions` | عدد مرات الاستخدام | Number of uses | |
+| `maxRedemptionsHint` | يستخدمه كل مستخدم مرة واحدة فقط. | Each user can use it once. | |
+| `code` | الكود (اختياري) | Code (optional) | |
+| `codeHint` | من 4 إلى 40 حرفًا إنجليزيًا أو رقمًا أو شرطة. اتركه فارغًا ليُنشأ كود تلقائيًا. | 4 to 40 letters, digits or dashes. Leave empty to generate one. | |
+| `dateTimePlaceholder` | YYYY-MM-DD HH:mm | YYYY-MM-DD HH:mm | |
+| `startsAt` | يبدأ في | Starts at | |
+| `startsAtHint` | بتوقيت جهازك. الافتراضي: الآن. | In your device's time. Default: now. | |
+| `endsAt` | ينتهي في | Ends at | |
+| `endsAtHint` | بتوقيت جهازك. اتركه فارغًا ليبقى الكود بلا نهاية. | In your device's time. Leave empty for no end. | |
+| `newUsersOnly` | للمستخدمين الجدد فقط | New users only | |
+| `newUsersOnlyHint` | من لم تكن لهم باقة غير الباقة الافتراضية. | Users who never had a plan other than the default one. | |
+| `note` | ملاحظة داخلية | Internal note | |
+| `createSubmit` | إنشاء الكود | Create code | |
+| `creating` | جارٍ الإنشاء… | Creating… | |
+| `errors.amountInvalid` | اكتب مبلغًا أكبر من 0، بأرقام وفاصلة عشرية فقط. | Enter an amount above 0, digits and a decimal point only. | |
+| `errors.amountTooLarge` | الحد الأقصى للمبلغ 1000.00$. | The maximum amount is $1000.00. | |
+| `errors.planRequired` | اختر الباقة. | Choose a plan. | |
+| `errors.daysInvalid` | اكتب عدد أيام صحيحًا من 1 إلى 365. | Enter a whole number of days from 1 to 365. | |
+| `errors.limitInvalid` | اكتب عددًا صحيحًا بين 1 و1,000,000. | Enter a whole number between 1 and 1,000,000. | |
+| `errors.limitBelowUsed` | لا يمكن أن يكون الحد أقل من عدد الاستخدامات الحالية ({{used}}). | The limit cannot be below the current number of uses ({{used}}). | |
+| `errors.codeInvalid` | من 4 إلى 40 حرفًا إنجليزيًا أو رقمًا أو شرطة فقط. | 4 to 40 letters, digits or dashes only. | |
+| `errors.dateInvalid` | التاريخ غير صحيح. | The date is not valid. | |
+| `errors.endBeforeStart` | يجب أن يكون تاريخ الانتهاء بعد تاريخ البدء. | The end must be after the start. | |
+| `errors.endInPast` | يجب أن يكون تاريخ الانتهاء في المستقبل. | The end must be in the future. | |
+| `createdTitle` | تم إنشاء الكود | Code created | |
+| `createdBody` | هذا هو الكود الجديد، انسخه وشاركه مع المستخدمين. | This is the new code. Copy it and share it with users. | |
+| `copyCode` | نسخ الكود | Copy code | |
+| `copied` | تم النسخ | Copied | |
+| `copyFailed` | تعذّر النسخ، انسخه يدويًا | Could not copy. Copy it by hand. | |
+| `openCode` | فتح الكود | Open code | |
+| `createAnother` | إنشاء كود آخر | Create another code | |
+| `notFoundTitle` | الكود غير موجود | Code not found | |
+| `detailError` | تعذّر تحميل الكود. جرّب مرة أخرى أو ارجع إلى القائمة. | Could not load the code. Try again or go back to the list. | |
+| `summary` | ملخص الكود | Code summary | |
+| `summaryNote` | النوع والقيمة والباقة وتاريخ البدء لا تتغير بعد الإنشاء. | Type, value, plan and start date cannot change after creation. | |
+| `createdAt` | تاريخ الإنشاء | Created | |
+| `createdBy` | أنشأه | Created by | |
+| `yes` | نعم | Yes | |
+| `no` | لا | No | |
+| `settings` | الإعدادات | Settings | |
+| `removeEnd` | إزالة التاريخ | Remove date | |
+| `limitHint` | الحد الأقصى للاستخدام: لا يقل عن عدد الاستخدامات الحالية ({{used}}). | Maximum uses: not below the current number of uses ({{used}}). | |
+| `undo` | تراجع | Undo | |
+| `saveTitle` | حفظ التغييرات | Save changes | |
+| `changesIntro` | سيتم تغيير: | This will change: | |
+| `changeEnd` | تاريخ الانتهاء | End date | |
+| `changeEndRemoved` | إزالة تاريخ الانتهاء | Remove the end date | |
+| `changeLimit` | عدد مرات الاستخدام | Number of uses | |
+| `changeNote` | الملاحظة الداخلية | Internal note | |
+| `saved` | تم حفظ التغييرات | Changes saved | |
+| `deactivate` | إيقاف الكود | Stop code | |
+| `activate` | تفعيل الكود | Enable code | |
+| `deactivateBody` | سيظهر الكود للمستخدمين كأنه غير موجود. يمكنك تفعيله لاحقًا. | Users will see the code as if it did not exist. You can enable it again later. | |
+| `activateBody` | سيعمل الكود من جديد ضمن فترته وحدّه الأقصى. | The code works again within its period and limit. | |
+| `deactivated` | تم إيقاف الكود | Code stopped | |
+| `activated` | تم تفعيل الكود | Code enabled | |
+| `inactiveBanner` | هذا الكود متوقف. يظهر للمستخدمين كأنه غير موجود. | This code is stopped. Users see it as if it did not exist. | |
+| `usedUpBanner` | تم استخدام الكود بالكامل ({{used}} / {{max}}). ارفع الحد الأقصى من الإعدادات إن أردت السماح بمزيد من الاستخدام. | The code is fully used ({{used}} / {{max}}). Raise the limit in the settings to allow more uses. | |
+| `redemptions` | الاستخدامات | Uses | |
+| `redemptionColumns.user` | المستخدم | User | |
+| `redemptionColumns.date` | تاريخ الاستخدام | Date | |
+| `redemptionColumns.credited` | الرصيد المضاف | Balance added | |
+| `redemptionColumns.subscription` | الاشتراك | Subscription | |
+| `redemptionsEmpty` | لم يستخدم أحد هذا الكود بعد | Nobody has used this code yet | |
+| `redemptionsError` | تعذّر تحميل الاستخدامات. حاول مرة أخرى. | Could not load the uses. Try again. | |
+| `batches.tabSingles` | أكواد فردية | Single codes | |
+| `batches.tabBatches` | مجموعات الأكواد | Code batches | |
+| `batches.new` | إنشاء مجموعة أكواد | Create code batch | |
+| `batches.backToList` | العودة إلى المجموعات | Back to batches | |
+| `batches.tableLabel` | قائمة مجموعات الأكواد | Code batches list | |
+| `batches.columns.name` | الاسم | Name | |
+| `batches.columns.kind` | النوع | Kind | |
+| `batches.columns.value` | القيمة | Value | |
+| `batches.columns.usage` | الاستخدام | Usage | |
+| `batches.columns.total` | القيمة الإجمالية | Total value | |
+| `batches.columns.status` | الحالة | Status | |
+| `batches.columns.ends` | ينتهي في | Ends | |
+| `batches.emptyTitle` | لا توجد مجموعات أكواد بعد | No code batches yet | |
+| `batches.emptyBody` | أنشئ مجموعة لتوليد عدة أكواد دفعة واحدة وتسليمها لموزّع. | Create a batch to generate several codes at once and hand them to a reseller. | |
+| `batches.emptyFiltered.active` | لا توجد مجموعات مفعّلة | No active batches | |
+| `batches.emptyFiltered.inactive` | لا توجد مجموعات موقوفة | No inactive batches | |
+| `batches.emptyFilteredBody` | غيّر الفلتر لعرض باقي المجموعات. | Change the filter to see the other batches. | |
+| `batches.error` | تعذّر تحميل المجموعات. تحقق من اتصالك بالإنترنت ثم حاول مرة أخرى. | Could not load the batches. Check your connection and try again. | |
+| `batches.groupBatch` | المجموعة | Batch | |
+| `batches.name` | اسم المجموعة | Batch name | |
+| `batches.nameHint` | للاستخدام الداخلي، حتى 100 حرف. يُستخدم اسمًا لملف التنزيل. | Internal use, up to 100 characters. Used as the download file name. | |
+| `batches.amount` | المبلغ لكل كود | Amount per code | |
+| `batches.quantity` | عدد الأكواد | Number of codes | |
+| `batches.quantityHint` | من 3 إلى 100. الافتراضي 10. | 3 to 100. Default 10. | |
+| `batches.groupFormat` | شكل الكود | Code format | |
+| `batches.prefix` | رمز البداية (اختياري) | Prefix (optional) | |
+| `batches.prefixHint` | من 2 إلى 12 حرفًا إنجليزيًا أو رقمًا. يظهر بحروف كبيرة. | 2 to 12 English letters or digits. Shown in capitals. | |
+| `batches.example` | مثال على الكود: | Example code: | |
+| `batches.randomHint` | الأحرف بعد الرمز تُنشأ عشوائيًا لكل كود. | The characters after the prefix are random for each code. | |
+| `batches.noPrefixHint` | بلا رمز يبدأ كل كود بالرمز الافتراضي {{defaultPrefix}}. الأحرف بعد الرمز تُنشأ عشوائيًا لكل كود. | Without a prefix every code starts with the default prefix {{defaultPrefix}}. The characters after it are random for each code. | |
+| `batches.groupPeriod` | الفترة والشروط | Period and conditions | |
+| `batches.groupConfirm` | التأكيد | Confirmation | |
+| `batches.total` | الإجمالي | Total | |
+| `batches.codesCount_zero` | {{count}} كود | — | |
+| `batches.codesCount_one` | كود واحد | {{count}} code | |
+| `batches.codesCount_two` | كودان | — | |
+| `batches.codesCount_few` | {{count}} أكواد | — | |
+| `batches.codesCount_many` | {{count}} كودًا | — | |
+| `batches.codesCount_other` | {{count}} كود | {{count}} codes | |
+| `batches.overLimit` | الإجمالي يتجاوز الحد الأقصى للمجموعة | The total exceeds the batch limit | |
+| `batches.overLimitHint` | قلّل العدد أو المبلغ. | Lower the number or the amount. | |
+| `batches.totalInvalid` | أدخل عدد الأكواد والمبلغ لعرض الإجمالي. | Enter the number of codes and the amount to see the total. | |
+| `batches.summary` | ملخص المجموعة | Batch summary | |
+| `batches.trialSummary` | {{codes}}، يمنح كل كود باقة «{{plan}}» لمدة {{days}}. | {{codes}}; each code gives the «{{plan}}» plan for {{days}}. | |
+| `batches.createSubmit` | إنشاء المجموعة | Create batch | |
+| `batches.createFailed` | تعذّر إنشاء المجموعة | Could not create the batch | |
+| `batches.errors.nameRequired` | اسم المجموعة مطلوب. | Batch name is required. | |
+| `batches.errors.quantityInvalid` | اكتب عددًا صحيحًا من 3 إلى 100. | Enter a whole number from 3 to 100. | |
+| `batches.errors.prefixInvalid` | من 2 إلى 12 حرفًا إنجليزيًا أو رقمًا فقط. | 2 to 12 English letters or digits only. | |
+| `batches.created` | تم إنشاء المجموعة | Batch created | |
+| `batches.createdTitle` | أُنشئت {{codes}} جاهزة للاستخدام | {{codes}} created and ready to use | |
+| `batches.createdBody` | نزّل الملف وسلّمه للموزّع. تجد الأكواد أيضًا في الجدول أدناه. | Download the file and give it to the reseller. The codes are also in the table below. | |
+| `batches.noticeTitle` | هذه أكواد صالحة للاستخدام الآن | These are working codes | |
+| `batches.noticeBody` | شارك الملف مع الموزّع المقصود فقط. من يملك الكود يستطيع استخدامه. | Share the file only with the intended reseller. Anyone with a code can use it. | |
+| `batches.valuePerCode` | القيمة لكل كود | Value per code | |
+| `batches.quantityLabel` | عدد الأكواد | Number of codes | |
+| `batches.prefixLabel` | رمز البداية | Prefix | |
+| `batches.summaryNote` | النوع والقيمة والعدد وتاريخ البدء لا تتغير بعد الإنشاء. | Kind, value, number and start date cannot change after creation. | |
+| `batches.endsAtHint` | يسري على كل أكواد المجموعة. | Applies to every code in the batch. | |
+| `batches.progress` | التقدم | Progress | |
+| `batches.codesUsed` | الأكواد المستخدمة | Codes used | |
+| `batches.credited` | الرصيد المضاف | Balance credited | |
+| `batches.of` | من | of | |
+| `batches.download` | تنزيل ملف CSV | Download CSV file | |
+| `batches.deactivate` | إيقاف المجموعة | Turn batch off | |
+| `batches.activate` | تفعيل المجموعة | Turn batch on | |
+| `batches.deactivated` | تم إيقاف المجموعة | Batch turned off | |
+| `batches.activated` | تم تفعيل المجموعة | Batch turned on | |
+| `batches.inactiveBanner` | هذه المجموعة متوقفة. لا يعمل أي كود غير مستخدم فيها، وتظهر للمستخدمين كأنها غير موجودة. فعّلها لتعمل الأكواد من جديد، عدا ما أوقفته منها واحدًا واحدًا. | This batch is off. No unused code in it works and users see it as not existing. Turn it on to make the codes work again, except those you turned off one by one. | |
+| `batches.codesTitle` | الأكواد ({{used}} / {{total}} مستخدم) | Codes ({{used}} / {{total}} used) | |
+| `batches.codesLabel` | أكواد المجموعة | Codes in the batch | |
+| `batches.codesFilter` | حالة الكود | Code status | |
+| `batches.codeStatus.used` | مستخدم | Used | |
+| `batches.codeStatus.unused` | غير مستخدم | Unused | |
+| `batches.codeStatus.off` | متوقف | Off | |
+| `batches.codeColumns.code` | الكود | Code | |
+| `batches.codeColumns.status` | الحالة | Status | |
+| `batches.codeColumns.redeemedAt` | تاريخ الاستخدام | Redeemed on | |
+| `batches.codeColumns.user` | المستخدم | User | |
+| `batches.codeColumns.actions` | إجراءات | Actions | |
+| `batches.noUsedTitle` | لا توجد أكواد مستخدمة بعد | No used codes yet | |
+| `batches.noUsedBody` | ستظهر هنا الأكواد التي استخدمها أصحابها. | Codes will appear here once their owners use them. | |
+| `batches.noCodesTitle` | لا توجد أكواد | No codes | |
+| `batches.noCodesBody` | غيّر الفلتر لعرض باقي الأكواد. | Change the filter to see the other codes. | |
+| `batches.codesError` | تعذّر تحميل الأكواد. تحقق من اتصالك بالإنترنت ثم حاول مرة أخرى. | Could not load the codes. Check your connection and try again. | |
+| `batches.downloadTitle` | تنزيل ملف الأكواد | Download the codes file | |
+| `batches.warningTitle` | الملف يحتوي أكواد صالحة للاستخدام | The file contains working codes | |
+| `batches.warningBody` | شاركه مع الموزّع المقصود فقط. من يملك الكود يستطيع استخدامه. | Share it only with the intended reseller. Anyone with a code can use it. | |
+| `batches.warningNote` | لا يحتوي الملف على بيانات المستخدمين. يُسجَّل كل تنزيل في سجل التدقيق. | The file has no user data. Every download is recorded in the audit log. | |
+| `batches.downloadFile` | تنزيل الملف | Download file | |
+| `batches.downloading` | جارٍ التنزيل… | Downloading… | |
+| `batches.downloadFailed` | تعذّر تنزيل الملف | Could not download the file | |
+| `batches.downloadFailedBody` | لم يتغير شيء في المجموعة. تحقق من اتصالك ثم حاول مرة أخرى. | Nothing changed in the batch. Check your connection and try again. | |
+| `batches.deactivateCodeBody` | سيظهر الكود للمستخدمين كأنه غير موجود، وسيبقى متوقفًا حتى لو أعدت تفعيل المجموعة. | Users will see the code as not existing, and it stays off even if you turn the batch back on. | |
+| `batches.activateCodeBody` | سيعمل الكود من جديد ضمن فترته، ما دامت المجموعة فعّالة. | The code works again within its period, as long as the batch is on. | |
+| `batches.deactivateBody` | ستتوقف كل أكواد المجموعة غير المستخدمة، وتظهر للمستخدمين كأنها غير موجودة. الأكواد التي استُخدمت من قبل لا تتأثر. يمكنك تفعيل المجموعة لاحقًا. | All unused codes in the batch stop working and users see them as not existing. Codes already used are not affected. You can turn the batch on later. | |
+| `batches.activateBody` | ستعمل الأكواد غير المستخدمة من جديد ضمن فترتها، عدا الأكواد التي أوقفتها واحدًا واحدًا. | Unused codes work again within their period, except codes you turned off one by one. | |
+| `batches.batchCodeTitle` | هذا الكود من مجموعة «{{name}}» | This code belongs to the batch «{{name}}» | |
+| `batches.batchCodeBody` | يُستخدم مرة واحدة فقط، ويُعدَّل تاريخ انتهائه من المجموعة. | It can be used once, and its end date is set on the batch. | |
+| `batches.openBatch` | فتح المجموعة | Open batch | |
+| `batches.notFoundTitle` | المجموعة غير موجودة | Batch not found | |
+| `batches.detailError` | تعذّر تحميل المجموعة. جرّب مرة أخرى أو ارجع إلى القائمة. | Could not load the batch. Try again or go back to the list. | |
 
 ## admin.dialog
 
@@ -766,7 +1341,7 @@ Generated from `src/i18n` by `npm run copy:table` — 704 strings. Do not edit t
 | `isActive` | نشطة | Active | |
 | `isActiveHint` | الباقة غير النشطة لا يمكن تعيينها لمستخدمين جدد. | An inactive plan cannot be assigned to new users. | |
 | `isDefault` | الباقة الافتراضية | Default plan | |
-| `isDefaultHint` | تصبح باقة المستخدمين بلا اشتراك، وتتوقف الباقة الافتراضية الحالية. | Becomes the plan of users without a subscription; the current default stops being the default. | |
+| `isDefaultHint` | تصبح باقة المستخدمين بلا اشتراك، وتتوقف الباقة الافتراضية الحالية. | Becomes the plan for users without a subscription, and the current default plan stops. | |
 | `isDefaultCurrent` | هذه هي الباقة الافتراضية. اجعل باقة أخرى افتراضية لتغييرها. | This is the default plan. Make another plan the default to change it. | |
 | `createTitle` | إنشاء الباقة | Create plan | |
 | `createSubmit` | إنشاء الباقة | Create plan | |
@@ -822,6 +1397,7 @@ Generated from `src/i18n` by `npm run copy:table` — 704 strings. Do not edit t
 | `baseUrlHint` | جذر الواجهة، مثل https://api.example.com/v1 | API root, like https://api.example.com/v1 | |
 | `baseUrlInvalid` | أدخل عنوانًا يبدأ بـ http:// أو https:// | Enter an address starting with http:// or https:// | |
 | `keyInvalidFormat` | المفتاح من 8 إلى 500 حرف بلا مسافات | The key is 8 to 500 characters with no spaces | |
+| `addModel` | إضافة نموذج | Add model | |
 
 ## admin.models
 
@@ -921,6 +1497,74 @@ Generated from `src/i18n` by `npm run copy:table` — 704 strings. Do not edit t
 | `test.outputTokens` | رموز الخرج | Output tokens | |
 | `test.promptTooLong` | النص أطول من 500 حرف | The prompt is longer than 500 characters | |
 | `test.maxOutputInvalid` | أدخل عددًا من 1 إلى 256 | Enter a number from 1 to 256 | |
+| `test.imageSent` | أُرسلت صورة | Image sent | |
+| `test.yes` | نعم | Yes | |
+| `test.no` | لا | No | |
+| `test.imageAlt` | الصورة التي أنشأها النموذج في الاختبار | Image the model created in the test | |
+| `test.imageSize` | حجم الصورة | Image size | |
+| `test.noImage` | لم يُرجع النموذج صورة | The model did not return an image | |
+| `test.imageBytes` | {{bytes}} بايت | {{bytes}} bytes | |
+| `supportsImages` | يقرأ الصور | Reads images | |
+| `supportsImagesHint` | فعّله فقط إذا كان النموذج يقبل الصور. الأوضاع التي تستخدمه تظهر للمستخدمين بأنها تقرأ الصور، ويُرسل اختبار النموذج صورة صغيرة. | Turn on only if the model accepts images. Modes that use it are shown to users as reading images, and the model test sends a small image. | |
+| `picker.stepsLabel` | خطوات إضافة النموذج | Add model steps | |
+| `picker.stepPick` | اختيار النموذج | Pick the model | |
+| `picker.stepDetails` | البيانات والسعر | Details and price | |
+| `picker.provider` | المزوّد | Provider | |
+| `picker.providerPlaceholder` | اختر المزوّد | Choose a provider | |
+| `picker.chooseProvider` | اختر مزوّدًا لعرض النماذج التي يقدّمها. | Choose a provider to see the models it offers. | |
+| `picker.noProviders` | لا يوجد مزوّدون يمكن جلب نماذجهم. أضف مزوّدًا ومفتاحه أولًا. | No provider can list its models. Add a provider and its key first. | |
+| `picker.search` | بحث | Search | |
+| `picker.searchPlaceholder` | ابحث بالمعرّف أو الاسم | Search by id or name | |
+| `picker.manual` | إدخال يدوي | Enter manually | |
+| `picker.tableLabel` | النماذج المتاحة لدى المزوّد | Models available at the provider | |
+| `picker.columns.id` | معرّف النموذج عند المزود | Provider model id | |
+| `picker.columns.name` | الاسم | Name | |
+| `picker.columns.context` | نافذة السياق | Context window | |
+| `picker.columns.maxOutput` | أقصى إخراج | Max output | |
+| `picker.columns.input` | سعر الإدخال | Input price | |
+| `picker.columns.output` | سعر الإخراج | Output price | |
+| `picker.columns.perMillion` | لكل مليون رمز | per million tokens | |
+| `picker.columns.notes` | ملاحظات | Notes | |
+| `picker.added` | مضاف | Added | |
+| `picker.viewModel` | عرض النموذج | View model | |
+| `picker.deprecated` | متوقف من المزود | Retired by provider | |
+| `picker.tiered` | سعر متدرّج | Tiered price | |
+| `picker.images` | يقرأ الصور | Reads images | |
+| `picker.select` | اختيار النموذج {{id}} | Choose model {{id}} | |
+| `picker.hint` | الصفوف المضافة لا يمكن اختيارها. اضغط على صف لمتابعة الخطوة 2 بالبيانات معبّأة من الكتالوج. | Added rows can't be chosen. Click a row to continue to step 2 with the catalog data filled in. | |
+| `picker.loading` | جارٍ جلب النماذج المتاحة… | Fetching the available models… | |
+| `picker.emptyTitle` | لا توجد نماذج مطابقة | No matching models | |
+| `picker.emptyBody` | غيّر البحث أو أدخل النموذج يدويًا. | Change the search or enter the model manually. | |
+| `picker.emptyListTitle` | لا يقدّم هذا المزوّد أي نماذج | This provider lists no models | |
+| `picker.emptyListBody` | إن كنت تعرف معرّف النموذج فأدخله يدويًا. | If you know the model id, enter it manually. | |
+| `picker.noKeyTitle` | أضف مفتاح الواجهة البرمجية أولًا | Add the API key first | |
+| `picker.noKeyBody` | لا يمكن عرض نماذج المزوّد قبل تعيين مفتاحه. | The provider's models can't be listed before its key is set. | |
+| `picker.goProviders` | الانتقال إلى المزوّدين | Go to providers | |
+| `picker.keyInvalidTitle` | مفتاح الواجهة البرمجية مرفوض | The API key was rejected | |
+| `picker.replaceKey` | استبدال المفتاح | Replace the key | |
+| `picker.unreachableTitle` | تعذّر الوصول إلى المزود | Couldn't reach the provider | |
+| `picker.notFoundTitle` | المزوّد غير موجود | Provider not found | |
+| `picker.backToProviders` | العودة إلى المزوّدين | Back to providers | |
+| `picker.catalogUnavailable` | تعذّر الوصول إلى الكتالوج العام؛ أدخل البيانات والأسعار يدويًا | Couldn't reach the public catalog; enter the details and prices by hand | |
+| `picker.loadingModel` | جارٍ تحميل بيانات النموذج… | Loading the model data… | |
+| `picker.modelAddedTitle` | هذا النموذج مضاف بالفعل | This model is already added | |
+| `picker.backToPicker` | العودة إلى الاختيار | Back to the picker | |
+| `picker.fromCatalog` | من الكتالوج | From the catalog | |
+| `picker.change` | تغيير | Change | |
+| `picker.initialPriceTitle` | السعر الأولي | Initial price | |
+| `picker.initialPriceHint` | بالدولار لكل مليون رمز. يمكن ترك الحقول فارغة وتحديد السعر لاحقًا. | In USD per million tokens. You can leave the fields empty and set the price later. | |
+| `picker.optional` | اختياري | Optional | |
+| `picker.priceIncomplete` | أدخل سعر الإدخال وسعر الإخراج معًا | Enter the input and output prices together | |
+| `picker.catalogTitle` | الكتالوج | Catalog | |
+| `picker.tiersWarning` | يكلّف المزود أكثر فوق حجم سياق معيّن، ونحن نحتسب سعرًا واحدًا. اخفض نافذة السياق إلى حد الشريحة أو سعّر بالشريحة الأعلى. | The provider charges more above a certain context size, and we bill one rate. Lower the context window to the tier limit or price at the higher tier. | |
+| `picker.deprecatedWarning` | المزود يوقف هذا النموذج؛ لا تعتمد عليه في الأوضاع الجديدة. | The provider is retiring this model; don't rely on it in new modes. | |
+| `picker.createdNote` | يُنشأ النموذج معطّلًا، ويمكن تفعيله من صفحته. | The model is created disabled; you can enable it from its page. | |
+| `generatesImages` | ينشئ الصور | Creates images | |
+| `generatesImagesHint` | فعّله لنماذج إنشاء الصور فقط. سعر الخرج لهذا النموذج هو سعر الصورة لكل مليون رمز خرج، لذلك يبدو مرتفعًا؛ الصورة الواحدة تكلّف تقريبًا بضعة سنتات. | Turn on for image-generation models only. This model's output price is its image rate per 1M output tokens, so it looks high; one image costs roughly a few cents. | |
+| `generatesImagesBadge` | ينشئ الصور | Creates images | |
+| `supportsImagesLocked` | مفعّل دائمًا لأن النموذج ينشئ الصور. أوقف «ينشئ الصور» أولًا لتغييره. | Always on because the model creates images. Turn off "Creates images" first to change it. | |
+| `maxOutputImageHint` | الحد الأدنى 2,500 عند إنشاء الصور | Minimum 2,500 when creating images | |
+| `maxOutputImageMin` | الحد الأدنى 2,500 عند إنشاء الصور | Minimum 2,500 when creating images | |
 
 ## admin.modes
 
@@ -946,6 +1590,7 @@ Generated from `src/i18n` by `npm run copy:table` — 704 strings. Do not edit t
 | `reasons.PROVIDER_DISABLED` | المزوّد معطّل. | The provider is disabled. | |
 | `reasons.NO_API_KEY` | لا يوجد مفتاح للمزوّد. | The provider has no key. | |
 | `reasons.NO_CURRENT_PRICE` | لا يوجد سعر ساري للنموذج. | The model has no price in effect. | |
+| `reasons.IMAGE_GENERATION_UNSUPPORTED` | مزوّد هذا النموذج لا يدعم إنشاء الصور. | This model's provider does not support image creation. | |
 | `noModel` | بلا نموذج | No model | |
 | `formTitle` | بيانات الوضع | Mode details | |
 | `key` | المفتاح | Key | |
@@ -984,6 +1629,110 @@ Generated from `src/i18n` by `npm run copy:table` — 704 strings. Do not edit t
 | `saved` | تم حفظ الإعدادات | Settings saved | |
 | `promptRequired` | التعليمات مطلوبة | The prompt is required | |
 
+## admin.priceUpdates
+
+| Key | العربية | English | Notes |
+|---|---|---|---|
+| `intro` | تتم المزامنة كل 6 ساعات. تُطبَّق التغييرات حتى 50% تلقائيًا، والأكبر تنتظر مراجعتك. | The sync runs every 6 hours. Changes up to 50% are applied automatically; larger ones wait for your review. | |
+| `runNow` | تشغيل المزامنة الآن | Run sync now | |
+| `running` | جارٍ التحقق… | Checking… | |
+| `startedAt` | بدأت | Started | |
+| `lastRun` | آخر مزامنة | Last sync | |
+| `neverRun` | لم تتم أي مزامنة بعد | No sync has run yet | |
+| `trigger` | التشغيل | Trigger | |
+| `triggers.schedule` | تلقائي | scheduled | |
+| `triggers.admin` | بطلب من مسؤول | by an admin | |
+| `nextRun` | المزامنة القادمة | Next sync | |
+| `failedTitle` | فشلت آخر مزامنة | The last sync failed | |
+| `failedDetails` | التفاصيل | Details | |
+| `stale` | لم تتم المزامنة منذ مدة؛ تحقّق من مهمة المزامنة | The sync hasn't run for a while; check the sync job | |
+| `statusError` | تعذّر تحميل حالة المزامنة. | Couldn't load the sync status. | |
+| `tabsLabel` | حالة التحديثات | Update status | |
+| `tabs.open` | بانتظار المراجعة | Awaiting review | |
+| `tabs.applied` | مطبّقة | Applied | |
+| `tabs.dismissed` | متجاهلة | Dismissed | |
+| `tabs.superseded` | لم تعد سارية | No longer valid | |
+| `kindsLabel` | نوع التحديث | Update type | |
+| `kinds.all` | الكل | All | |
+| `kinds.large_change` | تغيير كبير | Large change | |
+| `kinds.catalog_price_missing` | سعر مفقود | Missing price | |
+| `kinds.model_retired` | نموذج متوقف | Retired model | |
+| `listLabel` | التحديثات | Updates | |
+| `loading` | جارٍ تحميل التحديثات… | Loading updates… | |
+| `error` | تعذّر تحميل التحديثات | Couldn't load the updates | |
+| `loadMore` | تحميل المزيد | Load more | |
+| `empty.open.title` | لا توجد تحديثات بانتظار المراجعة | No updates waiting for review | |
+| `empty.open.body` | ستظهر هنا تغييرات الأسعار الكبيرة والنماذج المتوقفة بعد أي مزامنة. | Large price changes and retired models show up here after any sync. | |
+| `empty.applied.title` | لا توجد تحديثات مطبّقة | No applied updates | |
+| `empty.applied.body` | ستظهر هنا الأسعار التي طبّقتها. | Prices you applied show up here. | |
+| `empty.dismissed.title` | لا توجد تحديثات متجاهلة | No dismissed updates | |
+| `empty.dismissed.body` | ستظهر هنا التنبيهات التي تجاهلتها. | Warnings you dismissed show up here. | |
+| `empty.superseded.title` | لا توجد تحديثات لم تعد سارية | No updates that are no longer valid | |
+| `empty.superseded.body` | تظهر هنا الاقتراحات التي حلّ محلها مزامنة أحدث. | Proposals replaced by a newer sync show up here. | |
+| `card.firstSeen` | أول رصد | First seen | |
+| `card.lastSeen` | آخر رصد | Last seen | |
+| `card.current` | الحالي | Current | |
+| `card.proposed` | المقترح | Proposed | |
+| `card.rates.input` | الإدخال | Input | |
+| `card.rates.output` | الإخراج | Output | |
+| `card.rates.cachedInput` | الإدخال المخزّن | Cached input | |
+| `card.rates.cacheWrite` | كتابة الذاكرة المؤقتة | Cache write | |
+| `card.fromZero` | من الصفر | From zero | |
+| `card.viewModel` | عرض النموذج | View model | |
+| `card.noCatalogPrice` | لا يوجد سعر في الكتالوج | No price in the catalog | |
+| `card.currentPriceIs` | السعر الحالي | Current price | |
+| `card.wontChange` | لن يتغيّر السعر تلقائيًا. | The price won't change automatically. | |
+| `card.retiredTitle` | لم يعد المزود يقدّم هذا النموذج | The provider no longer offers this model | |
+| `card.retiredBody` | قد تفشل الردود عليه. المزامنة لا توقف النماذج ولا الأوضاع؛ هذا قرار يتخذه المسؤول. | Replies on it may fail. The sync doesn't stop models or modes; that is the admin's decision. | |
+| `card.modesUsing` | أوضاع مفعّلة تستخدمه | Enabled modes using it | |
+| `card.noModes` | لا تستخدمه أوضاع مفعّلة | Not used by any enabled mode | |
+| `card.appliedBy` | طُبِّق السعر بواسطة | Price applied by | |
+| `card.dismissedBy` | تُجوهل بواسطة | Dismissed by | |
+| `card.closedBySync` | أُغلق تلقائيًا بالمزامنة | Closed automatically by the sync | |
+| `card.reason` | السبب | Reason | |
+| `card.apply` | تطبيق السعر | Apply the price | |
+| `card.dismiss` | تجاهل | Dismiss | |
+| `card.actionsFor` | {{name}} | {{name}} | |
+| `dialog.applyTitle` | تطبيق السعر | Apply the price | |
+| `dialog.applyBody` | يصبح السعر المقترح هو السعر الحالي للنموذج من الآن، ولا يغيّر تكلفة الرسائل السابقة. | The proposed price becomes the model's current price from now on. It doesn't change the cost of earlier messages. | |
+| `dialog.perMillion` | (لكل مليون رمز) | (per million tokens) | |
+| `dialog.changeLabel` | نسبة التغيير | Change | |
+| `dialog.dismissTitle` | تجاهل التحديث | Dismiss the update | |
+| `dialog.dismissNotice` | لن يُعرض هذا الاقتراح مرة أخرى. | This proposal won't be shown again. | |
+| `dialog.dismissSubmit` | تجاهل | Dismiss | |
+| `dialog.retiredTitle` | تجاهل تنبيه النموذج المتوقف | Dismiss the retired-model warning | |
+| `dialog.retiredNoticeTitle` | تجاهل دائم | Permanent dismissal | |
+| `dialog.retiredNotice` | يخفي التجاهل هذا التنبيه نهائيًا. يبقى النموذج مفعّلًا، وقد يرفضه المزود بالفعل. | Dismissing hides this warning for good. The model stays enabled, and the provider may already reject it. | |
+| `dialog.retiredSubmit` | تجاهل نهائيًا | Dismiss for good | |
+| `dialog.runTitle` | تشغيل المزامنة الآن | Run sync now | |
+| `dialog.runDescription` | فحص الكتالوج العام وقوائم المزوّدين | Checks the public catalog and the provider lists | |
+| `dialog.runBody` | يتحقق من الكتالوج العام وقوائم المزوّدين. قد يستغرق أكثر من 30 ثانية، ويمكنك متابعة العمل أثناء ذلك. | Checks the public catalog and the provider model lists. It can take more than 30 seconds, and you can keep working meanwhile. | |
+| `dialog.runSubmit` | تشغيل المزامنة | Run the sync | |
+| `dialog.to` | إلى | to | |
+| `toast.applied` | تم تطبيق السعر الجديد | The new price was applied | |
+| `toast.dismissed` | تم تجاهل التحديث | The update was dismissed | |
+| `toast.runStarted` | بدأت المزامنة | The sync started | |
+| `toast.runAlready` | المزامنة تعمل الآن | A sync is already running | |
+| `summary.title` | نتيجة المزامنة | Sync result | |
+| `summary.close` | إغلاق النتيجة | Close the result | |
+| `summary.checked` | تم فحصه | Checked | |
+| `summary.applied` | طُبّق تلقائيًا | Applied automatically | |
+| `summary.unchanged` | دون تغيير | Unchanged | |
+| `summary.held` | بانتظار المراجعة | Held for review | |
+| `summary.noCatalogPrice` | بلا سعر في الكتالوج | No catalog price | |
+| `summary.notInCatalog` | غير موجود في الكتالوج | Not in the catalog | |
+| `summary.skipped` | تخطّي | Skipped | |
+| `summary.failed` | فشل | Failed | |
+| `summary.providersChecked` | مزوّدون تم فحصهم | Providers checked | |
+| `summary.providersUnreachable` | تعذّر الوصول إلى مزوّدين | Providers unreachable | |
+| `summary.ignored` | تم تجاهله | Ignored | |
+| `summary.retired` | نماذج متوقفة عند المزود | Models retired by the provider | |
+| `summary.retiredInUse` | منها {{n}} مستخدم في أوضاع مفعّلة | {{n}} of them used by enabled modes | |
+| `summary.noCatalogTitle` | تعذّر الوصول إلى الكتالوج | Couldn't reach the catalog | |
+| `summary.noCatalogBody` | لم تتغيّر أي أسعار. | No prices changed. | |
+| `live.finished` | انتهت المزامنة | Sync finished | |
+| `live.failed` | انتهت المزامنة بخطأ | The sync ended with an error | |
+
 ## errors
 
 | Key | العربية | English | Notes |
@@ -992,7 +1741,16 @@ Generated from `src/i18n` by `npm run copy:table` — 704 strings. Do not edit t
 | `ACCOUNT_NOT_ACTIVE` | حساب المستخدم غير نشط. | The user's account is not active. | |
 | `ACCOUNT_NOT_FOUND` | لم يتم العثور على حسابك. يرجى التواصل مع الدعم. | Your account was not found. Please contact support. | |
 | `ACCOUNT_SUSPENDED` | تم إيقاف حسابك مؤقتًا. يرجى التواصل مع الدعم. | Your account is suspended. Please contact support. | |
+| `ATTACHMENT_ALREADY_USED` | أُرسلت هذه الصورة بالفعل في رسالة أخرى. أرفقها مرة أخرى. | This image was already sent in another message. Attach it again. | |
+| `ATTACHMENT_NOT_FOUND` | لم يتم العثور على الصورة. يرجى إرفاقها مرة أخرى. | Image not found. Please attach it again. | |
+| `ATTACHMENT_TOO_LARGE` | حجم الصورة أكبر من 5 ميغابايت. | The image is larger than 5 MB. | |
+| `ATTACHMENT_TYPE_NOT_ALLOWED` | هذا النوع من الملفات غير مدعوم. أرسل صورة JPG أو PNG أو WebP. | This file type isn't supported. Send a JPG, PNG or WebP image. | |
 | `CANNOT_MODIFY_SELF` | لا يمكنك تنفيذ هذا الإجراء على حسابك. | You can't do this to your own account. | |
+| `CATALOG_FINDING_NOT_APPLICABLE` | لا يوجد سعر مقترح لتطبيقه في هذه الملاحظة. | This finding has no proposed price to apply. | |
+| `CATALOG_FINDING_NOT_FOUND` | لم يتم العثور على هذه الملاحظة. | Finding not found. | |
+| `CATALOG_FINDING_NOT_OPEN` | تمت معالجة هذه الملاحظة بالفعل. | This finding has already been handled. | |
+| `CATALOG_FINDING_OUTDATED` | تغيّر السعر منذ هذه الملاحظة. شغّل المزامنة مرة أخرى. | The price changed since this finding. Run the sync again. | |
+| `CATALOG_SYNC_RUNNING` | المزامنة تعمل الآن. انتظر حتى تنتهي. | A sync is already running. Wait for it to finish. | |
 | `CONTENT_BLOCKED` | تعذّر إكمال الرد بسبب سياسة المحتوى. جرّب صياغة مختلفة. | The answer was stopped by the content policy. Try rephrasing. | |
 | `CONTEXT_TOO_LONG` | الرسالة طويلة جدًا لهذا الوضع. يرجى اختصارها. | This message is too long for this mode. Please shorten it. | |
 | `CONVERSATION_BUSY` | لا يزال الرد السابق قيد الكتابة. انتظر حتى ينتهي. | The previous answer is still being written. Please wait for it to finish. | |
@@ -1011,6 +1769,7 @@ Generated from `src/i18n` by `npm run copy:table` — 704 strings. Do not edit t
 | `MODE_ALREADY_EXISTS` | يوجد وضع بهذا المفتاح بالفعل. | A mode with this key already exists. | |
 | `MODE_NOT_AVAILABLE` | هذا الوضع غير متاح في باقتك الحالية. | This mode is not available on your current plan. | |
 | `MODE_NOT_FOUND` | لم يتم العثور على الوضع. | Mode not found. | |
+| `MODE_NO_IMAGE_SUPPORT` | هذا الوضع لا يقرأ الصور. اختر وضعًا آخر لإرسال الصورة. | This mode can't read images. Choose another mode to send the image. | |
 | `NO_ACTIVE_SUBSCRIPTION` | ليست لديك باقة نشطة. تواصل معنا للاشتراك. | You don't have an active plan. Contact us to subscribe. | |
 | `PAYMENT_REFERENCE_REUSED` | رقم الدفعة هذا مسجّل بالفعل بمبلغ أو مستخدم مختلف. | This payment reference is already recorded with a different amount or user. | |
 | `PLAN_ALREADY_EXISTS` | توجد باقة بهذا المفتاح بالفعل. | A plan with this key already exists. | |
@@ -1021,12 +1780,21 @@ Generated from `src/i18n` by `npm run copy:table` — 704 strings. Do not edit t
 | `PROVIDER_ALREADY_EXISTS` | يوجد مزوّد بهذا الرمز بالفعل. | A provider with this code already exists. | |
 | `PROVIDER_ERROR` | حدث خطأ أثناء إنشاء الرد. يرجى المحاولة مرة أخرى. | Something went wrong while writing the answer. Please try again. | |
 | `PROVIDER_KEY_INVALID` | رفض المزوّد مفتاح الواجهة البرمجية. | The provider rejected the API key. | |
+| `PROVIDER_KEY_MISSING` | لم يتم تعيين مفتاح لهذا المزوّد بعد. | This provider has no API key yet. | |
 | `PROVIDER_KEY_NOT_USED` | هذا المزوّد لا يستخدم مفتاحًا. | This provider doesn't use a key. | |
 | `PROVIDER_MISCONFIGURED` | إعداد مزوّد الذكاء الاصطناعي غير صحيح (المفتاح أو النموذج). | The AI provider is misconfigured (key or model). | |
 | `PROVIDER_NOT_FOUND` | لم يتم العثور على المزوّد. | Provider not found. | |
 | `PROVIDER_TIMEOUT` | استغرق الرد وقتًا أطول من المتوقع. يرجى المحاولة مرة أخرى. | The answer took too long. Please try again. | |
 | `PROVIDER_UNAVAILABLE` | الخدمة مشغولة حاليًا. يرجى المحاولة بعد قليل. | The service is busy right now. Please try again shortly. | |
 | `RATE_LIMITED` | أرسلت رسائل كثيرة خلال وقت قصير. انتظر قليلًا ثم حاول مرة أخرى. | You're sending messages too quickly. Please wait a moment and try again. | |
+| `TOO_MANY_ATTACHMENTS` | يمكنك إرفاق 3 صور كحد أقصى في كل رسالة. | You can attach up to 3 images per message. | |
 | `UNAUTHENTICATED` | يرجى تسجيل الدخول للمتابعة. | Please sign in to continue. | |
 | `USER_NOT_FOUND` | لم يتم العثور على المستخدم. | User not found. | |
 | `VALIDATION_FAILED` | بعض البيانات غير صحيحة. يرجى المراجعة والمحاولة مرة أخرى. | Some information is invalid. Please check and try again. | |
+| `VOUCHER_ALREADY_REDEEMED` | لقد استخدمت هذا الكود من قبل. | You've already used this code. | |
+| `VOUCHER_BATCH_NOT_FOUND` | لم يتم العثور على هذه المجموعة من الأكواد. | This voucher batch was not found. | |
+| `VOUCHER_CODE_TAKEN` | يوجد كود بهذا الاسم بالفعل. | A voucher with this code already exists. | |
+| `VOUCHER_EXPIRED` | انتهت صلاحية هذا الكود أو لم يبدأ بعد. | This code has expired or is not active yet. | |
+| `VOUCHER_NOT_ELIGIBLE` | لا يمكنك استخدام هذا الكود على حسابك. | This code can't be used on your account. | |
+| `VOUCHER_NOT_FOUND` | هذا الكود غير صحيح. تأكد منه وحاول مرة أخرى. | This code isn't valid. Check it and try again. | |
+| `VOUCHER_USED_UP` | تم استخدام هذا الكود بالكامل. | This code has been fully used. | |
