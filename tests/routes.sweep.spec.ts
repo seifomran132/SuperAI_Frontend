@@ -166,11 +166,12 @@ for (const [label, path] of signedInRoutes) {
   }
 }
 
-// No landing page yet (S13): `/` sends a guest to sign-in.
-test('guest / goes to sign-in', async () => {
+// S13: `/` is the public landing page for a guest.
+test('guest / stays on the landing page', async () => {
   const page = await guest.newPage();
   await page.goto('/');
-  await expect(page).toHaveURL(/\/sign-in$/);
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+  await expect(page).toHaveURL(/\/$/);
   await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
   await expectNoHorizontalScroll(page);
   await page.close();

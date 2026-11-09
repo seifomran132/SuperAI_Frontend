@@ -6,15 +6,17 @@ import { visualizer } from 'rollup-plugin-visualizer';
 
 // Client-only app (SPA mode): the browser talks to the NestJS API and GoTrue
 // directly. Every route is served by the shell (dist/client/_shell.html).
-// Public pages (landing, plans) get prerender entries in `pages` when they exist.
+// Public pages (landing, plans) are prerendered through `pages`.
 export default defineConfig(({ mode }) => ({
   server: { port: 3001 },
   resolve: { tsconfigPaths: true },
   plugins: [
     tailwindcss(),
     tanstackStart({
-      spa: { enabled: true },
-      pages: [{ path: '/plans' }],
+      // The shell renders from a route other than `/`, which is the prerendered
+      // landing page. Only the root layout ends up in the shell.
+      spa: { enabled: true, maskPath: '/sign-in' },
+      pages: [{ path: '/' }, { path: '/plans' }],
       // Only listed pages: crawling would prerender the _guest pages too.
       prerender: { crawlLinks: false },
     }),

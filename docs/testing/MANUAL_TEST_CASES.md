@@ -1,7 +1,6 @@
 # Manual test cases — F1 (auth) and F2 (chat)
 
-**Covers:** everything built so far (F1 auth, F2 chat, F3 balance, account and plans, F4 admin console, F8 image creation, F9 reports, F10 vouchers).
-**Not covered yet:** landing page.
+**Covers:** everything built so far (F1 auth, F2 chat, F3 balance, account and plans, F4 admin console, F8 image creation, F9 reports, F10 vouchers, F11 landing page).
 **How to record results:** in each case's **Result** column change `[ ]` to `[x]` when it passes, `[!]` when it fails, or `[-]` when skipped. Use **Notes** for anything worth keeping: for `[!]` the browser, screen width, what happened and the screenshot name; for `[-]` why it was skipped. Keep notes on one line (no `|`; use `<br>` for a line break).
 
 ### Automated coverage
@@ -289,6 +288,20 @@ Restore balances and modes after this section.
 | PL-05 | View source of `/plans` (signed out) | Page content is present in the HTML (prerendered) | [ ] | **auto** `balance-account` |
 
 ---
+
+## 3b-2. Landing page (F11) — `/`
+
+| ID | Steps | Expected | Result | Notes |
+|---|---|---|---|---|
+| LP-01 | Open `/` signed out | The page stays at `/`, right-to-left, no sideways scroll, no accessibility violations | [ ] | **auto** `landing` |
+| LP-02 | Read the modes and plans sections | Fast, Professional and Design cards; paid plans only, with live prices | [ ] | **auto** `landing` |
+| LP-03 | Press «تواصل معنا للاشتراك» on a plan | Scrolls to «كيف أحصل على باقة؟», heading not hidden under the top bar | [ ] | **auto** `landing` |
+| LP-04 | Press «إنشاء حساب» and «تسجيل الدخول» | Each opens its page | [ ] | **auto** `landing` |
+| LP-05 | Open `/` with the plans request failing | Error with retry; the rest of the page stays | [ ] | **auto** `landing` |
+| LP-06 | Open and close a question | The answer shows and hides | [ ] | **auto** `landing` |
+| LP-07 | Open `/` signed in | Goes to `/chat`; note how visible the landing page is first | [ ] | **manual** |
+| LP-08 | View the source of `/` on the production build | Headline and description are in the HTML; no React #418 in the console | [ ] | **manual** |
+| LP-09 | Paste the site link into a messaging app | The preview shows the name and tagline | [ ] | **manual** |
 
 ## 3c. Admin console (F4) — sign in as the admin account
 

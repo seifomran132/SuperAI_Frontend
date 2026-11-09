@@ -24,13 +24,15 @@ void i18n.use(initReactI18next).init({
 
 /** Enables English on demand; call it before switching the language to `en`. */
 export async function loadEnglish() {
-  const [en, adminEn, errorsEn] = await Promise.all([
+  const [en, adminEn, landingEn, errorsEn] = await Promise.all([
     import('./en.json'),
     import('./admin.en.json'),
+    import('./landing.en.json'),
     import('./errors.en.json'),
   ]);
   i18n.addResourceBundle('en', 'translation', en.default);
   i18n.addResourceBundle('en', 'translation', adminEn.default, true, true);
+  i18n.addResourceBundle('en', 'translation', landingEn.default, true, true);
   i18n.addResourceBundle('en', 'errors', errorsEn.default);
 }
 

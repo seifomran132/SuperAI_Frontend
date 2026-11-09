@@ -2,13 +2,13 @@
 // here only; pages, components and model files are internal. Screens and form
 // parts (zod, react-hook-form) are in ./ui so route guards don't load them.
 
-export {
-  redirectFromHome,
-  redirectIfSignedIn,
-  requireProfile,
-} from './model/guards';
+export { redirectIfSignedIn, requireProfile } from './model/guards';
 export { hasName, type UnavailableReason } from './model/me';
-export { isInternalPath, safeRedirect } from './model/redirect';
+export {
+  defaultAfterAuthPath,
+  isInternalPath,
+  safeRedirect,
+} from './model/redirect';
 export { installSessionSync } from './model/session';
 export { signOut } from './model/actions';
 export { updatePassword } from './model/actions';

@@ -1,5 +1,5 @@
 // Fails the build when the JavaScript loaded before the first screen grows past
-// the budget. Counts every script the shell (and prerendered /plans) loads,
+// the budget. Counts every script the shell and the prerendered pages load,
 // gzipped. Run after `npm run build`; `npm run analyze` shows what is inside.
 import { readFileSync } from 'node:fs';
 import { gzipSync } from 'node:zlib';
@@ -8,6 +8,7 @@ import { gzipSync } from 'node:zlib';
 const budgets = {
   'dist/client/_shell.html': 240,
   'dist/client/plans/index.html': 270,
+  'dist/client/index.html': 256,
 };
 
 let failed = false;

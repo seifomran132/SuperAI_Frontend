@@ -11,8 +11,9 @@ import {
 } from '@playwright/test';
 import adminAr from '../src/i18n/admin.ar.json' with { type: 'json' };
 import ar from '../src/i18n/ar.json' with { type: 'json' };
+import landingAr from '../src/i18n/landing.ar.json' with { type: 'json' };
 
-export const text = { ...ar, ...adminAr };
+export const text = { ...ar, ...adminAr, ...landingAr };
 
 export const API = 'http://localhost:3000';
 export const GOTRUE = 'http://localhost:9999';

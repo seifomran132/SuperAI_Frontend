@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لمحة AI — مساعدك الذكي بالعربية</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = { theme: { extend: {
+  fontFamily: { sans: ['"IBM Plex Sans Arabic"', 'sans-serif'] },
+  colors: {
+    brand: { DEFAULT: '#1E293B', hover: '#0F172A' },
+    canvas: '#F8FAFC', surface: '#FFFFFF', 'surface-muted': '#F1F5F9',
+    ink: '#0F172A', muted: '#475569',
+    'border-card': '#E2E8F0', 'border-control': '#7C8799', 'focus-ring': '#4F46E5',
+    'mode-1': '#0F766E', 'mode-1-bg': '#F0FDFA', 'mode-1-border': '#99F6E4',
+    'mode-2': '#4F46E5', 'mode-2-bg': '#EEF2FF', 'mode-2-border': '#C7D2FE',
+    'mode-3': '#0369A1', 'mode-3-bg': '#F0F9FF', 'mode-3-border': '#BAE6FD'
+  }
+} } };
+</script>
+<style>
+/* Illustration colours come from these variables (brand + mode tokens), so a white-label brand or mode palette recolours the art. */
+:root{--brand:#1E293B;--on-brand:#FFFFFF;--surface:#FFFFFF;--muted:#F1F5F9;--line:#E2E8F0;--ctl:#7C8799;
+--m1:#0F766E;--m1c:#F0FDFA;--m1b:#99F6E4;--m2:#4F46E5;--m2c:#EEF2FF;--m2b:#C7D2FE;--m3:#0369A1;--m3c:#F0F9FF;--m3b:#BAE6FD}
+*{letter-spacing:0 !important;font-style:normal !important}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{font-family:'IBM Plex Sans Arabic',sans-serif;background:#F8FAFC;color:#0F172A;-webkit-font-smoothing:antialiased;line-height:1.75;overflow-x:hidden}
+:focus-visible{outline:2px solid #4F46E5;outline-offset:2px}
+.ic{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.ic-sm{width:16px;height:16px}
+.art{display:block;fill:none;stroke-linecap:round;stroke-linejoin:round}
+summary{list-style:none}summary::-webkit-details-marker{display:none}
+details[open] .chev{transform:rotate(180deg)}
+.ontone{color:#E2E8F0}
+</style>
+</head>
+<body>
+
+<!-- Top bar -->
+<header class="sticky top-0 z-20 bg-white border-b border-border-card">
+  <div class="max-w-[1120px] mx-auto px-4 md:px-6 h-16 flex items-center justify-between gap-2">
+    <a href="/" class="flex items-center gap-2.5 min-h-[44px]" aria-label="لمحة AI">
+      <span class="w-10 h-10 rounded-lg bg-brand text-white flex items-center justify-center text-[20px] font-bold">ل</span>
+      <span class="text-[18px] font-semibold">لمحة AI</span>
+    </a>
+    <nav class="flex items-center gap-1 md:gap-3">
+      <a href="/sign-in" class="min-h-[44px] px-3 inline-flex items-center text-[15px] font-medium rounded-lg hover:bg-surface-muted">تسجيل الدخول</a>
+      <a href="/sign-up" class="min-h-[44px] px-4 md:px-5 inline-flex items-center rounded-lg bg-brand hover:bg-brand-hover text-white text-[15px] font-semibold">إنشاء حساب</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<!-- 1. Hero: copy on the start side (right), one laptop scene on the end side (left); stacked below 1024px -->
+<section class="overflow-hidden">
+  <div class="max-w-[1120px] mx-auto px-4 md:px-6 pt-10 pb-12 lg:pt-16 lg:pb-20 grid lg:grid-cols-[minmax(0,1fr)_560px] gap-6 lg:gap-12 items-center">
+    <div>
+      <h1 class="text-[32px] leading-[52px] md:text-[44px] md:leading-[72px] font-bold">مساعدك الذكي بالعربية، لكل مهمة وضعها المناسب</h1>
+      <p class="mt-4 text-[17px] text-muted max-w-[520px]">اسأل بالعربية واحصل على إجابات منظمة: تلخيص، كتابة، ترجمة، وشرح.</p>
+      <div class="mt-8 flex flex-col sm:flex-row sm:items-center gap-3">
+        <a href="/sign-up" class="min-h-[48px] px-7 inline-flex items-center justify-center rounded-lg bg-brand hover:bg-brand-hover text-white text-[16px] font-semibold">إنشاء حساب</a>
+        <a href="/sign-in" class="min-h-[48px] px-5 inline-flex items-center justify-center rounded-lg text-[16px] font-semibold hover:bg-surface-muted">تسجيل الدخول</a>
+      </div>
+    </div>
+
+    <!-- scene: a laptop showing the chat, with four task objects (summary, writing, translation, explaining) overlapping its edges.
+         Art is one SVG (viewBox 600x500); the screen text is real HTML positioned over it. Left/top percentages track SVG coordinates on purpose (the art does not mirror). -->
+    <div class="relative -mx-3 sm:mx-auto sm:w-full sm:max-w-[560px]" style="aspect-ratio:600/500">
+      <svg class="art absolute inset-0 w-full h-full overflow-visible" viewBox="0 0 600 500" aria-hidden="true" focusable="false">
+        <!-- layered shapes behind -->
+        <rect x="70" y="52" width="470" height="390" rx="70" fill="var(--m2b)" transform="rotate(5 305 247)"/>
+        <rect x="56" y="40" width="478" height="396" rx="70" fill="var(--m2c)" transform="rotate(-4 295 238)"/>
+                <circle cx="52" cy="46" r="30" fill="var(--m1c)" stroke="var(--m1b)" stroke-width="3"/>
+        <!-- laptop -->
+        <ellipse cx="300" cy="444" rx="262" ry="13" fill="var(--m2b)"/>
+        <rect x="70" y="50" width="460" height="346" rx="20" fill="var(--brand)"/>
+        <rect x="84" y="64" width="432" height="318" rx="9" fill="var(--surface)"/>
+        <circle cx="300" cy="57" r="2.5" fill="var(--ctl)"/>
+        <path d="M40 396H560Q566 396 563 406Q557 426 532 428H68Q43 426 37 406Q34 396 40 396Z" fill="var(--muted)" stroke="var(--ctl)" stroke-width="2"/>
+        <rect x="252" y="396" width="96" height="10" rx="5" fill="var(--ctl)"/>
+        <!-- summarising: long document with a highlighted passage -->
+        <g transform="translate(6 0) rotate(-6 56 190)">
+          <rect x="14" y="100" width="100" height="184" rx="10" fill="var(--m2b)"/>
+          <rect x="6" y="90" width="100" height="184" rx="10" fill="var(--surface)" stroke="var(--m2)" stroke-width="2.5"/>
+          <path d="M22 112h58M22 127h68M22 142h50" stroke="var(--line)" stroke-width="5"/>
+          <rect x="15" y="156" width="82" height="48" rx="6" fill="var(--m1b)"/>
+          <path d="M23 170h66M23 186h46" stroke="var(--m1)" stroke-width="5"/>
+          <path d="M22 220h66M22 235h60M22 250h38" stroke="var(--line)" stroke-width="5"/>
+        </g>
+        <!-- explaining: lightbulb -->
+        <circle cx="64" cy="378" r="32" fill="var(--m2b)"/>
+        <path d="M30 334l-8-8M58 322v-12M88 334l8-8" stroke="var(--m1b)" stroke-width="5"/>
+        <circle cx="58" cy="370" r="32" fill="var(--surface)" stroke="var(--m1)" stroke-width="2.5"/>
+        <circle cx="58" cy="368" r="17" fill="var(--m1b)"/>
+        <path d="M51 382v-9a7 7 0 0 1 14 0v9" stroke="var(--m1)" stroke-width="2.5"/>
+        <rect x="44" y="400" width="28" height="9" rx="3" fill="var(--m1)"/>
+        <rect x="49" y="409" width="18" height="7" rx="3" fill="var(--m1)"/>
+        <!-- translation: two overlapping speech cards -->
+        <rect x="506" y="14" width="90" height="54" rx="14" fill="var(--m2b)"/>
+        <path d="M498 8h86a14 14 0 0 1 14 14v28a14 14 0 0 1-14 14h-60l-14 14v-14h-12a14 14 0 0 1-14-14V22a14 14 0 0 1 14-14z" fill="var(--m2)" transform="translate(-6 0)"/>
+        <rect x="528" y="44" width="68" height="46" rx="14" fill="var(--m2b)" transform="translate(5 6)"/>
+        <rect x="526" y="42" width="68" height="46" rx="14" fill="var(--surface)" stroke="var(--m1)" stroke-width="2.5"/>
+        <path d="M560 88v12l12-12" fill="var(--surface)" stroke="var(--m1)" stroke-width="2.5"/>
+        <path d="M562 89h8" stroke="var(--surface)" stroke-width="4"/>
+        <!-- writing: a pen on a page -->
+        <g transform="translate(-8 0) rotate(5 545 350)">
+          <rect x="508" y="296" width="92" height="122" rx="10" fill="var(--m2b)" transform="translate(6 8)"/>
+          <rect x="500" y="288" width="92" height="122" rx="10" fill="var(--surface)" stroke="var(--m2)" stroke-width="2.5"/>
+          <path d="M516 312h58M516 328h58M516 344h40" stroke="var(--line)" stroke-width="5"/>
+          <path d="M516 364h26" stroke="var(--m1)" stroke-width="5"/>
+        </g>
+        <g transform="translate(-8 0) rotate(38 560 350)">
+          <rect x="560" y="270" width="16" height="96" rx="5" fill="var(--m1)"/>
+          <rect x="560" y="270" width="16" height="16" rx="5" fill="var(--m1b)"/>
+          <path d="M560 366h16l-8 22z" fill="var(--surface)" stroke="var(--m1)" stroke-width="2.5"/>
+        </g>
+      </svg>
+      <span aria-hidden="true" class="absolute text-[22px] font-bold text-white leading-none" style="left:84.5%;top:8%;transform:translate(-50%,-50%)">ع</span>
+      <span aria-hidden="true" class="absolute text-[20px] font-bold text-mode-1 leading-none" style="left:93.5%;top:13.5%;transform:translate(-50%,-50%)">A</span>
+
+      <!-- chat on the screen (static mock-up; the screen is x84 y64 w432 h318 in the SVG) -->
+      <div role="img" aria-label="نموذج لصفحة المحادثة" class="absolute overflow-hidden flex flex-col justify-between gap-2 ps-[6%] pe-[9%] py-2 sm:py-4" style="left:14%;top:12.8%;width:72%;height:63.6%">
+        <div class="flex justify-start"><div class="bg-surface-muted rounded-2xl px-3 py-1.5 text-[14px] leading-[22px]">لخّص لي أهم بنود عقد الإيجار.</div></div>
+        <div class="bg-white border border-border-card rounded-2xl px-3 py-2 text-[14px] leading-[22px]">
+          <p class="font-semibold text-[15px]">أهم البنود</p>
+          <ol class="list-decimal ps-5">
+            <li>مدة العقد سنة واحدة.</li>
+            <li class="hidden sm:list-item">الإيجار الشهري 4,500 ريال.</li>
+            <li class="hidden sm:list-item">المستأجر يتحمل فواتير الخدمات.</li>
+          </ol>
+        </div>
+        <div class="bg-white border border-border-control rounded-2xl p-2 flex items-center justify-between gap-2 shadow-[0_4px_6px_-1px_rgba(15,23,42,.04)]">
+          <div class="flex items-center gap-2 min-w-0">
+            <span class="inline-flex items-center gap-1 px-2.5 min-h-[28px] rounded-full bg-mode-1-bg border border-mode-1-border text-mode-1 text-[13px] font-medium"><svg aria-hidden="true" class="ic ic-sm" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z"/></svg>سريع</span>
+            <span class="hidden sm:inline text-[14px] text-muted">اكتب رسالتك…</span>
+          </div>
+          <span class="w-8 h-8 rounded-full bg-brand text-white flex items-center justify-center shrink-0"><svg aria-hidden="true" class="ic ic-sm" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. Modes (white band) -->
+<section class="bg-white border-y border-border-card" aria-labelledby="modes">
+  <div class="max-w-[1120px] mx-auto px-4 md:px-6 py-12 md:py-16">
+    <h2 id="modes" class="text-[24px] leading-[40px] md:text-[28px] font-bold">أوضاع لكل مهمة</h2>
+    <p class="mt-2 text-[17px] text-muted max-w-[640px]">تختار الوضع المناسب لكل رسالة، وتغيّره متى شئت.</p>
+    <div class="mt-8 grid lg:grid-cols-3 gap-5">
+      <article class="bg-canvas border border-border-card rounded-2xl overflow-hidden">
+        <div class="bg-mode-1-bg border-b border-mode-1-border h-[140px] flex items-center justify-center">
+          <!-- scene: a quick everyday question on a phone, with a cup of coffee -->
+          <svg class="art w-[200px] h-[110px]" viewBox="0 0 200 110" aria-hidden="true" focusable="false">
+            <rect x="20" y="100" width="160" height="4" rx="2" fill="var(--m1b)"/>
+            <path d="M30 70h26v18a8 8 0 0 1-8 8H38a8 8 0 0 1-8-8zM56 74h4a6 6 0 0 1 0 12h-4" fill="var(--surface)" stroke="var(--m1)" stroke-width="2"/><path d="M38 60c-4-5 4-7 0-12M48 60c-4-5 4-7 0-12" stroke="var(--m1b)" stroke-width="2.5"/>
+            <rect x="84" y="8" width="58" height="92" rx="10" fill="var(--surface)" stroke="var(--m1)" stroke-width="2.5"/><path d="M105 15h16" stroke="var(--m1b)" stroke-width="3"/>
+            <rect x="108" y="28" width="28" height="14" rx="6" fill="var(--m1c)" stroke="var(--m1b)" stroke-width="1.5"/>
+            <rect x="90" y="48" width="42" height="22" rx="7" fill="var(--m1)"/><path d="M97 55h28M97 62h18" stroke="var(--surface)" stroke-width="3"/>
+            <rect x="108" y="76" width="28" height="12" rx="6" fill="var(--m1c)" stroke="var(--m1b)" stroke-width="1.5"/>
+            <rect x="152" y="20" width="38" height="24" rx="8" fill="var(--surface)" stroke="var(--m1b)" stroke-width="2"/><path d="M162 28h18M162 36h10" stroke="var(--m1)" stroke-width="3" opacity=".5"/>
+          </svg>
+        </div>
+        <div class="p-6">
+          <span class="inline-flex items-center gap-1.5 px-3 min-h-[32px] rounded-full bg-mode-1-bg border border-mode-1-border text-mode-1 text-[14px] font-semibold"><svg aria-hidden="true" class="ic ic-sm" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z"/></svg>سريع</span>
+          <p class="mt-4 text-[18px] leading-[30px] font-semibold">إجابات سريعة للاستخدام اليومي، بتكلفة أقل.</p>
+          <p class="mt-2 text-[16px] text-muted">مناسب للأسئلة القصيرة، والصياغة، والترجمة.</p>
+        </div>
+      </article>
+      <article class="bg-canvas border border-border-card rounded-2xl overflow-hidden">
+        <div class="bg-mode-2-bg border-b border-mode-2-border h-[140px] flex items-center justify-center">
+          <!-- scene: working through a long document and getting a summary -->
+          <svg class="art w-[200px] h-[110px]" viewBox="0 0 200 110" aria-hidden="true" focusable="false">
+            <rect x="110" y="4" width="64" height="92" rx="6" fill="var(--m2c)" stroke="var(--m2b)" stroke-width="2"/>
+            <rect x="98" y="10" width="64" height="94" rx="6" fill="var(--surface)" stroke="var(--m2)" stroke-width="2.5"/>
+            <path d="M108 26h44M108 36h44M108 46h30M108 82h44M108 92h28" stroke="var(--m2)" stroke-width="3" opacity=".4"/>
+            <rect x="106" y="54" width="48" height="20" rx="3" fill="var(--m2c)"/><path d="M110 60h40M110 68h26" stroke="var(--m2)" stroke-width="3"/>
+            <rect x="16" y="34" width="62" height="44" rx="11" fill="var(--m2)"/><path d="M78 50l10 6-10 6z" fill="var(--m2)"/><path d="M28 48h38M28 57h38M28 66h22" stroke="var(--surface)" stroke-width="3"/>
+            <path d="M172 20l14 14-26 26-14 2 2-14z" fill="var(--surface)" stroke="var(--m2)" stroke-width="2"/>
+          </svg>
+        </div>
+        <div class="p-6">
+          <span class="inline-flex items-center gap-1.5 px-3 min-h-[32px] rounded-full bg-mode-2-bg border border-mode-2-border text-mode-2 text-[14px] font-semibold"><svg aria-hidden="true" class="ic ic-sm" viewBox="0 0 24 24"><path d="M12 3l1.9 5.6L19.5 10l-5.6 1.9L12 17.5l-1.9-5.6L4.5 10l5.6-1.4L12 3z"/></svg>احترافي</span>
+          <p class="mt-4 text-[18px] leading-[30px] font-semibold">تفكير أعمق للمهام المعقدة، بتكلفة أعلى.</p>
+          <p class="mt-2 text-[16px] text-muted">مناسب للتحليل، والمستندات الطويلة، والكتابة المتقنة.</p>
+        </div>
+      </article>
+      <article class="bg-canvas border border-border-card rounded-2xl overflow-hidden">
+        <div class="bg-mode-3-bg border-b border-mode-3-border h-[140px] flex items-center justify-center">
+          <!-- scene: a picture frame with a landscape, a brush and paint dots (image creation) -->
+          <svg class="art w-[200px] h-[110px]" viewBox="0 0 200 110" aria-hidden="true" focusable="false">
+            <rect x="64" y="20" width="100" height="80" rx="8" fill="var(--m3b)"/>
+            <rect x="56" y="10" width="100" height="80" rx="8" fill="var(--surface)" stroke="var(--m3)" stroke-width="2.5"/>
+            <rect x="65" y="19" width="82" height="62" rx="4" fill="var(--m3c)"/>
+            <circle cx="130" cy="36" r="8" fill="var(--surface)" stroke="var(--m3)" stroke-width="2"/>
+            <path d="M65 81l24-30 18 22 12-12 28 20z" fill="var(--m3b)" stroke="var(--m3)" stroke-width="2"/>
+            <g transform="rotate(24 172 50)"><rect x="165" y="4" width="14" height="52" rx="6" fill="var(--surface)" stroke="var(--m3)" stroke-width="2.5"/><rect x="165" y="52" width="14" height="10" fill="var(--m3)"/><path d="M165 62h14l-7 20z" fill="var(--m3b)" stroke="var(--m3)" stroke-width="2"/></g>
+            <circle cx="22" cy="78" r="10" fill="var(--m3)"/><circle cx="38" cy="94" r="8" fill="var(--m1)"/><circle cx="16" cy="98" r="6" fill="var(--m2)"/>
+          </svg>
+        </div>
+        <div class="p-6">
+          <span class="inline-flex flex-wrap items-center gap-2"><span class="inline-flex items-center gap-1.5 px-3 min-h-[32px] rounded-full bg-mode-3-bg border border-mode-3-border text-mode-3 text-[14px] font-semibold"><svg aria-hidden="true" class="ic ic-sm" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 2-.9 2-2 0-.5-.2-1-.5-1.3-.3-.4-.5-.8-.5-1.3 0-1.1.9-2 2-2h2.4A3.6 3.6 0 0 0 21 10.8C21 6.5 17 3 12 3z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10.5" cy="7.5" r="1"/><circle cx="15" cy="7.5" r="1"/></svg>تصميم</span><span class="inline-flex items-center gap-1 px-2.5 min-h-[28px] rounded-full bg-brand text-white text-[13px] font-medium"><svg aria-hidden="true" class="ic ic-sm" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 2-.9 2-2 0-.5-.2-1-.5-1.3-.3-.4-.5-.8-.5-1.3 0-1.1.9-2 2-2h2.4A3.6 3.6 0 0 0 21 10.8C21 6.5 17 3 12 3z"/></svg>صورة</span></span>
+          <p class="mt-4 text-[18px] leading-[30px] font-semibold">أنشئ صورًا من وصف تكتبه، وعدّل صورة ترفقها.</p>
+          <p class="mt-2 text-[16px] text-muted">مناسب للتصاميم والمشاهد والأفكار المرئية.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 4. One shared balance (brand band) -->
+<section class="bg-brand text-white" aria-labelledby="balance">
+  <div class="max-w-[1120px] mx-auto px-4 md:px-6 py-14 md:py-20 grid md:grid-cols-2 gap-10 items-center">
+    <div>
+      <h2 id="balance" class="text-[24px] leading-[40px] md:text-[30px] md:leading-[48px] font-bold">رصيد واحد لكل الأوضاع</h2>
+      <p class="mt-3 text-[17px] ontone max-w-[480px]">يأتي مع باقتك رصيد واحد مشترك. تُحتسب تكلفة كل رد من هذا الرصيد حسب الوضع الذي تختار، وتتابع رصيدك المتبقي في أي وقت من شريط الرصيد.</p>
+    </div>
+    <div class="relative w-full max-w-[480px] mx-auto md:ms-auto" style="aspect-ratio:480/320">
+      <!-- scene: one balance tank feeding the three modes through a clean bus line -->
+      <svg class="art absolute inset-0 w-full h-full" viewBox="0 0 480 320" aria-hidden="true" focusable="false">
+        <g stroke="var(--on-brand)" stroke-width="3"><path d="M240 204V134"/><path d="M80 150V134M400 150V134"/><path d="M80 150Q80 176 106 176H374Q400 176 400 150"/></g>
+        <g fill="var(--on-brand)"><path d="M80 118l-9 14h18zM240 118l-9 14h18zM400 118l-9 14h18z"/></g>
+        <circle cx="80" cy="64" r="52" fill="var(--m3c)" stroke="var(--m3b)" stroke-width="3"/>
+        <rect x="62" y="28" width="36" height="30" rx="4" fill="var(--surface)" stroke="var(--m3)" stroke-width="2"/><path d="M66 54l9-12 8 9 5-4 6 7z" fill="var(--m3b)"/><circle cx="90" cy="36" r="3" fill="var(--m3)"/>
+        <circle cx="240" cy="64" r="52" fill="var(--m2c)" stroke="var(--m2b)" stroke-width="3"/>
+        <rect x="225" y="26" width="30" height="36" rx="4" fill="var(--surface)" stroke="var(--m2)" stroke-width="2"/><path d="M231 36h18M231 44h18M231 52h10" stroke="var(--m2)" stroke-width="2.5"/>
+        <circle cx="400" cy="64" r="52" fill="var(--m1c)" stroke="var(--m1b)" stroke-width="3"/>
+        <rect x="383" y="28" width="34" height="24" rx="9" fill="var(--surface)" stroke="var(--m1)" stroke-width="2"/><path d="M409 52l6 9 1-9" fill="var(--surface)" stroke="var(--m1)" stroke-width="2"/><path d="M391 37h18M391 44h10" stroke="var(--m1)" stroke-width="2.5"/>
+        <rect x="170" y="204" width="140" height="108" rx="20" fill="var(--surface)"/>
+        <g fill="var(--m1c)" stroke="var(--m1)" stroke-width="2.5"><path d="M212 248v-10M268 248v-10"/><ellipse cx="240" cy="248" rx="28" ry="8"/><ellipse cx="240" cy="238" rx="28" ry="8"/><ellipse cx="240" cy="228" rx="28" ry="8"/></g>
+      </svg>
+      <span class="absolute text-[16px] font-semibold text-mode-3" style="left:16.7%;top:30%;transform:translate(-50%,-50%)">تصميم</span>
+      <span class="absolute text-[16px] font-semibold text-mode-2" style="left:50%;top:30%;transform:translate(-50%,-50%)">احترافي</span>
+      <span class="absolute text-[16px] font-semibold text-mode-1" style="left:83.3%;top:30%;transform:translate(-50%,-50%)">سريع</span>
+      <span class="absolute inline-flex items-center gap-1.5 text-[16px] font-medium text-ink whitespace-nowrap" style="left:50%;top:91%;transform:translate(-50%,-50%)"><span class="text-muted">الرصيد</span><bdi dir="ltr" class="font-bold">14.50$</bdi></span>
+    </div>
+  </div>
+</section>
+
+<!-- 5. Plans (sample figures; live prices come from the API) -->
+<section class="max-w-[1120px] mx-auto px-4 md:px-6 py-12 md:py-16" aria-labelledby="plans">
+  <h2 id="plans" class="text-[24px] leading-[40px] md:text-[28px] font-bold">الباقات</h2>
+  <div class="mt-8 grid md:grid-cols-2 gap-5">
+    <article class="bg-white border border-border-card rounded-2xl p-6 flex flex-col">
+      <h3 class="text-[20px] font-semibold">[اسم الباقة]</h3>
+      <p class="text-[14px] text-muted mt-1">[وصف مختصر للباقة]</p>
+      <p class="mt-5 flex items-baseline gap-2"><bdi dir="ltr" class="text-[32px] leading-[44px] font-bold">[00.00$]</bdi><span class="text-[14px] text-muted">/ شهريًا</span></p>
+      <p class="text-[14px] text-muted">الرصيد المضمّن: <bdi dir="ltr" class="font-semibold text-ink">[00.00$]</bdi></p>
+      <div class="mt-5 border-t border-border-card pt-4 flex flex-wrap gap-2 flex-1 content-start">
+        <span class="inline-flex items-center px-3 min-h-[28px] rounded-full bg-mode-1-bg border border-mode-1-border text-mode-1 text-[13px] font-medium">سريع</span>
+        <span class="inline-flex items-center px-3 min-h-[28px] rounded-full bg-mode-2-bg border border-mode-2-border text-mode-2 text-[13px] font-medium">احترافي</span>
+      </div>
+      <a href="#howto" class="mt-6 min-h-[44px] inline-flex items-center justify-center rounded-lg bg-white border border-border-control text-[15px] font-semibold hover:bg-surface-muted">تواصل معنا للاشتراك</a>
+    </article>
+    <article class="bg-white border border-border-card rounded-2xl p-6 flex flex-col">
+      <h3 class="text-[20px] font-semibold">[اسم الباقة]</h3>
+      <p class="text-[14px] text-muted mt-1">[وصف مختصر للباقة]</p>
+      <p class="mt-5 flex items-baseline gap-2"><bdi dir="ltr" class="text-[32px] leading-[44px] font-bold">[00.00$]</bdi><span class="text-[14px] text-muted">/ شهريًا</span></p>
+      <p class="text-[14px] text-muted">الرصيد المضمّن: <bdi dir="ltr" class="font-semibold text-ink">[00.00$]</bdi></p>
+      <div class="mt-5 border-t border-border-card pt-4 flex flex-wrap gap-2 flex-1 content-start">
+        <span class="inline-flex items-center px-3 min-h-[28px] rounded-full bg-mode-1-bg border border-mode-1-border text-mode-1 text-[13px] font-medium">سريع</span>
+        <span class="inline-flex items-center px-3 min-h-[28px] rounded-full bg-mode-2-bg border border-mode-2-border text-mode-2 text-[13px] font-medium">احترافي</span>
+      </div>
+      <a href="#howto" class="mt-6 min-h-[44px] inline-flex items-center justify-center rounded-lg bg-white border border-border-control text-[15px] font-semibold hover:bg-surface-muted">تواصل معنا للاشتراك</a>
+    </article>
+  </div>
+  <a href="/plans" class="mt-6 min-h-[44px] inline-flex items-center gap-1.5 text-[16px] font-semibold underline underline-offset-4">عرض جميع الباقات<svg aria-hidden="true" class="ic ic-sm" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></a>
+</section>
+
+<!-- 6. How to get a plan (white band, one small scene per step) -->
+<section id="howto" class="bg-white border-y border-border-card" aria-labelledby="howtoh">
+  <div class="max-w-[1120px] mx-auto px-4 md:px-6 py-12 md:py-16">
+    <h2 id="howtoh" class="text-[24px] leading-[40px] md:text-[28px] font-bold">كيف أحصل على باقة؟</h2>
+    <ol class="mt-10 grid md:grid-cols-3 gap-5">
+      <li class="bg-canvas border border-border-card rounded-2xl overflow-hidden">
+        <div class="bg-surface-muted border-b border-border-card h-[120px] flex items-center justify-center">
+          <svg class="art w-[132px] h-[92px]" viewBox="0 0 120 84" aria-hidden="true" focusable="false"><rect x="14" y="8" width="88" height="68" rx="8" fill="var(--surface)" stroke="var(--brand)" stroke-width="2"/><path d="M14 22h88" stroke="var(--brand)" stroke-width="2"/><circle cx="58" cy="38" r="8" fill="var(--m1c)" stroke="var(--m1)" stroke-width="2"/><rect x="32" y="52" width="52" height="8" rx="4" fill="var(--muted)" stroke="var(--ctl)" stroke-width="1.5"/><circle cx="96" cy="64" r="12" fill="var(--m1)"/><path d="M96 58v12M90 64h12" stroke="var(--surface)" stroke-width="2.5"/></svg>
+        </div>
+        <div class="p-5"><p class="text-[13px] text-muted">الخطوة 1</p><p class="text-[17px] font-semibold">أنشئ حسابك مجانًا</p></div>
+      </li>
+      <li class="bg-canvas border border-border-card rounded-2xl overflow-hidden">
+        <div class="bg-surface-muted border-b border-border-card h-[120px] flex items-center justify-center">
+          <svg class="art w-[132px] h-[92px]" viewBox="0 0 120 84" aria-hidden="true" focusable="false"><rect x="18" y="20" width="76" height="52" rx="6" fill="var(--surface)" stroke="var(--brand)" stroke-width="2"/><path d="M18 26l38 27 38-27" stroke="var(--brand)" stroke-width="2"/><circle cx="96" cy="22" r="13" fill="var(--m2)"/><path d="M101 22H91M95 17l-5 5 5 5" stroke="var(--surface)" stroke-width="2.5"/></svg>
+        </div>
+        <div class="p-5"><p class="text-[13px] text-muted">الخطوة 2</p><p class="text-[17px] font-semibold">راسلنا على البريد الإلكتروني <bdi dir="ltr">contact@lam7ai.com</bdi></p></div>
+      </li>
+      <li class="bg-canvas border border-border-card rounded-2xl overflow-hidden">
+        <div class="bg-surface-muted border-b border-border-card h-[120px] flex items-center justify-center">
+          <svg class="art w-[132px] h-[92px]" viewBox="0 0 120 84" aria-hidden="true" focusable="false"><rect x="14" y="34" width="88" height="42" rx="8" fill="var(--surface)" stroke="var(--brand)" stroke-width="2"/><path d="M26 48h32M26 60h20" stroke="var(--ctl)" stroke-width="3"/><g fill="var(--m1c)" stroke="var(--m1)" stroke-width="2"><ellipse cx="72" cy="22" rx="13" ry="4"/><ellipse cx="72" cy="14" rx="13" ry="4"/><ellipse cx="72" cy="6" rx="13" ry="4"/></g><circle cx="92" cy="62" r="11" fill="var(--m1)"/><path d="M87 62l4 4 7-8" stroke="var(--surface)" stroke-width="2.5"/></svg>
+        </div>
+        <div class="p-5"><p class="text-[13px] text-muted">الخطوة 3</p><p class="text-[17px] font-semibold">نفعّل باقتك ويظهر رصيدك في حسابك</p></div>
+      </li>
+    </ol>
+    <div class="mt-10 flex flex-col sm:flex-row sm:items-center gap-4">
+      <p class="text-[16px] text-muted">الاشتراك وإضافة الرصيد عن طريق فريقنا.</p>
+      <a href="mailto:contact@lam7ai.com" class="min-h-[44px] px-5 inline-flex items-center justify-center gap-2 rounded-lg bg-white border border-border-control text-[15px] font-semibold hover:bg-surface-muted sm:ms-auto">
+        <svg aria-hidden="true" class="ic ic-sm" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>تواصل معنا</a>
+    </div>
+  </div>
+</section>
+
+<!-- 7. FAQ -->
+<section class="max-w-[800px] mx-auto px-4 md:px-6 py-12 md:py-16" aria-labelledby="faq">
+  <h2 id="faq" class="text-[24px] leading-[40px] md:text-[28px] font-bold">أسئلة شائعة</h2>
+  <div class="mt-6 bg-white border border-border-card rounded-2xl divide-y divide-border-card">
+    <details open>
+      <summary class="min-h-[56px] px-5 py-3 flex items-center justify-between gap-4 cursor-pointer text-[17px] font-semibold">ما الفرق بين الأوضاع؟<svg aria-hidden="true" class="ic chev text-muted" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></summary>
+      <p class="px-5 pb-4 text-[16px] text-muted">السريع للأسئلة اليومية بتكلفة أقل، والاحترافي للمهام المعقدة بتكلفة أعلى، والتصميم لإنشاء الصور. تختار الوضع لكل رسالة.</p>
+    </details>
+    <details>
+      <summary class="min-h-[56px] px-5 py-3 flex items-center justify-between gap-4 cursor-pointer text-[17px] font-semibold">كيف يُحتسب الرصيد؟<svg aria-hidden="true" class="ic chev text-muted" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></summary>
+      <p class="px-5 pb-4 text-[16px] text-muted">لديك رصيد واحد مشترك لكل الأوضاع، وتُخصم تكلفة كل رد منه حسب الوضع المستخدم.</p>
+    </details>
+    <details>
+      <summary class="min-h-[56px] px-5 py-3 flex items-center justify-between gap-4 cursor-pointer text-[17px] font-semibold">كيف أحصل على باقة؟<svg aria-hidden="true" class="ic chev text-muted" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></summary>
+      <p class="px-5 pb-4 text-[16px] text-muted">أنشئ حسابك ثم راسلنا على البريد الإلكتروني، وسنفعّل الباقة المناسبة لك.</p>
+    </details>
+    <details>
+      <summary class="min-h-[56px] px-5 py-3 flex items-center justify-between gap-4 cursor-pointer text-[17px] font-semibold">هل يدعم لمحة AI اللغة العربية فقط؟<svg aria-hidden="true" class="ic chev text-muted" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></summary>
+      <p class="px-5 pb-4 text-[16px] text-muted">صُمم لمحة AI للعربية أولًا، ويمكنك أيضًا الكتابة بلغات أخرى.</p>
+    </details>
+    <details>
+      <summary class="min-h-[56px] px-5 py-3 flex items-center justify-between gap-4 cursor-pointer text-[17px] font-semibold">ماذا يحدث عند انتهاء رصيدي؟<svg aria-hidden="true" class="ic chev text-muted" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></summary>
+      <p class="px-5 pb-4 text-[16px] text-muted">تحتاج كل رسالة إلى رصيد كافٍ. إذا لم يكفِ رصيدك، تواصل معنا لإضافة رصيد إلى حسابك.</p>
+    </details>
+  </div>
+</section>
+
+<!-- Closing call to action (plain brand band) -->
+<section class="max-w-[1120px] mx-auto px-4 md:px-6 pb-14 md:pb-20">
+  <div class="rounded-3xl bg-brand text-white px-6 py-12 md:px-14 md:py-14 flex flex-col md:flex-row md:items-center md:justify-between gap-8">
+    <div>
+      <h2 class="text-[26px] leading-[44px] md:text-[32px] md:leading-[52px] font-bold">ابدأ بحساب مجاني</h2>
+      <p class="mt-2 text-[17px] ontone">أنشئ حسابك مجانًا، ثم اختر الباقة المناسبة لك.</p>
+    </div>
+    <div class="flex flex-col sm:flex-row sm:items-center gap-3 whitespace-nowrap">
+      <a href="/sign-up" class="min-h-[48px] px-7 inline-flex items-center justify-center rounded-lg bg-white text-brand text-[16px] font-semibold hover:bg-surface-muted">إنشاء حساب</a>
+      <a href="/sign-in" class="min-h-[48px] px-5 inline-flex items-center justify-center rounded-lg text-white text-[16px] font-semibold underline underline-offset-4">تسجيل الدخول</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- Footer -->
+<footer class="bg-surface-muted border-t border-border-card">
+  <div class="max-w-[1120px] mx-auto px-4 md:px-6 py-10 flex flex-col md:flex-row md:items-start md:justify-between gap-8">
+    <div>
+      <div class="flex items-center gap-2.5">
+        <span class="w-10 h-10 rounded-lg bg-brand text-white flex items-center justify-center text-[20px] font-bold">ل</span>
+        <span class="text-[18px] font-semibold">لمحة AI</span>
+      </div>
+      <p class="mt-3 text-[15px] text-muted">مساعدك الذكي بالعربية، لكل مهمة وضعها المناسب</p>
+    </div>
+    <ul class="text-[15px] flex flex-col items-start">
+      <li><a href="mailto:contact@lam7ai.com" class="min-h-[44px] inline-flex items-center gap-2 font-medium"><svg aria-hidden="true" class="ic ic-sm" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg><bdi dir="ltr">contact@lam7ai.com</bdi></a></li>
+      <li><a href="/terms" class="min-h-[44px] inline-flex items-center font-medium underline underline-offset-4">الشروط والأحكام</a></li>
+      <li><a href="/privacy" class="min-h-[44px] inline-flex items-center font-medium underline underline-offset-4">سياسة الخصوصية</a></li>
+    </ul>
+  </div>
+  <div class="border-t border-border-card">
+    <p class="max-w-[1120px] mx-auto px-4 md:px-6 py-4 text-[14px] text-muted">جميع الحقوق محفوظة</p>
+  </div>
+</footer>
+</body>
+</html>

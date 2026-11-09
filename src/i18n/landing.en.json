@@ -1,0 +1,70 @@
+{
+  "landing": {
+    "hero": {
+      "body": "Ask in Arabic and get organized answers: summaries, writing, translation and explanations.",
+      "previewLabel": "A sample of the chat page",
+      "previewQuestion": "Summarize the main terms of the lease.",
+      "previewTitle": "Main terms",
+      "previewItem1": "The lease runs for one year.",
+      "previewItem2": "Monthly rent is 4,500 riyals.",
+      "previewItem3": "The tenant pays for utilities.",
+      "previewPlaceholder": "Write your message…"
+    },
+    "modes": {
+      "title": "A mode for every task",
+      "intro": "Pick the right mode for each message, and change it whenever you like.",
+      "fast": "Fast",
+      "fastTitle": "Quick answers for everyday use, at a lower cost.",
+      "fastBody": "Good for short questions, wording and translation.",
+      "pro": "Professional",
+      "proTitle": "Deeper thinking for complex tasks, at a higher cost.",
+      "proBody": "Good for analysis, long documents and polished writing.",
+      "image": "Design",
+      "imageBadge": "Image",
+      "imageTitle": "Create images from a description, and edit an image you attach.",
+      "imageBody": "Good for designs, scenes and visual ideas."
+    },
+    "balance": {
+      "title": "One balance for every mode",
+      "body": "Your plan comes with one shared balance. The cost of each reply comes out of it based on the mode you choose, and you can check what is left at any time in the balance bar.",
+      "label": "Balance"
+    },
+    "plans": {
+      "title": "Plans",
+      "included": "Included balance:",
+      "all": "See all plans"
+    },
+    "howTo": {
+      "title": "How do I get a plan?",
+      "step": "Step {{number}}",
+      "step1": "Create your free account",
+      "step2": "Email us",
+      "step2Generic": "Contact our team",
+      "step3": "We activate your plan and your balance appears in your account",
+      "note": "Subscriptions and balance are handled by our team.",
+      "contact": "Contact us"
+    },
+    "faq": {
+      "title": "Frequently asked questions",
+      "q1": "What is the difference between the modes?",
+      "a1": "Fast is for everyday questions at a lower cost, Professional is for complex tasks at a higher cost, and Design is for creating images. You choose the mode for each message.",
+      "q2": "How is the balance charged?",
+      "a2": "You have one balance shared across all modes, and the cost of each reply comes out of it based on the mode used.",
+      "q3": "How do I get a plan?",
+      "a3": "Create your account, then contact us and we will activate the right plan for you.",
+      "q4": "Does {{brandName}} support only Arabic?",
+      "a4": "{{brandName}} is built for Arabic first, and you can also write in other languages.",
+      "q5": "What happens when my balance runs out?",
+      "a5": "Every message needs enough balance. If yours is not enough, contact us to add balance to your account."
+    },
+    "closing": {
+      "title": "Start with a free account",
+      "body": "Create your free account, then choose the plan that suits you."
+    },
+    "footer": {
+      "terms": "Terms and conditions",
+      "privacy": "Privacy policy",
+      "rights": "All rights reserved"
+    }
+  }
+}

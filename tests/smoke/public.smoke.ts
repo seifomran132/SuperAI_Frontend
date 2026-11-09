@@ -24,17 +24,22 @@ test('API is ready', async ({ request }) => {
   expect(ready.status()).toBe(200);
 });
 
-test('/ goes to sign-in, in Arabic and right-to-left', async ({ page }) => {
+test('/ shows the landing page, in Arabic and right-to-left', async ({
+  page,
+}) => {
   await page.goto('/');
-  await expect(page).toHaveURL(/\/sign-in/);
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
   await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
   await expect(page.locator('html')).toHaveAttribute('lang', 'ar');
-  await expect(
-    page.getByRole('button', { name: ar.auth.signIn.submit }),
-  ).toBeVisible();
 });
 
-for (const path of ['/sign-in', '/sign-up', '/forgot-password', '/plans']) {
+for (const path of [
+  '/',
+  '/sign-in',
+  '/sign-up',
+  '/forgot-password',
+  '/plans',
+]) {
   test(`${path} loads without console errors`, async ({ page }) => {
     const errors = await collectErrors(page, async () => {
       const response = await page.goto(path);
