@@ -36,6 +36,7 @@ Never use Start server functions or server routes: the browser calls the API and
 | `npm run size` | After a build: fail if the first-screen JavaScript passes its budget (CI) |
 | `npm run analyze` | Build with `dist/client/stats.html` (what is inside each chunk) |
 | `npm run copy:table` | Regenerate `docs/copy/AR_COPY_REVIEW.md` for the Arabic copy review |
+| `node scripts/brand-images.mjs` | With `npm run dev` running: regenerate the brand icons and share image in `public/brand/<brand>/` |
 | `npm run test:e2e` | Playwright end-to-end tests against the local stack |
 
 **Deploy:** pushing to `main` runs `.github/workflows/deploy.yml` (checks, build with `.env.production`, approval in the `production` environment, release on the VPS). Production: https://lam7ai.com, API https://api.lam7ai.com. Status and launch work: [docs/FRONTEND_PLAN.md](docs/FRONTEND_PLAN.md) §4b and [docs/deploy/DEPLOY_CHECKLIST.md](docs/deploy/DEPLOY_CHECKLIST.md). CI uses the Node version in `.nvmrc`.

@@ -1,5 +1,6 @@
 import { beforeEach } from 'vitest';
 import ar from '~/test/ar';
+import { resetBatchesMock } from '~/mocks/admin-voucher-batches';
 import { resetVouchersMock } from '~/mocks/admin-vouchers';
 import { useAdminSession } from '../../users/__tests__/harness';
 
@@ -11,5 +12,8 @@ export const v = ar.admin.vouchers;
 /** Admin session plus a fresh voucher mock; call once at the top of a test file. */
 export function useVoucherSession() {
   useAdminSession();
-  beforeEach(() => resetVouchersMock());
+  beforeEach(() => {
+    resetVouchersMock();
+    resetBatchesMock();
+  });
 }

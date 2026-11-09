@@ -1,6 +1,6 @@
 # Arabic copy review
 
-Generated from `src/i18n` by `npm run copy:table` — 1339 strings. Do not edit the Arabic here: write the correction in **Notes**, and the frontend team applies it to `ar.json`.
+Generated from `src/i18n` by `npm run copy:table` — 1444 strings. Do not edit the Arabic here: write the correction in **Notes**, and the frontend team applies it to `ar.json`.
 
 - `{{name}}` parts are filled in by the app (brand name, amounts, dates); keep them as they are.
 - `errors.*` strings are shown when the API returns that error code.
@@ -694,6 +694,8 @@ Generated from `src/i18n` by `npm run copy:table` — 1339 strings. Do not edit 
 | `overview` | نظرة عامة | Overview | |
 | `flagged` | الطلبات المُعلَّمة | Flagged requests | |
 | `audit` | سجل التدقيق | Audit log | |
+| `batchNew` | مجموعة جديدة | New batch | |
+| `batchDetail` | تفاصيل المجموعة | Batch details | |
 
 ## admin.reports
 
@@ -1169,6 +1171,108 @@ Generated from `src/i18n` by `npm run copy:table` — 1339 strings. Do not edit 
 | `redemptionColumns.subscription` | الاشتراك | Subscription | |
 | `redemptionsEmpty` | لم يستخدم أحد هذا الكود بعد | Nobody has used this code yet | |
 | `redemptionsError` | تعذّر تحميل الاستخدامات. حاول مرة أخرى. | Could not load the uses. Try again. | |
+| `batches.tabSingles` | أكواد فردية | Single codes | |
+| `batches.tabBatches` | مجموعات الأكواد | Code batches | |
+| `batches.new` | إنشاء مجموعة أكواد | Create code batch | |
+| `batches.backToList` | العودة إلى المجموعات | Back to batches | |
+| `batches.tableLabel` | قائمة مجموعات الأكواد | Code batches list | |
+| `batches.columns.name` | الاسم | Name | |
+| `batches.columns.kind` | النوع | Kind | |
+| `batches.columns.value` | القيمة | Value | |
+| `batches.columns.usage` | الاستخدام | Usage | |
+| `batches.columns.total` | القيمة الإجمالية | Total value | |
+| `batches.columns.status` | الحالة | Status | |
+| `batches.columns.ends` | ينتهي في | Ends | |
+| `batches.emptyTitle` | لا توجد مجموعات أكواد بعد | No code batches yet | |
+| `batches.emptyBody` | أنشئ مجموعة لتوليد عدة أكواد دفعة واحدة وتسليمها لموزّع. | Create a batch to generate several codes at once and hand them to a reseller. | |
+| `batches.emptyFiltered.active` | لا توجد مجموعات مفعّلة | No active batches | |
+| `batches.emptyFiltered.inactive` | لا توجد مجموعات موقوفة | No inactive batches | |
+| `batches.emptyFilteredBody` | غيّر الفلتر لعرض باقي المجموعات. | Change the filter to see the other batches. | |
+| `batches.error` | تعذّر تحميل المجموعات. تحقق من اتصالك بالإنترنت ثم حاول مرة أخرى. | Could not load the batches. Check your connection and try again. | |
+| `batches.groupBatch` | المجموعة | Batch | |
+| `batches.name` | اسم المجموعة | Batch name | |
+| `batches.nameHint` | للاستخدام الداخلي، حتى 100 حرف. يُستخدم اسمًا لملف التنزيل. | Internal use, up to 100 characters. Used as the download file name. | |
+| `batches.amount` | المبلغ لكل كود | Amount per code | |
+| `batches.quantity` | عدد الأكواد | Number of codes | |
+| `batches.quantityHint` | من 3 إلى 100. الافتراضي 10. | 3 to 100. Default 10. | |
+| `batches.groupFormat` | شكل الكود | Code format | |
+| `batches.prefix` | رمز البداية (اختياري) | Prefix (optional) | |
+| `batches.prefixHint` | من 2 إلى 12 حرفًا إنجليزيًا أو رقمًا. يظهر بحروف كبيرة. | 2 to 12 English letters or digits. Shown in capitals. | |
+| `batches.example` | مثال على الكود: | Example code: | |
+| `batches.randomHint` | الأحرف بعد الرمز تُنشأ عشوائيًا لكل كود. | The characters after the prefix are random for each code. | |
+| `batches.noPrefixHint` | بلا رمز يبدأ كل كود بالرمز الافتراضي {{defaultPrefix}}. الأحرف بعد الرمز تُنشأ عشوائيًا لكل كود. | Without a prefix every code starts with the default prefix {{defaultPrefix}}. The characters after it are random for each code. | |
+| `batches.groupPeriod` | الفترة والشروط | Period and conditions | |
+| `batches.groupConfirm` | التأكيد | Confirmation | |
+| `batches.total` | الإجمالي | Total | |
+| `batches.codesCount_zero` | {{count}} كود | — | |
+| `batches.codesCount_one` | كود واحد | {{count}} code | |
+| `batches.codesCount_two` | كودان | — | |
+| `batches.codesCount_few` | {{count}} أكواد | — | |
+| `batches.codesCount_many` | {{count}} كودًا | — | |
+| `batches.codesCount_other` | {{count}} كود | {{count}} codes | |
+| `batches.overLimit` | الإجمالي يتجاوز الحد الأقصى للمجموعة | The total exceeds the batch limit | |
+| `batches.overLimitHint` | قلّل العدد أو المبلغ. | Lower the number or the amount. | |
+| `batches.totalInvalid` | أدخل عدد الأكواد والمبلغ لعرض الإجمالي. | Enter the number of codes and the amount to see the total. | |
+| `batches.summary` | ملخص المجموعة | Batch summary | |
+| `batches.trialSummary` | {{codes}}، يمنح كل كود باقة «{{plan}}» لمدة {{days}}. | {{codes}}; each code gives the «{{plan}}» plan for {{days}}. | |
+| `batches.createSubmit` | إنشاء المجموعة | Create batch | |
+| `batches.createFailed` | تعذّر إنشاء المجموعة | Could not create the batch | |
+| `batches.errors.nameRequired` | اسم المجموعة مطلوب. | Batch name is required. | |
+| `batches.errors.quantityInvalid` | اكتب عددًا صحيحًا من 3 إلى 100. | Enter a whole number from 3 to 100. | |
+| `batches.errors.prefixInvalid` | من 2 إلى 12 حرفًا إنجليزيًا أو رقمًا فقط. | 2 to 12 English letters or digits only. | |
+| `batches.created` | تم إنشاء المجموعة | Batch created | |
+| `batches.createdTitle` | أُنشئت {{codes}} جاهزة للاستخدام | {{codes}} created and ready to use | |
+| `batches.createdBody` | نزّل الملف وسلّمه للموزّع. تجد الأكواد أيضًا في الجدول أدناه. | Download the file and give it to the reseller. The codes are also in the table below. | |
+| `batches.noticeTitle` | هذه أكواد صالحة للاستخدام الآن | These are working codes | |
+| `batches.noticeBody` | شارك الملف مع الموزّع المقصود فقط. من يملك الكود يستطيع استخدامه. | Share the file only with the intended reseller. Anyone with a code can use it. | |
+| `batches.valuePerCode` | القيمة لكل كود | Value per code | |
+| `batches.quantityLabel` | عدد الأكواد | Number of codes | |
+| `batches.prefixLabel` | رمز البداية | Prefix | |
+| `batches.summaryNote` | النوع والقيمة والعدد وتاريخ البدء لا تتغير بعد الإنشاء. | Kind, value, number and start date cannot change after creation. | |
+| `batches.endsAtHint` | يسري على كل أكواد المجموعة. | Applies to every code in the batch. | |
+| `batches.progress` | التقدم | Progress | |
+| `batches.codesUsed` | الأكواد المستخدمة | Codes used | |
+| `batches.credited` | الرصيد المضاف | Balance credited | |
+| `batches.of` | من | of | |
+| `batches.download` | تنزيل ملف CSV | Download CSV file | |
+| `batches.deactivate` | إيقاف المجموعة | Turn batch off | |
+| `batches.activate` | تفعيل المجموعة | Turn batch on | |
+| `batches.deactivated` | تم إيقاف المجموعة | Batch turned off | |
+| `batches.activated` | تم تفعيل المجموعة | Batch turned on | |
+| `batches.inactiveBanner` | هذه المجموعة متوقفة. لا يعمل أي كود غير مستخدم فيها، وتظهر للمستخدمين كأنها غير موجودة. فعّلها لتعمل الأكواد من جديد، عدا ما أوقفته منها واحدًا واحدًا. | This batch is off. No unused code in it works and users see it as not existing. Turn it on to make the codes work again, except those you turned off one by one. | |
+| `batches.codesTitle` | الأكواد ({{used}} / {{total}} مستخدم) | Codes ({{used}} / {{total}} used) | |
+| `batches.codesLabel` | أكواد المجموعة | Codes in the batch | |
+| `batches.codesFilter` | حالة الكود | Code status | |
+| `batches.codeStatus.used` | مستخدم | Used | |
+| `batches.codeStatus.unused` | غير مستخدم | Unused | |
+| `batches.codeStatus.off` | متوقف | Off | |
+| `batches.codeColumns.code` | الكود | Code | |
+| `batches.codeColumns.status` | الحالة | Status | |
+| `batches.codeColumns.redeemedAt` | تاريخ الاستخدام | Redeemed on | |
+| `batches.codeColumns.user` | المستخدم | User | |
+| `batches.codeColumns.actions` | إجراءات | Actions | |
+| `batches.noUsedTitle` | لا توجد أكواد مستخدمة بعد | No used codes yet | |
+| `batches.noUsedBody` | ستظهر هنا الأكواد التي استخدمها أصحابها. | Codes will appear here once their owners use them. | |
+| `batches.noCodesTitle` | لا توجد أكواد | No codes | |
+| `batches.noCodesBody` | غيّر الفلتر لعرض باقي الأكواد. | Change the filter to see the other codes. | |
+| `batches.codesError` | تعذّر تحميل الأكواد. تحقق من اتصالك بالإنترنت ثم حاول مرة أخرى. | Could not load the codes. Check your connection and try again. | |
+| `batches.downloadTitle` | تنزيل ملف الأكواد | Download the codes file | |
+| `batches.warningTitle` | الملف يحتوي أكواد صالحة للاستخدام | The file contains working codes | |
+| `batches.warningBody` | شاركه مع الموزّع المقصود فقط. من يملك الكود يستطيع استخدامه. | Share it only with the intended reseller. Anyone with a code can use it. | |
+| `batches.warningNote` | لا يحتوي الملف على بيانات المستخدمين. يُسجَّل كل تنزيل في سجل التدقيق. | The file has no user data. Every download is recorded in the audit log. | |
+| `batches.downloadFile` | تنزيل الملف | Download file | |
+| `batches.downloading` | جارٍ التنزيل… | Downloading… | |
+| `batches.downloadFailed` | تعذّر تنزيل الملف | Could not download the file | |
+| `batches.downloadFailedBody` | لم يتغير شيء في المجموعة. تحقق من اتصالك ثم حاول مرة أخرى. | Nothing changed in the batch. Check your connection and try again. | |
+| `batches.deactivateCodeBody` | سيظهر الكود للمستخدمين كأنه غير موجود، وسيبقى متوقفًا حتى لو أعدت تفعيل المجموعة. | Users will see the code as not existing, and it stays off even if you turn the batch back on. | |
+| `batches.activateCodeBody` | سيعمل الكود من جديد ضمن فترته، ما دامت المجموعة فعّالة. | The code works again within its period, as long as the batch is on. | |
+| `batches.deactivateBody` | ستتوقف كل أكواد المجموعة غير المستخدمة، وتظهر للمستخدمين كأنها غير موجودة. الأكواد التي استُخدمت من قبل لا تتأثر. يمكنك تفعيل المجموعة لاحقًا. | All unused codes in the batch stop working and users see them as not existing. Codes already used are not affected. You can turn the batch on later. | |
+| `batches.activateBody` | ستعمل الأكواد غير المستخدمة من جديد ضمن فترتها، عدا الأكواد التي أوقفتها واحدًا واحدًا. | Unused codes work again within their period, except codes you turned off one by one. | |
+| `batches.batchCodeTitle` | هذا الكود من مجموعة «{{name}}» | This code belongs to the batch «{{name}}» | |
+| `batches.batchCodeBody` | يُستخدم مرة واحدة فقط، ويُعدَّل تاريخ انتهائه من المجموعة. | It can be used once, and its end date is set on the batch. | |
+| `batches.openBatch` | فتح المجموعة | Open batch | |
+| `batches.notFoundTitle` | المجموعة غير موجودة | Batch not found | |
+| `batches.detailError` | تعذّر تحميل المجموعة. جرّب مرة أخرى أو ارجع إلى القائمة. | Could not load the batch. Try again or go back to the list. | |
 
 ## admin.dialog
 
@@ -1786,6 +1890,7 @@ Generated from `src/i18n` by `npm run copy:table` — 1339 strings. Do not edit 
 | `USER_NOT_FOUND` | لم يتم العثور على المستخدم. | User not found. | |
 | `VALIDATION_FAILED` | بعض البيانات غير صحيحة. يرجى المراجعة والمحاولة مرة أخرى. | Some information is invalid. Please check and try again. | |
 | `VOUCHER_ALREADY_REDEEMED` | لقد استخدمت هذا الكود من قبل. | You've already used this code. | |
+| `VOUCHER_BATCH_NOT_FOUND` | لم يتم العثور على هذه المجموعة من الأكواد. | This voucher batch was not found. | |
 | `VOUCHER_CODE_TAKEN` | يوجد كود بهذا الاسم بالفعل. | A voucher with this code already exists. | |
 | `VOUCHER_EXPIRED` | انتهت صلاحية هذا الكود أو لم يبدأ بعد. | This code has expired or is not active yet. | |
 | `VOUCHER_NOT_ELIGIBLE` | لا يمكنك استخدام هذا الكود على حسابك. | This code can't be used on your account. | |

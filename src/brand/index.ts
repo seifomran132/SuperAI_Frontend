@@ -14,4 +14,7 @@ export const brandStyle = {
   '--color-on-brand': brand.colors.onBrand,
 } as CSSProperties;
 
+/** Icons and the share image, made by scripts/brand-images.mjs. */
+export const brandAsset = (file: string) => `/brand/${brand.key}/${file}`;
+
 export type { BrandConfig };

@@ -1,10 +1,17 @@
 import { useTranslation } from 'react-i18next';
-import type { VoucherDto } from '~/api/generated/types.gen';
+import type { VoucherBatchDto, VoucherDto } from '~/api/generated/types.gen';
 import { Money } from '~/components/Money';
 import { formatDate } from '~/lib/dates';
 
 /** «5.00$» for balance codes, «احترافي · 7 أيام» for trials. */
-export function VoucherValue({ voucher }: { voucher: VoucherDto }) {
+export function VoucherValue({
+  voucher,
+}: {
+  voucher: Pick<
+    VoucherDto | VoucherBatchDto,
+    'kind' | 'amountUsd' | 'plan' | 'trialDays'
+  >;
+}) {
   const { t, i18n } = useTranslation();
   if (voucher.kind === 'balance') {
     return voucher.amountUsd ? <Money value={voucher.amountUsd} /> : <>-</>;

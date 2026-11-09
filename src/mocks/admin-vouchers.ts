@@ -29,6 +29,7 @@ export const voucher = (
 ): VoucherDto => ({
   id,
   code: `CODE-${id.toUpperCase()}`,
+  batchId: null,
   kind: 'balance',
   amountUsd: '5.000000000',
   plan: null,

@@ -498,6 +498,23 @@ Use a user who has sent at least one message this month, so the reports have dat
 
 ---
 
+## 3g. Voucher batches (F11b) — `/admin/vouchers?tab=batches`, as admin
+
+| ID | Steps | Expected | Result | Notes |
+|---|---|---|---|---|
+| VB-01 | Open the Batches tab, open a batch | Listed with progress; opens its page | [ ] | **auto** `voucher-batches` |
+| VB-02 | Create a balance batch with a prefix | Live example and total; opens with the live-codes notice | [ ] | **auto** `voucher-batches` |
+| VB-03 | Enter a total above 10,000.00$ | Message shown, submit blocked | [ ] | **auto** `voucher-batches` |
+| VB-04 | Download the CSV | Warning first; file has every code | [ ] | **auto** `voucher-batches` |
+| VB-05 | Download with the request failing | Error in the dialog; retry available | [ ] | **auto** `voucher-batches` |
+| VB-06 | Turn one code off, then on | Off: redeeming fails. On: it works | [ ] | **auto** `voucher-batches` |
+| VB-07 | Redeem a code, open the batch | Progress moves; code shows its user, no action | [ ] | **auto** `voucher-batches` |
+| VB-08 | Turn the batch off | Banner; codes stop; CSV still available | [ ] | **auto** `voucher-batches` |
+| VB-09 | Open a batch code's voucher page | No limit or end date; link to the batch | [ ] | **auto** `voucher-batches` |
+| VB-10 | Send the CSV to a phone and open it | Arabic batch name and codes read correctly | [ ] | **manual** |
+
+---
+
 ## 4. Cross-cutting checks
 
 | ID | Check | Expected | Result | Notes |

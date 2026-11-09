@@ -28,6 +28,7 @@ export {
   VoucherNewPage,
   VoucherDetailPage,
 } from './vouchers/pages/VoucherPages';
+export { BatchDetailPage, BatchNewPage } from './vouchers/pages/BatchPages';
 export { OverviewPage } from './reports/pages/OverviewPage';
 export { RequestsPage } from './reports/pages/RequestsPage';
 export { AuditPage } from './reports/pages/AuditPage';

@@ -49,6 +49,8 @@ import { Route as AuthedAdminUsersUserIdRouteImport } from './routes/_authed/adm
 import { Route as AuthedAdminVouchersIndexRouteImport } from './routes/_authed/admin/vouchers/index'
 import { Route as AuthedAdminVouchersVoucherIdRouteImport } from './routes/_authed/admin/vouchers/$voucherId'
 import { Route as AuthedAdminVouchersNewRouteImport } from './routes/_authed/admin/vouchers/new'
+import { Route as AuthedAdminVouchersBatchesBatchIdRouteImport } from './routes/_authed/admin/vouchers/batches/$batchId'
+import { Route as AuthedAdminVouchersBatchesNewRouteImport } from './routes/_authed/admin/vouchers/batches/new'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -253,6 +255,18 @@ const AuthedAdminVouchersNewRoute = AuthedAdminVouchersNewRouteImport.update({
   path: '/vouchers/new',
   getParentRoute: () => AuthedAdminRouteRoute,
 } as any)
+const AuthedAdminVouchersBatchesBatchIdRoute =
+  AuthedAdminVouchersBatchesBatchIdRouteImport.update({
+    id: '/vouchers/batches/$batchId',
+    path: '/vouchers/batches/$batchId',
+    getParentRoute: () => AuthedAdminRouteRoute,
+  } as any)
+const AuthedAdminVouchersBatchesNewRoute =
+  AuthedAdminVouchersBatchesNewRouteImport.update({
+    id: '/vouchers/batches/new',
+    path: '/vouchers/batches/new',
+    getParentRoute: () => AuthedAdminRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -292,6 +306,8 @@ export interface FileRoutesByFullPath {
   '/admin/settings/': typeof AuthedAdminSettingsIndexRoute
   '/admin/users/': typeof AuthedAdminUsersIndexRoute
   '/admin/vouchers/': typeof AuthedAdminVouchersIndexRoute
+  '/admin/vouchers/batches/$batchId': typeof AuthedAdminVouchersBatchesBatchIdRoute
+  '/admin/vouchers/batches/new': typeof AuthedAdminVouchersBatchesNewRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -330,6 +346,8 @@ export interface FileRoutesByTo {
   '/admin/settings': typeof AuthedAdminSettingsIndexRoute
   '/admin/users': typeof AuthedAdminUsersIndexRoute
   '/admin/vouchers': typeof AuthedAdminVouchersIndexRoute
+  '/admin/vouchers/batches/$batchId': typeof AuthedAdminVouchersBatchesBatchIdRoute
+  '/admin/vouchers/batches/new': typeof AuthedAdminVouchersBatchesNewRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -373,6 +391,8 @@ export interface FileRoutesById {
   '/_authed/admin/settings/': typeof AuthedAdminSettingsIndexRoute
   '/_authed/admin/users/': typeof AuthedAdminUsersIndexRoute
   '/_authed/admin/vouchers/': typeof AuthedAdminVouchersIndexRoute
+  '/_authed/admin/vouchers/batches/$batchId': typeof AuthedAdminVouchersBatchesBatchIdRoute
+  '/_authed/admin/vouchers/batches/new': typeof AuthedAdminVouchersBatchesNewRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -414,6 +434,8 @@ export interface FileRouteTypes {
     | '/admin/settings/'
     | '/admin/users/'
     | '/admin/vouchers/'
+    | '/admin/vouchers/batches/$batchId'
+    | '/admin/vouchers/batches/new'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -452,6 +474,8 @@ export interface FileRouteTypes {
     | '/admin/settings'
     | '/admin/users'
     | '/admin/vouchers'
+    | '/admin/vouchers/batches/$batchId'
+    | '/admin/vouchers/batches/new'
   id:
     | '__root__'
     | '/'
@@ -494,6 +518,8 @@ export interface FileRouteTypes {
     | '/_authed/admin/settings/'
     | '/_authed/admin/users/'
     | '/_authed/admin/vouchers/'
+    | '/_authed/admin/vouchers/batches/$batchId'
+    | '/_authed/admin/vouchers/batches/new'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -789,6 +815,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthedAdminVouchersNewRouteImport
       parentRoute: typeof AuthedAdminRouteRoute
     }
+    '/_authed/admin/vouchers/batches/$batchId': {
+      id: '/_authed/admin/vouchers/batches/$batchId'
+      path: '/vouchers/batches/$batchId'
+      fullPath: '/admin/vouchers/batches/$batchId'
+      preLoaderRoute: typeof AuthedAdminVouchersBatchesBatchIdRouteImport
+      parentRoute: typeof AuthedAdminRouteRoute
+    }
+    '/_authed/admin/vouchers/batches/new': {
+      id: '/_authed/admin/vouchers/batches/new'
+      path: '/vouchers/batches/new'
+      fullPath: '/admin/vouchers/batches/new'
+      preLoaderRoute: typeof AuthedAdminVouchersBatchesNewRouteImport
+      parentRoute: typeof AuthedAdminRouteRoute
+    }
   }
 }
 
@@ -834,6 +874,8 @@ interface AuthedAdminRouteRouteChildren {
   AuthedAdminSettingsIndexRoute: typeof AuthedAdminSettingsIndexRoute
   AuthedAdminUsersIndexRoute: typeof AuthedAdminUsersIndexRoute
   AuthedAdminVouchersIndexRoute: typeof AuthedAdminVouchersIndexRoute
+  AuthedAdminVouchersBatchesBatchIdRoute: typeof AuthedAdminVouchersBatchesBatchIdRoute
+  AuthedAdminVouchersBatchesNewRoute: typeof AuthedAdminVouchersBatchesNewRoute
 }
 
 const AuthedAdminRouteRouteChildren: AuthedAdminRouteRouteChildren = {
@@ -858,6 +900,9 @@ const AuthedAdminRouteRouteChildren: AuthedAdminRouteRouteChildren = {
   AuthedAdminSettingsIndexRoute: AuthedAdminSettingsIndexRoute,
   AuthedAdminUsersIndexRoute: AuthedAdminUsersIndexRoute,
   AuthedAdminVouchersIndexRoute: AuthedAdminVouchersIndexRoute,
+  AuthedAdminVouchersBatchesBatchIdRoute:
+    AuthedAdminVouchersBatchesBatchIdRoute,
+  AuthedAdminVouchersBatchesNewRoute: AuthedAdminVouchersBatchesNewRoute,
 }
 
 const AuthedAdminRouteRouteWithChildren =

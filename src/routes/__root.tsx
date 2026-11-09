@@ -8,7 +8,7 @@ import {
   createRootRouteWithContext,
 } from '@tanstack/react-router';
 import { Direction } from 'radix-ui';
-import { brand, brandStyle } from '~/brand';
+import { brand, brandAsset, brandStyle } from '~/brand';
 import { RouteError } from '~/components/RouteError';
 import { NotFound } from '~/components/NotFound';
 import { Toaster } from '~/components/ui/sonner';
@@ -28,8 +28,16 @@ export const Route = createRootRouteWithContext<RouterContext>()({
         content: 'width=device-width, initial-scale=1, viewport-fit=cover',
       },
       { title: brand.name.ar },
+      { name: 'theme-color', content: brand.colors.brand },
     ],
     links: [
+      {
+        rel: 'icon',
+        type: 'image/png',
+        sizes: '32x32',
+        href: brandAsset('icon-32.png'),
+      },
+      { rel: 'apple-touch-icon', href: brandAsset('apple-touch-icon.png') },
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       {
         rel: 'preconnect',

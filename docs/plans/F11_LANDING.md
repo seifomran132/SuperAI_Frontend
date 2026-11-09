@@ -1,6 +1,6 @@
 # F11 — Landing page and legal pages
 
-**Status:** Home page built 2026-11-09 from approved S13 (uncommitted on `landing-page`). Terms and Privacy wait for approved text and the legal entity name.
+**Status:** Home page built 2026-11-09 from approved S13 on `landing-page`; share image, favicon, `robots.txt` and sitemap added 2026-11-10. Terms and Privacy wait for approved text and the legal entity name.
 **Goal:** a visitor to `/` understands what the product is, what the modes and the shared balance mean, and can sign up or see plans. Search engines and link previews get real content.
 **Backend:** none needed; `GET /plans` and `GET /modes` already exist.
 
@@ -39,7 +39,7 @@
 - **Sign-in and guests:** `redirectFromHome` no longer sends signed-out visitors to `/sign-in`; update it and its tests.
 - **Hosting:** verify `/` is served by the prerendered page under the Caddy rule (`try_files {path} {path}/index.html /_shell.html`) and that `scripts/csp.mjs` hashes its inline scripts.
 - **Bundle:** its own budget in `scripts/check-bundle.mjs`. No chat, admin or chart code in this page's first load.
-- **Search and sharing:** per-page title and description (description from the tagline), Open Graph image, per-brand favicon, `robots.txt`, sitemap.
+- **Search and sharing:** done 2026-11-10. Title and description from the tagline; `og:image` (`public/brand/<brand>/share.png`, the hero at 1200×630), canonical and `og:url` from `VITE_SITE_ORIGIN`; per-brand icons and `favicon.ico` (`scripts/brand-images.mjs`, re-run after the hero or brand colors change); `robots.txt` and `sitemap.xml` written at build by `scripts/site-files.mjs`.
 - **Going public:** if the server's `prelaunch` site mode (basic auth, `noindex`) is on, it has to be switched off for this page to be reachable and indexed.
 - **Sign-up:** add the terms checkbox with brand-config links once the legal pages are published (F1 decision). Fill `brand.legal`.
 - **Mobile app:** the mobile target skips the landing page (§7b).

@@ -59,12 +59,12 @@ export function useTrialPlans() {
   return { ...query, plans };
 }
 
-/** After a write: lists, details and redemptions of vouchers are stale. */
+/** After a write: lists, details and codes of vouchers and batches are stale. */
 export function invalidateVouchers(queryClient: QueryClient) {
   return queryClient.invalidateQueries({
     predicate: (query) => {
       const first = query.queryKey[0] as { _id?: string } | undefined;
-      return /^adminVouchers[A-Z]/.test(first?._id ?? '');
+      return /^adminVoucher(s|Batches)[A-Z]/.test(first?._id ?? '');
     },
   });
 }

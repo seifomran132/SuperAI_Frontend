@@ -15,6 +15,7 @@ export {
   type PriceUpdatesSearch,
 } from './catalog/model/search';
 export {
+  validateBatchSearch,
   validateVouchersSearch,
   type VouchersSearch,
 } from './vouchers/model/search';

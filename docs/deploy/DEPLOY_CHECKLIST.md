@@ -41,7 +41,7 @@ Public on `lam7ai.com` + `api.lam7ai.com`, real email through Brevo, indexed by 
 | 1.2 | Brevo: account created; SMTP `smtp-relay.brevo.com:587` (STARTTLS), login `bcc942001@smtp-brevo.com` (goes in `deploy/config.env`). DNS verified public: `brevo-code` TXT ✓, DKIM `brevo1`/`brevo2` ✓, DMARC `p=none` ✓; SPF to merge (`include:spf.brevo.com` into the existing record). Still to do: sender `noreply@lam7ai.com`, new SMTP key (server `.env` as `GOTRUE_SMTP_PASS`), click tracking off | You | [~] emails deliver; check click tracking is off, SPF includes Brevo |
 | 1.3 | Contact channels: `contact@lam7ai.com` only for now (in `src/brand/lam7a.ts`); WhatsApp and phone removed 2026-10-15, new numbers to come; `contact@` must deliver (Namecheap email forwarding) | You | [x] |
 | 1.4 | Tagline (ar + en) — optional: not shown in the app yet | You | [ ] |
-| 1.5 | Logo / favicon (optional; monogram works) | You | [ ] |
+| 1.5 | Logo / favicon (optional; monogram works) | You | [x] monogram icons from `scripts/brand-images.mjs`; replace when a logo exists |
 | 1.6 | Brand config `src/brand/lam7a.ts` (name, monogram ل, default brand) — contact and tagline still placeholders; production build check passes | Claude | [x] (tagline still a placeholder, not shown) |
 | 1.7 | Arabic copy review done ([docs/copy/AR_COPY_REVIEW.md](../copy/AR_COPY_REVIEW.md)) and applied | You → Claude | [ ] |
 
@@ -83,7 +83,7 @@ Public on `lam7ai.com` + `api.lam7ai.com`, real email through Brevo, indexed by 
 | 3.2 | `.env.production` committed (no secrets) | Claude | [x] |
 | 3.2b | `scripts/csp.mjs` runs after `vite build`: hashes the shell's inline scripts into `dist/client/_caddy/csp.caddy` and the API origin into `connect-src` (strict CSP without `unsafe-inline` scripts) | Claude | [x] live (hashes as browsers parse: NUL → U+FFFD) |
 | 3.3 | Build fails on missing env; a `LAUNCH=1` build also fails with no contact channel or a placeholder tagline | Claude | [~] missing env fails the build; the launch check was not needed (production values are set) |
-| 3.4 | Per-brand favicon + meta description; `robots.txt` (pre-launch: disallow all) | Claude | [ ] after launch (favicon, meta description, robots.txt) |
+| 3.4 | Per-brand favicon + meta description; `robots.txt` (pre-launch: disallow all) | Claude | [x] on `landing-page`: icons, share image, `robots.txt`, `sitemap.xml` (pre-launch mode still answers robots itself) |
 | 3.5 | `.github/workflows/deploy.yml` (frontend): push to `main` or manual run → checks + build + size → approval (`production`) → rsync to `/srv/lam7a/web/releases/<sha>` → atomic `current` switch → keep 5 → Caddy reload (new CSP) | Claude | [x] deploys `main` with approval |
 | 3.6 | Post-deploy smoke: `lam7ai.com` answers 401 (pre-launch) or 200; API health from outside | Claude | [x] in the workflows (expects 200) |
 | 3.7 | Done in F5a/F5b: e2e + a11y sweep, error screens, offline banner, bundle budget (`npm run size`) | Claude | [x] |
