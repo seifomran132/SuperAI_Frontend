@@ -199,7 +199,8 @@
       "loading": "Loading messages",
       "error": "Couldn't load messages. Try again.",
       "loadingOlder": "Loading older messages",
-      "olderError": "Couldn't load older messages."
+      "olderError": "Couldn't load older messages.",
+      "region": "Messages"
     },
     "notFound": {
       "action": "Start a new chat"
@@ -304,7 +305,37 @@
       "finishStepFirst": "Finish the current step first.",
       "notReady": "Designs can't be made right now. Please try again later.",
       "next": "What next?",
-      "multipleHint": "Pick all that apply."
+      "multipleHint": "Pick all that apply.",
+      "region": {
+        "hint": {
+          "product": "Drag a box around the product you want replaced.",
+          "logo": "Drag a box around the logo you want replaced."
+        },
+        "boxLabel": {
+          "product": "Product",
+          "logo": "Logo"
+        },
+        "canvasLabel": {
+          "product": "The design: mark the product",
+          "logo": "The design: mark the logo"
+        },
+        "adjustHint": "Move the box, or drag a corner to resize it.",
+        "reset": "Redraw",
+        "skip": "Skip — the designer finds it",
+        "tooSmall": "The box is too small. Drag a bigger one.",
+        "imageError": "Couldn't load the design.",
+        "keyboard": "Keyboard shortcuts",
+        "keyboardHelp": "Enter: a box in the middle. Arrows: move (Shift for bigger steps). Alt with arrows: resize. Delete: redraw.",
+        "announce": "Box {{x}}% from the left and {{y}}% from the top, {{width}}% wide and {{height}}% tall.",
+        "corner": {
+          "nw": "Top-left corner",
+          "ne": "Top-right corner",
+          "sw": "Bottom-left corner",
+          "se": "Bottom-right corner"
+        },
+        "otherLogo": "Logo",
+        "thumbnail": "The design with the marked area"
+      }
     }
   },
   "balance": {

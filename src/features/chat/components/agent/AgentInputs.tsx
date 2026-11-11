@@ -16,7 +16,7 @@ import {
   PendingTile,
   useAssetUploads,
 } from '~/features/brand-kits/ui';
-import type { AssetKind } from '~/features/brand-kits';
+import { isAssetKind, type AssetKind } from '~/features/brand-kits';
 import { cn } from '~/lib/utils';
 import type { AgentUi, AgentValue } from '../../model/agent';
 
@@ -310,10 +310,11 @@ export function UploadInput({
 }: InputProps<'upload'>) {
   const { t } = useTranslation();
   const id = useId();
-  const kinds = ui.kinds.filter((k): k is AssetKind =>
-    ['logo', 'reference', 'product', 'guideline'].includes(k),
-  );
-  const [kind, setKind] = useState<AssetKind>(kinds[0] ?? 'reference');
+  // The kinds exactly as the step sends them: the backend checks each file's
+  // kind (an edit takes only `design`), so never substitute another.
+  const kinds = ui.kinds.filter(isAssetKind);
+  const [picked, setKind] = useState<AssetKind | null>(null);
+  const kind = picked ?? kinds[0] ?? null;
   const [sent, setSent] = useState<BrandAssetDto[]>([]);
   const uploads = useAssetUploads({
     kitId: ui.brandKitId,
@@ -340,12 +341,15 @@ export function UploadInput({
           ))}
         </div>
       ) : null}
-      <AssetDropZone
-        kind={kind}
-        disabled={busy || room <= 0}
-        describedBy={room <= 0 ? `${id}-max` : undefined}
-        onFiles={(files) => uploads.add(kind, files, room)}
-      />
+      {kind ? (
+        <AssetDropZone
+          kind={kind}
+          multiple={ui.maxFiles > 1}
+          disabled={busy || room <= 0}
+          describedBy={room <= 0 ? `${id}-max` : undefined}
+          onFiles={(files) => uploads.add(kind, files, room)}
+        />
+      ) : null}
       {room <= 0 ? (
         <p id={`${id}-max`} className="text-fg-muted text-sm">
           {t('chat.agent.maxFiles', { count: ui.maxFiles })}

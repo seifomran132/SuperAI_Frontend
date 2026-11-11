@@ -2,10 +2,11 @@ import { Suspense, lazy, memo } from 'react';
 import { CircleCheck, Palette } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import type { MessageDto } from '~/api/generated/types.gen';
-import { agentUi } from '../../model/agent';
+import { agentUi, type AgentRegion } from '../../model/agent';
 
 // Loads with the first results, not with every chat.
 const AgentResults = lazy(() => import('./AgentResults'));
+const RegionThumbnail = lazy(() => import('./RegionThumbnail'));
 
 /** The agent's name on its messages; brand fill, since an agent is not a mode (S25). */
 export function AgentChip({ label }: { label: string }) {
@@ -102,16 +103,38 @@ const colorsOf = (message: MessageDto): string[] => {
     : [];
 };
 
-/** The user's answer to a step, as a user bubble; colours show as swatches. */
+/**
+ * The user's answer to a step, as a user bubble; colours show as swatches,
+ * a marked area as the design with its box (from the question it answers).
+ */
 export const AgentReply = memo(function AgentReply({
   message,
+  question,
 }: {
   message: MessageDto;
+  /** The agent message this answers, for a marked area's image. */
+  question?: MessageDto;
 }) {
   const colors = colorsOf(message);
+  const region = (message.answer?.value as { region?: AgentRegion } | undefined)
+    ?.region;
+  const asked = question ? agentUi(question) : null;
   return (
     <div className="flex flex-col items-start">
       <div className="bg-surface-muted text-fg max-w-[85%] rounded-lg px-4 py-2.5 text-base leading-7">
+        {region && asked?.type === 'region' ? (
+          <Suspense fallback={null}>
+            <div className="mb-2">
+              <RegionThumbnail
+                brandKitId={asked.brandKitId}
+                assetId={asked.assetId}
+                width={asked.width}
+                height={asked.height}
+                region={region}
+              />
+            </div>
+          </Suspense>
+        ) : null}
         {colors.length > 0 ? (
           <span className="flex flex-wrap items-center gap-2 py-1">
             {colors.map((hex) => (

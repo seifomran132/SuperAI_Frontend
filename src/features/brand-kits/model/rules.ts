@@ -19,6 +19,16 @@ export const IMAGE_MAX_BYTES = 10 * 1024 * 1024;
 export const PDF_MAX_BYTES = 20 * 1024 * 1024;
 
 export type AssetKind = BrandAssetDto['kind'];
+const KNOWN_KINDS = new Set<string>([
+  'logo',
+  'reference',
+  'product',
+  'guideline',
+  'design',
+]);
+/** A kind the API knows; the chat's upload steps send theirs (`design` for an edit). */
+export const isAssetKind = (kind: string): kind is AssetKind =>
+  KNOWN_KINDS.has(kind);
 /** Display order of the file groups (S24). */
 export const ASSET_KINDS: AssetKind[] = [
   'logo',

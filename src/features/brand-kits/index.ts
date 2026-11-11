@@ -4,11 +4,13 @@ export type { BrandUploadErrorCode, UploadBrandAsset } from './model/upload';
 export {
   useBrandKits,
   useBrandKit,
+  useBrandAssetImage,
   refreshKits,
   kitKey,
 } from './model/queries';
 export {
   checkAssetFile,
+  isAssetKind,
   normalizeHex,
   ASSETS_MAX,
   COLORS_MAX,

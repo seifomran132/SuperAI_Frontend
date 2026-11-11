@@ -152,7 +152,11 @@ export function MessageList({
     <div
       ref={scroller}
       onScroll={onScroll}
-      className="relative h-full overflow-y-auto overscroll-contain"
+      // Reachable by keyboard even when no message has a button (agent replies).
+      role="region"
+      tabIndex={0}
+      aria-label={t('chat.list.region')}
+      className="focus-visible:outline-focus relative h-full overflow-y-auto overscroll-contain outline-hidden focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-solid"
     >
       <div
         className={cn(
@@ -198,7 +202,11 @@ export function MessageList({
               onEditDesign={onEditDesign}
             />
           ) : agentLabel !== undefined && message.answer ? (
-            <AgentReply key={message.id} message={message} />
+            <AgentReply
+              key={message.id}
+              message={message}
+              question={messages[index - 1]}
+            />
           ) : message.role === 'user' ? (
             <UserMessage
               key={message.id}

@@ -6,9 +6,11 @@ import { Button } from '~/components/ui/button';
 import {
   activeAgentMessage,
   agentUi,
+  type AgentRegion,
   type AgentValue,
   type useAgentAnswer,
 } from '../../model/agent';
+import { RegionInput } from './RegionInput';
 import {
   BrandPickerInput,
   ChoicesInput,
@@ -103,6 +105,16 @@ export default function AgentDock({
         />
       );
       break;
+    case 'region':
+      input = (
+        <RegionInput
+          key={active.id}
+          ui={ui}
+          {...props}
+          other={markedLogo(messages)}
+        />
+      );
+      break;
     case 'progress':
       // Designs are being made: nothing to answer; the page polls meanwhile.
       input = (
@@ -177,4 +189,18 @@ export default function AgentDock({
       {input}
     </div>
   );
+}
+
+/** The logo box answered earlier in this edit, if any (shown on the product step). */
+function markedLogo(messages: MessageDto[]) {
+  for (let i = messages.length - 1; i >= 0; i--) {
+    const answer = messages[i]!.answer as {
+      step?: string;
+      value?: { region?: AgentRegion };
+    } | null;
+    if (answer?.step === 'edit_logo_region')
+      return answer.value?.region ?? null;
+    if (answer?.step === 'edit_upload') return null;
+  }
+  return null;
 }

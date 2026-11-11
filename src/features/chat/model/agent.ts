@@ -34,6 +34,14 @@ export interface AgentOption {
   labelAr: string;
   labelEn: string;
 }
+/** A box on the uploaded design, as fractions 0-1 from its top left (§11.1). */
+export interface AgentRegion {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
 /** A delivered design in a results message (§11.1). */
 export interface AgentDesign {
   outputId: string;
@@ -95,10 +103,24 @@ export type AgentUi = Base &
           labelAr: string;
           labelEn: string;
           value: string;
+          /** Region items (`product_region`, `logo_region`): the box, or null. */
+          region?: AgentRegion | null;
         }[];
         editable: string[];
         /** Request summary only; null while designs can't be priced (§11.3). */
         estimate?: { variants: number; fitsVariants: number } | null;
+      }
+    | {
+        type: 'region';
+        brandKitId: string;
+        assetId: string;
+        /** The design's pixels: its shape before the file loads. */
+        width: number;
+        height: number;
+        target: 'product' | 'logo';
+        optional: boolean;
+        /** The earlier box when redrawing from the summary. */
+        current?: AgentRegion | null;
       }
     | { type: 'progress'; done: number; total: number }
     | {
@@ -117,6 +139,7 @@ const TYPES = new Set([
   'brand_picker',
   'fields',
   'summary',
+  'region',
   'progress',
   'results',
   'none',

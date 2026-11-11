@@ -389,9 +389,9 @@ export type AgentAnswerDto = {
     /**
      * The step being answered: the newest agent message's `ui.step`. Another step is 409 AGENT_STEP_MISMATCH
      */
-    step: 'brand_pick' | 'brand_name' | 'brand_logo' | 'brand_colors' | 'brand_style' | 'brand_fonts' | 'brand_extras' | 'brand_summary' | 'design_format' | 'design_topic' | 'design_text' | 'design_media' | 'design_summary' | 'design_running' | 'design_results' | 'design_edit' | 'edit_upload' | 'edit_changes' | 'edit_product' | 'edit_text' | 'edit_summary' | 'blocked';
+    step: 'brand_pick' | 'brand_name' | 'brand_logo' | 'brand_colors' | 'brand_style' | 'brand_fonts' | 'brand_extras' | 'brand_summary' | 'design_format' | 'design_topic' | 'design_text' | 'design_media' | 'design_summary' | 'design_running' | 'design_results' | 'design_edit' | 'edit_upload' | 'edit_changes' | 'edit_logo_region' | 'edit_product_region' | 'edit_product' | 'edit_text' | 'edit_summary' | 'blocked';
     /**
-     * The answer, shaped by the input (docs/API_CONTRACT.md §11): `{ text }`, `{ choice }` or `{ text }`, `{ assetIds }`, `{ colors }`, `{ headline, subtext }`, `{ brandKitId }` or `{ new: true }`, `{ action, field? }`
+     * The answer, shaped by the input (docs/API_CONTRACT.md §11): `{ text }`, `{ choice }` or `{ text }`, `{ assetIds }`, `{ colors }`, `{ headline, subtext }`, `{ brandKitId }` or `{ new: true }`, `{ action, field? }`, `{ region: { x, y, width, height } }` or `{ skip: true }`
      */
     value: {
         [key: string]: unknown;
@@ -410,7 +410,7 @@ export type AgentAnswerResultDto = {
     /**
      * The step to answer next
      */
-    step: 'brand_pick' | 'brand_name' | 'brand_logo' | 'brand_colors' | 'brand_style' | 'brand_fonts' | 'brand_extras' | 'brand_summary' | 'design_format' | 'design_topic' | 'design_text' | 'design_media' | 'design_summary' | 'design_running' | 'design_results' | 'design_edit' | 'edit_upload' | 'edit_changes' | 'edit_product' | 'edit_text' | 'edit_summary' | 'blocked';
+    step: 'brand_pick' | 'brand_name' | 'brand_logo' | 'brand_colors' | 'brand_style' | 'brand_fonts' | 'brand_extras' | 'brand_summary' | 'design_format' | 'design_topic' | 'design_text' | 'design_media' | 'design_summary' | 'design_running' | 'design_results' | 'design_edit' | 'edit_upload' | 'edit_changes' | 'edit_logo_region' | 'edit_product_region' | 'edit_product' | 'edit_text' | 'edit_summary' | 'blocked';
 };
 
 export type DesignDto = {

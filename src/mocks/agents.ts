@@ -27,6 +27,8 @@ export const agentPrompts: Record<string, string> = {
   design_results: 'هذه تصاميمك.',
   edit_summary: 'راجع التعديل قبل أن ننفّذه.',
   edit_changes: 'ماذا نغيّر في التصميم؟',
+  edit_logo_region: 'حدّد مكان الشعار في التصميم',
+  edit_product_region: 'حدّد مكان المنتج في التصميم',
   blocked: 'باقتك الحالية لا تتيح هويات العلامة التجارية.',
 };
 
@@ -203,6 +205,25 @@ export const steps = {
               labelEn: 'Another brand',
             },
           ],
+  }),
+  region: (
+    target: 'product' | 'logo' = 'product',
+    current: {
+      x: number;
+      y: number;
+      width: number;
+      height: number;
+    } | null = null,
+  ): Ui => ({
+    type: 'region',
+    step: target === 'logo' ? 'edit_logo_region' : 'edit_product_region',
+    brandKitId: 'kit-1',
+    assetId: 'design-1',
+    width: 1200,
+    height: 900,
+    target,
+    optional: target === 'logo',
+    current,
   }),
   blocked: (): Ui => ({ type: 'none', step: 'blocked' }),
 };

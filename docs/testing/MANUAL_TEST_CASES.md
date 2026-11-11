@@ -550,6 +550,8 @@ Turn the agent on for a test plan on `/admin/agents` (or Bruno `26-agents-setup`
 | AG-07 | Request summary with little balance | «رصيدك يكفي لتصميم واحد من 2»; with none, the warning and «يبدو جيدًا» disabled | [ ] | manual: needs a priced agent |
 | AG-08 | Answer in a second tab, then in the first | «تغيّرت المحادثة، فعرضنا السؤال الأخير.» and the latest question | [ ] | manual |
 | AG-09 | Phone: run the brand setup | Inputs stay above the keyboard; no sideways scroll | [ ] | manual |
+| AG-10 | «تعديل تصميم موجود»: upload a design, choose «استبدال المنتج», draw a box around the product, upload the new product | The box draws, moves and resizes; the reply shows the design with the box; the summary says «مكان المنتج: محدَّد» | [ ] | **auto** `agent-chat` (AG-07) |
+| AG-11 | Same with «استبدال الشعار»: skip the logo step; on the product step see the logo box faintly when it was marked | Skip sends «ابحث عنه بنفسك»; summary «مكان الشعار: تلقائي» | [ ] | manual (unit-tested) |
 
 ---
 

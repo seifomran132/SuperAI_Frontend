@@ -1,6 +1,6 @@
 # Arabic copy review
 
-Generated from `src/i18n` by `npm run copy:table` — 1861 strings. Do not edit the Arabic here: write the correction in **Notes**, and the frontend team applies it to `ar.json`.
+Generated from `src/i18n` by `npm run copy:table` — 1884 strings. Do not edit the Arabic here: write the correction in **Notes**, and the frontend team applies it to `ar.json`.
 
 - `{{name}}` parts are filled in by the app (brand name, amounts, dates); keep them as they are.
 - `errors.*` strings are shown when the API returns that error code.
@@ -382,6 +382,7 @@ Generated from `src/i18n` by `npm run copy:table` — 1861 strings. Do not edit 
 | `error` | تعذّر تحميل الرسائل. حاول مرة أخرى. | Couldn't load messages. Try again. | |
 | `loadingOlder` | جاري تحميل رسائل أقدم | Loading older messages | |
 | `olderError` | تعذّر تحميل الرسائل الأقدم. | Couldn't load older messages. | |
+| `region` | الرسائل | Messages | |
 
 ## chat.notFound
 
@@ -509,6 +510,26 @@ Generated from `src/i18n` by `npm run copy:table` — 1861 strings. Do not edit 
 | `notReady` | لا يمكن إنشاء التصاميم الآن. حاول لاحقًا. | Designs can't be made right now. Please try again later. | |
 | `next` | ماذا بعد؟ | What next? | |
 | `multipleHint` | اختر كل ما ينطبق. | Pick all that apply. | |
+| `region.hint.product` | اسحب مربعًا حول المنتج الذي تريد استبداله. | Drag a box around the product you want replaced. | |
+| `region.hint.logo` | اسحب مربعًا حول الشعار الذي تريد استبداله. | Drag a box around the logo you want replaced. | |
+| `region.boxLabel.product` | المنتج | Product | |
+| `region.boxLabel.logo` | الشعار | Logo | |
+| `region.canvasLabel.product` | التصميم: حدّد مكان المنتج | The design: mark the product | |
+| `region.canvasLabel.logo` | التصميم: حدّد مكان الشعار | The design: mark the logo | |
+| `region.adjustHint` | حرّك المربع أو اسحب ركنًا لتغيير حجمه. | Move the box, or drag a corner to resize it. | |
+| `region.reset` | إعادة التحديد | Redraw | |
+| `region.skip` | تخطَّ — يجده المصمم | Skip — the designer finds it | |
+| `region.tooSmall` | المربع صغير جدًا. اسحب مربعًا أكبر. | The box is too small. Drag a bigger one. | |
+| `region.imageError` | تعذّر تحميل التصميم. | Couldn't load the design. | |
+| `region.keyboard` | اختصارات لوحة المفاتيح | Keyboard shortcuts | |
+| `region.keyboardHelp` | Enter: مربع في المنتصف. الأسهم: تحريك (مع Shift خطوة أكبر). Alt مع الأسهم: تغيير الحجم. Delete: إعادة التحديد. | Enter: a box in the middle. Arrows: move (Shift for bigger steps). Alt with arrows: resize. Delete: redraw. | |
+| `region.announce` | المربع من اليسار {{x}}٪ ومن الأعلى {{y}}٪، عرضه {{width}}٪ وارتفاعه {{height}}٪. | Box {{x}}% from the left and {{y}}% from the top, {{width}}% wide and {{height}}% tall. | |
+| `region.corner.nw` | الركن العلوي الأيسر | Top-left corner | |
+| `region.corner.ne` | الركن العلوي الأيمن | Top-right corner | |
+| `region.corner.sw` | الركن السفلي الأيسر | Bottom-left corner | |
+| `region.corner.se` | الركن السفلي الأيمن | Bottom-right corner | |
+| `region.otherLogo` | الشعار | Logo | |
+| `region.thumbnail` | التصميم مع المكان المحدَّد | The design with the marked area | |
 
 ## balance
 
@@ -2228,6 +2249,8 @@ Generated from `src/i18n` by `npm run copy:table` — 1861 strings. Do not edit 
 | `kinds.product.body` | صور منتجاتك أو خدماتك. | Photos of your products or services. | |
 | `kinds.guideline.title` | أدلة الهوية | Brand guidelines | |
 | `kinds.guideline.body` | دليل استخدام الشعار والألوان إن وجد. | Your logo and colour guide, if you have one. | |
+| `kinds.design.title` | تصميم للتعديل | Design to edit | |
+| `kinds.design.body` | التصميم الذي تريد تعديله. | The design you want edited. | |
 | `drop` | اسحب الملفات هنا أو اضغط للاختيار | Drop files here or click to choose | |
 | `pick` | اختيار ملفات | Choose files | |
 | `camera` | التقاط صورة | Take a photo | |

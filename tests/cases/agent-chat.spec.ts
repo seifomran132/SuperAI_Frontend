@@ -309,3 +309,77 @@ test('AG-06 the admin agents page lists the agent and opens its dialog', async (
     await context.close();
   }
 });
+
+test('AG-07 edit an uploaded design: mark the product with a drawn box', async ({
+  browser,
+}) => {
+  const s = await asNewUser(browser);
+  try {
+    await fetch(`${API}/api/v1/me/brand-kits`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${s.token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name: 'هوية للتعديل' }),
+    });
+    await startDesigner(s.page);
+    await asked(s.page, ask.pick);
+    await s.page
+      .locator('[data-agent-dock]')
+      .getByRole('button', { name: /هوية للتعديل/ })
+      .click();
+    await asked(s.page, ask.format);
+    await dockButton(s.page, 'تعديل تصميم موجود').click();
+    await asked(s.page, 'ارفع التصميم الذي تريد تعديله');
+    await s.page
+      .locator('[data-agent-dock] input[type=file]:not([capture])')
+      .setInputFiles({
+        name: 'post.png',
+        mimeType: 'image/png',
+        buffer: solidPng([30, 41, 59], 300),
+      });
+    await expect(s.page.locator('[data-agent-dock] img')).toHaveCount(1);
+    await dockButton(s.page, g.send).click();
+    await asked(s.page, 'ماذا نغيّر فيه؟');
+    await dockButton(s.page, 'استبدال المنتج').click();
+    await dockButton(s.page, g.send).click();
+    await asked(s.page, 'حدّد مكان المنتج');
+
+    const canvas = s.page.getByRole('application', {
+      name: g.region.canvasLabel.product,
+    });
+    await expect(canvas.locator('img')).toBeVisible();
+    await expect(dockButton(s.page, g.send)).toBeDisabled();
+    const box = (await canvas.boundingBox())!;
+    await s.page.mouse.move(box.x + box.width * 0.3, box.y + box.height * 0.3);
+    await s.page.mouse.down();
+    await s.page.mouse.move(box.x + box.width * 0.7, box.y + box.height * 0.7, {
+      steps: 5,
+    });
+    await s.page.mouse.up();
+    await expectAccessibleRtl(s.page);
+    await dockButton(s.page, g.send).click();
+    await asked(s.page, 'ارفع صورة المنتج');
+    await expect(
+      s.page.getByRole('img', { name: g.region.thumbnail }),
+    ).toBeVisible();
+
+    await s.page
+      .locator('[data-agent-dock] input[type=file]:not([capture])')
+      .setInputFiles({
+        name: 'product.png',
+        mimeType: 'image/png',
+        buffer: solidPng([200, 160, 75], 200),
+      });
+    await expect(s.page.locator('[data-agent-dock] img')).toHaveCount(1);
+    await dockButton(s.page, g.send).click();
+    await asked(s.page, 'هذا التعديل المطلوب');
+    const dock = s.page.locator('[data-agent-dock]');
+    await expect(dock).toContainText('مكان المنتج');
+    await expect(dock).toContainText('محدَّد');
+    await expectNoHorizontalScroll(s.page);
+  } finally {
+    await s.close();
+  }
+});

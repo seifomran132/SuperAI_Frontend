@@ -79,6 +79,10 @@
         "guideline": {
           "title": "Brand guidelines",
           "body": "Your logo and colour guide, if you have one."
+        },
+        "design": {
+          "title": "Design to edit",
+          "body": "The design you want edited."
         }
       },
       "drop": "Drop files here or click to choose",
