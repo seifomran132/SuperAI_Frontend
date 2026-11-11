@@ -96,6 +96,10 @@ export type PublicPlanDto = {
      */
     isDefault: boolean;
     /**
+     * Brand kits a user on this plan may keep
+     */
+    maxBrandKits: number;
+    /**
      * Modes the plan includes that are currently offered, in display order
      */
     modes: Array<PublicPlanModeDto>;
@@ -146,6 +150,12 @@ export type ActivityModeDto = {
     labelEn: string;
 };
 
+export type ActivityAgentDto = {
+    key: string;
+    labelAr: string;
+    labelEn: string;
+};
+
 export type ActivityEntryDto = {
     id: string;
     /**
@@ -159,13 +169,17 @@ export type ActivityEntryDto = {
     balanceAfterUsd: string;
     createdAt: string;
     /**
-     * Chat charges only: the conversation of the answer. Null for other types, and when the conversation was deleted (the charge stays)
+     * Charges only: the conversation of the answer or design. Null for other types, and when the conversation was deleted (the charge stays)
      */
     conversationId: string | null;
     /**
      * Chat charges only: the mode used. Null for other types
      */
     mode: ActivityModeDto | null;
+    /**
+     * Design charges only: the agent that made it. Null for other types
+     */
+    agent: ActivityAgentDto | null;
 };
 
 export type ActivityPageDto = {
@@ -217,7 +231,7 @@ export type FieldErrorDto = {
 
 export type ApiErrorResponseDto = {
     statusCode: number;
-    code: 'UNAUTHENTICATED' | 'INVALID_TOKEN' | 'ACCOUNT_NOT_FOUND' | 'ACCOUNT_SUSPENDED' | 'ACCOUNT_DELETED' | 'FORBIDDEN' | 'VALIDATION_FAILED' | 'USER_NOT_FOUND' | 'EMAIL_NOT_CONFIRMED' | 'ACCOUNT_NOT_ACTIVE' | 'CANNOT_MODIFY_SELF' | 'LAST_ADMIN' | 'PROVIDER_NOT_FOUND' | 'PROVIDER_ALREADY_EXISTS' | 'PROVIDER_KEY_INVALID' | 'PROVIDER_KEY_NOT_USED' | 'PROVIDER_KEY_MISSING' | 'PROVIDER_UNAVAILABLE' | 'MODEL_NOT_FOUND' | 'MODEL_ALREADY_EXISTS' | 'MODEL_IN_USE' | 'CATALOG_FINDING_NOT_FOUND' | 'CATALOG_FINDING_NOT_OPEN' | 'CATALOG_FINDING_NOT_APPLICABLE' | 'CATALOG_FINDING_OUTDATED' | 'CATALOG_SYNC_RUNNING' | 'MODE_NOT_FOUND' | 'MODE_ALREADY_EXISTS' | 'MODE_NOT_AVAILABLE' | 'PRICE_PERIOD_CONFLICT' | 'PLAN_NOT_FOUND' | 'PLAN_ALREADY_EXISTS' | 'PLAN_NOT_ACTIVE' | 'DEFAULT_PLAN_REQUIRED' | 'NO_ACTIVE_SUBSCRIPTION' | 'VOUCHER_NOT_FOUND' | 'VOUCHER_EXPIRED' | 'VOUCHER_USED_UP' | 'VOUCHER_ALREADY_REDEEMED' | 'VOUCHER_NOT_ELIGIBLE' | 'VOUCHER_CODE_TAKEN' | 'VOUCHER_BATCH_NOT_FOUND' | 'INSUFFICIENT_BALANCE' | 'IDEMPOTENCY_KEY_REUSED' | 'PAYMENT_REFERENCE_REUSED' | 'CONVERSATION_NOT_FOUND' | 'CONVERSATION_BUSY' | 'CONTEXT_TOO_LONG' | 'PROFILE_INCOMPLETE' | 'DUPLICATE_REQUEST' | 'RATE_LIMITED' | 'PROVIDER_MISCONFIGURED' | 'PROVIDER_TIMEOUT' | 'PROVIDER_ERROR' | 'CONTENT_BLOCKED' | 'ATTACHMENT_TOO_LARGE' | 'ATTACHMENT_TYPE_NOT_ALLOWED' | 'ATTACHMENT_NOT_FOUND' | 'ATTACHMENT_ALREADY_USED' | 'TOO_MANY_ATTACHMENTS' | 'MODE_NO_IMAGE_SUPPORT';
+    code: 'UNAUTHENTICATED' | 'INVALID_TOKEN' | 'ACCOUNT_NOT_FOUND' | 'ACCOUNT_SUSPENDED' | 'ACCOUNT_DELETED' | 'FORBIDDEN' | 'VALIDATION_FAILED' | 'USER_NOT_FOUND' | 'EMAIL_NOT_CONFIRMED' | 'ACCOUNT_NOT_ACTIVE' | 'CANNOT_MODIFY_SELF' | 'LAST_ADMIN' | 'PROVIDER_NOT_FOUND' | 'PROVIDER_ALREADY_EXISTS' | 'PROVIDER_KEY_INVALID' | 'PROVIDER_KEY_NOT_USED' | 'PROVIDER_KEY_MISSING' | 'PROVIDER_UNAVAILABLE' | 'MODEL_NOT_FOUND' | 'MODEL_ALREADY_EXISTS' | 'MODEL_IN_USE' | 'CATALOG_FINDING_NOT_FOUND' | 'CATALOG_FINDING_NOT_OPEN' | 'CATALOG_FINDING_NOT_APPLICABLE' | 'CATALOG_FINDING_OUTDATED' | 'CATALOG_SYNC_RUNNING' | 'MODE_NOT_FOUND' | 'MODE_ALREADY_EXISTS' | 'MODE_NOT_AVAILABLE' | 'PRICE_PERIOD_CONFLICT' | 'PLAN_NOT_FOUND' | 'PLAN_ALREADY_EXISTS' | 'PLAN_NOT_ACTIVE' | 'DEFAULT_PLAN_REQUIRED' | 'NO_ACTIVE_SUBSCRIPTION' | 'VOUCHER_NOT_FOUND' | 'VOUCHER_EXPIRED' | 'VOUCHER_USED_UP' | 'VOUCHER_ALREADY_REDEEMED' | 'VOUCHER_NOT_ELIGIBLE' | 'VOUCHER_CODE_TAKEN' | 'VOUCHER_BATCH_NOT_FOUND' | 'BRAND_KIT_NOT_FOUND' | 'AGENT_NOT_AVAILABLE' | 'AGENT_NOT_FOUND' | 'AGENT_STEP_MISMATCH' | 'AGENT_NOT_READY' | 'DESIGN_IN_PROGRESS' | 'DESIGN_NOT_FOUND' | 'AGENT_RUN_NOT_FOUND' | 'CONVERSATION_IS_AGENT' | 'CONVERSATION_NOT_AGENT' | 'BRAND_KIT_LIMIT_REACHED' | 'BRAND_ASSET_NOT_FOUND' | 'BRAND_ASSET_LIMIT_REACHED' | 'BRAND_ASSET_TOO_LARGE' | 'BRAND_ASSET_TYPE_NOT_ALLOWED' | 'INSUFFICIENT_BALANCE' | 'IDEMPOTENCY_KEY_REUSED' | 'PAYMENT_REFERENCE_REUSED' | 'CONVERSATION_NOT_FOUND' | 'CONVERSATION_BUSY' | 'CONTEXT_TOO_LONG' | 'PROFILE_INCOMPLETE' | 'DUPLICATE_REQUEST' | 'RATE_LIMITED' | 'PROVIDER_MISCONFIGURED' | 'PROVIDER_TIMEOUT' | 'PROVIDER_ERROR' | 'CONTENT_BLOCKED' | 'ATTACHMENT_TOO_LARGE' | 'ATTACHMENT_TYPE_NOT_ALLOWED' | 'ATTACHMENT_NOT_FOUND' | 'ATTACHMENT_ALREADY_USED' | 'TOO_MANY_ATTACHMENTS' | 'MODE_NO_IMAGE_SUPPORT';
     /**
      * English fallback; clients localize by `code`.
      */
@@ -232,6 +246,10 @@ export type ApiErrorResponseDto = {
 };
 
 export type CreateConversationDto = {
+    /**
+     * Start a conversation with an agent instead (GET /agents). Not together with modeKey. The response has the agent first question in GET .../messages
+     */
+    agentKey?: string;
     /**
      * Mode to start with; must be available on your plan (GET /modes). Can change per message.
      */
@@ -248,6 +266,10 @@ export type ConversationDto = {
      * Mode used last (a default for the next message)
      */
     modeKey: string | null;
+    /**
+     * The agent this conversation is with (GET /agents); null for a normal chat
+     */
+    agentKey: string | null;
     lastMessageAt: string;
     createdAt: string;
 };
@@ -316,6 +338,18 @@ export type MessageDto = {
      */
     attachments: Array<AttachmentDto>;
     /**
+     * Agent questions only: the input to show under it (docs/API_CONTRACT.md §11). Only the newest agent message's input is answerable
+     */
+    ui: {
+        [key: string]: unknown;
+    } | null;
+    /**
+     * Replies to an agent: `{ step, value }` as sent
+     */
+    answer: {
+        [key: string]: unknown;
+    } | null;
+    /**
      * USD charged for this answer (same as `chargeUsd` of the stream end). Null for your messages and while the answer is still being written; "0.000000000" when the answer failed or was stopped before anything was charged
      */
     costUsd: string | null;
@@ -341,6 +375,81 @@ export type UpdateConversationDto = {
      * New title; whitespace is collapsed and trimmed, 1 to 60 characters
      */
     title: string;
+};
+
+export type AgentDto = {
+    key: string;
+    labelAr: string;
+    labelEn: string;
+    descriptionAr: string;
+    descriptionEn: string;
+};
+
+export type AgentAnswerDto = {
+    /**
+     * The step being answered: the newest agent message's `ui.step`. Another step is 409 AGENT_STEP_MISMATCH
+     */
+    step: 'brand_pick' | 'brand_name' | 'brand_logo' | 'brand_colors' | 'brand_style' | 'brand_fonts' | 'brand_extras' | 'brand_summary' | 'design_format' | 'design_topic' | 'design_text' | 'design_media' | 'design_summary' | 'design_running' | 'design_results' | 'design_edit' | 'edit_upload' | 'edit_changes' | 'edit_product' | 'edit_text' | 'edit_summary' | 'blocked';
+    /**
+     * The answer, shaped by the input (docs/API_CONTRACT.md §11): `{ text }`, `{ choice }` or `{ text }`, `{ assetIds }`, `{ colors }`, `{ headline, subtext }`, `{ brandKitId }` or `{ new: true }`, `{ action, field? }`
+     */
+    value: {
+        [key: string]: unknown;
+    };
+    /**
+     * Made once per answer by the client. Sending it again returns the same messages instead of answering twice.
+     */
+    clientRequestId: string;
+};
+
+export type AgentAnswerResultDto = {
+    /**
+     * Your reply, then the agent's next question (oldest first)
+     */
+    messages: Array<MessageDto>;
+    /**
+     * The step to answer next
+     */
+    step: 'brand_pick' | 'brand_name' | 'brand_logo' | 'brand_colors' | 'brand_style' | 'brand_fonts' | 'brand_extras' | 'brand_summary' | 'design_format' | 'design_topic' | 'design_text' | 'design_media' | 'design_summary' | 'design_running' | 'design_results' | 'design_edit' | 'edit_upload' | 'edit_changes' | 'edit_product' | 'edit_text' | 'edit_summary' | 'blocked';
+};
+
+export type DesignDto = {
+    /**
+     * The design (output) id
+     */
+    id: string;
+    /**
+     * Its image: `GET /attachments/{id}` to show it
+     */
+    attachmentId: string;
+    width: number;
+    height: number;
+    /**
+     * 1 for a new design; each edit adds one
+     */
+    version: number;
+    parentId: string | null;
+    kind: 'create' | 'edit';
+    /**
+     * Null for an edited upload
+     */
+    format: 'instagram_post' | 'instagram_story' | 'facebook_post' | 'banner' | 'product_image';
+    aspectRatio: '1:1' | '3:4' | '4:3' | '9:16' | '16:9';
+    /**
+     * The check could not confirm the text or logo
+     */
+    needsReview: boolean;
+    brandKitId: string;
+    conversationId: string;
+    createdAt: string;
+};
+
+export type DesignPageDto = {
+    /**
+     * Newest first
+     */
+    items: Array<DesignDto>;
+    nextCursor: string | null;
 };
 
 export type MyUsageTotalsDto = {
@@ -370,6 +479,21 @@ export type MyUsageByDayDto = {
     chargedUsd: string;
 };
 
+export type MyDesignUsageDto = {
+    agentKey: string;
+    labelAr: string | null;
+    labelEn: string | null;
+    /**
+     * Designs made or edited
+     */
+    runs: number;
+    /**
+     * Designs delivered
+     */
+    designs: number;
+    chargedUsd: string;
+};
+
 export type MyUsageDto = {
     month: string;
     totals: MyUsageTotalsDto;
@@ -381,6 +505,10 @@ export type MyUsageDto = {
      * Every day of the month up to today, oldest first
      */
     byDay: Array<MyUsageByDayDto>;
+    /**
+     * Designs by agent this month (not in the message totals)
+     */
+    designs: Array<MyDesignUsageDto>;
 };
 
 export type RedeemVoucherDto = {
@@ -414,6 +542,168 @@ export type RedeemResultDto = {
      * Spendable balance after
      */
     balanceUsd: string;
+};
+
+export type BrandProfileDto = {
+    /**
+     * Visual style, up to 500 characters
+     */
+    style?: string;
+    /**
+     * Tone of voice, up to 300 characters
+     */
+    tone?: string;
+    /**
+     * How the brand fonts look (the image model cannot use font files), up to 300 characters
+     */
+    fontStyle?: string;
+    /**
+     * Up to 10 rules, each up to 200 characters
+     */
+    dos?: Array<string>;
+    /**
+     * Up to 10 rules, each up to 200 characters
+     */
+    donts?: Array<string>;
+    /**
+     * Anything else, up to 2000 characters
+     */
+    notes?: string;
+};
+
+export type CreateBrandKitDto = {
+    /**
+     * Up to 12 colours, most important first (#RGB or #RRGGBB, stored as #RRGGBB)
+     */
+    colors?: Array<string>;
+    /**
+     * Replaces the whole profile; omitted fields become empty
+     */
+    profile?: BrandProfileDto;
+    /**
+     * 1-80 characters
+     */
+    name: string;
+};
+
+export type BrandProfileOutDto = {
+    style: string;
+    tone: string;
+    fontStyle: string;
+    dos: Array<string>;
+    donts: Array<string>;
+    notes: string;
+};
+
+export type BrandKitDto = {
+    id: string;
+    name: string;
+    colors: Array<string>;
+    profile: BrandProfileOutDto;
+    /**
+     * Goes up by one with each change of colours or profile
+     */
+    version: number;
+    /**
+     * `draft` while the graphic designer agent is still setting it up in a chat; `ready` once confirmed
+     */
+    status: 'draft' | 'ready';
+    assetCount: number;
+    /**
+     * The newest logo, for list thumbnails
+     */
+    logoAssetId: string | null;
+    createdAt: string;
+    updatedAt: string;
+};
+
+export type BrandKitPageDto = {
+    items: Array<BrandKitDto>;
+    nextCursor: string | null;
+    /**
+     * Kits the user's plan allows
+     */
+    limit: number;
+};
+
+export type BrandAssetDto = {
+    id: string;
+    kind: 'logo' | 'reference' | 'product' | 'guideline' | 'design';
+    /**
+     * Images are kept as PNG (with transparency) or JPEG
+     */
+    mimeType: 'image/png' | 'image/jpeg' | 'application/pdf';
+    bytes: number;
+    width: number | null;
+    height: number | null;
+    /**
+     * Whether `?variant=preview` exists
+     */
+    hasPreview: boolean;
+    createdAt: string;
+};
+
+export type BrandKitDetailDto = {
+    id: string;
+    name: string;
+    colors: Array<string>;
+    profile: BrandProfileOutDto;
+    /**
+     * Goes up by one with each change of colours or profile
+     */
+    version: number;
+    /**
+     * `draft` while the graphic designer agent is still setting it up in a chat; `ready` once confirmed
+     */
+    status: 'draft' | 'ready';
+    assetCount: number;
+    /**
+     * The newest logo, for list thumbnails
+     */
+    logoAssetId: string | null;
+    createdAt: string;
+    updatedAt: string;
+    /**
+     * Newest first
+     */
+    assets: Array<BrandAssetDto>;
+};
+
+export type UpdateBrandKitDto = {
+    /**
+     * Up to 12 colours, most important first (#RGB or #RRGGBB, stored as #RRGGBB)
+     */
+    colors?: Array<string>;
+    /**
+     * Replaces the whole profile; omitted fields become empty
+     */
+    profile?: BrandProfileDto;
+    /**
+     * 1-80 characters
+     */
+    name?: string;
+};
+
+export type BrandKitVersionDto = {
+    version: number;
+    colors: Array<string>;
+    profile: BrandProfileOutDto;
+    createdAt: string;
+};
+
+export type BrandKitVersionListDto = {
+    /**
+     * Newest first
+     */
+    items: Array<BrandKitVersionDto>;
+};
+
+export type UploadBrandAssetResultDto = {
+    asset: BrandAssetDto;
+    /**
+     * The image's main colours, to suggest for the palette (not added by themselves)
+     */
+    suggestedColors: Array<string>;
 };
 
 export type AdminUserDto = {
@@ -1146,6 +1436,10 @@ export type PlanDto = {
      */
     isPublic: boolean;
     sortOrder: number;
+    /**
+     * Brand kits a user on this plan may keep
+     */
+    maxBrandKits: number;
     modeKeys: Array<string>;
     /**
      * Users currently subscribed to this plan
@@ -1174,6 +1468,7 @@ export type CreatePlanDto = {
     monthlyPriceUsd: string;
     includedBalanceUsd?: string;
     sortOrder: number;
+    maxBrandKits?: number;
     isPublic?: boolean;
     isActive?: boolean;
     modeKeys?: Array<string>;
@@ -1198,6 +1493,10 @@ export type UpdatePlanDto = {
     includedBalanceUsd?: string;
     sortOrder?: number;
     isPublic?: boolean;
+    /**
+     * Lowering it keeps the kits users already have; they cannot add more.
+     */
+    maxBrandKits?: number;
     /**
      * The default plan cannot be deactivated.
      */
@@ -1467,6 +1766,28 @@ export type UsageTotalsDto = {
     absorbedUsd: string;
 };
 
+export type DesignUsageDto = {
+    /**
+     * Runs settled (a new design or an edit each)
+     */
+    runs: number;
+    /**
+     * Designs delivered
+     */
+    designs: number;
+    /**
+     * Runs flagged for review
+     */
+    flaggedRuns: number;
+    chargedUsd: string;
+    providerCostUsd: string;
+    /**
+     * Charged − provider cost
+     */
+    marginUsd: string;
+    absorbedUsd: string;
+};
+
 export type OverviewCountDto = {
     /**
      * Mode key, or provider/model id for models
@@ -1512,6 +1833,14 @@ export type OverviewDto = {
      * Images users uploaded in the period
      */
     imagesUploaded: number;
+    /**
+     * Design runs in the period (not in usage above)
+     */
+    designs: DesignUsageDto;
+    /**
+     * Design runs flagged for review now
+     */
+    designRunsToReview: number;
     /**
      * Open catalog sync findings now
      */
@@ -1662,6 +1991,10 @@ export type UserUsageDto = {
      */
     byModel: Array<UsageByModelDto>;
     /**
+     * Design runs (not in the chat totals above)
+     */
+    designs: DesignUsageDto;
+    /**
      * Every day of the period, oldest first (zeros included)
      */
     byDay: Array<UsageByDayDto>;
@@ -1699,6 +2032,73 @@ export type AdminChatRequestDto = {
 export type ChatRequestPageDto = {
     items: Array<AdminChatRequestDto>;
     nextCursor: string | null;
+};
+
+export type AdminAgentRunDto = {
+    id: string;
+    createdAt: string;
+    settledAt: string | null;
+    userId: string;
+    userEmail: string | null;
+    agentKey: string;
+    conversationId: string;
+    designRequestId: string;
+    kind: 'create' | 'edit';
+    variants: number;
+    status: 'reserved' | 'settled' | 'released' | 'reconciliation_required';
+    designs: number;
+    steps: number;
+    reservedUsd: string;
+    chargedUsd: string | null;
+    providerCostUsd: string | null;
+    absorbedUsd: string | null;
+};
+
+export type AgentRunPageDto = {
+    items: Array<AdminAgentRunDto>;
+    nextCursor: string | null;
+};
+
+export type AgentRunStepDto = {
+    sequence: number;
+    kind: 'prompt' | 'image' | 'check';
+    variant: number | null;
+    modelId: string;
+    modelDisplayName: string;
+    providerCode: string;
+    status: 'started' | 'done' | 'failed';
+    usageSource: string | null;
+    inputTokens: number | null;
+    outputTokens: number | null;
+    providerCostUsd: string | null;
+    chargeUsd: string | null;
+    errorCode: string | null;
+    startedAt: string;
+    finishedAt: string | null;
+};
+
+export type AgentRunDetailDto = {
+    id: string;
+    createdAt: string;
+    settledAt: string | null;
+    userId: string;
+    userEmail: string | null;
+    agentKey: string;
+    conversationId: string;
+    designRequestId: string;
+    kind: 'create' | 'edit';
+    variants: number;
+    status: 'reserved' | 'settled' | 'released' | 'reconciliation_required';
+    designs: number;
+    steps: number;
+    reservedUsd: string;
+    chargedUsd: string | null;
+    providerCostUsd: string | null;
+    absorbedUsd: string | null;
+    /**
+     * In order
+     */
+    stepList: Array<AgentRunStepDto>;
 };
 
 export type AuditAdminDto = {
@@ -1985,6 +2385,106 @@ export type VoucherBatchCodeDto = {
 export type VoucherBatchCodePageDto = {
     items: Array<VoucherBatchCodeDto>;
     nextCursor: string | null;
+};
+
+export type AgentModelRefDto = {
+    id: string;
+    displayName: string;
+};
+
+export type AdminAgentDto = {
+    key: string;
+    labelAr: string;
+    labelEn: string;
+    descriptionAr: string;
+    descriptionEn: string;
+    /**
+     * Offered to users of its plans when on
+     */
+    isEnabled: boolean;
+    /**
+     * Text model that writes the image prompt
+     */
+    promptModel: AgentModelRefDto | null;
+    /**
+     * Model that creates the images
+     */
+    imageModel: AgentModelRefDto | null;
+    /**
+     * Model that reads each image to check its text and logo
+     */
+    checkModel: AgentModelRefDto | null;
+    variants: number;
+    /**
+     * Margin % for every step of this agent's runs, replacing the models' margins; null keeps them
+     */
+    marginOverridePct: string | null;
+    /**
+     * All three models set, switched on and priced: runs can be estimated and made
+     */
+    ready: boolean;
+    /**
+     * Instructions of the prompt writer; null uses the default
+     */
+    promptInstructions: string | null;
+    /**
+     * Instructions of the checker; null uses the default
+     */
+    checkInstructions: string | null;
+    sortOrder: number;
+    /**
+     * Plans that include it
+     */
+    planKeys: Array<string>;
+    updatedAt: string;
+};
+
+export type UpdateAgentDto = {
+    /**
+     * Why the change is made. Stored in the audit log.
+     */
+    reason: string;
+    /**
+     * Turn the agent on or off for users of its plans
+     */
+    isEnabled?: boolean;
+    labelAr?: string;
+    labelEn?: string;
+    descriptionAr?: string;
+    descriptionEn?: string;
+    sortOrder?: number;
+    /**
+     * A text model (not one that creates images)
+     */
+    promptModelId?: string | null;
+    /**
+     * A model that creates images
+     */
+    imageModelId?: string | null;
+    /**
+     * A model that reads images (and does not create them)
+     */
+    checkModelId?: string | null;
+    /**
+     * Variants per design request
+     */
+    variants?: number;
+    /**
+     * Margin % (0–500) for this agent's runs; null keeps the models' margins
+     */
+    marginOverridePct?: string | null;
+    /**
+     * Instructions of the prompt writer (up to 4000 characters); null restores the default
+     */
+    promptInstructions?: string | null;
+    /**
+     * Instructions of the checker (up to 4000 characters); it must still answer the JSON the agent reads. null restores the default
+     */
+    checkInstructions?: string | null;
+    /**
+     * Replaces the plans that include the agent
+     */
+    planKeys?: Array<string>;
 };
 
 export type SetProviderApiKeyDtoWritable = {
@@ -2419,6 +2919,107 @@ export type ConversationsMessagesResponses = {
 
 export type ConversationsMessagesResponse = ConversationsMessagesResponses[keyof ConversationsMessagesResponses];
 
+export type MeAgentsListData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/agents';
+};
+
+export type MeAgentsListResponses = {
+    200: Array<AgentDto>;
+};
+
+export type MeAgentsListResponse = MeAgentsListResponses[keyof MeAgentsListResponses];
+
+export type MeAgentsAnswerData = {
+    body: AgentAnswerDto;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/conversations/{id}/agent/answer';
+};
+
+export type MeAgentsAnswerErrors = {
+    /**
+     * VALIDATION_FAILED (the answer does not fit the question)
+     */
+    400: ApiErrorResponseDto;
+    /**
+     * CONVERSATION_NOT_FOUND, BRAND_KIT_NOT_FOUND
+     */
+    404: ApiErrorResponseDto;
+    /**
+     * AGENT_STEP_MISMATCH (data.step), CONVERSATION_NOT_AGENT, AGENT_NOT_AVAILABLE, BRAND_KIT_LIMIT_REACHED
+     */
+    409: ApiErrorResponseDto;
+};
+
+export type MeAgentsAnswerError = MeAgentsAnswerErrors[keyof MeAgentsAnswerErrors];
+
+export type MeAgentsAnswerResponses = {
+    200: AgentAnswerResultDto;
+};
+
+export type MeAgentsAnswerResponse = MeAgentsAnswerResponses[keyof MeAgentsAnswerResponses];
+
+export type MeDesignsListData = {
+    body?: never;
+    path?: never;
+    query?: {
+        limit?: number;
+        /**
+         * Cursor from `nextCursor` of the previous page
+         */
+        cursor?: string;
+        /**
+         * Only this brand kit
+         */
+        brandKitId?: string;
+    };
+    url: '/api/v1/me/designs';
+};
+
+export type MeDesignsListResponses = {
+    200: DesignPageDto;
+};
+
+export type MeDesignsListResponse = MeDesignsListResponses[keyof MeDesignsListResponses];
+
+export type MeDesignsExportData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: {
+        format?: 'png' | 'jpg' | 'webp';
+        /**
+         * `original`: as made. `standard`: the social media size of its shape (1080×1080, 1080×1440, 1440×1080, 1080×1920, 1920×1080)
+         */
+        size?: 'original' | 'standard';
+    };
+    url: '/api/v1/me/designs/{id}/export';
+};
+
+export type MeDesignsExportErrors = {
+    /**
+     * DESIGN_NOT_FOUND
+     */
+    404: ApiErrorResponseDto;
+};
+
+export type MeDesignsExportError = MeDesignsExportErrors[keyof MeDesignsExportErrors];
+
+export type MeDesignsExportResponses = {
+    /**
+     * The file
+     */
+    200: Blob | File;
+};
+
+export type MeDesignsExportResponse = MeDesignsExportResponses[keyof MeDesignsExportResponses];
+
 export type MeUsageUsageData = {
     body?: never;
     path?: never;
@@ -2475,6 +3076,260 @@ export type MeVouchersRedeemResponses = {
 };
 
 export type MeVouchersRedeemResponse = MeVouchersRedeemResponses[keyof MeVouchersRedeemResponses];
+
+export type MeBrandKitsListData = {
+    body?: never;
+    path?: never;
+    query?: {
+        limit?: number;
+        /**
+         * Cursor from `nextCursor` of the previous page
+         */
+        cursor?: string;
+    };
+    url: '/api/v1/me/brand-kits';
+};
+
+export type MeBrandKitsListResponses = {
+    200: BrandKitPageDto;
+};
+
+export type MeBrandKitsListResponse = MeBrandKitsListResponses[keyof MeBrandKitsListResponses];
+
+export type MeBrandKitsCreateData = {
+    body: CreateBrandKitDto;
+    path?: never;
+    query?: never;
+    url: '/api/v1/me/brand-kits';
+};
+
+export type MeBrandKitsCreateErrors = {
+    /**
+     * VALIDATION_FAILED
+     */
+    400: ApiErrorResponseDto;
+    /**
+     * BRAND_KIT_LIMIT_REACHED (data.limit)
+     */
+    409: ApiErrorResponseDto;
+};
+
+export type MeBrandKitsCreateError = MeBrandKitsCreateErrors[keyof MeBrandKitsCreateErrors];
+
+export type MeBrandKitsCreateResponses = {
+    201: BrandKitDto;
+};
+
+export type MeBrandKitsCreateResponse = MeBrandKitsCreateResponses[keyof MeBrandKitsCreateResponses];
+
+export type MeBrandKitsRemoveData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/me/brand-kits/{id}';
+};
+
+export type MeBrandKitsRemoveErrors = {
+    /**
+     * BRAND_KIT_NOT_FOUND
+     */
+    404: ApiErrorResponseDto;
+};
+
+export type MeBrandKitsRemoveError = MeBrandKitsRemoveErrors[keyof MeBrandKitsRemoveErrors];
+
+export type MeBrandKitsRemoveResponses = {
+    204: void;
+};
+
+export type MeBrandKitsRemoveResponse = MeBrandKitsRemoveResponses[keyof MeBrandKitsRemoveResponses];
+
+export type MeBrandKitsGetData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/me/brand-kits/{id}';
+};
+
+export type MeBrandKitsGetErrors = {
+    /**
+     * BRAND_KIT_NOT_FOUND
+     */
+    404: ApiErrorResponseDto;
+};
+
+export type MeBrandKitsGetError = MeBrandKitsGetErrors[keyof MeBrandKitsGetErrors];
+
+export type MeBrandKitsGetResponses = {
+    200: BrandKitDetailDto;
+};
+
+export type MeBrandKitsGetResponse = MeBrandKitsGetResponses[keyof MeBrandKitsGetResponses];
+
+export type MeBrandKitsUpdateData = {
+    body: UpdateBrandKitDto;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/me/brand-kits/{id}';
+};
+
+export type MeBrandKitsUpdateErrors = {
+    /**
+     * VALIDATION_FAILED
+     */
+    400: ApiErrorResponseDto;
+    /**
+     * BRAND_KIT_NOT_FOUND
+     */
+    404: ApiErrorResponseDto;
+};
+
+export type MeBrandKitsUpdateError = MeBrandKitsUpdateErrors[keyof MeBrandKitsUpdateErrors];
+
+export type MeBrandKitsUpdateResponses = {
+    200: BrandKitDetailDto;
+};
+
+export type MeBrandKitsUpdateResponse = MeBrandKitsUpdateResponses[keyof MeBrandKitsUpdateResponses];
+
+export type MeBrandKitsVersionsData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/me/brand-kits/{id}/versions';
+};
+
+export type MeBrandKitsVersionsErrors = {
+    /**
+     * BRAND_KIT_NOT_FOUND
+     */
+    404: ApiErrorResponseDto;
+};
+
+export type MeBrandKitsVersionsError = MeBrandKitsVersionsErrors[keyof MeBrandKitsVersionsErrors];
+
+export type MeBrandKitsVersionsResponses = {
+    200: BrandKitVersionListDto;
+};
+
+export type MeBrandKitsVersionsResponse = MeBrandKitsVersionsResponses[keyof MeBrandKitsVersionsResponses];
+
+export type MeBrandKitsUploadAssetData = {
+    body: {
+        file: Blob | File;
+    };
+    path: {
+        id: string;
+    };
+    query: {
+        /**
+         * `logo`, `reference` (past designs), `product` (product photos) or `guideline` (the only kind that takes a PDF)
+         */
+        kind: 'logo' | 'reference' | 'product' | 'guideline' | 'design';
+    };
+    url: '/api/v1/me/brand-kits/{id}/assets';
+};
+
+export type MeBrandKitsUploadAssetErrors = {
+    /**
+     * VALIDATION_FAILED (no `file` part, unknown `kind`)
+     */
+    400: ApiErrorResponseDto;
+    /**
+     * BRAND_KIT_NOT_FOUND
+     */
+    404: ApiErrorResponseDto;
+    /**
+     * BRAND_ASSET_LIMIT_REACHED
+     */
+    409: ApiErrorResponseDto;
+    /**
+     * BRAND_ASSET_TOO_LARGE
+     */
+    413: ApiErrorResponseDto;
+    /**
+     * BRAND_ASSET_TYPE_NOT_ALLOWED
+     */
+    415: ApiErrorResponseDto;
+    /**
+     * RATE_LIMITED (see the Retry-After header)
+     */
+    429: ApiErrorResponseDto;
+};
+
+export type MeBrandKitsUploadAssetError = MeBrandKitsUploadAssetErrors[keyof MeBrandKitsUploadAssetErrors];
+
+export type MeBrandKitsUploadAssetResponses = {
+    201: UploadBrandAssetResultDto;
+};
+
+export type MeBrandKitsUploadAssetResponse = MeBrandKitsUploadAssetResponses[keyof MeBrandKitsUploadAssetResponses];
+
+export type MeBrandKitsDownloadData = {
+    body?: never;
+    path: {
+        id: string;
+        assetId: string;
+    };
+    query?: {
+        /**
+         * `preview`: a small WebP (images only; a PDF has none)
+         */
+        variant?: 'original' | 'preview';
+    };
+    url: '/api/v1/me/brand-kits/{id}/assets/{assetId}/file';
+};
+
+export type MeBrandKitsDownloadErrors = {
+    /**
+     * BRAND_ASSET_NOT_FOUND
+     */
+    404: ApiErrorResponseDto;
+};
+
+export type MeBrandKitsDownloadError = MeBrandKitsDownloadErrors[keyof MeBrandKitsDownloadErrors];
+
+export type MeBrandKitsDownloadResponses = {
+    /**
+     * The file
+     */
+    200: Blob | File;
+};
+
+export type MeBrandKitsDownloadResponse = MeBrandKitsDownloadResponses[keyof MeBrandKitsDownloadResponses];
+
+export type MeBrandKitsDeleteAssetData = {
+    body?: never;
+    path: {
+        id: string;
+        assetId: string;
+    };
+    query?: never;
+    url: '/api/v1/me/brand-kits/{id}/assets/{assetId}';
+};
+
+export type MeBrandKitsDeleteAssetErrors = {
+    /**
+     * BRAND_ASSET_NOT_FOUND
+     */
+    404: ApiErrorResponseDto;
+};
+
+export type MeBrandKitsDeleteAssetError = MeBrandKitsDeleteAssetErrors[keyof MeBrandKitsDeleteAssetErrors];
+
+export type MeBrandKitsDeleteAssetResponses = {
+    204: void;
+};
+
+export type MeBrandKitsDeleteAssetResponse = MeBrandKitsDeleteAssetResponses[keyof MeBrandKitsDeleteAssetResponses];
 
 export type AdminUsersListData = {
     body?: never;
@@ -3837,6 +4692,69 @@ export type AdminReportsChatRequestsResponses = {
 
 export type AdminReportsChatRequestsResponse = AdminReportsChatRequestsResponses[keyof AdminReportsChatRequestsResponses];
 
+export type AdminReportsAgentRunsData = {
+    body?: never;
+    path?: never;
+    query?: {
+        userId?: string;
+        status?: 'reserved' | 'settled' | 'released' | 'reconciliation_required';
+        limit?: number;
+        cursor?: string;
+    };
+    url: '/api/v1/admin/agent-runs';
+};
+
+export type AdminReportsAgentRunsErrors = {
+    /**
+     * VALIDATION_FAILED (bad dates, `from` after `to`, over 366 days)
+     */
+    400: ApiErrorResponseDto;
+    /**
+     * FORBIDDEN
+     */
+    403: ApiErrorResponseDto;
+};
+
+export type AdminReportsAgentRunsError = AdminReportsAgentRunsErrors[keyof AdminReportsAgentRunsErrors];
+
+export type AdminReportsAgentRunsResponses = {
+    200: AgentRunPageDto;
+};
+
+export type AdminReportsAgentRunsResponse = AdminReportsAgentRunsResponses[keyof AdminReportsAgentRunsResponses];
+
+export type AdminReportsAgentRunData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/admin/agent-runs/{id}';
+};
+
+export type AdminReportsAgentRunErrors = {
+    /**
+     * VALIDATION_FAILED (bad dates, `from` after `to`, over 366 days)
+     */
+    400: ApiErrorResponseDto;
+    /**
+     * FORBIDDEN
+     */
+    403: ApiErrorResponseDto;
+    /**
+     * AGENT_RUN_NOT_FOUND
+     */
+    404: ApiErrorResponseDto;
+};
+
+export type AdminReportsAgentRunError = AdminReportsAgentRunErrors[keyof AdminReportsAgentRunErrors];
+
+export type AdminReportsAgentRunResponses = {
+    200: AgentRunDetailDto;
+};
+
+export type AdminReportsAgentRunResponse = AdminReportsAgentRunResponses[keyof AdminReportsAgentRunResponses];
+
 export type AdminReportsAuditFacetsData = {
     body?: never;
     path?: never;
@@ -4256,3 +5174,57 @@ export type AdminVoucherBatchesExportResponses = {
 };
 
 export type AdminVoucherBatchesExportResponse = AdminVoucherBatchesExportResponses[keyof AdminVoucherBatchesExportResponses];
+
+export type AdminAgentsListData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/admin/agents';
+};
+
+export type AdminAgentsListErrors = {
+    /**
+     * FORBIDDEN
+     */
+    403: ApiErrorResponseDto;
+};
+
+export type AdminAgentsListError = AdminAgentsListErrors[keyof AdminAgentsListErrors];
+
+export type AdminAgentsListResponses = {
+    200: Array<AdminAgentDto>;
+};
+
+export type AdminAgentsListResponse = AdminAgentsListResponses[keyof AdminAgentsListResponses];
+
+export type AdminAgentsUpdateData = {
+    body: UpdateAgentDto;
+    path: {
+        key: string;
+    };
+    query?: never;
+    url: '/api/v1/admin/agents/{key}';
+};
+
+export type AdminAgentsUpdateErrors = {
+    /**
+     * VALIDATION_FAILED
+     */
+    400: ApiErrorResponseDto;
+    /**
+     * FORBIDDEN
+     */
+    403: ApiErrorResponseDto;
+    /**
+     * AGENT_NOT_FOUND, PLAN_NOT_FOUND
+     */
+    404: ApiErrorResponseDto;
+};
+
+export type AdminAgentsUpdateError = AdminAgentsUpdateErrors[keyof AdminAgentsUpdateErrors];
+
+export type AdminAgentsUpdateResponses = {
+    200: AdminAgentDto;
+};
+
+export type AdminAgentsUpdateResponse = AdminAgentsUpdateResponses[keyof AdminAgentsUpdateResponses];

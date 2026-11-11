@@ -12,6 +12,8 @@ import { installSessionSync } from '~/features/auth/model/session';
 import { clearPendingEmail } from '~/features/auth/model/pending-email';
 import '~/i18n';
 import { resetAuthMock } from '~/mocks/auth';
+import { resetAgentMock } from '~/mocks/agents';
+import { resetBrandKitsMock } from '~/mocks/brand-kits';
 import { server } from '~/mocks/server';
 import { routeTree } from '~/routeTree.gen';
 
@@ -20,6 +22,8 @@ export function useAuthMocks() {
   beforeAll(() => server.listen({ onUnhandledFrame: 'error' }));
   beforeEach(() => {
     resetAuthMock();
+    resetBrandKitsMock();
+    resetAgentMock();
     clearPendingEmail();
   });
   afterEach(async () => {

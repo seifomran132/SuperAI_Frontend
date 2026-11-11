@@ -23,6 +23,7 @@ import {
   requiredError,
   serverFieldErrors,
   sortError,
+  brandKitsError,
   type Errors,
 } from '../model/form';
 import { invalidateCatalog } from '../model/queries';
@@ -44,6 +45,8 @@ export function PlanForm({ plan }: { plan?: PlanDto }) {
     monthlyPriceUsd: plan?.monthlyPriceUsd ?? '0',
     includedBalanceUsd: plan?.includedBalanceUsd ?? '0',
     sortOrder: String(plan?.sortOrder ?? 0),
+    // The backend's default for a new plan.
+    maxBrandKits: String(plan?.maxBrandKits ?? 5),
     isPublic: plan?.isPublic ?? true,
     isActive: plan?.isActive ?? true,
     isDefault: plan?.isDefault ?? false,
@@ -81,6 +84,7 @@ export function PlanForm({ plan }: { plan?: PlanDto }) {
       monthlyPriceUsd: decimalError(v.monthlyPriceUsd),
       includedBalanceUsd: decimalError(v.includedBalanceUsd),
       sortOrder: sortError(v.sortOrder),
+      maxBrandKits: brandKitsError(v.maxBrandKits),
     });
     setErrors(found);
     if (Object.keys(found).length === 0) setConfirming(true);
@@ -94,6 +98,7 @@ export function PlanForm({ plan }: { plan?: PlanDto }) {
     monthlyPriceUsd: v.monthlyPriceUsd.trim(),
     includedBalanceUsd: v.includedBalanceUsd.trim(),
     sortOrder: parseInt(v.sortOrder, 10),
+    maxBrandKits: parseInt(v.maxBrandKits, 10),
     isPublic: v.isPublic,
     isActive: v.isActive,
   };
@@ -183,6 +188,16 @@ export function PlanForm({ plan }: { plan?: PlanDto }) {
               value={v.sortOrder}
               error={err('sortOrder')}
               onChange={(x) => set('sortOrder', x)}
+            />
+            <TextField
+              label={t('admin.plans.maxBrandKits')}
+              hint={t('admin.plans.maxBrandKitsHint')}
+              required
+              dir="ltr"
+              inputMode="numeric"
+              value={v.maxBrandKits}
+              error={err('maxBrandKits')}
+              onChange={(x) => set('maxBrandKits', x)}
             />
           </div>
           <div className="grid gap-1">

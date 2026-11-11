@@ -57,6 +57,7 @@ export const plan = (key: string, active = true): PlanDto => ({
   sortOrder: 1,
   modeKeys: [],
   activeSubscriptions: 0,
+  maxBrandKits: 5,
   createdAt: '2026-01-01T00:00:00.000Z',
   updatedAt: '2026-01-01T00:00:00.000Z',
 });

@@ -142,7 +142,8 @@
       "error": "Couldn't load your chats. Try again.",
       "moreError": "Couldn't load more."
     },
-    "adminEntry": "Admin panel"
+    "adminEntry": "Admin panel",
+    "brands": "My brands"
   },
   "chat": {
     "balanceChip": "Balance",
@@ -248,6 +249,44 @@
       },
       "limitHint": "You can attach up to {{max}} images",
       "attachedList": "Attached images"
+    },
+    "agent": {
+      "group": "Specialised tasks",
+      "startsNew": "Starts a new chat",
+      "starting": "Starting…",
+      "startError": "Couldn’t start the chat. Try again.",
+      "cardAction": "Start",
+      "send": "Continue",
+      "skip": "Skip",
+      "orDescribe": "Or describe it in your words",
+      "newBrand": "New brand",
+      "newBrandBody": "We set it up together step by step",
+      "limitReached": "You’ve reached your plan’s brand kit limit.",
+      "viewPlans": "See plans",
+      "looksGood": "Looks good",
+      "edit": "Change",
+      "editLabel": "Change {{label}}",
+      "anotherBrand": "Another brand",
+      "noText": "No text",
+      "files_zero": "No files",
+      "files_one": "1 file",
+      "files_other": "{{count}} files",
+      "noColors": "No colours",
+      "moved": "The conversation moved on, so here is the latest question.",
+      "networkError": "Couldn’t send. Check your connection and try again.",
+      "retry": "Retry",
+      "notAvailable": "This assistant isn’t available on your plan.",
+      "newChat": "New chat",
+      "fitsSome_one": "Your balance covers 1 design of {{variants}}.",
+      "fitsSome_other": "Your balance covers {{count}} designs of {{variants}}.",
+      "fitsNone": "Your balance doesn’t cover this design.",
+      "balance": "Balance",
+      "requestBalance": "Request balance",
+      "uploadsPending": "Wait for the files to finish uploading.",
+      "maxFiles": "You can send up to {{count}} files.",
+      "inputLabel": "Your answer",
+      "counter": "{{count}} / {{max}}",
+      "answering": "Sending…"
     }
   },
   "balance": {

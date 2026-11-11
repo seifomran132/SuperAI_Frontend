@@ -1,6 +1,7 @@
-import { ImagePlus } from 'lucide-react';
+import { ImagePlus, Palette } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { BrandMark } from './BrandMark';
+import type { AgentDto } from '~/api/generated/types.gen';
 
 const chipKeys = ['chip1', 'chip2', 'chip3', 'chip4'] as const;
 
@@ -8,12 +9,19 @@ const chipKeys = ['chip1', 'chip2', 'chip3', 'chip4'] as const;
 export function EmptyState({
   onPick,
   imageMode,
+  agents = [],
+  onStartAgent,
+  startingAgent = null,
 }: {
   onPick: (text: string) => void;
   /** The selected mode creates images: other headline, hint and example prompts. */
   imageMode?: boolean;
+  /** Agents of the plan (F13): a card each, which starts its conversation. */
+  agents?: AgentDto[];
+  onStartAgent?: (agentKey: string) => void;
+  startingAgent?: string | null;
 }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const prefix = imageMode ? 'chat.emptyImage' : 'chat.empty';
   return (
     <div className="relative h-full overflow-y-auto">
@@ -44,6 +52,45 @@ export function EmptyState({
             );
           })}
         </ul>
+        {agents.length > 0 && onStartAgent ? (
+          <ul className="mt-2 grid w-full max-w-[640px] gap-3">
+            {agents.map((agent) => (
+              <li key={agent.key}>
+                <button
+                  type="button"
+                  disabled={startingAgent !== null}
+                  onClick={() => onStartAgent(agent.key)}
+                  className="bg-surface border-border-control hover:bg-surface-muted focus-visible:outline-focus flex min-h-16 w-full items-center gap-3 rounded-lg border px-4 py-3 text-start outline-hidden focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-60"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="bg-brand text-on-brand flex size-10 shrink-0 items-center justify-center rounded-md"
+                  >
+                    <Palette className="size-5" />
+                  </span>
+                  <span className="flex min-w-0 flex-1 flex-col">
+                    <span className="text-fg-subtle text-xs">
+                      {t('chat.agent.group')}
+                    </span>
+                    <span className="text-fg font-semibold">
+                      {i18n.language === 'en' ? agent.labelEn : agent.labelAr}
+                    </span>
+                    <span className="text-fg-muted text-sm">
+                      {i18n.language === 'en'
+                        ? agent.descriptionEn
+                        : agent.descriptionAr}
+                    </span>
+                  </span>
+                  <span className="text-fg text-sm font-semibold">
+                    {startingAgent === agent.key
+                      ? t('chat.agent.starting')
+                      : t('chat.agent.cardAction')}
+                  </span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        ) : null}
       </div>
     </div>
   );

@@ -19,6 +19,7 @@ const plan = (over: Partial<PublicPlanDto>): PublicPlanDto => ({
   monthlyPriceUsd: '0.000000000',
   includedBalanceUsd: '0.000000000',
   isDefault: true,
+  maxBrandKits: 5,
   modes: [],
   ...over,
 });

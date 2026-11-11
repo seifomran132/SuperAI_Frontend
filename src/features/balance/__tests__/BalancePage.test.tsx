@@ -25,6 +25,7 @@ const entry = (
   balanceAfterUsd: '14.480000000',
   conversationId: null,
   mode: null,
+  agent: null,
   createdAt: '2026-01-02T10:30:00.000Z',
 });
 
@@ -37,6 +38,23 @@ function activityReturns(items: ActivityEntryDto[]) {
 }
 
 describe('balance page', () => {
+  it('names the agent on a design charge', async () => {
+    activityReturns([
+      {
+        ...entry('usage_charge', '-0.120000000', 'd1'),
+        agent: {
+          key: 'graphic_designer',
+          labelAr: 'مصمم جرافيك',
+          labelEn: 'Graphic designer',
+        },
+      },
+    ]);
+    await renderApp('/balance');
+    expect(
+      await screen.findByText(`${types.usage_charge} · مصمم جرافيك`),
+    ).toBeInTheDocument();
+  });
+
   it('labels every entry type and signs the amounts', async () => {
     activityReturns([
       entry('subscription_credit', '10.000000000', '1'),

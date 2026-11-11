@@ -516,6 +516,43 @@ Use a user who has sent at least one message this month, so the reports have dat
 
 ---
 
+## 3h. Brand kits (F12) — `/brands`, any signed-in user
+
+The «علاماتي التجارية» link shows only on plans that offer the graphic designer; open `/brands` directly otherwise.
+
+| ID | Steps | Expected | Result | Notes |
+|---|---|---|---|---|
+| BK-01 | Open `/brands` with no kits; create one by name | Empty state; the dialog asks for the name; the kit page opens; no draft note | [ ] | **auto** `brand-kits` |
+| BK-02 | Upload a logo | Preview appears; «ألوان من شعارك» offers its colours; nothing is added until «إضافة» and «حفظ الألوان» | [ ] | **auto** `brand-kits` |
+| BK-03 | Fill tone and a «افعل» rule; save the profile | Saved as one change; counters stay left-to-right | [ ] | **auto** `brand-kits` |
+| BK-04 | Upload a PDF as a product photo, then as a guideline | Refused under the product drop zone; kept as a guideline (PDF tile with size) | [ ] | **auto** `brand-kits` |
+| BK-05 | Delete a file | It disappears and is gone after reload | [ ] | **auto** `brand-kits` |
+| BK-06 | Change the name, then leave by the back link | «مغادرة دون حفظ؟»; «البقاء» keeps the page, «المغادرة دون حفظ» leaves | [ ] | **auto** `brand-kits` |
+| BK-07 | Delete the kit | Confirmation first; back to the list | [ ] | **auto** `brand-kits` |
+| BK-08 | Reach the plan's kit limit | «هوية جديدة» disabled with the reason and «عرض الباقات» | [ ] | **auto** `brand-kits` |
+| BK-09 | On a phone, «التقاط صورة» in logos | The camera opens; the photo uploads | [ ] | manual: needs a real phone camera |
+| BK-10 | Open a draft made by the graphic designer | «مسودة» badge and the note linking to the chat | [ ] | manual until F13 |
+
+---
+
+## 3i. Graphic designer in the chat (F13) — `/chat`, agent on for the user's plan
+
+Turn the agent on for a test plan on `/admin/agents` (or Bruno `26-agents-setup`) first.
+
+| ID | Steps | Expected | Result | Notes |
+|---|---|---|---|---|
+| AG-01 | New user without brands: start «مصمم جرافيك», answer every step, confirm both summaries | One question per message; the input replaces the composer; the kit is ready; «تم حفظ طلبك»; no prices anywhere | [ ] | **auto** `agent-chat` (needs the backend's stage 4 migration locally, see F13 plan §8) |
+| AG-02 | Upload a logo at the logo step | Preview, then the colours step offers «ألوان من شعارك» | [ ] | **auto** `agent-chat` |
+| AG-03 | User with a ready brand: start the agent, pick it | Goes straight to «ماذا نصمم؟» | [ ] | **auto** `agent-chat` |
+| AG-04 | «تعديل» on the brand summary | Back to that question, then to the summary with the new value | [ ] | **auto** `agent-chat` |
+| AG-05 | Admin switches the agent off, then answer | «هذا المساعد غير متاح في باقتك.» with a link to plans | [ ] | **auto** `agent-chat` |
+| AG-06 | Open `/admin/agents`, edit | List with status, plans and readiness; dialog with models and cost; reason required | [ ] | **auto** `agent-chat` |
+| AG-07 | Request summary with little balance | «رصيدك يكفي لتصميم واحد من 2»; with none, the warning and «يبدو جيدًا» disabled | [ ] | manual: needs a priced agent |
+| AG-08 | Answer in a second tab, then in the first | «تغيّرت المحادثة، فعرضنا السؤال الأخير.» and the latest question | [ ] | manual |
+| AG-09 | Phone: run the brand setup | Inputs stay above the keyboard; no sideways scroll | [ ] | manual |
+
+---
+
 ## 4. Cross-cutting checks
 
 | ID | Check | Expected | Result | Notes |

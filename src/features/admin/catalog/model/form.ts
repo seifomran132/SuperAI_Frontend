@@ -39,6 +39,11 @@ export const sortError = (v: string) =>
   INTEGER.test(v.trim()) && parseInt(v, 10) <= 1000
     ? null
     : 'catalog.sortInvalid';
+/** Brand kits a plan allows (API: 0-100). */
+export const brandKitsError = (v: string) =>
+  INTEGER.test(v.trim()) && parseInt(v, 10) <= 100
+    ? null
+    : 'plans.maxBrandKitsInvalid';
 /** Margin % between 0 and 500. */
 export function percentError(v: string) {
   const text = v.trim();

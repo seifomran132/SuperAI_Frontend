@@ -31,7 +31,8 @@ function titleKey(pathname: string): string {
             : 'mode';
     return !rest ? area : rest === 'new' ? `${one}New` : `${one}Detail`;
   }
-  if (area === 'providers' || area === 'settings') return area;
+  if (area === 'providers' || area === 'settings' || area === 'agents')
+    return area;
   if (area === 'price-updates') return 'priceUpdates';
   if (area === 'overview') return 'overview';
   if (area === 'requests') return 'flagged';

@@ -1,13 +1,16 @@
-import { Check, ChevronDown } from 'lucide-react';
+import { Check, ChevronDown, Palette } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu';
-import type { ModeDto } from '~/api/generated/types.gen';
+import type { AgentDto, ModeDto } from '~/api/generated/types.gen';
 import { cn } from '~/lib/utils';
 import { modePosition } from '../model/useChatQueries';
 import { CreatesImagesBadge, ReadsImagesBadge } from './ImageNotices';
@@ -22,14 +25,21 @@ export function ModeSelector({
   modeKey,
   onSelect,
   supportsImages,
+  agents = [],
+  onStartAgent,
+  startingAgent = null,
 }: {
   modes: ModeDto[];
   modeKey: string | null;
   onSelect: (modeKey: string) => void;
   /** With it, modes that can read images get a «يقرأ الصور» mark. */
   supportsImages?: (modeKey: string) => boolean;
+  /** Agents of the plan (F13), offered as a second group; picking one starts a conversation. */
+  agents?: AgentDto[];
+  onStartAgent?: (agentKey: string) => void;
+  startingAgent?: string | null;
 }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const label = useModeLabel();
   const description = useModeDescription();
   const position = modePosition(modes, modeKey);
@@ -38,7 +48,7 @@ export function ModeSelector({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
-        disabled={modes.length === 0}
+        disabled={modes.length === 0 && agents.length === 0}
         data-mode-position={position}
         className={cn(
           'focus-visible:outline-focus inline-flex h-11 items-center gap-1.5 rounded-full border px-3.5 text-sm font-semibold outline-hidden focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-60',
@@ -99,6 +109,43 @@ export function ModeSelector({
             </DropdownMenuRadioItem>
           ))}
         </DropdownMenuRadioGroup>
+        {/* Agents are tasks, not modes: picking one starts its own conversation. */}
+        {agents.length > 0 && onStartAgent ? (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuLabel className="text-fg-subtle text-xs font-medium">
+              {t('chat.agent.group')}
+            </DropdownMenuLabel>
+            {agents.map((agent) => (
+              <DropdownMenuItem
+                key={agent.key}
+                disabled={startingAgent !== null}
+                className="items-start"
+                onSelect={() => onStartAgent(agent.key)}
+              >
+                <span
+                  aria-hidden="true"
+                  className="bg-brand text-on-brand mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-md"
+                >
+                  <Palette className="size-4" />
+                </span>
+                <span className="flex min-w-0 flex-1 flex-col">
+                  <span className="text-fg font-semibold">
+                    {i18n.language === 'en' ? agent.labelEn : agent.labelAr}
+                  </span>
+                  <span className="text-fg-muted text-xs leading-5">
+                    {i18n.language === 'en'
+                      ? agent.descriptionEn
+                      : agent.descriptionAr}
+                  </span>
+                  <span className="text-fg-subtle text-xs leading-5">
+                    {t('chat.agent.startsNew')}
+                  </span>
+                </span>
+              </DropdownMenuItem>
+            ))}
+          </>
+        ) : null}
       </DropdownMenuContent>
     </DropdownMenu>
   );

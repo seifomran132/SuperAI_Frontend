@@ -23,6 +23,7 @@ describe('PlanCreate', () => {
     type(a.catalog.descriptionAr, 'وصف الباقة');
     type(a.catalog.descriptionEn, 'About');
     type(a.plans.monthlyPrice, '12.5');
+    type(a.plans.maxBrandKits, '3');
     fireEvent.click(await screen.findByRole('checkbox', { name: 'وضع fast' }));
     click(a.plans.createSubmit);
 
@@ -37,6 +38,7 @@ describe('PlanCreate', () => {
       reason: 'باقة جديدة',
       monthlyPriceUsd: '12.5',
       modeKeys: ['fast'],
+      maxBrandKits: 3,
     });
     expect(
       queryClient.getQueryState(publicPlansListQueryKey())?.isInvalidated,

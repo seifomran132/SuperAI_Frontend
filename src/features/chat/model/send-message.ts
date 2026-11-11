@@ -496,6 +496,7 @@ async function onStarted(
     id,
     title: data.conversation.title ?? known?.title ?? null,
     modeKey: data.modeKey,
+    agentKey: known?.agentKey ?? null,
     lastMessageAt: data.userMessage.createdAt,
     createdAt: known?.createdAt ?? data.userMessage.createdAt,
   });

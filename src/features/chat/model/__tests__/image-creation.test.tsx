@@ -124,6 +124,8 @@ describe('sendMessage in an image mode', () => {
       attachments: [] as MessageDto['attachments'],
       costUsd: null,
       usage: null,
+      ui: null,
+      answer: null,
     };
     const user = { ...assistant, id: 'u1', sequence: 1, role: 'user' as const };
     const seen: unknown[] = [];

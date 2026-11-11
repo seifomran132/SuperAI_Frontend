@@ -11,7 +11,7 @@ Arabic-first, right-to-left web app for the SuperCardAI chat platform, sold unde
 
 ## Launch scope (do not build beyond it)
 - **No payments.** No checkout, add-balance or top-up. Users ask the team for a plan or balance ("طلب رصيد" → contact options from the brand config).
-- No pre-send cost estimate, and no per-answer cost (hidden 2026-10-15); users see their balance in the balance chip and on the balance page.
+- No pre-send cost estimate, and no per-answer cost (hidden 2026-10-15); users see their balance in the balance chip and on the balance page. The graphic designer's request summary shows balance notes only, never prices (decided 2026-11-10).
 - `/` is the prerendered public landing page (S13); signed-in visitors are redirected to `/chat` after mount.
 - No conversation delete/rename or templates (the API has none).
 - Image input: one image per message, before launch — follow [docs/plans/F6_IMAGE_INPUT.md](docs/plans/F6_IMAGE_INPUT.md) (backend first; no other attachment types).

@@ -28,9 +28,12 @@ import { Route as AuthedAppAccountRouteImport } from './routes/_authed/_app/acco
 import { Route as AuthedAppBalanceRouteImport } from './routes/_authed/_app/balance'
 import { Route as AuthedAppUsageRouteImport } from './routes/_authed/_app/usage'
 import { Route as AuthedAdminIndexRouteImport } from './routes/_authed/admin/index'
+import { Route as AuthedAdminAgentsRouteImport } from './routes/_authed/admin/agents'
 import { Route as AuthedAdminAuditRouteImport } from './routes/_authed/admin/audit'
 import { Route as AuthedAdminOverviewRouteImport } from './routes/_authed/admin/overview'
 import { Route as AuthedAdminRequestsRouteImport } from './routes/_authed/admin/requests'
+import { Route as AuthedAppBrandsIndexRouteImport } from './routes/_authed/_app/brands/index'
+import { Route as AuthedAppBrandsBrandKitIdRouteImport } from './routes/_authed/_app/brands/$brandKitId'
 import { Route as AuthedAppChatIndexRouteImport } from './routes/_authed/_app/chat/index'
 import { Route as AuthedAppChatConversationIdRouteImport } from './routes/_authed/_app/chat/$conversationId'
 import { Route as AuthedAdminModelsIndexRouteImport } from './routes/_authed/admin/models/index'
@@ -145,6 +148,11 @@ const AuthedAdminIndexRoute = AuthedAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthedAdminRouteRoute,
 } as any)
+const AuthedAdminAgentsRoute = AuthedAdminAgentsRouteImport.update({
+  id: '/agents',
+  path: '/agents',
+  getParentRoute: () => AuthedAdminRouteRoute,
+} as any)
 const AuthedAdminAuditRoute = AuthedAdminAuditRouteImport.update({
   id: '/audit',
   path: '/audit',
@@ -160,6 +168,17 @@ const AuthedAdminRequestsRoute = AuthedAdminRequestsRouteImport.update({
   path: '/requests',
   getParentRoute: () => AuthedAdminRouteRoute,
 } as any)
+const AuthedAppBrandsIndexRoute = AuthedAppBrandsIndexRouteImport.update({
+  id: '/brands/',
+  path: '/brands/',
+  getParentRoute: () => AuthedAppRouteRoute,
+} as any)
+const AuthedAppBrandsBrandKitIdRoute =
+  AuthedAppBrandsBrandKitIdRouteImport.update({
+    id: '/brands/$brandKitId',
+    path: '/brands/$brandKitId',
+    getParentRoute: () => AuthedAppRouteRoute,
+  } as any)
 const AuthedAppChatIndexRoute = AuthedAppChatIndexRouteImport.update({
   id: '/chat/',
   path: '/chat/',
@@ -290,10 +309,12 @@ export interface FileRoutesByFullPath {
   '/account': typeof AuthedAppAccountRoute
   '/balance': typeof AuthedAppBalanceRoute
   '/usage': typeof AuthedAppUsageRoute
+  '/admin/agents': typeof AuthedAdminAgentsRoute
   '/admin/audit': typeof AuthedAdminAuditRoute
   '/admin/overview': typeof AuthedAdminOverviewRoute
   '/admin/requests': typeof AuthedAdminRequestsRoute
   '/admin/': typeof AuthedAdminIndexRoute
+  '/brands/$brandKitId': typeof AuthedAppBrandsBrandKitIdRoute
   '/chat/$conversationId': typeof AuthedAppChatConversationIdRoute
   '/admin/models/$id': typeof AuthedAdminModelsIdRoute
   '/admin/models/new': typeof AuthedAdminModelsNewRoute
@@ -304,6 +325,7 @@ export interface FileRoutesByFullPath {
   '/admin/users/$userId': typeof AuthedAdminUsersUserIdRoute
   '/admin/vouchers/$voucherId': typeof AuthedAdminVouchersVoucherIdRoute
   '/admin/vouchers/new': typeof AuthedAdminVouchersNewRoute
+  '/brands/': typeof AuthedAppBrandsIndexRoute
   '/chat/': typeof AuthedAppChatIndexRoute
   '/admin/models/': typeof AuthedAdminModelsIndexRoute
   '/admin/modes/': typeof AuthedAdminModesIndexRoute
@@ -331,10 +353,12 @@ export interface FileRoutesByTo {
   '/account': typeof AuthedAppAccountRoute
   '/balance': typeof AuthedAppBalanceRoute
   '/usage': typeof AuthedAppUsageRoute
+  '/admin/agents': typeof AuthedAdminAgentsRoute
   '/admin/audit': typeof AuthedAdminAuditRoute
   '/admin/overview': typeof AuthedAdminOverviewRoute
   '/admin/requests': typeof AuthedAdminRequestsRoute
   '/admin': typeof AuthedAdminIndexRoute
+  '/brands/$brandKitId': typeof AuthedAppBrandsBrandKitIdRoute
   '/chat/$conversationId': typeof AuthedAppChatConversationIdRoute
   '/admin/models/$id': typeof AuthedAdminModelsIdRoute
   '/admin/models/new': typeof AuthedAdminModelsNewRoute
@@ -345,6 +369,7 @@ export interface FileRoutesByTo {
   '/admin/users/$userId': typeof AuthedAdminUsersUserIdRoute
   '/admin/vouchers/$voucherId': typeof AuthedAdminVouchersVoucherIdRoute
   '/admin/vouchers/new': typeof AuthedAdminVouchersNewRoute
+  '/brands': typeof AuthedAppBrandsIndexRoute
   '/chat': typeof AuthedAppChatIndexRoute
   '/admin/models': typeof AuthedAdminModelsIndexRoute
   '/admin/modes': typeof AuthedAdminModesIndexRoute
@@ -377,10 +402,12 @@ export interface FileRoutesById {
   '/_authed/_app/account': typeof AuthedAppAccountRoute
   '/_authed/_app/balance': typeof AuthedAppBalanceRoute
   '/_authed/_app/usage': typeof AuthedAppUsageRoute
+  '/_authed/admin/agents': typeof AuthedAdminAgentsRoute
   '/_authed/admin/audit': typeof AuthedAdminAuditRoute
   '/_authed/admin/overview': typeof AuthedAdminOverviewRoute
   '/_authed/admin/requests': typeof AuthedAdminRequestsRoute
   '/_authed/admin/': typeof AuthedAdminIndexRoute
+  '/_authed/_app/brands/$brandKitId': typeof AuthedAppBrandsBrandKitIdRoute
   '/_authed/_app/chat/$conversationId': typeof AuthedAppChatConversationIdRoute
   '/_authed/admin/models/$id': typeof AuthedAdminModelsIdRoute
   '/_authed/admin/models/new': typeof AuthedAdminModelsNewRoute
@@ -391,6 +418,7 @@ export interface FileRoutesById {
   '/_authed/admin/users/$userId': typeof AuthedAdminUsersUserIdRoute
   '/_authed/admin/vouchers/$voucherId': typeof AuthedAdminVouchersVoucherIdRoute
   '/_authed/admin/vouchers/new': typeof AuthedAdminVouchersNewRoute
+  '/_authed/_app/brands/': typeof AuthedAppBrandsIndexRoute
   '/_authed/_app/chat/': typeof AuthedAppChatIndexRoute
   '/_authed/admin/models/': typeof AuthedAdminModelsIndexRoute
   '/_authed/admin/modes/': typeof AuthedAdminModesIndexRoute
@@ -421,10 +449,12 @@ export interface FileRouteTypes {
     | '/account'
     | '/balance'
     | '/usage'
+    | '/admin/agents'
     | '/admin/audit'
     | '/admin/overview'
     | '/admin/requests'
     | '/admin/'
+    | '/brands/$brandKitId'
     | '/chat/$conversationId'
     | '/admin/models/$id'
     | '/admin/models/new'
@@ -435,6 +465,7 @@ export interface FileRouteTypes {
     | '/admin/users/$userId'
     | '/admin/vouchers/$voucherId'
     | '/admin/vouchers/new'
+    | '/brands/'
     | '/chat/'
     | '/admin/models/'
     | '/admin/modes/'
@@ -462,10 +493,12 @@ export interface FileRouteTypes {
     | '/account'
     | '/balance'
     | '/usage'
+    | '/admin/agents'
     | '/admin/audit'
     | '/admin/overview'
     | '/admin/requests'
     | '/admin'
+    | '/brands/$brandKitId'
     | '/chat/$conversationId'
     | '/admin/models/$id'
     | '/admin/models/new'
@@ -476,6 +509,7 @@ export interface FileRouteTypes {
     | '/admin/users/$userId'
     | '/admin/vouchers/$voucherId'
     | '/admin/vouchers/new'
+    | '/brands'
     | '/chat'
     | '/admin/models'
     | '/admin/modes'
@@ -507,10 +541,12 @@ export interface FileRouteTypes {
     | '/_authed/_app/account'
     | '/_authed/_app/balance'
     | '/_authed/_app/usage'
+    | '/_authed/admin/agents'
     | '/_authed/admin/audit'
     | '/_authed/admin/overview'
     | '/_authed/admin/requests'
     | '/_authed/admin/'
+    | '/_authed/_app/brands/$brandKitId'
     | '/_authed/_app/chat/$conversationId'
     | '/_authed/admin/models/$id'
     | '/_authed/admin/models/new'
@@ -521,6 +557,7 @@ export interface FileRouteTypes {
     | '/_authed/admin/users/$userId'
     | '/_authed/admin/vouchers/$voucherId'
     | '/_authed/admin/vouchers/new'
+    | '/_authed/_app/brands/'
     | '/_authed/_app/chat/'
     | '/_authed/admin/models/'
     | '/_authed/admin/modes/'
@@ -681,6 +718,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthedAdminIndexRouteImport
       parentRoute: typeof AuthedAdminRouteRoute
     }
+    '/_authed/admin/agents': {
+      id: '/_authed/admin/agents'
+      path: '/agents'
+      fullPath: '/admin/agents'
+      preLoaderRoute: typeof AuthedAdminAgentsRouteImport
+      parentRoute: typeof AuthedAdminRouteRoute
+    }
     '/_authed/admin/audit': {
       id: '/_authed/admin/audit'
       path: '/audit'
@@ -701,6 +745,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/requests'
       preLoaderRoute: typeof AuthedAdminRequestsRouteImport
       parentRoute: typeof AuthedAdminRouteRoute
+    }
+    '/_authed/_app/brands/': {
+      id: '/_authed/_app/brands/'
+      path: '/brands'
+      fullPath: '/brands/'
+      preLoaderRoute: typeof AuthedAppBrandsIndexRouteImport
+      parentRoute: typeof AuthedAppRouteRoute
+    }
+    '/_authed/_app/brands/$brandKitId': {
+      id: '/_authed/_app/brands/$brandKitId'
+      path: '/brands/$brandKitId'
+      fullPath: '/brands/$brandKitId'
+      preLoaderRoute: typeof AuthedAppBrandsBrandKitIdRouteImport
+      parentRoute: typeof AuthedAppRouteRoute
     }
     '/_authed/_app/chat/': {
       id: '/_authed/_app/chat/'
@@ -856,7 +914,9 @@ interface AuthedAppRouteRouteChildren {
   AuthedAppAccountRoute: typeof AuthedAppAccountRoute
   AuthedAppBalanceRoute: typeof AuthedAppBalanceRoute
   AuthedAppUsageRoute: typeof AuthedAppUsageRoute
+  AuthedAppBrandsBrandKitIdRoute: typeof AuthedAppBrandsBrandKitIdRoute
   AuthedAppChatConversationIdRoute: typeof AuthedAppChatConversationIdRoute
+  AuthedAppBrandsIndexRoute: typeof AuthedAppBrandsIndexRoute
   AuthedAppChatIndexRoute: typeof AuthedAppChatIndexRoute
 }
 
@@ -864,7 +924,9 @@ const AuthedAppRouteRouteChildren: AuthedAppRouteRouteChildren = {
   AuthedAppAccountRoute: AuthedAppAccountRoute,
   AuthedAppBalanceRoute: AuthedAppBalanceRoute,
   AuthedAppUsageRoute: AuthedAppUsageRoute,
+  AuthedAppBrandsBrandKitIdRoute: AuthedAppBrandsBrandKitIdRoute,
   AuthedAppChatConversationIdRoute: AuthedAppChatConversationIdRoute,
+  AuthedAppBrandsIndexRoute: AuthedAppBrandsIndexRoute,
   AuthedAppChatIndexRoute: AuthedAppChatIndexRoute,
 }
 
@@ -873,6 +935,7 @@ const AuthedAppRouteRouteWithChildren = AuthedAppRouteRoute._addFileChildren(
 )
 
 interface AuthedAdminRouteRouteChildren {
+  AuthedAdminAgentsRoute: typeof AuthedAdminAgentsRoute
   AuthedAdminAuditRoute: typeof AuthedAdminAuditRoute
   AuthedAdminOverviewRoute: typeof AuthedAdminOverviewRoute
   AuthedAdminRequestsRoute: typeof AuthedAdminRequestsRoute
@@ -899,6 +962,7 @@ interface AuthedAdminRouteRouteChildren {
 }
 
 const AuthedAdminRouteRouteChildren: AuthedAdminRouteRouteChildren = {
+  AuthedAdminAgentsRoute: AuthedAdminAgentsRoute,
   AuthedAdminAuditRoute: AuthedAdminAuditRoute,
   AuthedAdminOverviewRoute: AuthedAdminOverviewRoute,
   AuthedAdminRequestsRoute: AuthedAdminRequestsRoute,

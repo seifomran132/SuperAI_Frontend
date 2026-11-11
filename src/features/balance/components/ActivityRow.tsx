@@ -33,7 +33,13 @@ export function ActivityRow({ entry }: { entry: ActivityEntryDto }) {
         <Icon className="size-5" />
       </span>
       <div className="min-w-0 flex-1">
-        <p className="text-fg text-base font-medium">{t(labelKey)}</p>
+        <p className="text-fg text-base font-medium">
+          {t(labelKey)}
+          {/* Design charges name the agent that made them (§11.3). */}
+          {entry.agent
+            ? ` · ${i18n.language === 'en' ? entry.agent.labelEn : entry.agent.labelAr}`
+            : null}
+        </p>
         <p className="text-fg-muted text-sm">{date}</p>
       </div>
       <div className="flex shrink-0 flex-col items-end gap-0.5 text-end">

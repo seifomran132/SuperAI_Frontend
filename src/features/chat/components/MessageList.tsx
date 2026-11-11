@@ -7,6 +7,7 @@ import { cn } from '~/lib/utils';
 import { useAttachmentImage } from '../model/useAttachmentImage';
 import type { AspectRatio } from '../model/image-options';
 import { AssistantMessage, UserMessage } from './MessageCard';
+import { AgentMessage, AgentReply } from './agent/AgentMessages';
 
 /** How far from the bottom still counts as "following" the answer. */
 const NEAR_BOTTOM_PX = 120;
@@ -23,6 +24,8 @@ export interface MessageListProps {
   onRetry: (text: string, modeKey: string | null) => void;
   /** Chosen image ratio of this conversation, for the «creating» placeholder. */
   creatingRatio?: AspectRatio | null;
+  /** In an agent conversation: the agent's name on its messages (F13). */
+  agentLabel?: string;
   hasOlder: boolean;
   isFetchingOlder: boolean;
   olderFailed: boolean;
@@ -43,6 +46,8 @@ const placeholder = (modeKey: string): MessageDto => ({
   attachments: [],
   costUsd: null,
   usage: null,
+  ui: null,
+  answer: null,
 });
 
 /**
@@ -58,6 +63,7 @@ export function MessageList({
   canRetry,
   onRetry,
   creatingRatio,
+  agentLabel,
   hasOlder,
   isFetchingOlder,
   olderFailed,
@@ -178,7 +184,15 @@ export function MessageList({
         ) : null}
 
         {messages.map((message, index) =>
-          message.role === 'user' ? (
+          agentLabel !== undefined && message.ui ? (
+            <AgentMessage
+              key={message.id}
+              message={message}
+              label={agentLabel}
+            />
+          ) : agentLabel !== undefined && message.answer ? (
+            <AgentReply key={message.id} message={message} />
+          ) : message.role === 'user' ? (
             <UserMessage
               key={message.id}
               message={message}

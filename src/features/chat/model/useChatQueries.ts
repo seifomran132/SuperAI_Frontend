@@ -13,6 +13,8 @@ import {
   balanceOptions,
   conversationListOptions,
   conversationOptions,
+  agentsOptions,
+  GRAPHIC_DESIGNER,
   messagesOptions,
   modesOptions,
 } from './queries';
@@ -146,4 +148,16 @@ export function useSelectedMode(
     modes,
     setMode: (next: string) => setStoreMode(key, next),
   };
+}
+
+/** Agents of the user's plan, for the chat picker (F13). */
+export function useAgents() {
+  const query = useQuery(agentsOptions());
+  return { ...query, agents: query.data ?? [] };
+}
+
+/** Whether «علاماتي التجارية» is shown: only where the graphic designer is offered (F12 §3.1). */
+export function useBrandKitsAvailable() {
+  const { agents } = useAgents();
+  return agents.some((agent) => agent.key === GRAPHIC_DESIGNER);
 }

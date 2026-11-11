@@ -1,6 +1,6 @@
 # Arabic copy review
 
-Generated from `src/i18n` by `npm run copy:table` — 1473 strings. Do not edit the Arabic here: write the correction in **Notes**, and the frontend team applies it to `ar.json`.
+Generated from `src/i18n` by `npm run copy:table` — 1703 strings. Do not edit the Arabic here: write the correction in **Notes**, and the frontend team applies it to `ar.json`.
 
 - `{{name}}` parts are filled in by the app (brand name, amounts, dates); keep them as they are.
 - `errors.*` strings are shown when the API returns that error code.
@@ -38,6 +38,7 @@ Generated from `src/i18n` by `npm run copy:table` — 1473 strings. Do not edit 
 - [chat.notice](#chatnotice)
 - [chat.requestBalance](#chatrequestbalance)
 - [chat.image](#chatimage)
+- [chat.agent](#chatagent)
 - [balance](#balance)
 - [balance.redeem](#balanceredeem)
 - [balance.activity](#balanceactivity)
@@ -74,6 +75,7 @@ Generated from `src/i18n` by `npm run copy:table` — 1473 strings. Do not edit 
 - [admin.modes](#adminmodes)
 - [admin.settings](#adminsettings)
 - [admin.priceUpdates](#adminpriceupdates)
+- [admin.agents](#adminagents)
 - [landing.hero](#landinghero)
 - [landing.modes](#landingmodes)
 - [landing.balance](#landingbalance)
@@ -83,6 +85,17 @@ Generated from `src/i18n` by `npm run copy:table` — 1473 strings. Do not edit 
 - [landing.closing](#landingclosing)
 - [landing.footer](#landingfooter)
 - [landing.privacy](#landingprivacy)
+- [brandKits](#brandkits)
+- [brandKits.newDialog](#brandkitsnewdialog)
+- [brandKits.notFound](#brandkitsnotfound)
+- [brandKits.draftNote](#brandkitsdraftnote)
+- [brandKits.identity](#brandkitsidentity)
+- [brandKits.colors](#brandkitscolors)
+- [brandKits.assets](#brandkitsassets)
+- [brandKits.profile](#brandkitsprofile)
+- [brandKits.unsaved](#brandkitsunsaved)
+- [brandKits.leave](#brandkitsleave)
+- [brandKits.delete](#brandkitsdelete)
 - [errors](#errors)
 
 ## common
@@ -275,6 +288,7 @@ Generated from `src/i18n` by `npm run copy:table` — 1473 strings. Do not edit 
 | `signOut` | تسجيل الخروج | Sign out | |
 | `writing` | يكتب… | Typing… | |
 | `adminEntry` | لوحة الإدارة | Admin panel | |
+| `brands` | علاماتي التجارية | My brands | |
 
 ## shell.list
 
@@ -423,6 +437,53 @@ Generated from `src/i18n` by `npm run copy:table` — 1473 strings. Do not edit 
 | `errors.UPLOAD_FAILED` | تعذّر رفع الصورة. حاول مرة أخرى. | The image couldn't be uploaded. Try again. | |
 | `limitHint` | يمكنك إرفاق حتى {{max}} صور | You can attach up to {{max}} images | |
 | `attachedList` | الصور المرفقة | Attached images | |
+
+## chat.agent
+
+| Key | العربية | English | Notes |
+|---|---|---|---|
+| `group` | مهام متخصصة | Specialised tasks | |
+| `startsNew` | يبدأ محادثة جديدة | Starts a new chat | |
+| `starting` | جارٍ البدء… | Starting… | |
+| `startError` | تعذّر بدء المحادثة. حاول مرة أخرى. | Couldn’t start the chat. Try again. | |
+| `cardAction` | ابدأ | Start | |
+| `send` | متابعة | Continue | |
+| `skip` | تخطّي | Skip | |
+| `orDescribe` | أو صِفه بكلماتك | Or describe it in your words | |
+| `newBrand` | علامة جديدة | New brand | |
+| `newBrandBody` | نجهّز هويتها معًا خطوة بخطوة | We set it up together step by step | |
+| `limitReached` | وصلت إلى حد باقتك من الهويات. | You’ve reached your plan’s brand kit limit. | |
+| `viewPlans` | عرض الباقات | See plans | |
+| `looksGood` | يبدو جيدًا | Looks good | |
+| `edit` | تعديل | Change | |
+| `editLabel` | تعديل {{label}} | Change {{label}} | |
+| `anotherBrand` | علامة أخرى | Another brand | |
+| `noText` | بدون نص | No text | |
+| `files_zero` | لا ملفات | No files | |
+| `files_one` | ملف واحد | 1 file | |
+| `files_two` | ملفان | — | |
+| `files_few` | {{count}} ملفات | — | |
+| `files_many` | {{count}} ملفًا | — | |
+| `files_other` | {{count}} ملف | {{count}} files | |
+| `noColors` | بدون ألوان | No colours | |
+| `moved` | تغيّرت المحادثة، فعرضنا السؤال الأخير. | The conversation moved on, so here is the latest question. | |
+| `networkError` | تعذّر الإرسال. تحقق من الاتصال وحاول مرة أخرى. | Couldn’t send. Check your connection and try again. | |
+| `retry` | إعادة المحاولة | Retry | |
+| `notAvailable` | هذا المساعد غير متاح في باقتك. | This assistant isn’t available on your plan. | |
+| `newChat` | محادثة جديدة | New chat | |
+| `fitsSome_one` | رصيدك يكفي لتصميم واحد من {{variants}}. | Your balance covers 1 design of {{variants}}. | |
+| `fitsSome_two` | رصيدك يكفي لتصميمين من {{variants}}. | — | |
+| `fitsSome_few` | رصيدك يكفي لـ {{count}} تصميمات من {{variants}}. | — | |
+| `fitsSome_many` | رصيدك يكفي لـ {{count}} تصميمًا من {{variants}}. | — | |
+| `fitsSome_other` | رصيدك يكفي لـ {{count}} تصميم من {{variants}}. | Your balance covers {{count}} designs of {{variants}}. | |
+| `fitsNone` | رصيدك لا يكفي لهذا التصميم. | Your balance doesn’t cover this design. | |
+| `balance` | الرصيد | Balance | |
+| `requestBalance` | طلب رصيد | Request balance | |
+| `uploadsPending` | انتظر حتى يكتمل رفع الملفات. | Wait for the files to finish uploading. | |
+| `maxFiles` | يمكنك إرسال {{count}} ملفات على الأكثر. | You can send up to {{count}} files. | |
+| `inputLabel` | إجابتك | Your answer | |
+| `counter` | {{count}} / {{max}} | {{count}} / {{max}} | |
+| `answering` | جارٍ الإرسال… | Sending… | |
 
 ## balance
 
@@ -678,6 +739,7 @@ Generated from `src/i18n` by `npm run copy:table` — 1473 strings. Do not edit 
 | `audit` | سجل التدقيق | Audit log | |
 | `priceUpdatesCount` | تحديثات الأسعار، {{n}} بانتظار المراجعة | Price updates, {{n}} waiting for review | |
 | `vouchers` | الأكواد | Codes | |
+| `agents` | المساعدون | Agents | |
 
 ## admin.titles
 
@@ -705,6 +767,7 @@ Generated from `src/i18n` by `npm run copy:table` — 1473 strings. Do not edit 
 | `audit` | سجل التدقيق | Audit log | |
 | `batchNew` | مجموعة جديدة | New batch | |
 | `batchDetail` | تفاصيل المجموعة | Batch details | |
+| `agents` | المساعدون | Agents | |
 
 ## admin.reports
 
@@ -1370,6 +1433,9 @@ Generated from `src/i18n` by `npm run copy:table` — 1473 strings. Do not edit 
 | `modesTitle` | الأوضاع في الباقة | Modes in this plan | |
 | `modesSave` | حفظ الأوضاع | Save modes | |
 | `modesSaved` | تم حفظ أوضاع الباقة | Plan modes saved | |
+| `maxBrandKits` | هويات العلامة التجارية | Brand kits | |
+| `maxBrandKitsHint` | كم هوية يحفظها المشترك للمصمم الجرافيكي، من 0 إلى 100. | How many brand kits a subscriber keeps for the graphic designer, 0 to 100. | |
+| `maxBrandKitsInvalid` | اكتب عددًا صحيحًا من 0 إلى 100. | Enter a whole number from 0 to 100. | |
 
 ## admin.providers
 
@@ -1750,6 +1816,70 @@ Generated from `src/i18n` by `npm run copy:table` — 1473 strings. Do not edit 
 | `live.finished` | انتهت المزامنة | Sync finished | |
 | `live.failed` | انتهت المزامنة بخطأ | The sync ended with an error | |
 
+## admin.agents
+
+| Key | العربية | English | Notes |
+|---|---|---|---|
+| `intro` | يظهر المساعد للمستخدمين عندما يكون مفعّلًا وفي باقاتهم فقط. المساعد المتوقف مخفي عن الجميع. | Users see an agent only when it is on and in their plan. An agent that is off is hidden from everyone. | |
+| `tableLabel` | المساعدون | Agents | |
+| `error` | تعذّر تحميل المساعدين. | Could not load the agents. | |
+| `emptyTitle` | لا يوجد مساعدون | No agents | |
+| `emptyBody` | تُضاف المساعدات من الخادم. | Agents are added on the server. | |
+| `columns.agent` | المساعد | Agent | |
+| `columns.key` | المفتاح | Key | |
+| `columns.status` | الحالة والجاهزية | Status and readiness | |
+| `columns.plans` | الباقات | Plans | |
+| `columns.sort` | الترتيب | Order | |
+| `columns.updated` | آخر تحديث | Last updated | |
+| `columns.actions` | إجراءات | Actions | |
+| `on` | مفعّل | On | |
+| `off` | متوقف | Off | |
+| `ready` | جاهز | Ready | |
+| `notReady` | غير جاهز | Not ready | |
+| `noPlans` | لا باقات | No plans | |
+| `onNoPlans` | مفعّل لكن لا يظهر لأحد: اختر باقة. | On, but nobody sees it: pick a plan. | |
+| `edit` | تعديل | Edit | |
+| `editLabel` | تعديل {{name}} | Edit {{name}} | |
+| `dialogTitle` | تعديل المساعد | Edit agent | |
+| `save` | حفظ التغييرات | Save changes | |
+| `saved` | تم حفظ التغييرات. | Changes saved. | |
+| `visibility` | الظهور | Visibility | |
+| `enabled` | مفعّل للمستخدمين | On for users | |
+| `enabledHint` | متوقف: المساعد مخفي عن كل المستخدمين حتى لو اخترت باقات. | Off: the agent is hidden from every user, even on the chosen plans. | |
+| `texts` | الاسم والوصف | Name and description | |
+| `labelAr` | الاسم بالعربية | Arabic name | |
+| `labelEn` | الاسم بالإنجليزية | English name | |
+| `descriptionAr` | الوصف بالعربية | Arabic description | |
+| `descriptionEn` | الوصف بالإنجليزية | English description | |
+| `sortHint` | من 0 إلى 1000. يظهر الأصغر أولًا. | 0 to 1000. Lower comes first. | |
+| `plansTitle` | الباقات | Plans | |
+| `plansLabel` | الباقات التي تقدّم هذا المساعد | Plans that offer this agent | |
+| `plansHint` | لن يرى المستخدمون في الباقات الأخرى هذا المساعد. | Users on other plans will not see this agent. | |
+| `planInactive` | غير نشطة | Inactive | |
+| `plansLoading` | جارٍ تحميل الباقات… | Loading plans… | |
+| `plansError` | تعذّر تحميل الباقات. لا تُرسل الباقات حتى تُحمَّل. | Could not load the plans. Plans are not sent until they load. | |
+| `noPlansWarning` | مفعّل بلا باقات: لن يراه أي مستخدم. | On with no plans: no user will see it. | |
+| `models` | النماذج والتكلفة | Models and cost | |
+| `promptModel` | نموذج كتابة الوصف | Prompt model | |
+| `promptModelHint` | نماذج النصوص فقط. | Text models only. | |
+| `imageModel` | نموذج إنشاء الصور | Image model | |
+| `imageModelHint` | النماذج التي تنشئ الصور فقط. | Models that create images only. | |
+| `checkModel` | نموذج فحص الصور | Check model | |
+| `checkModelHint` | النماذج التي تقرأ الصور ولا تنشئها. | Models that read images and do not create them. | |
+| `noModel` | لم يُحدَّد | Not set | |
+| `modelOff` | {{name}} (موقوف) | {{name}} (off) | |
+| `variants` | عدد التصاميم في كل طلب | Designs per request | |
+| `variantsHint` | من 1 إلى 3. الافتراضي 2. كل تصميم يُحسب من الاستخدام الفعلي. | 1 to 3. Default 2. Each design is charged at real usage. | |
+| `margin` | هامش الربح (%) | Margin (%) | |
+| `marginPlaceholder` | الافتراضي | Default | |
+| `marginHint` | من 0 إلى 500. اتركه فارغًا لاستخدام هامش كل نموذج. عند تحديده يحلّ محل هوامش النماذج. | 0 to 500. Leave empty to use each model's margin. When set, it replaces the models' margins. | |
+| `readyNotice` | المساعد جاهز. | The agent is ready. | |
+| `notReadyTitle` | المساعد غير جاهز | The agent is not ready | |
+| `missing` | ينقصه: {{models}}. | Missing: {{models}}. | |
+| `notReadyBody` | تحتاج النماذج أيضًا أن تكون مفعّلة ولها أسعار في صفحة النماذج حتى يعمل التسعير. | The models must also be on and priced on the models page for pricing to work. | |
+| `onNotReady` | المساعد غير جاهز: لا يمكن تسعير التصاميم بعد. | The agent is not ready: designs cannot be priced yet. | |
+| `required` | هذا الحقل مطلوب. | This field is required. | |
+
 ## landing.hero
 
 | Key | العربية | English | Notes |
@@ -1872,6 +2002,173 @@ Generated from `src/i18n` by `npm run copy:table` — 1473 strings. Do not edit 
 | `contactTitle` | تواصل معنا | Contact us | |
 | `contactBody` | لأي سؤال عن بياناتك: | For any question about your data: | |
 
+## brandKits
+
+| Key | العربية | English | Notes |
+|---|---|---|---|
+| `title` | علاماتي التجارية | My brands | |
+| `intro` | احفظ ألوان علامتك وشعاراتها وأسلوبها هنا، ليستخدمها «مصمم جرافيك» في المحادثة. | Keep your brand's colours, logos and style here, for the Graphic designer in the chat. | |
+| `new` | هوية جديدة | New brand kit | |
+| `limitReached` | وصلت إلى حد باقتك من الهويات ({{count}}). | You've reached your plan's brand kit limit ({{count}}). | |
+| `viewPlans` | عرض الباقات | See plans | |
+| `draft` | مسودة | Draft | |
+| `files_zero` | لا ملفات | No files | |
+| `files_one` | ملف واحد | 1 file | |
+| `files_two` | ملفان | — | |
+| `files_few` | {{count}} ملفات | — | |
+| `files_many` | {{count}} ملفًا | — | |
+| `files_other` | {{count}} ملف | {{count}} files | |
+| `moreColors` | +{{count}} | +{{count}} | |
+| `loadMore` | تحميل المزيد | Load more | |
+| `loading` | جارٍ تحميل الهويات | Loading brand kits | |
+| `loadError` | تعذّر تحميل الهويات. | Couldn't load your brand kits. | |
+| `emptyTitle` | لا توجد هويات بعد | No brand kits yet | |
+| `emptyBody` | أنشئ هوية هنا، أو اختر «مصمم جرافيك» في محادثة جديدة ليجهّزها معك خطوة بخطوة. | Create one here, or pick the Graphic designer in a new chat to set it up step by step. | |
+| `startChat` | محادثة جديدة | New chat | |
+| `back` | علاماتي التجارية | My brands | |
+| `saved` | تم الحفظ. | Saved. | |
+| `saveError` | تعذّر الحفظ. حاول مرة أخرى. | Couldn't save. Try again. | |
+| `counter` | {{count}} / {{max}} | {{count}} / {{max}} | |
+
+## brandKits.newDialog
+
+| Key | العربية | English | Notes |
+|---|---|---|---|
+| `title` | هوية جديدة | New brand kit | |
+| `body` | اكتب اسم العلامة التجارية. يمكنك إضافة الألوان والملفات بعدها. | Enter the brand name. You can add colours and files next. | |
+| `create` | إنشاء | Create | |
+| `cancel` | إلغاء | Cancel | |
+
+## brandKits.notFound
+
+| Key | العربية | English | Notes |
+|---|---|---|---|
+| `title` | لم نجد هذه الهوية | Brand kit not found | |
+| `body` | ربما حُذفت. ارجع إلى قائمة هوياتك. | It may have been deleted. Go back to your brand kits. | |
+| `action` | العودة إلى علاماتي التجارية | Back to My brands | |
+
+## brandKits.draftNote
+
+| Key | العربية | English | Notes |
+|---|---|---|---|
+| `title` | لم يكتمل إعداد هذه الهوية بعد | This brand kit isn't finished yet | |
+| `body` | أكملها مع «مصمم جرافيك» في المحادثة: اختر هذه الهوية وأجب عن الأسئلة. | Finish it with the Graphic designer in the chat: pick this kit and answer the questions. | |
+| `action` | إكمال مع مصمم جرافيك | Finish with the Graphic designer | |
+
+## brandKits.identity
+
+| Key | العربية | English | Notes |
+|---|---|---|---|
+| `title` | الاسم | Name | |
+| `body` | يظهر في قائمتك وللمصمم في المحادثة. | Shown in your list and to the designer in the chat. | |
+| `label` | اسم العلامة التجارية | Brand name | |
+| `save` | حفظ الاسم | Save name | |
+| `required` | اكتب اسمًا للهوية. | Enter a name for the brand kit. | |
+
+## brandKits.colors
+
+| Key | العربية | English | Notes |
+|---|---|---|---|
+| `title` | الألوان | Colours | |
+| `body` | رتّب الألوان من الأهم إلى الأقل أهمية. اللون الأول هو الأساسي في تصاميمك. | Order the colours from most to least important. The first is the main colour of your designs. | |
+| `main` | الأهم | Main | |
+| `earlier` | تقديم {{hex}} | Move {{hex}} earlier | |
+| `later` | تأخير {{hex}} | Move {{hex}} later | |
+| `remove` | إزالة {{hex}} | Remove {{hex}} | |
+| `picker` | اختيار لون | Pick a colour | |
+| `hexLabel` | رمز اللون | Colour code | |
+| `add` | إضافة لون | Add colour | |
+| `invalid` | اكتب رمز لون مثل #1A4B8C. | Enter a colour code such as #1A4B8C. | |
+| `duplicate` | هذا اللون موجود بالفعل. | This colour is already in the palette. | |
+| `full` | وصلت إلى 12 لونًا. أزل لونًا لإضافة غيره. | You have 12 colours. Remove one to add another. | |
+| `suggestedTitle` | ألوان من شعارك | Colours from your logo | |
+| `suggestedNote` | لا تُضاف الألوان إلا إذا ضغطت «إضافة». | Colours are added only when you press Add. | |
+| `addSuggested` | إضافة | Add | |
+| `addSuggestedLabel` | إضافة {{hex}} | Add {{hex}} | |
+| `empty` | لا ألوان بعد. | No colours yet. | |
+| `save` | حفظ الألوان | Save colours | |
+
+## brandKits.assets
+
+| Key | العربية | English | Notes |
+|---|---|---|---|
+| `title` | الملفات | Files | |
+| `body` | كل ملف يُرفع ضمن مجموعته. يمكنك حذف أي ملف في أي وقت. | Each file goes in its group. You can delete any file at any time. | |
+| `kinds.logo.title` | شعارات | Logos | |
+| `kinds.logo.body` | شعارك بأشكاله المختلفة. نقترح عليك ألوانًا منها. | Your logo in its different forms. We suggest colours from it. | |
+| `kinds.reference.title` | تصاميم سابقة | Past designs | |
+| `kinds.reference.body` | أعمال سابقة يسترشد بها المصمم في الأسلوب. | Earlier work the designer follows for style. | |
+| `kinds.product.title` | صور المنتجات | Product photos | |
+| `kinds.product.body` | صور منتجاتك أو خدماتك. | Photos of your products or services. | |
+| `kinds.guideline.title` | أدلة الهوية | Brand guidelines | |
+| `kinds.guideline.body` | دليل استخدام الشعار والألوان إن وجد. | Your logo and colour guide, if you have one. | |
+| `drop` | اسحب الملفات هنا أو اضغط للاختيار | Drop files here or click to choose | |
+| `pick` | اختيار ملفات | Choose files | |
+| `camera` | التقاط صورة | Take a photo | |
+| `hintImages` | PNG أو JPG أو WebP أو SVG، حتى 10 ميغابايت لكل ملف | PNG, JPG, WebP or SVG, up to 10 MB each | |
+| `hintGuideline` | PDF حتى 20 ميغابايت، أو صورة حتى 10 ميغابايت | PDF up to 20 MB, or an image up to 10 MB | |
+| `uploading` | جارٍ رفع {{name}} | Uploading {{name}} | |
+| `failed` | تعذّر رفع {{name}} | Couldn't upload {{name}} | |
+| `retry` | إعادة المحاولة | Retry | |
+| `dismiss` | إزالة | Remove | |
+| `removeLabel` | حذف الملف {{position}} من {{group}} | Delete file {{position}} from {{group}} | |
+| `pdf` | PDF | PDF | |
+| `limitReached` | وصلت الهوية إلى 40 ملفًا. احذف بعض الملفات لإضافة غيرها. | This brand kit has 40 files. Delete some to add more. | |
+| `previewError` | تعذّر عرض الصورة | Couldn't show the image | |
+| `deleteError` | تعذّر حذف الملف. حاول مرة أخرى. | Couldn't delete the file. Try again. | |
+| `uploadFailed` | تعذّر رفع الملف. تحقّق من اتصالك وحاول مرة أخرى. | Couldn't upload the file. Check your connection and try again. | |
+
+## brandKits.profile
+
+| Key | العربية | English | Notes |
+|---|---|---|---|
+| `title` | الأسلوب والتعليمات | Style and instructions | |
+| `body` | يستخدمها «مصمم جرافيك» ليصمّم بصوت علامتك. كلها اختيارية. | The Graphic designer uses these to design in your brand's voice. All optional. | |
+| `style` | الأسلوب البصري | Visual style | |
+| `tone` | النبرة | Tone | |
+| `fontStyle` | شكل الخطوط | Font style | |
+| `fontStyleHint` | صف كيف تبدو خطوطك. لا نحتاج اسم الخط. | Describe how your fonts look. No font name needed. | |
+| `dos` | افعل | Do | |
+| `donts` | تجنّب | Avoid | |
+| `addRule` | إضافة قاعدة | Add rule | |
+| `ruleLabel` | {{list}}، القاعدة {{position}} | {{list}}, rule {{position}} | |
+| `removeRule` | إزالة القاعدة {{position}} من {{list}} | Remove rule {{position}} from {{list}} | |
+| `ruleTooLong` | القاعدة أطول من 200 حرف. | The rule is longer than 200 characters. | |
+| `notes` | ملاحظات | Notes | |
+| `save` | حفظ التغييرات | Save changes | |
+| `tooLong` | النص أطول من المسموح. | The text is too long. | |
+
+## brandKits.unsaved
+
+| Key | العربية | English | Notes |
+|---|---|---|---|
+| `bar` | تغييرات غير محفوظة. | Unsaved changes. | |
+| `discard` | تجاهل | Discard | |
+| `save` | حفظ | Save | |
+
+## brandKits.leave
+
+| Key | العربية | English | Notes |
+|---|---|---|---|
+| `title` | مغادرة دون حفظ؟ | Leave without saving? | |
+| `body` | لديك تغييرات غير محفوظة في هذه الهوية. إذا غادرت ستفقدها. | You have unsaved changes to this brand kit. If you leave, they will be lost. | |
+| `stay` | البقاء | Stay | |
+| `leave` | المغادرة دون حفظ | Leave without saving | |
+
+## brandKits.delete
+
+| Key | العربية | English | Notes |
+|---|---|---|---|
+| `title` | حذف الهوية | Delete brand kit | |
+| `body` | تُحذف الهوية وجميع ملفاتها نهائيًا، ولا يمكن التراجع عن ذلك. | The kit and all its files are deleted for good. This can't be undone. | |
+| `action` | حذف هذه الهوية | Delete this brand kit | |
+| `confirmTitle` | حذف «{{name}}»؟ | Delete “{{name}}”? | |
+| `confirmBody` | تُحذف الهوية وملفاتها نهائيًا. لا يمكن التراجع عن ذلك. | The kit and its files are deleted for good. This can't be undone. | |
+| `confirm` | حذف نهائيًا | Delete for good | |
+| `cancel` | إلغاء | Cancel | |
+| `deleted` | حُذفت الهوية. | Brand kit deleted. | |
+| `error` | تعذّر حذف الهوية. حاول مرة أخرى. | Couldn't delete the brand kit. Try again. | |
+
 ## errors
 
 | Key | العربية | English | Notes |
@@ -1880,10 +2177,19 @@ Generated from `src/i18n` by `npm run copy:table` — 1473 strings. Do not edit 
 | `ACCOUNT_NOT_ACTIVE` | حساب المستخدم غير نشط. | The user's account is not active. | |
 | `ACCOUNT_NOT_FOUND` | لم يتم العثور على حسابك. يرجى التواصل مع الدعم. | Your account was not found. Please contact support. | |
 | `ACCOUNT_SUSPENDED` | تم إيقاف حسابك مؤقتًا. يرجى التواصل مع الدعم. | Your account is suspended. Please contact support. | |
+| `AGENT_NOT_AVAILABLE` | هذا المساعد غير متاح في باقتك. | This assistant isn't available on your plan. | |
+| `AGENT_NOT_FOUND` | لم يتم العثور على هذا المساعد. | This agent was not found. | |
+| `AGENT_STEP_MISMATCH` | تغيّرت المحادثة. حدِّث الصفحة وأجب على السؤال الأخير. | The conversation moved on. Refresh and answer the latest question. | |
 | `ATTACHMENT_ALREADY_USED` | أُرسلت هذه الصورة بالفعل في رسالة أخرى. أرفقها مرة أخرى. | This image was already sent in another message. Attach it again. | |
 | `ATTACHMENT_NOT_FOUND` | لم يتم العثور على الصورة. يرجى إرفاقها مرة أخرى. | Image not found. Please attach it again. | |
 | `ATTACHMENT_TOO_LARGE` | حجم الصورة أكبر من 5 ميغابايت. | The image is larger than 5 MB. | |
 | `ATTACHMENT_TYPE_NOT_ALLOWED` | هذا النوع من الملفات غير مدعوم. أرسل صورة JPG أو PNG أو WebP. | This file type isn't supported. Send a JPG, PNG or WebP image. | |
+| `BRAND_ASSET_LIMIT_REACHED` | وصلت إلى الحد الأقصى للملفات في هذه الهوية (40 ملفًا). احذف بعض الملفات أولًا. | This brand kit already has the maximum of 40 files. Delete some first. | |
+| `BRAND_ASSET_NOT_FOUND` | لم يتم العثور على هذا الملف. | This file was not found. | |
+| `BRAND_ASSET_TOO_LARGE` | الملف كبير جدًا. الحد الأقصى 10 ميغابايت للصور و20 ميغابايت لملفات PDF. | The file is too large. Images can be up to 10 MB and PDFs up to 20 MB. | |
+| `BRAND_ASSET_TYPE_NOT_ALLOWED` | هذا النوع من الملفات غير مدعوم. أرسل صورة JPG أو PNG أو WebP أو SVG، أو ملف PDF. | This file type isn't supported. Send a JPG, PNG, WebP or SVG image, or a PDF. | |
+| `BRAND_KIT_LIMIT_REACHED` | وصلت إلى الحد الأقصى لعدد هويات العلامة التجارية في باقتك. احذف واحدة أو رقِّ باقتك. | You've reached your plan's brand kit limit. Delete one or upgrade your plan. | |
+| `BRAND_KIT_NOT_FOUND` | لم يتم العثور على هوية العلامة التجارية هذه. | This brand kit was not found. | |
 | `CANNOT_MODIFY_SELF` | لا يمكنك تنفيذ هذا الإجراء على حسابك. | You can't do this to your own account. | |
 | `CATALOG_FINDING_NOT_APPLICABLE` | لا يوجد سعر مقترح لتطبيقه في هذه الملاحظة. | This finding has no proposed price to apply. | |
 | `CATALOG_FINDING_NOT_FOUND` | لم يتم العثور على هذه الملاحظة. | Finding not found. | |
@@ -1893,6 +2199,8 @@ Generated from `src/i18n` by `npm run copy:table` — 1473 strings. Do not edit 
 | `CONTENT_BLOCKED` | تعذّر إكمال الرد بسبب سياسة المحتوى. جرّب صياغة مختلفة. | The answer was stopped by the content policy. Try rephrasing. | |
 | `CONTEXT_TOO_LONG` | الرسالة طويلة جدًا لهذا الوضع. يرجى اختصارها. | This message is too long for this mode. Please shorten it. | |
 | `CONVERSATION_BUSY` | لا يزال الرد السابق قيد الكتابة. انتظر حتى ينتهي. | The previous answer is still being written. Please wait for it to finish. | |
+| `CONVERSATION_IS_AGENT` | هذه محادثة مع مساعد. أجب على أسئلته، أو ابدأ محادثة جديدة للدردشة. | This conversation is with an assistant. Answer its questions, or start a new chat. | |
+| `CONVERSATION_NOT_AGENT` | هذه المحادثة ليست مع مساعد. | This conversation isn't with an assistant. | |
 | `CONVERSATION_NOT_FOUND` | لم يتم العثور على المحادثة. | Conversation not found. | |
 | `DEFAULT_PLAN_REQUIRED` | يجب أن تكون هناك باقة افتراضية دائمًا. | There must always be a default plan. | |
 | `DUPLICATE_REQUEST` | تم إرسال هذه الرسالة بالفعل. | This message was already sent. | |

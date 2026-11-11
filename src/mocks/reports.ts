@@ -124,6 +124,16 @@ function overview(query: URLSearchParams): OverviewDto {
     usage,
     imagesCreated: zero ? 0 : 87,
     imagesUploaded: zero ? 0 : 23,
+    designs: {
+      runs: 0,
+      designs: 0,
+      flaggedRuns: 0,
+      chargedUsd: ZERO,
+      providerCostUsd: ZERO,
+      marginUsd: ZERO,
+      absorbedUsd: ZERO,
+    },
+    designRunsToReview: 0,
     openCatalogFindings: zero ? 0 : 3,
     requestsToReview: zero ? 0 : 5,
     topModes: zero
@@ -177,6 +187,15 @@ function userUsage(userId: string, query: URLSearchParams): UserUsageDto {
             displayName: 'Gemini 2.5 Flash',
           },
         ],
+    designs: {
+      runs: 0,
+      designs: 0,
+      flaggedRuns: 0,
+      chargedUsd: ZERO,
+      providerCostUsd: ZERO,
+      marginUsd: ZERO,
+      absorbedUsd: ZERO,
+    },
     byDay,
   };
 }
@@ -271,6 +290,7 @@ function myUsage(query: URLSearchParams): MyUsageDto {
             chargedUsd: usd(charged.times('0.3')),
           },
         ],
+    designs: [],
     byDay: rows,
   };
 }

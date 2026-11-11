@@ -1,0 +1,143 @@
+{
+  "brandKits": {
+    "title": "My brands",
+    "intro": "Keep your brand's colours, logos and style here, for the Graphic designer in the chat.",
+    "new": "New brand kit",
+    "limitReached": "You've reached your plan's brand kit limit ({{count}}).",
+    "viewPlans": "See plans",
+    "draft": "Draft",
+    "files_zero": "No files",
+    "files_one": "1 file",
+    "files_other": "{{count}} files",
+    "moreColors": "+{{count}}",
+    "loadMore": "Load more",
+    "loading": "Loading brand kits",
+    "loadError": "Couldn't load your brand kits.",
+    "emptyTitle": "No brand kits yet",
+    "emptyBody": "Create one here, or pick the Graphic designer in a new chat to set it up step by step.",
+    "startChat": "New chat",
+    "newDialog": {
+      "title": "New brand kit",
+      "body": "Enter the brand name. You can add colours and files next.",
+      "create": "Create",
+      "cancel": "Cancel"
+    },
+    "back": "My brands",
+    "notFound": {
+      "title": "Brand kit not found",
+      "body": "It may have been deleted. Go back to your brand kits.",
+      "action": "Back to My brands"
+    },
+    "draftNote": {
+      "title": "This brand kit isn't finished yet",
+      "body": "Finish it with the Graphic designer in the chat: pick this kit and answer the questions.",
+      "action": "Finish with the Graphic designer"
+    },
+    "identity": {
+      "title": "Name",
+      "body": "Shown in your list and to the designer in the chat.",
+      "label": "Brand name",
+      "save": "Save name",
+      "required": "Enter a name for the brand kit."
+    },
+    "colors": {
+      "title": "Colours",
+      "body": "Order the colours from most to least important. The first is the main colour of your designs.",
+      "main": "Main",
+      "earlier": "Move {{hex}} earlier",
+      "later": "Move {{hex}} later",
+      "remove": "Remove {{hex}}",
+      "picker": "Pick a colour",
+      "hexLabel": "Colour code",
+      "add": "Add colour",
+      "invalid": "Enter a colour code such as #1A4B8C.",
+      "duplicate": "This colour is already in the palette.",
+      "full": "You have 12 colours. Remove one to add another.",
+      "suggestedTitle": "Colours from your logo",
+      "suggestedNote": "Colours are added only when you press Add.",
+      "addSuggested": "Add",
+      "addSuggestedLabel": "Add {{hex}}",
+      "empty": "No colours yet.",
+      "save": "Save colours"
+    },
+    "assets": {
+      "title": "Files",
+      "body": "Each file goes in its group. You can delete any file at any time.",
+      "kinds": {
+        "logo": {
+          "title": "Logos",
+          "body": "Your logo in its different forms. We suggest colours from it."
+        },
+        "reference": {
+          "title": "Past designs",
+          "body": "Earlier work the designer follows for style."
+        },
+        "product": {
+          "title": "Product photos",
+          "body": "Photos of your products or services."
+        },
+        "guideline": {
+          "title": "Brand guidelines",
+          "body": "Your logo and colour guide, if you have one."
+        }
+      },
+      "drop": "Drop files here or click to choose",
+      "pick": "Choose files",
+      "camera": "Take a photo",
+      "hintImages": "PNG, JPG, WebP or SVG, up to 10 MB each",
+      "hintGuideline": "PDF up to 20 MB, or an image up to 10 MB",
+      "uploading": "Uploading {{name}}",
+      "failed": "Couldn't upload {{name}}",
+      "retry": "Retry",
+      "dismiss": "Remove",
+      "removeLabel": "Delete file {{position}} from {{group}}",
+      "pdf": "PDF",
+      "limitReached": "This brand kit has 40 files. Delete some to add more.",
+      "previewError": "Couldn't show the image",
+      "deleteError": "Couldn't delete the file. Try again.",
+      "uploadFailed": "Couldn't upload the file. Check your connection and try again."
+    },
+    "profile": {
+      "title": "Style and instructions",
+      "body": "The Graphic designer uses these to design in your brand's voice. All optional.",
+      "style": "Visual style",
+      "tone": "Tone",
+      "fontStyle": "Font style",
+      "fontStyleHint": "Describe how your fonts look. No font name needed.",
+      "dos": "Do",
+      "donts": "Avoid",
+      "addRule": "Add rule",
+      "ruleLabel": "{{list}}, rule {{position}}",
+      "removeRule": "Remove rule {{position}} from {{list}}",
+      "ruleTooLong": "The rule is longer than 200 characters.",
+      "notes": "Notes",
+      "save": "Save changes",
+      "tooLong": "The text is too long."
+    },
+    "unsaved": {
+      "bar": "Unsaved changes.",
+      "discard": "Discard",
+      "save": "Save"
+    },
+    "saved": "Saved.",
+    "saveError": "Couldn't save. Try again.",
+    "leave": {
+      "title": "Leave without saving?",
+      "body": "You have unsaved changes to this brand kit. If you leave, they will be lost.",
+      "stay": "Stay",
+      "leave": "Leave without saving"
+    },
+    "delete": {
+      "title": "Delete brand kit",
+      "body": "The kit and all its files are deleted for good. This can't be undone.",
+      "action": "Delete this brand kit",
+      "confirmTitle": "Delete “{{name}}”?",
+      "confirmBody": "The kit and its files are deleted for good. This can't be undone.",
+      "confirm": "Delete for good",
+      "cancel": "Cancel",
+      "deleted": "Brand kit deleted.",
+      "error": "Couldn't delete the brand kit. Try again."
+    },
+    "counter": "{{count}} / {{max}}"
+  }
+}

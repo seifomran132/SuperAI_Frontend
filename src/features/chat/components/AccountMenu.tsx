@@ -4,6 +4,7 @@ import {
   BarChart3,
   ChevronDown,
   CreditCard,
+  Layers,
   LogOut,
   ShieldCheck,
   User,
@@ -19,7 +20,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu';
-import { useBalance } from '../model/useChatQueries';
+import { useBalance, useBrandKitsAvailable } from '../model/useChatQueries';
 import { useSignOut } from './useSignOut';
 
 /** Up to two initials from the name (Arabic has no case, so the first letters). */
@@ -51,6 +52,7 @@ export function AccountMenu() {
   const { t } = useTranslation();
   const { data: me } = useQuery(meGetOptions());
   const { balanceUsd } = useBalance();
+  const brandKits = useBrandKitsAvailable();
   const { signOut, pending } = useSignOut();
   const initials = initialsOf(me?.fullName, me?.email);
 
@@ -92,6 +94,14 @@ export function AccountMenu() {
             ) : null}
           </Link>
         </DropdownMenuItem>
+        {brandKits ? (
+          <DropdownMenuItem asChild>
+            <Link to="/brands">
+              <Layers aria-hidden="true" className="text-fg-muted size-5" />
+              {t('shell.brands')}
+            </Link>
+          </DropdownMenuItem>
+        ) : null}
         <DropdownMenuItem asChild>
           <Link to="/usage">
             <BarChart3 aria-hidden="true" className="text-fg-muted size-5" />

@@ -7,6 +7,7 @@ import {
   conversationsListInfiniteQueryKey,
   conversationsMessagesInfiniteOptions,
   conversationsMessagesInfiniteQueryKey,
+  meAgentsListOptions,
   meBalanceBalanceOptions,
   meBalanceBalanceQueryKey,
   modesListOptions,
@@ -83,3 +84,13 @@ export const attachmentOptions = (id: string) => ({
   staleTime: Infinity,
   gcTime: 10 * 60 * 1000,
 });
+
+/** `GET /agents`: the agents the user's plan offers (labels only, §11). */
+export const agentsOptions = () => ({
+  ...meAgentsListOptions(),
+  // Admins switch agents on per plan rarely; an `AGENT_NOT_AVAILABLE` refetches it.
+  staleTime: 5 * 60_000,
+});
+
+/** The graphic designer agent; brand kits only matter where it is offered. */
+export const GRAPHIC_DESIGNER = 'graphic_designer';

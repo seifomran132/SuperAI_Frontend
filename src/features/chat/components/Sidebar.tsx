@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import {
   BarChart3,
   CreditCard,
+  Layers,
   LogOut,
   Plus,
   ShieldCheck,
@@ -14,6 +15,7 @@ import { Button } from '~/components/ui/button';
 import { cn } from '~/lib/utils';
 import { BrandMark, useBrandName } from './BrandMark';
 import { ConversationList } from './ConversationList';
+import { useBrandKitsAvailable } from '../model/useChatQueries';
 import { useSignOut } from './useSignOut';
 
 const footerLink =
@@ -37,6 +39,7 @@ export function Sidebar({
   const { t } = useTranslation();
   const { signOut, pending } = useSignOut();
   const brandName = useBrandName();
+  const brandKits = useBrandKitsAvailable();
   const { data: me } = useQuery(meGetOptions());
   return (
     <div className={cn('flex h-full min-h-0 flex-col', className)}>
@@ -68,6 +71,12 @@ export function Sidebar({
           <CreditCard aria-hidden="true" className="size-5" />
           {t('shell.balance')}
         </Link>
+        {brandKits ? (
+          <Link to="/brands" className={footerLink} onClick={onNavigate}>
+            <Layers aria-hidden="true" className="size-5" />
+            {t('shell.brands')}
+          </Link>
+        ) : null}
         {/* Drawer only: the desktop sidebar has no usage item (decision 10). */}
         {withSignOut ? (
           <Link to="/usage" className={footerLink} onClick={onNavigate}>

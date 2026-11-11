@@ -67,6 +67,7 @@ export function conversation(
     id: mockId(),
     title: null,
     modeKey: 'fast',
+    agentKey: null,
     lastMessageAt: now,
     createdAt: now,
     ...overrides,
@@ -89,6 +90,8 @@ export function message(
     attachments: [],
     costUsd: null,
     usage: null,
+    ui: null,
+    answer: null,
     ...overrides,
   };
 }

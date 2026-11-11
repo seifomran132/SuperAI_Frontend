@@ -91,6 +91,8 @@ describe('messageState', () => {
     attachments: [],
     costUsd: null,
     usage: null,
+    ui: null,
+    answer: null,
     completedAt: null,
   };
 

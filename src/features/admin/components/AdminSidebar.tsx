@@ -9,6 +9,7 @@ import {
   ScrollText,
   Settings,
   SlidersHorizontal,
+  Bot,
   Tag,
   Ticket,
   Users,
@@ -30,6 +31,7 @@ const sections: {
     | '/admin/providers'
     | '/admin/models'
     | '/admin/modes'
+    | '/admin/agents'
     | '/admin/price-updates'
     | '/admin/settings'
     | '/admin/requests'
@@ -41,6 +43,7 @@ const sections: {
   { key: 'providers', to: '/admin/providers', Icon: Menu },
   { key: 'models', to: '/admin/models', Icon: Boxes },
   { key: 'modes', to: '/admin/modes', Icon: SlidersHorizontal },
+  { key: 'agents', to: '/admin/agents', Icon: Bot },
   { key: 'priceUpdates', to: '/admin/price-updates', Icon: Tag },
   { key: 'settings', to: '/admin/settings', Icon: Settings },
   // Last, after settings (F9 decision 1); no badges until requests can be marked reviewed.

@@ -49,6 +49,8 @@ export function pendingUserMessage(
     attachments,
     costUsd: null,
     usage: null,
+    ui: null,
+    answer: null,
   };
 }
 

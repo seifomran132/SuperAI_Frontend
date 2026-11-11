@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { randomUUID } from 'node:crypto';
+import { deflateSync } from 'node:zlib';
 import AxeBuilder from '@axe-core/playwright';
 import {
   expect,
@@ -12,8 +13,9 @@ import {
 import adminAr from '../src/i18n/admin.ar.json' with { type: 'json' };
 import ar from '../src/i18n/ar.json' with { type: 'json' };
 import landingAr from '../src/i18n/landing.ar.json' with { type: 'json' };
+import brandKitsAr from '../src/i18n/brand-kits.ar.json' with { type: 'json' };
 
-export const text = { ...ar, ...adminAr, ...landingAr };
+export const text = { ...ar, ...adminAr, ...landingAr, ...brandKitsAr };
 
 export const API = 'http://localhost:3000';
 export const GOTRUE = 'http://localhost:9999';
@@ -1217,4 +1219,40 @@ export async function fillStable(field: Locator, value: string): Promise<void> {
     await field.fill(value);
     await expect(field).toHaveValue(value, { timeout: 500 });
   }).toPass({ timeout: 10_000 });
+}
+
+/** A real PNG of one colour, so the server can suggest that colour. */
+export function solidPng(rgb: [number, number, number], size = 64): Buffer {
+  const crcTable = Array.from({ length: 256 }, (_, n) => {
+    let c = n;
+    for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
+    return c >>> 0;
+  });
+  const crc = (buf: Buffer) => {
+    let c = 0xffffffff;
+    for (const byte of buf) c = crcTable[(c ^ byte) & 0xff]! ^ (c >>> 8);
+    return (c ^ 0xffffffff) >>> 0;
+  };
+  const chunk = (type: string, data: Buffer) => {
+    const length = Buffer.alloc(4);
+    length.writeUInt32BE(data.length);
+    const body = Buffer.concat([Buffer.from(type), data]);
+    const sum = Buffer.alloc(4);
+    sum.writeUInt32BE(crc(body));
+    return Buffer.concat([length, body, sum]);
+  };
+  const header = Buffer.alloc(13);
+  header.writeUInt32BE(size, 0);
+  header.writeUInt32BE(size, 4);
+  header[8] = 8; // bit depth
+  header[9] = 2; // truecolour
+  const row = Buffer.concat([Buffer.from([0]), Buffer.alloc(size * 3)]);
+  for (let x = 0; x < size; x++) row.set(rgb, 1 + x * 3);
+  const pixels = Buffer.concat(Array.from({ length: size }, () => row));
+  return Buffer.concat([
+    Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]),
+    chunk('IHDR', header),
+    chunk('IDAT', deflateSync(pixels)),
+    chunk('IEND', Buffer.alloc(0)),
+  ]);
 }

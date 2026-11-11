@@ -8,6 +8,7 @@ const sources = [
   ['src/i18n/ar.json', 'src/i18n/en.json'],
   ['src/i18n/admin.ar.json', 'src/i18n/admin.en.json'],
   ['src/i18n/landing.ar.json', 'src/i18n/landing.en.json'],
+  ['src/i18n/brand-kits.ar.json', 'src/i18n/brand-kits.en.json'],
   ['src/i18n/errors.ar.json', 'src/i18n/errors.en.json', 'errors'],
 ];
 

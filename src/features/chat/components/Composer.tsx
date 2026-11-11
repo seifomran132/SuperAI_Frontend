@@ -9,6 +9,7 @@ import {
 import { useQueryClient } from '@tanstack/react-query';
 import { ArrowRight, Square } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import type { AgentDto } from '~/api/generated/types.gen';
 import { Button } from '~/components/ui/button';
 import { cn } from '~/lib/utils';
 import { useOnline } from '~/lib/useOnline';
@@ -50,6 +51,10 @@ export interface ComposerProps {
   textareaRef: RefObject<HTMLTextAreaElement | null>;
   /** Image input state and handlers. Without it the composer is text-only. */
   imageInput?: ComposerImageInput;
+  /** Agents offered in the mode menu (F13). */
+  agents?: AgentDto[];
+  onStartAgent?: (agentKey: string) => void;
+  startingAgent?: string | null;
 }
 
 /** Message box with the mode chip inside; Enter sends, Shift+Enter adds a line. */
@@ -61,6 +66,9 @@ export function Composer({
   refusal,
   textareaRef,
   imageInput,
+  agents,
+  onStartAgent,
+  startingAgent,
 }: ComposerProps) {
   const { t } = useTranslation();
   const draft = useChatStore((s) => s.drafts[storeKey] ?? '');
@@ -251,6 +259,9 @@ export function Composer({
               modeKey={modeKey}
               onSelect={setMode}
               supportsImages={image?.modeSupportsImages}
+              agents={agents}
+              onStartAgent={onStartAgent}
+              startingAgent={startingAgent}
             />
             {generatesImages ? (
               <ImageRatioMenu

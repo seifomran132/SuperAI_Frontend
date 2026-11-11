@@ -3,8 +3,8 @@
 import { type DefaultError, type InfiniteData, infiniteQueryOptions, queryOptions, type UseMutationOptions } from '@tanstack/react-query';
 
 import { client } from '../client.gen';
-import { adminCatalogSyncApply, adminCatalogSyncDismiss, adminCatalogSyncList, adminCatalogSyncRun, adminCatalogSyncStatus, adminChatSettingsGet, adminChatSettingsUpdate, adminLedgerAdjust, adminLedgerBalance, adminLedgerEntries, adminLedgerRecordPurchase, adminModelsCreate, adminModelsGet, adminModelsList, adminModelsPrices, adminModelsSetPrice, adminModelsTest, adminModelsUpdate, adminModesCreate, adminModesGet, adminModesList, adminModesUpdate, adminPlansCreate, adminPlansGet, adminPlansList, adminPlansSetModes, adminPlansUpdate, adminPricingSettingsGet, adminPricingSettingsUpdate, adminProvidersAvailableModels, adminProvidersCreate, adminProvidersList, adminProvidersRemoveApiKey, adminProvidersSetApiKey, adminProvidersUpdate, adminReportsAudit, adminReportsAuditFacets, adminReportsChatRequests, adminReportsOverview, adminReportsUserUsage, adminSubscriptionsAssign, adminSubscriptionsEnd, adminSubscriptionsHistory, adminUsersGet, adminUsersList, adminUsersSetAdminRole, adminUsersSetStatus, adminVoucherBatchesCodes, adminVoucherBatchesCreate, adminVoucherBatchesExport, adminVoucherBatchesGet, adminVoucherBatchesList, adminVoucherBatchesUpdate, adminVouchersCreate, adminVouchersGet, adminVouchersList, adminVouchersRedemptions, adminVouchersUpdate, attachmentsDownload, attachmentsUpload, conversationsCreate, conversationsGet, conversationsList, conversationsMessages, conversationsRemove, conversationsRename, healthLive, healthReady, meBalanceActivity, meBalanceBalance, meGet, meSubscriptionGet, meUpdate, meUsageUsage, meVouchersRedeem, modesList, type Options, publicPlansList } from '../sdk.gen';
-import type { AdminCatalogSyncApplyData, AdminCatalogSyncApplyError, AdminCatalogSyncApplyResponse, AdminCatalogSyncDismissData, AdminCatalogSyncDismissError, AdminCatalogSyncDismissResponse, AdminCatalogSyncListData, AdminCatalogSyncListError, AdminCatalogSyncListResponse, AdminCatalogSyncRunData, AdminCatalogSyncRunError, AdminCatalogSyncRunResponse, AdminCatalogSyncStatusData, AdminCatalogSyncStatusError, AdminCatalogSyncStatusResponse, AdminChatSettingsGetData, AdminChatSettingsGetError, AdminChatSettingsGetResponse, AdminChatSettingsUpdateData, AdminChatSettingsUpdateError, AdminChatSettingsUpdateResponse, AdminLedgerAdjustData, AdminLedgerAdjustError, AdminLedgerAdjustResponse, AdminLedgerBalanceData, AdminLedgerBalanceError, AdminLedgerBalanceResponse, AdminLedgerEntriesData, AdminLedgerEntriesError, AdminLedgerEntriesResponse, AdminLedgerRecordPurchaseData, AdminLedgerRecordPurchaseError, AdminLedgerRecordPurchaseResponse, AdminModelsCreateData, AdminModelsCreateError, AdminModelsCreateResponse, AdminModelsGetData, AdminModelsGetError, AdminModelsGetResponse, AdminModelsListData, AdminModelsListError, AdminModelsListResponse, AdminModelsPricesData, AdminModelsPricesError, AdminModelsPricesResponse, AdminModelsSetPriceData, AdminModelsSetPriceError, AdminModelsSetPriceResponse, AdminModelsTestData, AdminModelsTestError, AdminModelsTestResponse, AdminModelsUpdateData, AdminModelsUpdateError, AdminModelsUpdateResponse, AdminModesCreateData, AdminModesCreateError, AdminModesCreateResponse, AdminModesGetData, AdminModesGetError, AdminModesGetResponse, AdminModesListData, AdminModesListError, AdminModesListResponse, AdminModesUpdateData, AdminModesUpdateError, AdminModesUpdateResponse, AdminPlansCreateData, AdminPlansCreateError, AdminPlansCreateResponse, AdminPlansGetData, AdminPlansGetError, AdminPlansGetResponse, AdminPlansListData, AdminPlansListError, AdminPlansListResponse, AdminPlansSetModesData, AdminPlansSetModesError, AdminPlansSetModesResponse, AdminPlansUpdateData, AdminPlansUpdateError, AdminPlansUpdateResponse, AdminPricingSettingsGetData, AdminPricingSettingsGetError, AdminPricingSettingsGetResponse, AdminPricingSettingsUpdateData, AdminPricingSettingsUpdateError, AdminPricingSettingsUpdateResponse, AdminProvidersAvailableModelsData, AdminProvidersAvailableModelsError, AdminProvidersAvailableModelsResponse, AdminProvidersCreateData, AdminProvidersCreateError, AdminProvidersCreateResponse, AdminProvidersListData, AdminProvidersListError, AdminProvidersListResponse, AdminProvidersRemoveApiKeyData, AdminProvidersRemoveApiKeyError, AdminProvidersRemoveApiKeyResponse, AdminProvidersSetApiKeyData, AdminProvidersSetApiKeyError, AdminProvidersSetApiKeyResponse, AdminProvidersUpdateData, AdminProvidersUpdateError, AdminProvidersUpdateResponse, AdminReportsAuditData, AdminReportsAuditError, AdminReportsAuditFacetsData, AdminReportsAuditFacetsError, AdminReportsAuditFacetsResponse, AdminReportsAuditResponse, AdminReportsChatRequestsData, AdminReportsChatRequestsError, AdminReportsChatRequestsResponse, AdminReportsOverviewData, AdminReportsOverviewError, AdminReportsOverviewResponse, AdminReportsUserUsageData, AdminReportsUserUsageError, AdminReportsUserUsageResponse, AdminSubscriptionsAssignData, AdminSubscriptionsAssignError, AdminSubscriptionsAssignResponse, AdminSubscriptionsEndData, AdminSubscriptionsEndError, AdminSubscriptionsEndResponse, AdminSubscriptionsHistoryData, AdminSubscriptionsHistoryError, AdminSubscriptionsHistoryResponse, AdminUsersGetData, AdminUsersGetError, AdminUsersGetResponse, AdminUsersListData, AdminUsersListError, AdminUsersListResponse, AdminUsersSetAdminRoleData, AdminUsersSetAdminRoleError, AdminUsersSetAdminRoleResponse, AdminUsersSetStatusData, AdminUsersSetStatusError, AdminUsersSetStatusResponse, AdminVoucherBatchesCodesData, AdminVoucherBatchesCodesError, AdminVoucherBatchesCodesResponse, AdminVoucherBatchesCreateData, AdminVoucherBatchesCreateError, AdminVoucherBatchesCreateResponse, AdminVoucherBatchesExportData, AdminVoucherBatchesExportError, AdminVoucherBatchesExportResponse, AdminVoucherBatchesGetData, AdminVoucherBatchesGetError, AdminVoucherBatchesGetResponse, AdminVoucherBatchesListData, AdminVoucherBatchesListError, AdminVoucherBatchesListResponse, AdminVoucherBatchesUpdateData, AdminVoucherBatchesUpdateError, AdminVoucherBatchesUpdateResponse, AdminVouchersCreateData, AdminVouchersCreateError, AdminVouchersCreateResponse, AdminVouchersGetData, AdminVouchersGetError, AdminVouchersGetResponse, AdminVouchersListData, AdminVouchersListError, AdminVouchersListResponse, AdminVouchersRedemptionsData, AdminVouchersRedemptionsError, AdminVouchersRedemptionsResponse, AdminVouchersUpdateData, AdminVouchersUpdateError, AdminVouchersUpdateResponse, AttachmentsDownloadData, AttachmentsDownloadError, AttachmentsDownloadResponse, AttachmentsUploadData, AttachmentsUploadError, AttachmentsUploadResponse, ConversationsCreateData, ConversationsCreateError, ConversationsCreateResponse, ConversationsGetData, ConversationsGetError, ConversationsGetResponse, ConversationsListData, ConversationsListResponse, ConversationsMessagesData, ConversationsMessagesError, ConversationsMessagesResponse, ConversationsRemoveData, ConversationsRemoveError, ConversationsRemoveResponse, ConversationsRenameData, ConversationsRenameError, ConversationsRenameResponse, HealthLiveData, HealthReadyData, HealthReadyError, HealthReadyResponse, MeBalanceActivityData, MeBalanceActivityResponse, MeBalanceBalanceData, MeBalanceBalanceResponse, MeGetData, MeGetResponse, MeSubscriptionGetData, MeSubscriptionGetResponse, MeUpdateData, MeUpdateResponse, MeUsageUsageData, MeUsageUsageError, MeUsageUsageResponse, MeVouchersRedeemData, MeVouchersRedeemError, MeVouchersRedeemResponse, ModesListData, ModesListResponse, PublicPlansListData, PublicPlansListResponse } from '../types.gen';
+import { adminAgentsList, adminAgentsUpdate, adminCatalogSyncApply, adminCatalogSyncDismiss, adminCatalogSyncList, adminCatalogSyncRun, adminCatalogSyncStatus, adminChatSettingsGet, adminChatSettingsUpdate, adminLedgerAdjust, adminLedgerBalance, adminLedgerEntries, adminLedgerRecordPurchase, adminModelsCreate, adminModelsGet, adminModelsList, adminModelsPrices, adminModelsSetPrice, adminModelsTest, adminModelsUpdate, adminModesCreate, adminModesGet, adminModesList, adminModesUpdate, adminPlansCreate, adminPlansGet, adminPlansList, adminPlansSetModes, adminPlansUpdate, adminPricingSettingsGet, adminPricingSettingsUpdate, adminProvidersAvailableModels, adminProvidersCreate, adminProvidersList, adminProvidersRemoveApiKey, adminProvidersSetApiKey, adminProvidersUpdate, adminReportsAgentRun, adminReportsAgentRuns, adminReportsAudit, adminReportsAuditFacets, adminReportsChatRequests, adminReportsOverview, adminReportsUserUsage, adminSubscriptionsAssign, adminSubscriptionsEnd, adminSubscriptionsHistory, adminUsersGet, adminUsersList, adminUsersSetAdminRole, adminUsersSetStatus, adminVoucherBatchesCodes, adminVoucherBatchesCreate, adminVoucherBatchesExport, adminVoucherBatchesGet, adminVoucherBatchesList, adminVoucherBatchesUpdate, adminVouchersCreate, adminVouchersGet, adminVouchersList, adminVouchersRedemptions, adminVouchersUpdate, attachmentsDownload, attachmentsUpload, conversationsCreate, conversationsGet, conversationsList, conversationsMessages, conversationsRemove, conversationsRename, healthLive, healthReady, meAgentsAnswer, meAgentsList, meBalanceActivity, meBalanceBalance, meBrandKitsCreate, meBrandKitsDeleteAsset, meBrandKitsDownload, meBrandKitsGet, meBrandKitsList, meBrandKitsRemove, meBrandKitsUpdate, meBrandKitsUploadAsset, meBrandKitsVersions, meDesignsExport, meDesignsList, meGet, meSubscriptionGet, meUpdate, meUsageUsage, meVouchersRedeem, modesList, type Options, publicPlansList } from '../sdk.gen';
+import type { AdminAgentsListData, AdminAgentsListError, AdminAgentsListResponse, AdminAgentsUpdateData, AdminAgentsUpdateError, AdminAgentsUpdateResponse, AdminCatalogSyncApplyData, AdminCatalogSyncApplyError, AdminCatalogSyncApplyResponse, AdminCatalogSyncDismissData, AdminCatalogSyncDismissError, AdminCatalogSyncDismissResponse, AdminCatalogSyncListData, AdminCatalogSyncListError, AdminCatalogSyncListResponse, AdminCatalogSyncRunData, AdminCatalogSyncRunError, AdminCatalogSyncRunResponse, AdminCatalogSyncStatusData, AdminCatalogSyncStatusError, AdminCatalogSyncStatusResponse, AdminChatSettingsGetData, AdminChatSettingsGetError, AdminChatSettingsGetResponse, AdminChatSettingsUpdateData, AdminChatSettingsUpdateError, AdminChatSettingsUpdateResponse, AdminLedgerAdjustData, AdminLedgerAdjustError, AdminLedgerAdjustResponse, AdminLedgerBalanceData, AdminLedgerBalanceError, AdminLedgerBalanceResponse, AdminLedgerEntriesData, AdminLedgerEntriesError, AdminLedgerEntriesResponse, AdminLedgerRecordPurchaseData, AdminLedgerRecordPurchaseError, AdminLedgerRecordPurchaseResponse, AdminModelsCreateData, AdminModelsCreateError, AdminModelsCreateResponse, AdminModelsGetData, AdminModelsGetError, AdminModelsGetResponse, AdminModelsListData, AdminModelsListError, AdminModelsListResponse, AdminModelsPricesData, AdminModelsPricesError, AdminModelsPricesResponse, AdminModelsSetPriceData, AdminModelsSetPriceError, AdminModelsSetPriceResponse, AdminModelsTestData, AdminModelsTestError, AdminModelsTestResponse, AdminModelsUpdateData, AdminModelsUpdateError, AdminModelsUpdateResponse, AdminModesCreateData, AdminModesCreateError, AdminModesCreateResponse, AdminModesGetData, AdminModesGetError, AdminModesGetResponse, AdminModesListData, AdminModesListError, AdminModesListResponse, AdminModesUpdateData, AdminModesUpdateError, AdminModesUpdateResponse, AdminPlansCreateData, AdminPlansCreateError, AdminPlansCreateResponse, AdminPlansGetData, AdminPlansGetError, AdminPlansGetResponse, AdminPlansListData, AdminPlansListError, AdminPlansListResponse, AdminPlansSetModesData, AdminPlansSetModesError, AdminPlansSetModesResponse, AdminPlansUpdateData, AdminPlansUpdateError, AdminPlansUpdateResponse, AdminPricingSettingsGetData, AdminPricingSettingsGetError, AdminPricingSettingsGetResponse, AdminPricingSettingsUpdateData, AdminPricingSettingsUpdateError, AdminPricingSettingsUpdateResponse, AdminProvidersAvailableModelsData, AdminProvidersAvailableModelsError, AdminProvidersAvailableModelsResponse, AdminProvidersCreateData, AdminProvidersCreateError, AdminProvidersCreateResponse, AdminProvidersListData, AdminProvidersListError, AdminProvidersListResponse, AdminProvidersRemoveApiKeyData, AdminProvidersRemoveApiKeyError, AdminProvidersRemoveApiKeyResponse, AdminProvidersSetApiKeyData, AdminProvidersSetApiKeyError, AdminProvidersSetApiKeyResponse, AdminProvidersUpdateData, AdminProvidersUpdateError, AdminProvidersUpdateResponse, AdminReportsAgentRunData, AdminReportsAgentRunError, AdminReportsAgentRunResponse, AdminReportsAgentRunsData, AdminReportsAgentRunsError, AdminReportsAgentRunsResponse, AdminReportsAuditData, AdminReportsAuditError, AdminReportsAuditFacetsData, AdminReportsAuditFacetsError, AdminReportsAuditFacetsResponse, AdminReportsAuditResponse, AdminReportsChatRequestsData, AdminReportsChatRequestsError, AdminReportsChatRequestsResponse, AdminReportsOverviewData, AdminReportsOverviewError, AdminReportsOverviewResponse, AdminReportsUserUsageData, AdminReportsUserUsageError, AdminReportsUserUsageResponse, AdminSubscriptionsAssignData, AdminSubscriptionsAssignError, AdminSubscriptionsAssignResponse, AdminSubscriptionsEndData, AdminSubscriptionsEndError, AdminSubscriptionsEndResponse, AdminSubscriptionsHistoryData, AdminSubscriptionsHistoryError, AdminSubscriptionsHistoryResponse, AdminUsersGetData, AdminUsersGetError, AdminUsersGetResponse, AdminUsersListData, AdminUsersListError, AdminUsersListResponse, AdminUsersSetAdminRoleData, AdminUsersSetAdminRoleError, AdminUsersSetAdminRoleResponse, AdminUsersSetStatusData, AdminUsersSetStatusError, AdminUsersSetStatusResponse, AdminVoucherBatchesCodesData, AdminVoucherBatchesCodesError, AdminVoucherBatchesCodesResponse, AdminVoucherBatchesCreateData, AdminVoucherBatchesCreateError, AdminVoucherBatchesCreateResponse, AdminVoucherBatchesExportData, AdminVoucherBatchesExportError, AdminVoucherBatchesExportResponse, AdminVoucherBatchesGetData, AdminVoucherBatchesGetError, AdminVoucherBatchesGetResponse, AdminVoucherBatchesListData, AdminVoucherBatchesListError, AdminVoucherBatchesListResponse, AdminVoucherBatchesUpdateData, AdminVoucherBatchesUpdateError, AdminVoucherBatchesUpdateResponse, AdminVouchersCreateData, AdminVouchersCreateError, AdminVouchersCreateResponse, AdminVouchersGetData, AdminVouchersGetError, AdminVouchersGetResponse, AdminVouchersListData, AdminVouchersListError, AdminVouchersListResponse, AdminVouchersRedemptionsData, AdminVouchersRedemptionsError, AdminVouchersRedemptionsResponse, AdminVouchersUpdateData, AdminVouchersUpdateError, AdminVouchersUpdateResponse, AttachmentsDownloadData, AttachmentsDownloadError, AttachmentsDownloadResponse, AttachmentsUploadData, AttachmentsUploadError, AttachmentsUploadResponse, ConversationsCreateData, ConversationsCreateError, ConversationsCreateResponse, ConversationsGetData, ConversationsGetError, ConversationsGetResponse, ConversationsListData, ConversationsListResponse, ConversationsMessagesData, ConversationsMessagesError, ConversationsMessagesResponse, ConversationsRemoveData, ConversationsRemoveError, ConversationsRemoveResponse, ConversationsRenameData, ConversationsRenameError, ConversationsRenameResponse, HealthLiveData, HealthReadyData, HealthReadyError, HealthReadyResponse, MeAgentsAnswerData, MeAgentsAnswerError, MeAgentsAnswerResponse, MeAgentsListData, MeAgentsListResponse, MeBalanceActivityData, MeBalanceActivityResponse, MeBalanceBalanceData, MeBalanceBalanceResponse, MeBrandKitsCreateData, MeBrandKitsCreateError, MeBrandKitsCreateResponse, MeBrandKitsDeleteAssetData, MeBrandKitsDeleteAssetError, MeBrandKitsDeleteAssetResponse, MeBrandKitsDownloadData, MeBrandKitsDownloadError, MeBrandKitsDownloadResponse, MeBrandKitsGetData, MeBrandKitsGetError, MeBrandKitsGetResponse, MeBrandKitsListData, MeBrandKitsListResponse, MeBrandKitsRemoveData, MeBrandKitsRemoveError, MeBrandKitsRemoveResponse, MeBrandKitsUpdateData, MeBrandKitsUpdateError, MeBrandKitsUpdateResponse, MeBrandKitsUploadAssetData, MeBrandKitsUploadAssetError, MeBrandKitsUploadAssetResponse, MeBrandKitsVersionsData, MeBrandKitsVersionsError, MeBrandKitsVersionsResponse, MeDesignsExportData, MeDesignsExportError, MeDesignsExportResponse, MeDesignsListData, MeDesignsListResponse, MeGetData, MeGetResponse, MeSubscriptionGetData, MeSubscriptionGetResponse, MeUpdateData, MeUpdateResponse, MeUsageUsageData, MeUsageUsageError, MeUsageUsageResponse, MeVouchersRedeemData, MeVouchersRedeemError, MeVouchersRedeemResponse, ModesListData, ModesListResponse, PublicPlansListData, PublicPlansListResponse } from '../types.gen';
 
 export type QueryKey<TOptions extends Options> = [
     Pick<TOptions, 'baseUrl' | 'body' | 'headers' | 'path' | 'query'> & {
@@ -479,6 +479,117 @@ export const conversationsMessagesInfiniteOptions = (options: Options<Conversati
     return opts as Omit<typeof opts, 'initialData'>;
 };
 
+export const meAgentsListQueryKey = (options?: Options<MeAgentsListData>) => createQueryKey('meAgentsList', options);
+
+/**
+ * Agents your plan offers
+ *
+ * Start one with `POST /conversations` and `{ agentKey }`; its first question is in the conversation messages.
+ */
+export const meAgentsListOptions = (options?: Options<MeAgentsListData>) => queryOptions<MeAgentsListResponse, DefaultError, MeAgentsListResponse, ReturnType<typeof meAgentsListQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await meAgentsList({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: meAgentsListQueryKey(options)
+});
+
+/**
+ * Answer the agent's latest question
+ *
+ * Saves your reply and returns it with the agent's next question. Files are uploaded first to the brand kit named in the question (`POST /me/brand-kits/{id}/assets`) and sent here as `assetIds`.
+ */
+export const meAgentsAnswerMutation = (options?: Partial<Options<MeAgentsAnswerData>>): UseMutationOptions<MeAgentsAnswerResponse, MeAgentsAnswerError, Options<MeAgentsAnswerData>> => {
+    const mutationOptions: UseMutationOptions<MeAgentsAnswerResponse, MeAgentsAnswerError, Options<MeAgentsAnswerData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await meAgentsAnswer({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const meDesignsListQueryKey = (options?: Options<MeDesignsListData>) => createQueryKey('meDesignsList', options);
+
+/**
+ * My designs, newest first
+ *
+ * Every design the graphic designer delivered, across conversations (edits included, each with its version).
+ */
+export const meDesignsListOptions = (options?: Options<MeDesignsListData>) => queryOptions<MeDesignsListResponse, DefaultError, MeDesignsListResponse, ReturnType<typeof meDesignsListQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await meDesignsList({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: meDesignsListQueryKey(options)
+});
+
+export const meDesignsListInfiniteQueryKey = (options?: Options<MeDesignsListData>): QueryKey<Options<MeDesignsListData>> => createQueryKey('meDesignsList', options, true);
+
+/**
+ * My designs, newest first
+ *
+ * Every design the graphic designer delivered, across conversations (edits included, each with its version).
+ */
+export const meDesignsListInfiniteOptions = (options?: Options<MeDesignsListData>) => {
+    const opts = infiniteQueryOptions<MeDesignsListResponse, DefaultError, InfiniteData<MeDesignsListResponse>, QueryKey<Options<MeDesignsListData>>, string | Pick<QueryKey<Options<MeDesignsListData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
+    // @ts-ignore
+    {
+        queryFn: async ({ pageParam, queryKey, signal }) => {
+            // @ts-ignore
+            const page: Pick<QueryKey<Options<MeDesignsListData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
+                query: {
+                    cursor: pageParam
+                }
+            };
+            const params = createInfiniteParams(queryKey, page);
+            const { data } = await meDesignsList({
+                ...options,
+                ...params,
+                signal,
+                throwOnError: true
+            });
+            return data;
+        },
+        queryKey: meDesignsListInfiniteQueryKey(options)
+    });
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
+export const meDesignsExportQueryKey = (options: Options<MeDesignsExportData>) => createQueryKey('meDesignsExport', options);
+
+/**
+ * Download a design as PNG, JPG or WebP
+ *
+ * Converted on the server, no AI and no charge. `size=standard` scales it to the social media size of its shape; the shape never changes.
+ */
+export const meDesignsExportOptions = (options: Options<MeDesignsExportData>) => queryOptions<MeDesignsExportResponse, MeDesignsExportError, MeDesignsExportResponse, ReturnType<typeof meDesignsExportQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await meDesignsExport({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: meDesignsExportQueryKey(options)
+});
+
 export const meUsageUsageQueryKey = (options?: Options<MeUsageUsageData>) => createQueryKey('meUsageUsage', options);
 
 /**
@@ -508,6 +619,203 @@ export const meVouchersRedeemMutation = (options?: Partial<Options<MeVouchersRed
     const mutationOptions: UseMutationOptions<MeVouchersRedeemResponse, MeVouchersRedeemError, Options<MeVouchersRedeemData>> = {
         mutationFn: async (fnOptions) => {
             const { data } = await meVouchersRedeem({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const meBrandKitsListQueryKey = (options?: Options<MeBrandKitsListData>) => createQueryKey('meBrandKitsList', options);
+
+/**
+ * Your brand kits, newest first
+ */
+export const meBrandKitsListOptions = (options?: Options<MeBrandKitsListData>) => queryOptions<MeBrandKitsListResponse, DefaultError, MeBrandKitsListResponse, ReturnType<typeof meBrandKitsListQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await meBrandKitsList({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: meBrandKitsListQueryKey(options)
+});
+
+export const meBrandKitsListInfiniteQueryKey = (options?: Options<MeBrandKitsListData>): QueryKey<Options<MeBrandKitsListData>> => createQueryKey('meBrandKitsList', options, true);
+
+/**
+ * Your brand kits, newest first
+ */
+export const meBrandKitsListInfiniteOptions = (options?: Options<MeBrandKitsListData>) => {
+    const opts = infiniteQueryOptions<MeBrandKitsListResponse, DefaultError, InfiniteData<MeBrandKitsListResponse>, QueryKey<Options<MeBrandKitsListData>>, string | Pick<QueryKey<Options<MeBrandKitsListData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
+    // @ts-ignore
+    {
+        queryFn: async ({ pageParam, queryKey, signal }) => {
+            // @ts-ignore
+            const page: Pick<QueryKey<Options<MeBrandKitsListData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
+                query: {
+                    cursor: pageParam
+                }
+            };
+            const params = createInfiniteParams(queryKey, page);
+            const { data } = await meBrandKitsList({
+                ...options,
+                ...params,
+                signal,
+                throwOnError: true
+            });
+            return data;
+        },
+        queryKey: meBrandKitsListInfiniteQueryKey(options)
+    });
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
+/**
+ * Create a brand kit
+ *
+ * Name, optional colours and profile. The number of kits is limited by the plan (`limit` in the list).
+ */
+export const meBrandKitsCreateMutation = (options?: Partial<Options<MeBrandKitsCreateData>>): UseMutationOptions<MeBrandKitsCreateResponse, MeBrandKitsCreateError, Options<MeBrandKitsCreateData>> => {
+    const mutationOptions: UseMutationOptions<MeBrandKitsCreateResponse, MeBrandKitsCreateError, Options<MeBrandKitsCreateData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await meBrandKitsCreate({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Delete a brand kit and all its files
+ *
+ * Unreadable at once; the files are removed shortly after.
+ */
+export const meBrandKitsRemoveMutation = (options?: Partial<Options<MeBrandKitsRemoveData>>): UseMutationOptions<MeBrandKitsRemoveResponse, MeBrandKitsRemoveError, Options<MeBrandKitsRemoveData>> => {
+    const mutationOptions: UseMutationOptions<MeBrandKitsRemoveResponse, MeBrandKitsRemoveError, Options<MeBrandKitsRemoveData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await meBrandKitsRemove({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const meBrandKitsGetQueryKey = (options: Options<MeBrandKitsGetData>) => createQueryKey('meBrandKitsGet', options);
+
+/**
+ * A brand kit with its files
+ */
+export const meBrandKitsGetOptions = (options: Options<MeBrandKitsGetData>) => queryOptions<MeBrandKitsGetResponse, MeBrandKitsGetError, MeBrandKitsGetResponse, ReturnType<typeof meBrandKitsGetQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await meBrandKitsGet({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: meBrandKitsGetQueryKey(options)
+});
+
+/**
+ * Rename a brand kit, or change its colours or profile
+ *
+ * A change of colours or profile saves a new version (`version` goes up); a rename does not.
+ */
+export const meBrandKitsUpdateMutation = (options?: Partial<Options<MeBrandKitsUpdateData>>): UseMutationOptions<MeBrandKitsUpdateResponse, MeBrandKitsUpdateError, Options<MeBrandKitsUpdateData>> => {
+    const mutationOptions: UseMutationOptions<MeBrandKitsUpdateResponse, MeBrandKitsUpdateError, Options<MeBrandKitsUpdateData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await meBrandKitsUpdate({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const meBrandKitsVersionsQueryKey = (options: Options<MeBrandKitsVersionsData>) => createQueryKey('meBrandKitsVersions', options);
+
+/**
+ * Every version of the colours and profile, newest first
+ */
+export const meBrandKitsVersionsOptions = (options: Options<MeBrandKitsVersionsData>) => queryOptions<MeBrandKitsVersionsResponse, MeBrandKitsVersionsError, MeBrandKitsVersionsResponse, ReturnType<typeof meBrandKitsVersionsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await meBrandKitsVersions({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: meBrandKitsVersionsQueryKey(options)
+});
+
+/**
+ * Add a file to a brand kit
+ *
+ * Multipart form with one field `file`: JPEG, PNG, WebP or SVG up to 10 MB, or a PDF up to 20 MB (guidelines only). Images are kept without metadata as PNG (transparency) or JPEG, scaled to at most 4096 px; SVG is converted to PNG. The response suggests the main colours of an image. At most 40 files per kit. Shares the chat rate limit.
+ */
+export const meBrandKitsUploadAssetMutation = (options?: Partial<Options<MeBrandKitsUploadAssetData>>): UseMutationOptions<MeBrandKitsUploadAssetResponse, MeBrandKitsUploadAssetError, Options<MeBrandKitsUploadAssetData>> => {
+    const mutationOptions: UseMutationOptions<MeBrandKitsUploadAssetResponse, MeBrandKitsUploadAssetError, Options<MeBrandKitsUploadAssetData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await meBrandKitsUploadAsset({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const meBrandKitsDownloadQueryKey = (options: Options<MeBrandKitsDownloadData>) => createQueryKey('meBrandKitsDownload', options);
+
+/**
+ * Download a brand kit file
+ *
+ * Only for its owner; use your bearer token. Images show inline; PDFs always download.
+ */
+export const meBrandKitsDownloadOptions = (options: Options<MeBrandKitsDownloadData>) => queryOptions<MeBrandKitsDownloadResponse, MeBrandKitsDownloadError, MeBrandKitsDownloadResponse, ReturnType<typeof meBrandKitsDownloadQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await meBrandKitsDownload({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: meBrandKitsDownloadQueryKey(options)
+});
+
+/**
+ * Remove a file from a brand kit
+ */
+export const meBrandKitsDeleteAssetMutation = (options?: Partial<Options<MeBrandKitsDeleteAssetData>>): UseMutationOptions<MeBrandKitsDeleteAssetResponse, MeBrandKitsDeleteAssetError, Options<MeBrandKitsDeleteAssetData>> => {
+    const mutationOptions: UseMutationOptions<MeBrandKitsDeleteAssetResponse, MeBrandKitsDeleteAssetError, Options<MeBrandKitsDeleteAssetData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await meBrandKitsDeleteAsset({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -1492,6 +1800,78 @@ export const adminReportsChatRequestsInfiniteOptions = (options?: Options<AdminR
     return opts as Omit<typeof opts, 'initialData'>;
 };
 
+export const adminReportsAgentRunsQueryKey = (options?: Options<AdminReportsAgentRunsData>) => createQueryKey('adminReportsAgentRuns', options);
+
+/**
+ * Design runs of the agents, newest first
+ *
+ * Each run: user, agent, kind (new or edit), status, designs, steps, held, charged, provider cost, absorbed. Filter by user or status (`reconciliation_required` lists the ones to review). Page with `cursor` = `nextCursor`. No prompts or images.
+ */
+export const adminReportsAgentRunsOptions = (options?: Options<AdminReportsAgentRunsData>) => queryOptions<AdminReportsAgentRunsResponse, AdminReportsAgentRunsError, AdminReportsAgentRunsResponse, ReturnType<typeof adminReportsAgentRunsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await adminReportsAgentRuns({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: adminReportsAgentRunsQueryKey(options)
+});
+
+export const adminReportsAgentRunsInfiniteQueryKey = (options?: Options<AdminReportsAgentRunsData>): QueryKey<Options<AdminReportsAgentRunsData>> => createQueryKey('adminReportsAgentRuns', options, true);
+
+/**
+ * Design runs of the agents, newest first
+ *
+ * Each run: user, agent, kind (new or edit), status, designs, steps, held, charged, provider cost, absorbed. Filter by user or status (`reconciliation_required` lists the ones to review). Page with `cursor` = `nextCursor`. No prompts or images.
+ */
+export const adminReportsAgentRunsInfiniteOptions = (options?: Options<AdminReportsAgentRunsData>) => {
+    const opts = infiniteQueryOptions<AdminReportsAgentRunsResponse, AdminReportsAgentRunsError, InfiniteData<AdminReportsAgentRunsResponse>, QueryKey<Options<AdminReportsAgentRunsData>>, string | Pick<QueryKey<Options<AdminReportsAgentRunsData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
+    // @ts-ignore
+    {
+        queryFn: async ({ pageParam, queryKey, signal }) => {
+            // @ts-ignore
+            const page: Pick<QueryKey<Options<AdminReportsAgentRunsData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
+                query: {
+                    cursor: pageParam
+                }
+            };
+            const params = createInfiniteParams(queryKey, page);
+            const { data } = await adminReportsAgentRuns({
+                ...options,
+                ...params,
+                signal,
+                throwOnError: true
+            });
+            return data;
+        },
+        queryKey: adminReportsAgentRunsInfiniteQueryKey(options)
+    });
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
+export const adminReportsAgentRunQueryKey = (options: Options<AdminReportsAgentRunData>) => createQueryKey('adminReportsAgentRun', options);
+
+/**
+ * A design run with each model call
+ *
+ * Every step: model, status, usage, provider cost, charge, error code.
+ */
+export const adminReportsAgentRunOptions = (options: Options<AdminReportsAgentRunData>) => queryOptions<AdminReportsAgentRunResponse, AdminReportsAgentRunError, AdminReportsAgentRunResponse, ReturnType<typeof adminReportsAgentRunQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await adminReportsAgentRun({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: adminReportsAgentRunQueryKey(options)
+});
+
 export const adminReportsAuditFacetsQueryKey = (options?: Options<AdminReportsAuditFacetsData>) => createQueryKey('adminReportsAuditFacets', options);
 
 /**
@@ -1883,3 +2263,38 @@ export const adminVoucherBatchesExportOptions = (options: Options<AdminVoucherBa
     },
     queryKey: adminVoucherBatchesExportQueryKey(options)
 });
+
+export const adminAgentsListQueryKey = (options?: Options<AdminAgentsListData>) => createQueryKey('adminAgentsList', options);
+
+/**
+ * Agents with their plans and on/off state
+ */
+export const adminAgentsListOptions = (options?: Options<AdminAgentsListData>) => queryOptions<AdminAgentsListResponse, AdminAgentsListError, AdminAgentsListResponse, ReturnType<typeof adminAgentsListQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await adminAgentsList({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: adminAgentsListQueryKey(options)
+});
+
+/**
+ * Turn an agent on or off, edit its labels, choose its plans (audited)
+ */
+export const adminAgentsUpdateMutation = (options?: Partial<Options<AdminAgentsUpdateData>>): UseMutationOptions<AdminAgentsUpdateResponse, AdminAgentsUpdateError, Options<AdminAgentsUpdateData>> => {
+    const mutationOptions: UseMutationOptions<AdminAgentsUpdateResponse, AdminAgentsUpdateError, Options<AdminAgentsUpdateData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await adminAgentsUpdate({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};

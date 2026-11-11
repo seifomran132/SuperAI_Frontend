@@ -17,7 +17,8 @@
       "flagged": "Flagged requests",
       "audit": "Audit log",
       "priceUpdatesCount": "Price updates, {{n}} waiting for review",
-      "vouchers": "Codes"
+      "vouchers": "Codes",
+      "agents": "Agents"
     },
     "titles": {
       "users": "Users",
@@ -41,7 +42,8 @@
       "flagged": "Flagged requests",
       "audit": "Audit log",
       "batchNew": "New batch",
-      "batchDetail": "Batch details"
+      "batchDetail": "Batch details",
+      "agents": "Agents"
     },
     "reports": {
       "usage": {
@@ -767,7 +769,10 @@
       "noModes": "No modes yet.",
       "modesTitle": "Modes in this plan",
       "modesSave": "Save modes",
-      "modesSaved": "Plan modes saved"
+      "modesSaved": "Plan modes saved",
+      "maxBrandKits": "Brand kits",
+      "maxBrandKitsHint": "How many brand kits a subscriber keeps for the graphic designer, 0 to 100.",
+      "maxBrandKitsInvalid": "Enter a whole number from 0 to 100."
     },
     "providers": {
       "add": "Add provider",
@@ -1178,6 +1183,69 @@
         "finished": "Sync finished",
         "failed": "The sync ended with an error"
       }
+    },
+    "agents": {
+      "intro": "Users see an agent only when it is on and in their plan. An agent that is off is hidden from everyone.",
+      "tableLabel": "Agents",
+      "error": "Could not load the agents.",
+      "emptyTitle": "No agents",
+      "emptyBody": "Agents are added on the server.",
+      "columns": {
+        "agent": "Agent",
+        "key": "Key",
+        "status": "Status and readiness",
+        "plans": "Plans",
+        "sort": "Order",
+        "updated": "Last updated",
+        "actions": "Actions"
+      },
+      "on": "On",
+      "off": "Off",
+      "ready": "Ready",
+      "notReady": "Not ready",
+      "noPlans": "No plans",
+      "onNoPlans": "On, but nobody sees it: pick a plan.",
+      "edit": "Edit",
+      "editLabel": "Edit {{name}}",
+      "dialogTitle": "Edit agent",
+      "save": "Save changes",
+      "saved": "Changes saved.",
+      "visibility": "Visibility",
+      "enabled": "On for users",
+      "enabledHint": "Off: the agent is hidden from every user, even on the chosen plans.",
+      "texts": "Name and description",
+      "labelAr": "Arabic name",
+      "labelEn": "English name",
+      "descriptionAr": "Arabic description",
+      "descriptionEn": "English description",
+      "sortHint": "0 to 1000. Lower comes first.",
+      "plansTitle": "Plans",
+      "plansLabel": "Plans that offer this agent",
+      "plansHint": "Users on other plans will not see this agent.",
+      "planInactive": "Inactive",
+      "plansLoading": "Loading plans…",
+      "plansError": "Could not load the plans. Plans are not sent until they load.",
+      "noPlansWarning": "On with no plans: no user will see it.",
+      "models": "Models and cost",
+      "promptModel": "Prompt model",
+      "promptModelHint": "Text models only.",
+      "imageModel": "Image model",
+      "imageModelHint": "Models that create images only.",
+      "checkModel": "Check model",
+      "checkModelHint": "Models that read images and do not create them.",
+      "noModel": "Not set",
+      "modelOff": "{{name}} (off)",
+      "variants": "Designs per request",
+      "variantsHint": "1 to 3. Default 2. Each design is charged at real usage.",
+      "margin": "Margin (%)",
+      "marginPlaceholder": "Default",
+      "marginHint": "0 to 500. Leave empty to use each model's margin. When set, it replaces the models' margins.",
+      "readyNotice": "The agent is ready.",
+      "notReadyTitle": "The agent is not ready",
+      "missing": "Missing: {{models}}.",
+      "notReadyBody": "The models must also be on and priced on the models page for pricing to work.",
+      "onNotReady": "The agent is not ready: designs cannot be priced yet.",
+      "required": "This field is required."
     }
   }
 }

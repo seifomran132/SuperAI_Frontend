@@ -1,4 +1,12 @@
-import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import {
+  Suspense,
+  lazy,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ReactNode,
+} from 'react';
 import { Link, useNavigate } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import { Alert } from '~/components/ui/alert';
@@ -21,6 +29,7 @@ import { useNoPlan } from '../components/useNoPlan';
 import { NEW_CHAT, useChatStore } from '../model/chat-store';
 import { messageState } from '../model/message-state';
 import {
+  useAgents,
   useConversation,
   useMessages,
   useModes,
@@ -28,9 +37,13 @@ import {
 } from '../model/useChatQueries';
 import { useResumeRefresh } from '../model/useResumeRefresh';
 import { useSendMessage } from '../model/useSendMessage';
+import { useStartAgent } from '../model/agent';
 import { useAttachmentDraft } from '../model/attachment-draft';
 import type { ComposerImageInput } from '../model/image-input';
 import { uploadImage } from '../model/upload-image';
+
+// Loads with the first agent conversation, not with every chat.
+const AgentDock = lazy(() => import('../components/agent/AgentDock'));
 
 function MessagesSkeleton({ label }: { label: string }) {
   return (
@@ -56,7 +69,7 @@ function CenteredState({ children }: { children: ReactNode }) {
 
 /** New chat (no id) or an existing conversation: messages, notices and the composer. */
 export function ChatPage({ conversationId }: { conversationId?: string }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const key = conversationId ?? NEW_CHAT;
@@ -74,6 +87,17 @@ export function ChatPage({ conversationId }: { conversationId?: string }) {
   const conversation = useConversation(conversationId);
   const messagesQuery = useMessages(conversationId);
   const modesQuery = useModes();
+  const { agents } = useAgents();
+  const startAgent = useStartAgent();
+  const agentKey = conversation.data?.agentKey ?? null;
+  // The agent's name on its messages; its label, else the title's first part.
+  const agentLabel = agentKey
+    ? ((i18n.language === 'en'
+        ? agents.find((a) => a.key === agentKey)?.labelEn
+        : agents.find((a) => a.key === agentKey)?.labelAr) ??
+      conversation.data?.title?.split(' · ')[0] ??
+      '')
+    : undefined;
   const noPlan = useNoPlan();
   const selected = useSelectedMode(key, conversation.data?.modeKey);
   const setDraft = useChatStore((s) => s.setDraft);
@@ -156,6 +180,8 @@ export function ChatPage({ conversationId }: { conversationId?: string }) {
         attachments: [...send.pending.attachments],
         costUsd: null,
         usage: null,
+        ui: null,
+        answer: null,
       },
     ];
   }, [conversationId, send.pending, messagesQuery.messages]);
@@ -268,6 +294,9 @@ export function ChatPage({ conversationId }: { conversationId?: string }) {
     body = (
       <EmptyState
         imageMode={imageMode}
+        agents={agents}
+        onStartAgent={(agentKey) => void startAgent.start(agentKey)}
+        startingAgent={startAgent.pending}
         onPick={(text) => {
           setDraft(key, text);
           textarea.current?.focus();
@@ -286,6 +315,7 @@ export function ChatPage({ conversationId }: { conversationId?: string }) {
         canRetry={send.canSend && !noPlan}
         onRetry={onRetryAnswer}
         creatingRatio={aspectRatio}
+        agentLabel={agentLabel}
         hasOlder={Boolean(messagesQuery.hasOlder)}
         isFetchingOlder={messagesQuery.isFetchingOlder}
         olderFailed={messagesQuery.isFetchNextPageError}
@@ -303,45 +333,60 @@ export function ChatPage({ conversationId }: { conversationId?: string }) {
       {notFound ? null : (
         <div className="shrink-0 px-4 pt-2 pb-[max(1rem,env(safe-area-inset-bottom))] sm:px-6">
           <div className="mx-auto flex w-full max-w-[860px] flex-col gap-3">
-            {noPlan ? (
-              <NoPlanNotice onRequestBalance={openBalanceDialog} />
-            ) : refusal && !isFieldRefusal(refusal) ? (
-              <RefusalNotice
-                refusal={refusal}
-                modes={modesQuery.modes}
-                selectedModeKey={selected.modeKey}
-                onSwitchMode={selected.setMode}
-                onRequestBalance={openBalanceDialog}
-                onRetry={() => void send.retry()}
-                rateLimitSeconds={send.rateLimitSeconds}
-              />
-            ) : null}
-            {modesQuery.isError ? (
-              <ChatNotice
-                tone="danger"
-                action={
-                  <Button
-                    type="button"
-                    variant="secondary"
-                    size="sm"
-                    onClick={() => void modesQuery.refetch()}
+            {agentKey && conversationId ? (
+              <Suspense fallback={null}>
+                <AgentDock
+                  conversationId={conversationId}
+                  messages={messages}
+                  onRequestBalance={openBalanceDialog}
+                />
+              </Suspense>
+            ) : (
+              <>
+                {noPlan ? (
+                  <NoPlanNotice onRequestBalance={openBalanceDialog} />
+                ) : refusal && !isFieldRefusal(refusal) ? (
+                  <RefusalNotice
+                    refusal={refusal}
+                    modes={modesQuery.modes}
+                    selectedModeKey={selected.modeKey}
+                    onSwitchMode={selected.setMode}
+                    onRequestBalance={openBalanceDialog}
+                    onRetry={() => void send.retry()}
+                    rateLimitSeconds={send.rateLimitSeconds}
+                  />
+                ) : null}
+                {modesQuery.isError ? (
+                  <ChatNotice
+                    tone="danger"
+                    action={
+                      <Button
+                        type="button"
+                        variant="secondary"
+                        size="sm"
+                        onClick={() => void modesQuery.refetch()}
+                      >
+                        {t('common.retry')}
+                      </Button>
+                    }
                   >
-                    {t('common.retry')}
-                  </Button>
-                }
-              >
-                {t('common.networkError')}
-              </ChatNotice>
-            ) : null}
-            <Composer
-              imageInput={imageInput}
-              storeKey={key}
-              conversationModeKey={conversation.data?.modeKey}
-              send={send}
-              noPlan={noPlan}
-              refusal={refusal}
-              textareaRef={textarea}
-            />
+                    {t('common.networkError')}
+                  </ChatNotice>
+                ) : null}
+                <Composer
+                  imageInput={imageInput}
+                  storeKey={key}
+                  conversationModeKey={conversation.data?.modeKey}
+                  send={send}
+                  noPlan={noPlan}
+                  refusal={refusal}
+                  textareaRef={textarea}
+                  agents={agents}
+                  onStartAgent={(agentKey) => void startAgent.start(agentKey)}
+                  startingAgent={startAgent.pending}
+                />
+              </>
+            )}
           </div>
         </div>
       )}
