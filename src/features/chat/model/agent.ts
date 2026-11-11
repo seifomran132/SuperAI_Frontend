@@ -105,6 +105,8 @@ export type AgentUi = Base &
           value: string;
           /** Region items (`product_region`, `logo_region`): the box, or null. */
           region?: AgentRegion | null;
+          /** The uploaded design the box is on (region items). */
+          assetId?: string;
         }[];
         editable: string[];
         /** Request summary only; null while designs can't be priced (§11.3). */

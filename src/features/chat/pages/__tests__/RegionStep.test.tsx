@@ -101,6 +101,35 @@ describe('marking an area on the design (S30)', () => {
     expect(screen.getByRole('button', { name: g.send })).toBeEnabled();
   });
 
+  it('shows the marked box on the summary row', async () => {
+    const canvas = await start(steps.region('product'));
+    agentMock.next = [
+      {
+        type: 'summary',
+        step: 'edit_summary',
+        items: [
+          {
+            field: 'product_region',
+            labelAr: 'مكان المنتج',
+            labelEn: 'Product area',
+            value: 'محدَّد',
+            region: { x: 0.3, y: 0.3, width: 0.4, height: 0.4 },
+            assetId: 'design-1',
+          },
+        ],
+        editable: ['product_region'],
+        estimate: null,
+      },
+    ];
+    fireEvent.keyDown(canvas, { key: 'Enter' });
+    fireEvent.click(screen.getByRole('button', { name: g.send }));
+    await screen.findByText('محدَّد');
+    // One in the reply bubble, one on the summary row.
+    await waitFor(() =>
+      expect(screen.getAllByRole('img', { name: r.thumbnail })).toHaveLength(2),
+    );
+  });
+
   it('shows the marked design in the reply bubble', async () => {
     const canvas = await start(steps.region('product'));
     agentMock.next = [steps.brandName()];

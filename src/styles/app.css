@@ -11,6 +11,8 @@
   --color-brand: #1e293b;
   --color-brand-hover: #0f172a;
   --color-on-brand: #ffffff;
+  /* Accent inside the brand mark (logo A's dot); a brand may override it */
+  --color-brand-accent: #99f6e4;
   /* Lighter brand for a second chart series (same hue, lower contrast but still above 3:1 on white) */
   --color-brand-soft: color-mix(in srgb, var(--color-brand) 55%, white);
 

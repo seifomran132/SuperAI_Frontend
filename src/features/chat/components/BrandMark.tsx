@@ -1,28 +1,9 @@
 import { useTranslation } from 'react-i18next';
 import { brand } from '~/brand';
-import { cn } from '~/lib/utils';
+import { BrandSymbol } from '~/components/BrandSymbol';
 
-/** Brand monogram tile (until a final logo exists). */
-export function BrandMark({
-  className,
-  textClassName = 'text-base',
-}: {
-  className?: string;
-  textClassName?: string;
-}) {
-  return (
-    <span
-      aria-hidden="true"
-      className={cn(
-        'bg-brand text-on-brand flex shrink-0 items-center justify-center rounded-md font-bold',
-        textClassName,
-        className,
-      )}
-    >
-      {brand.monogram}
-    </span>
-  );
-}
+/** The brand symbol (logo A, or the monogram for a brand without a glyph). */
+export const BrandMark = BrandSymbol;
 
 /** Brand name in the UI language (never hard-coded). */
 export function useBrandName() {

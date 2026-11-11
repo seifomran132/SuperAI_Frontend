@@ -102,6 +102,7 @@ export default function AgentDock({
             failure?.kind === 'balance' ? failure.fitsVariants : undefined
           }
           onRequestBalance={onRequestBalance}
+          regionImage={(assetId) => regionImageOf(messages, assetId)}
         />
       );
       break;
@@ -201,6 +202,17 @@ function markedLogo(messages: MessageDto[]) {
     if (answer?.step === 'edit_logo_region')
       return answer.value?.region ?? null;
     if (answer?.step === 'edit_upload') return null;
+  }
+  return null;
+}
+
+/** The kit and pixels of an uploaded design, from the region step that showed it. */
+function regionImageOf(messages: MessageDto[], assetId: string) {
+  for (let i = messages.length - 1; i >= 0; i--) {
+    const ui = agentUi(messages[i]!);
+    if (ui?.type === 'region' && ui.assetId === assetId) {
+      return { brandKitId: ui.brandKitId, width: ui.width, height: ui.height };
+    }
   }
   return null;
 }

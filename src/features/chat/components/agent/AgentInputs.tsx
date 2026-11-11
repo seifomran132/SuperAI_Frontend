@@ -1,4 +1,4 @@
-import { useId, useState, type ReactNode } from 'react';
+import { Suspense, lazy, useId, useState, type ReactNode } from 'react';
 import { Link } from '@tanstack/react-router';
 import { ArrowRight, Check, Pencil, Plus } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -19,6 +19,9 @@ import {
 import { isAssetKind, type AssetKind } from '~/features/brand-kits';
 import { cn } from '~/lib/utils';
 import type { AgentUi, AgentValue } from '../../model/agent';
+
+// Loads with the first summary that has a marked area.
+const RegionThumbnail = lazy(() => import('./RegionThumbnail'));
 
 type Of<T extends AgentUi['type']> = Extract<AgentUi, { type: T }>;
 
@@ -636,10 +639,15 @@ export function SummaryInput({
   onAnswer,
   onRequestBalance,
   balanceShort,
+  regionImage,
 }: InputProps<'summary'> & {
   onRequestBalance: () => void;
   /** From `409 INSUFFICIENT_BALANCE` at confirm: what the balance covers now. */
   balanceShort?: number | null;
+  /** Where a marked area's image lives (kit, pixels), from the step that asked for it. */
+  regionImage?: (
+    assetId: string,
+  ) => { brandKitId: string; width: number; height: number } | null;
 }) {
   const { t, i18n } = useTranslation();
   const request = ui.step === 'design_summary';
@@ -675,7 +683,22 @@ export function SummaryInput({
             >
               <dt className="text-fg-muted w-24 shrink-0 text-sm">{label}</dt>
               <dd className="text-fg min-w-0 flex-1 text-sm">
-                <SummaryValue field={item.field} value={item.value} />
+                {item.region && item.assetId && regionImage?.(item.assetId) ? (
+                  <span className="flex items-center gap-2">
+                    <Suspense fallback={null}>
+                      <span className="w-16 shrink-0 [&>div]:w-16">
+                        <RegionThumbnail
+                          {...regionImage(item.assetId)!}
+                          assetId={item.assetId}
+                          region={item.region}
+                        />
+                      </span>
+                    </Suspense>
+                    <SummaryValue field={item.field} value={item.value} />
+                  </span>
+                ) : (
+                  <SummaryValue field={item.field} value={item.value} />
+                )}
               </dd>
               {ui.editable.includes(item.field) ? (
                 <Button

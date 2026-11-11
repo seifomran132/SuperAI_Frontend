@@ -12,6 +12,9 @@ export const brandStyle = {
   '--color-brand': brand.colors.brand,
   '--color-brand-hover': brand.colors.brandHover,
   '--color-on-brand': brand.colors.onBrand,
+  ...(brand.colors.accent
+    ? { '--color-brand-accent': brand.colors.accent }
+    : {}),
 } as CSSProperties;
 
 /** Icons and the share image, made by scripts/brand-images.mjs. */

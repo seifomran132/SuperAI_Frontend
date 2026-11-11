@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { brand } from '~/brand';
 import { Button } from '~/components/ui/button';
+import { BrandSymbol } from '~/components/BrandSymbol';
 import { cn } from '~/lib/utils';
 
 export function useBrandName() {
@@ -54,12 +55,7 @@ function Mark() {
   const name = useBrandName();
   return (
     <>
-      <span
-        aria-hidden="true"
-        className="bg-brand text-on-brand flex size-10 items-center justify-center rounded-md text-xl font-bold"
-      >
-        {brand.monogram}
-      </span>
+      <BrandSymbol className="size-10" textClassName="text-xl" />
       <span className="text-fg text-lg font-semibold whitespace-nowrap">
         {name}
       </span>

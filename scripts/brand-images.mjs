@@ -4,7 +4,7 @@
 //   npm run dev                       (signed out, with VITE_BRAND set to the brand)
 //   node scripts/brand-images.mjs     [base URL, default http://localhost:3001]
 //
-// Colors and the monogram are read from the running app and the share image is
+// Colors and the brand symbol are read from the running app and the share image is
 // the landing page's own hero, so a white-label brand needs no edits here.
 // Run again after the hero, tagline or brand colors change, and commit the files.
 import { mkdirSync, writeFileSync } from 'node:fs';
@@ -32,16 +32,37 @@ try {
   await page.locator('main h1').waitFor();
   await page.evaluate(() => document.fonts.ready);
 
-  const { brand, onBrand, monogram } = await page.evaluate(() => {
+  // The header's brand symbol: the logo's SVG (colours resolved, so it draws
+  // outside the app's CSS) or, for a brand without a glyph, its monogram.
+  const { brand, onBrand, monogram, svg } = await page.evaluate(() => {
     const css = getComputedStyle(document.documentElement);
+    const tile = document.querySelector('header a span');
+    const source = tile?.querySelector('svg');
+    let svg = '';
+    if (source) {
+      const copy = source.cloneNode(true);
+      copy.removeAttribute('class');
+      copy.setAttribute('width', '100%');
+      copy.setAttribute('height', '100%');
+      const live = source.querySelectorAll('*');
+      copy.querySelectorAll('*').forEach((el, i) => {
+        const style = getComputedStyle(live[i]);
+        if (el.getAttribute('stroke')) el.setAttribute('stroke', style.stroke);
+        if (el.tagName === 'circle') el.setAttribute('fill', style.fill);
+        el.removeAttribute('class');
+      });
+      svg = copy.outerHTML;
+    }
     return {
       brand: css.getPropertyValue('--color-brand').trim(),
       onBrand: css.getPropertyValue('--color-on-brand').trim(),
-      monogram:
-        document.querySelector('header a span')?.textContent?.trim() ?? '',
+      monogram: source ? '' : (tile?.textContent?.trim() ?? ''),
+      svg,
     };
   });
-  if (!brand || !monogram) throw new Error('Brand color or monogram not found');
+  if (!brand || !(monogram || svg)) {
+    throw new Error('Brand color or symbol not found');
+  }
 
   // Share image: header with the brand, hero below it. The sign-in buttons mean
   // nothing in a preview, and the hero's page padding would push it past 630.
@@ -56,7 +77,7 @@ try {
     await page.screenshot({ clip: { x: 0, y: 0, width: 1200, height: 630 } }),
   );
 
-  // Icons: the monogram tile, as in the app header. Rounded for browser tabs;
+  // Icons: the brand tile, as in the app header. Rounded for browser tabs;
   // square for iOS, which rounds the corners itself.
   async function tile(size, radius) {
     await page.setViewportSize({ width: size, height: size });
@@ -68,7 +89,7 @@ try {
           background: ${brand}; color: ${onBrand}; display: flex;
           align-items: center; justify-content: center;
           font: 700 ${Math.round(size * 0.62)}px/1 'IBM Plex Sans Arabic'; }
-      </style></head><body><div>${monogram}</div></body></html>`);
+      </style></head><body><div>${svg || monogram}</div></body></html>`);
     await page.evaluate(() => document.fonts.ready);
     return page.screenshot({ omitBackground: true });
   }

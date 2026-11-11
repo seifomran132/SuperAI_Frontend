@@ -18,6 +18,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { brand } from '~/brand';
 import { cn } from '~/lib/utils';
+import { BrandSymbol } from '~/components/BrandSymbol';
 import { useSyncStatus } from '../catalog/model/catalog-sync';
 
 const item =
@@ -60,12 +61,7 @@ export function AdminSidebar({ onNavigate }: { onNavigate?: () => void }) {
   return (
     <div className="flex h-full min-h-0 flex-col">
       <div className="flex h-16 shrink-0 items-center gap-3 px-4">
-        <span
-          aria-hidden="true"
-          className="bg-brand text-on-brand flex size-9 shrink-0 items-center justify-center rounded-md text-base font-bold"
-        >
-          {brand.monogram}
-        </span>
+        <BrandSymbol className="size-9" textClassName="text-base" />
         <span className="flex flex-col leading-tight">
           <span className="text-fg text-lg font-bold">{brandName}</span>
           <span className="text-fg-muted text-xs">{t('admin.nav.panel')}</span>
