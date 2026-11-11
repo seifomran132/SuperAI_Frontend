@@ -6,13 +6,14 @@ import { Button } from '~/components/ui/button';
 import {
   activeAgentMessage,
   agentUi,
-  useAgentAnswer,
   type AgentValue,
+  type useAgentAnswer,
 } from '../../model/agent';
 import {
   BrandPickerInput,
   ChoicesInput,
   ColorsInput,
+  Dock,
   FieldsInput,
   NoneInput,
   SummaryInput,
@@ -21,21 +22,21 @@ import {
 } from './AgentInputs';
 
 /**
- * Stands where the composer is in an agent conversation (S25): the input for
- * the newest question only. Free text can't be sent to an agent conversation.
+ * Stands where the composer is in an agent conversation (S25, S27): the input
+ * for the newest question only. Free text can't be sent to an agent
+ * conversation. The answer state is the page's, shared with «تعديل» on results.
  */
 export default function AgentDock({
-  conversationId,
   messages,
+  answer,
   onRequestBalance,
 }: {
-  conversationId: string;
   /** Oldest first, as rendered. */
   messages: MessageDto[];
+  answer: ReturnType<typeof useAgentAnswer>;
   onRequestBalance: () => void;
 }) {
-  const { t } = useTranslation();
-  const answer = useAgentAnswer(conversationId);
+  const { t, i18n } = useTranslation();
   const active = activeAgentMessage(messages);
   const ui = active ? agentUi(active) : null;
   const failure = answer.failure;
@@ -95,8 +96,50 @@ export default function AgentDock({
           key={active.id}
           ui={ui}
           {...props}
+          balanceShort={
+            failure?.kind === 'balance' ? failure.fitsVariants : undefined
+          }
           onRequestBalance={onRequestBalance}
         />
+      );
+      break;
+    case 'progress':
+      // Designs are being made: nothing to answer; the page polls meanwhile.
+      input = (
+        <p className="text-fg-muted text-center text-sm">
+          {t('chat.agent.leaveNote')}
+        </p>
+      );
+      break;
+    case 'results':
+      input = (
+        <Dock>
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <span className="text-fg-muted text-sm">
+              {t('chat.agent.next')}
+            </span>
+            <div className="flex flex-wrap gap-2">
+              {ui.options.map((option, index) => (
+                <Button
+                  key={option.value}
+                  type="button"
+                  size="sm"
+                  variant={index === 0 ? 'primary' : 'secondary'}
+                  loading={answer.busy && index === 0}
+                  disabled={answer.busy}
+                  onClick={() => send({ action: option.value })}
+                >
+                  {i18n.language === 'en' ? option.labelEn : option.labelAr}
+                </Button>
+              ))}
+            </div>
+          </div>
+          {error ? (
+            <p role="alert" className="text-danger text-sm">
+              {error}
+            </p>
+          ) : null}
+        </Dock>
       );
       break;
     case 'none':
@@ -110,6 +153,9 @@ export default function AgentDock({
         <p role="status" className="text-fg-muted text-center text-sm">
           {t('chat.agent.moved')}
         </p>
+      ) : null}
+      {failure?.kind === 'notReady' ? (
+        <Alert variant="warning">{t('chat.agent.notReady')}</Alert>
       ) : null}
       {failure?.kind === 'network' ? (
         <Alert

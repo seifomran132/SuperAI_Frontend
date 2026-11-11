@@ -143,7 +143,8 @@
       "moreError": "Couldn't load more."
     },
     "adminEntry": "Admin panel",
-    "brands": "My brands"
+    "brands": "My brands",
+    "designs": "My designs"
   },
   "chat": {
     "balanceChip": "Balance",
@@ -286,7 +287,24 @@
       "maxFiles": "You can send up to {{count}} files.",
       "inputLabel": "Your answer",
       "counter": "{{count}} / {{max}}",
-      "answering": "Sending…"
+      "answering": "Sending…",
+      "create": "Create the designs",
+      "createSome_one": "Create 1 design",
+      "createSome_other": "Create {{count}} designs",
+      "editIt": "Edit it",
+      "cancel": "Cancel",
+      "working": "Designing…",
+      "workingCount": "{{done}} of {{total}}",
+      "leaveNote": "You can leave the chat and come back; your designs will be here.",
+      "ready": "Your designs are ready",
+      "noResults": "No design came out this time. Only what ran was charged.",
+      "editDesign": "Edit",
+      "editDesignLabel": "Edit design {{n}}",
+      "downloadLabel": "Download design {{n}}",
+      "finishStepFirst": "Finish the current step first.",
+      "notReady": "Designs can't be made right now. Please try again later.",
+      "next": "What next?",
+      "multipleHint": "Pick all that apply."
     }
   },
   "balance": {
@@ -415,6 +433,13 @@
       "title": "No usage this month",
       "body": "You did not send any messages in {{month}}. Pick another month above.",
       "bodyCurrent": "You have not sent any messages in {{month}} yet. Start a new chat."
+    },
+    "designs": {
+      "title": "Designs",
+      "agent": "Agent",
+      "runs": "Design runs",
+      "designs": "Designs",
+      "note": "Designs are counted apart from the message totals."
     }
   },
   "reports": {

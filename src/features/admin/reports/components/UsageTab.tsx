@@ -15,6 +15,7 @@ import { periodServerErrors } from '../model/overview';
 import { useUserUsage } from '../model/userReports';
 import { MarginValue } from './MarginValue';
 import { RequestsPanel } from './RequestsPanel';
+import { DesignsBlock } from './DesignsBlock';
 import { UsageBreakdown } from './UsageBreakdown';
 
 type Day = UserUsageDto['byDay'][number];
@@ -216,6 +217,7 @@ export function UsageTab({
         <>
           <Totals usage={usage.data} />
           <Breakdowns usage={usage.data} />
+          <DesignsBlock designs={usage.data.designs} userId={userId} />
           <Daily usage={usage.data} />
         </>
       )}

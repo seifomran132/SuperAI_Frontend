@@ -3,6 +3,7 @@ import { http, HttpResponse } from 'msw';
 import type {
   AdminChatRequestDto,
   AuditEntryDto,
+  MyDesignUsageDto,
   MyUsageDto,
   OverviewDayDto,
   OverviewDto,
@@ -30,12 +31,15 @@ export const reportsMock: {
   /** Overrides the status/code of the `error` scenario. */
   failure: { status: number; code: string } | null;
   calls: { name: string; query: Record<string, string> }[];
-} = { scenario: 'normal', failure: null, calls: [] };
+  /** `designs` of `GET /me/usage` (F15). */
+  myDesigns: MyDesignUsageDto[];
+} = { scenario: 'normal', failure: null, calls: [], myDesigns: [] };
 
 export function resetReportsMock() {
   reportsMock.scenario = 'normal';
   reportsMock.failure = null;
   reportsMock.calls = [];
+  reportsMock.myDesigns = [];
 }
 
 const usd = (value: Decimal.Value) => new Decimal(value).toFixed(9);
@@ -290,7 +294,7 @@ function myUsage(query: URLSearchParams): MyUsageDto {
             chargedUsd: usd(charged.times('0.3')),
           },
         ],
-    designs: [],
+    designs: reportsMock.myDesigns,
     byDay: rows,
   };
 }

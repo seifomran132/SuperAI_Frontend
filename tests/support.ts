@@ -14,8 +14,15 @@ import adminAr from '../src/i18n/admin.ar.json' with { type: 'json' };
 import ar from '../src/i18n/ar.json' with { type: 'json' };
 import landingAr from '../src/i18n/landing.ar.json' with { type: 'json' };
 import brandKitsAr from '../src/i18n/brand-kits.ar.json' with { type: 'json' };
+import designsAr from '../src/i18n/designs.ar.json' with { type: 'json' };
 
-export const text = { ...ar, ...adminAr, ...landingAr, ...brandKitsAr };
+export const text = {
+  ...ar,
+  ...adminAr,
+  ...landingAr,
+  ...brandKitsAr,
+  ...designsAr,
+};
 
 export const API = 'http://localhost:3000';
 export const GOTRUE = 'http://localhost:9999';

@@ -79,3 +79,32 @@ export function validateAuditSearch(raw: Record<string, unknown>): AuditSearch {
 
 export const hasAuditFilters = (search: AuditSearch) =>
   Object.keys(search).length > 0;
+
+export interface AgentRunsSearch {
+  /** Omitted = `reconciliation_required`, like the requests page. */
+  status?: Exclude<RequestsFilter, 'reconciliation_required'>;
+  /** A UUID: the API refuses anything else. */
+  userId?: string;
+}
+
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+/** URL search params of /admin/agent-runs; anything malformed is dropped. */
+export function validateAgentRunsSearch(
+  raw: Record<string, unknown>,
+): AgentRunsSearch {
+  const out: AgentRunsSearch = {};
+  const status = raw.status;
+  if (
+    status === 'all' ||
+    status === 'reserved' ||
+    status === 'settled' ||
+    status === 'released'
+  ) {
+    out.status = status;
+  }
+  if (typeof raw.userId === 'string' && UUID.test(raw.userId)) {
+    out.userId = raw.userId;
+  }
+  return out;
+}

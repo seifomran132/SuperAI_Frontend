@@ -81,7 +81,6 @@ const ask = {
   text: 'ما النص الذي يظهر على التصميم؟',
   media: 'هل لديك صورة منتج',
   summary: 'هذا طلبك. هل نبدأ؟',
-  saved: 'تم حفظ طلبك',
 };
 
 interface Session {
@@ -153,12 +152,20 @@ test('AG-01 a new user sets up a brand and saves a request, step by step', async
     await dockButton(s.page, g.skip).click();
     await asked(s.page, ask.summary);
     await expectNoHorizontalScroll(s.page);
-    // No prices ever; with no balance the confirm waits for a top-up.
+    // No prices ever. Locally the agent is usually not ready (no priced image
+    // models) and a new user has no balance, so creating either can't start
+    // or starts the run: each outcome must be shown.
     await expect(s.page.locator('[data-agent-dock]')).not.toContainText('$');
-    const confirm = dockButton(s.page, g.looksGood);
-    if (await confirm.isEnabled()) {
-      await confirm.click();
-      await asked(s.page, ask.saved);
+    const create = dockButton(s.page, g.create);
+    if (await create.isEnabled()) {
+      await create.click();
+      await expect(
+        s.page
+          .getByText(g.notReady)
+          .or(s.page.getByText(g.working))
+          .or(s.page.getByText(g.fitsNone, { exact: false }))
+          .first(),
+      ).toBeVisible();
     } else {
       await expect(
         s.page.getByText(g.fitsNone, { exact: false }),

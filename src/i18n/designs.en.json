@@ -1,0 +1,45 @@
+{
+  "designs": {
+    "title": "My designs",
+    "intro": "Designs the Graphic designer delivered to you, newest first.",
+    "brandFilter": "Brand",
+    "allBrands": "All brands",
+    "deletedBrand": "Deleted brand",
+    "edited": "Edited design",
+    "formats": {
+      "instagram_post": "Instagram post",
+      "instagram_story": "Instagram story",
+      "facebook_post": "Facebook post",
+      "banner": "Banner",
+      "product_image": "Product image"
+    },
+    "version": "v{{n}}",
+    "needsReview": "Check the text",
+    "openChat": "Open the chat",
+    "openViewer": "View the design full size",
+    "designLabel": "Design {{n}}",
+    "loadMore": "Load more",
+    "loading": "Loading designs",
+    "loadError": "Couldn't load your designs.",
+    "loadMoreError": "Couldn't load more.",
+    "emptyTitle": "No designs yet",
+    "emptyBody": "Ask the Graphic designer for a design in a new chat, and it will show here.",
+    "emptyBrand": "No designs for this brand yet.",
+    "startChat": "New chat",
+    "imageError": "Couldn't show the design",
+    "download": {
+      "action": "Download",
+      "options": "Download options",
+      "type": "Type",
+      "size": "Size",
+      "original": "Original size",
+      "standard": "Social media size",
+      "jpgNote": "JPG on a white background.",
+      "downloading": "Downloading…",
+      "done": "Downloaded.",
+      "error": "Couldn't download the design. Try again.",
+      "title": "Download the design",
+      "close": "Close"
+    }
+  }
+}

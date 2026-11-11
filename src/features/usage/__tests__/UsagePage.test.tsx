@@ -39,6 +39,32 @@ describe('my usage page', () => {
     expect(document.body.textContent).not.toContain('old-mode');
   });
 
+  it('shows designs apart from the messages, even in a month with no messages', async () => {
+    reportsMock.scenario = 'zeros';
+    reportsMock.myDesigns = [
+      {
+        agentKey: 'graphic_designer',
+        labelAr: 'مصمم جرافيك',
+        labelEn: 'Graphic designer',
+        runs: 3,
+        designs: 5,
+        chargedUsd: '1.120000000',
+      },
+    ];
+    await renderApp('/usage');
+    expect(
+      await screen.findByRole('heading', { name: ar.usage.designs.title }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('rowheader', { name: 'مصمم جرافيك' }),
+    ).toBeInTheDocument();
+    expect(screen.getByText('1.12$')).toBeInTheDocument();
+    expect(screen.queryByText(ar.usage.empty.title)).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('heading', { name: ar.usage.byMode.title }),
+    ).not.toBeInTheDocument();
+  });
+
   it('offers a new chat when the current month is empty', async () => {
     reportsMock.scenario = 'zeros';
     await renderApp('/usage');

@@ -3,3 +3,4 @@
 // chunks. Route files import AppShell and ChatPage from here.
 export { AppShell } from './components/AppShell';
 export { ChatPage } from './pages/ChatPage';
+export { ImageViewer } from './components/ImageViewer';

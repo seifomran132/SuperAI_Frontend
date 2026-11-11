@@ -68,6 +68,37 @@ function dto(patch: Partial<OverviewDto> = {}): OverviewDto {
 }
 
 describe('Admin overview', () => {
+  it('shows design runs apart and links the ones to review', async () => {
+    server.use(
+      http.get(URL_OVERVIEW, () =>
+        HttpResponse.json(
+          dto({
+            designRunsToReview: 3,
+            designs: {
+              runs: 12,
+              designs: 22,
+              flaggedRuns: 3,
+              chargedUsd: '4.200000000',
+              providerCostUsd: '3.100000000',
+              marginUsd: '1.100000000',
+              absorbedUsd: '0.000000000',
+            },
+          }),
+        ),
+      ),
+    );
+    await renderApp('/admin/overview');
+    const block = await screen.findByRole('region', {
+      name: ar.admin.reports.designs.title,
+    });
+    expect(within(block).getByText('22')).toBeInTheDocument();
+    const review = screen.getByRole('link', {
+      name: new RegExp(ar.admin.reports.designs.toReview),
+    });
+    expect(review).toHaveAttribute('href', '/admin/agent-runs');
+    expect(within(review).getByText('3')).toBeInTheDocument();
+  });
+
   it('shows the cards, attention links, chart and top lists', async () => {
     await renderApp('/admin/overview');
     expect(

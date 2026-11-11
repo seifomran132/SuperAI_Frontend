@@ -1,6 +1,6 @@
 # F14 + F15 — Design cost, creation, edits, gallery and export (stages 3–4)
 
-**Status:** plan approved 2026-11-11 (§3 as recommended). Designing S27–S29.
+**Status:** plan approved 2026-11-11; designs S27–S29 approved 2026-11-11 (answers in their REVIEW.md). Building.
 **Briefs:** [F14_DESIGN_COST_BRIEF.md](F14_DESIGN_COST_BRIEF.md), [F15_DESIGN_CREATION_BRIEF.md](F15_DESIGN_CREATION_BRIEF.md). **Binding contract:** `../SuperAI_Backend/docs/API_CONTRACT.md` §11.1–11.4.
 **Backend:** branch `p3-stage3-agent-runs` (stage 3 `7c45f8f`, stage 4 `ba55402`, `eb92107`, `9518db7`); its `main` is still at stage 2. Migrations `AgentRuns`, `DesignCreation`, `DesignEdits`. F13–F15 deploy only after that branch is merged and migrated on production.
 
@@ -53,3 +53,12 @@ Unit: polling start/stop, results rendering and versions, confirm with fewer var
 3. Designs S27–S29 with `stitch-designer`; the user approves.
 4. Build, tests, review, browser check.
 5. Merge after the backend's stage 3–4 branch is on `main` and migrated on production.
+
+## 7. Build notes (2026-11-11)
+
+- **Chat:** `progress` and `results` inputs, `choices.multiple`; the request summary creates («أنشئ التصاميم», or as many as the balance covers with `variants`), the edit summary has «عدّله» / «إلغاء». `useDesignPolling` re-reads the messages every 2 s while the newest agent message is `progress` and the tab is visible. Results render in the agent message (lazy `AgentResults`) with «تعديل» (enabled only at the results step) and «تنزيل». `ChatPage` owns the answer state so the dock and the results share it. New errors: `AGENT_NOT_READY`, `INSUFFICIENT_BALANCE` (balance note, no price), `DESIGN_IN_PROGRESS` (reload).
+- **Feature `designs`:** «تصاميمي» at `/designs`, `DesignCard`, `DesignPreview`, `DesignDownload` (one-click download, arrow for options, a sheet on phones), export via `GET /me/designs/{id}/export`. Download helpers moved to `src/lib/download.ts`; the chat's image viewer is exported from `~/features/chat/ui`.
+- **«استهلاكي»:** «التصاميم» section; the empty card only when there are neither messages nor designs.
+- **Balance activity:** a charge links to its conversation (F14).
+- **Admin:** designs block on the overview and user usage, «تشغيلات تصميم للمراجعة» → `/admin/agent-runs` (opens on «تحتاج مراجعة», like requests) and `/admin/agent-runs/$runId`; agent dialog «تعليمات متقدمة» with restore default, «مخصّصة» in the list.
+- **Tests:** all 765 unit tests pass (21 new for F15). Playwright against the local stack (backend `9518db7`): AG-01 to AG-06 and DS-07, DS-09, DS-10 pass on Chromium, Firefox, WebKit and both phones; BK-01 to BK-08 on Chromium. DS-01 to DS-06 stay manual: making a design needs priced image models, which the local stack lacks (AG-01 checks the create step answers «لا يمكن إنشاء التصاميم الآن» or starts).

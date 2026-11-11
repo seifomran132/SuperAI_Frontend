@@ -541,7 +541,7 @@ Turn the agent on for a test plan on `/admin/agents` (or Bruno `26-agents-setup`
 
 | ID | Steps | Expected | Result | Notes |
 |---|---|---|---|---|
-| AG-01 | New user without brands: start «مصمم جرافيك», answer every step, confirm both summaries | One question per message; the input replaces the composer; the kit is ready; «تم حفظ طلبك»; no prices anywhere | [ ] | **auto** `agent-chat` (needs the backend's stage 4 migration locally, see F13 plan §8) |
+| AG-01 | New user without brands: start «مصمم جرافيك», answer every step, confirm both summaries | One question per message; the input replaces the composer; the kit is ready; «تم حفظ طلبك»; no prices anywhere | [ ] | **auto** `agent-chat` |
 | AG-02 | Upload a logo at the logo step | Preview, then the colours step offers «ألوان من شعارك» | [ ] | **auto** `agent-chat` |
 | AG-03 | User with a ready brand: start the agent, pick it | Goes straight to «ماذا نصمم؟» | [ ] | **auto** `agent-chat` |
 | AG-04 | «تعديل» on the brand summary | Back to that question, then to the summary with the new value | [ ] | **auto** `agent-chat` |
@@ -550,6 +550,25 @@ Turn the agent on for a test plan on `/admin/agents` (or Bruno `26-agents-setup`
 | AG-07 | Request summary with little balance | «رصيدك يكفي لتصميم واحد من 2»; with none, the warning and «يبدو جيدًا» disabled | [ ] | manual: needs a priced agent |
 | AG-08 | Answer in a second tab, then in the first | «تغيّرت المحادثة، فعرضنا السؤال الأخير.» and the latest question | [ ] | manual |
 | AG-09 | Phone: run the brand setup | Inputs stay above the keyboard; no sideways scroll | [ ] | manual |
+
+---
+
+## 3j. Designs (F15) — chat, «تصاميمي», «استهلاكي», admin
+
+Needs the graphic designer on for the user's plan, ready (models set, on and priced) and the backend's stage 4 migrations.
+
+| ID | Steps | Expected | Result | Notes |
+|---|---|---|---|---|
+| DS-01 | Request summary → «أنشئ التصاميم» | «جارٍ التصميم… 0 من 2», no input; results after about a minute, in their shapes | [ ] | manual: needs priced image models |
+| DS-02 | Leave the chat while it works, come back later | The results are in the conversation | [ ] | manual |
+| DS-03 | Balance covers 1 of 2 | Note «رصيدك يكفي لتصميم واحد من 2»; button «أنشئ تصميمًا واحدًا» makes one | [ ] | manual (unit-tested) |
+| DS-04 | «تعديل» on a design, describe the change, «عدّله» | One new design with «v2» | [ ] | manual |
+| DS-05 | «تعديل تصميم موجود»: upload a design, pick changes (several), finish | The edited design keeps its shape | [ ] | manual |
+| DS-06 | «تنزيل» on a design (PNG, original); then JPG, social media size | Files save with the server's name; JPG on white; social sizes as listed | [ ] | manual (unit-tested) |
+| DS-07 | Open «تصاميمي», filter by brand, open a design, «فتح المحادثة» | Gallery newest first; viewer; the right conversation | [ ] | **auto** `designs` (empty gallery) |
+| DS-08 | «استهلاكي» for a month with designs | «التصاميم» section apart from the messages | [ ] | manual (unit-tested) |
+| DS-09 | Admin overview → «تشغيلات تصميم للمراجعة»; open a run | Runs list (needs review), run detail with every model call | [ ] | **auto** `designs` |
+| DS-10 | Admin agent dialog → «تعليمات متقدمة», change and restore | «مخصّصة» in the list; restoring sends the default | [ ] | **auto** `designs` |
 
 ---
 

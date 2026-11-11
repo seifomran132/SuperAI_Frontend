@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import {
   BarChart3,
   CreditCard,
+  Images,
   Layers,
   LogOut,
   Plus,
@@ -75,6 +76,12 @@ export function Sidebar({
           <Link to="/brands" className={footerLink} onClick={onNavigate}>
             <Layers aria-hidden="true" className="size-5" />
             {t('shell.brands')}
+          </Link>
+        ) : null}
+        {brandKits ? (
+          <Link to="/designs" className={footerLink} onClick={onNavigate}>
+            <Images aria-hidden="true" className="size-5" />
+            {t('shell.designs')}
           </Link>
         ) : null}
         {/* Drawer only: the desktop sidebar has no usage item (decision 10). */}

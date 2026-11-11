@@ -33,3 +33,4 @@ export { OverviewPage } from './reports/pages/OverviewPage';
 export { RequestsPage } from './reports/pages/RequestsPage';
 export { AuditPage } from './reports/pages/AuditPage';
 export { AgentsPage } from './agents/pages/AgentsPage';
+export { AgentRunPage, AgentRunsPage } from './reports/pages/AgentRunsPages';

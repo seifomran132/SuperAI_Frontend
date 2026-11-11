@@ -101,7 +101,7 @@ describe('the graphic designer in the chat', () => {
     fireEvent.change(answerBox(), { target: { value: 'اسم' } });
     fireEvent.click(screen.getByRole('button', { name: g.send }));
     fireEvent.click(await screen.findByRole('button', { name: g.retry }));
-    await screen.findByText(agentPrompts.design_saved!);
+    await screen.findByText(agentPrompts.design_results!, { exact: false });
     expect(agentMock.answers).toHaveLength(2);
     expect(agentMock.answers[1]!.clientRequestId).toBe(
       agentMock.answers[0]!.clientRequestId,
@@ -202,7 +202,7 @@ describe('the request summary', () => {
   it('shows no price, and changes one item on «تعديل»', async () => {
     await start(steps.summary(null));
     const dock = screen
-      .getByRole('button', { name: g.looksGood })
+      .getByRole('button', { name: g.create })
       .closest('div')!.parentElement!;
     expect(within(dock).queryByText(/\$/)).toBeNull();
     expect(screen.getByText(g.noText)).toBeInTheDocument();
@@ -219,18 +219,24 @@ describe('the request summary', () => {
     );
   });
 
-  it('notes when the balance covers fewer designs; confirm stays on', async () => {
+  it('makes as many designs as the balance covers', async () => {
     await start(steps.summary({ variants: 2, fitsVariants: 1 }));
     expect(
       screen.getByText(g.fitsSome_one.replace('{{variants}}', '2')),
     ).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: g.looksGood })).toBeEnabled();
+    fireEvent.click(screen.getByRole('button', { name: g.createSome_one }));
+    await waitFor(() =>
+      expect(agentMock.answers[0]?.value).toEqual({
+        action: 'confirm',
+        variants: 1,
+      }),
+    );
   });
 
   it('blocks confirming when the balance covers none', async () => {
     await start(steps.summary({ variants: 2, fitsVariants: 0 }));
     expect(screen.getByText(g.fitsNone, { exact: false })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: g.looksGood })).toBeDisabled();
+    expect(screen.getByRole('button', { name: g.create })).toBeDisabled();
     const note = screen
       .getByText(g.fitsNone, { exact: false })
       .closest('[role=alert]')!;

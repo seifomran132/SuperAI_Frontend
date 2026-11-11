@@ -141,9 +141,108 @@ export function TextInput({ ui, busy, error, onAnswer }: InputProps<'text'>) {
 }
 
 /**
- * `choices`: chips; with `allowText` also a free-text box.
+ * `choices` with `multiple` (S27 «edit_changes»): chips that toggle, plus
+ * «أو صِفه بكلماتك»; «متابعة» sends `{ choices, text? }` (§11.1).
  */
-export function ChoicesInput({
+function MultipleChoicesInput({
+  ui,
+  busy,
+  error,
+  onAnswer,
+}: InputProps<'choices'>) {
+  const { t, i18n } = useTranslation();
+  const id = useId();
+  const [picked, setPicked] = useState<string[]>([]);
+  const [text, setText] = useState('');
+  const over = text.length > ui.maxLength;
+  const empty = picked.length === 0 && !text.trim();
+  return (
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        if (empty || over) return;
+        onAnswer({
+          choices: picked,
+          ...(text.trim() ? { text: text.trim() } : {}),
+        });
+      }}
+    >
+      <Dock>
+        <fieldset className="flex flex-col gap-2">
+          <legend className="text-fg-muted mb-1 text-sm">
+            {t('chat.agent.multipleHint')}
+          </legend>
+          <ul className="flex flex-wrap gap-2">
+            {ui.options.map((option) => {
+              const on = picked.includes(option.value);
+              return (
+                <li key={option.value}>
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant={on ? 'primary' : 'secondary'}
+                    aria-pressed={on}
+                    disabled={busy}
+                    className="rounded-full"
+                    onClick={() =>
+                      setPicked((list) =>
+                        on
+                          ? list.filter((v) => v !== option.value)
+                          : [...list, option.value],
+                      )
+                    }
+                  >
+                    {on ? (
+                      <Check aria-hidden="true" className="size-4" />
+                    ) : null}
+                    {i18n.language === 'en' ? option.labelEn : option.labelAr}
+                  </Button>
+                </li>
+              );
+            })}
+          </ul>
+        </fieldset>
+        {ui.allowText ? (
+          <div className="flex flex-col gap-2">
+            <label htmlFor={id} className="text-fg-muted text-sm">
+              {t('chat.agent.orDescribe')}
+            </label>
+            <Input
+              id={id}
+              dir="auto"
+              value={text}
+              aria-invalid={over || Boolean(error) || undefined}
+              onChange={(event) => setText(event.target.value)}
+            />
+            <Counter count={text.length} max={ui.maxLength} />
+          </div>
+        ) : null}
+        <FieldError id={`${id}-error`} error={error} />
+        <div className="flex justify-end">
+          <Button
+            type="submit"
+            size="sm"
+            loading={busy}
+            disabled={empty || over}
+          >
+            {t('chat.agent.send')}
+          </Button>
+        </div>
+      </Dock>
+    </form>
+  );
+}
+
+/**
+ * `choices`: chips; with `allowText` also a free-text box; with `multiple`
+ * several can be picked.
+ */
+export function ChoicesInput(props: InputProps<'choices'>) {
+  if (props.ui.multiple) return <MultipleChoicesInput {...props} />;
+  return <SingleChoiceInput {...props} />;
+}
+
+function SingleChoiceInput({
   ui,
   busy,
   error,
@@ -520,8 +619,11 @@ function SummaryValue({ field, value }: { field: string; value: string }) {
 }
 
 /**
- * `summary`: the answers so far, «يبدو جيدًا», «تعديل» per item; the request
- * summary also «علامة أخرى» and balance notes, never prices (decided 2026-11-10).
+ * `summary`: the answers so far and «تعديل» per item. The brand summary
+ * confirms with «يبدو جيدًا»; the request summary makes the designs («أنشئ
+ * التصاميم», or as many as the balance covers) and offers «علامة أخرى»; the
+ * edit summary has «عدّله» and «إلغاء». Balance notes only, never prices
+ * (decided 2026-11-10).
  */
 export function SummaryInput({
   ui,
@@ -529,14 +631,34 @@ export function SummaryInput({
   error,
   onAnswer,
   onRequestBalance,
-}: InputProps<'summary'> & { onRequestBalance: () => void }) {
+  balanceShort,
+}: InputProps<'summary'> & {
+  onRequestBalance: () => void;
+  /** From `409 INSUFFICIENT_BALANCE` at confirm: what the balance covers now. */
+  balanceShort?: number | null;
+}) {
   const { t, i18n } = useTranslation();
   const request = ui.step === 'design_summary';
+  const edit = ui.step === 'edit_summary';
   const estimate = ui.estimate ?? null;
-  const short =
+  const fromEstimate =
     estimate !== null && estimate.fitsVariants < estimate.variants
       ? estimate.fitsVariants
       : null;
+  const short = typeof balanceShort === 'number' ? balanceShort : fromEstimate;
+  const variants = estimate?.variants ?? 0;
+  // Fewer designs than the agent makes: create what the balance covers.
+  const confirm =
+    request && short !== null && short > 0 && short < variants
+      ? { action: 'confirm', variants: short }
+      : { action: 'confirm' };
+  const confirmLabel = edit
+    ? t('chat.agent.editIt')
+    : request
+      ? 'variants' in confirm
+        ? t('chat.agent.createSome', { count: short ?? 0 })
+        : t('chat.agent.create')
+      : t('chat.agent.looksGood');
   return (
     <Dock>
       <dl className="border-border-subtle divide-border-subtle divide-y rounded-lg border">
@@ -571,12 +693,9 @@ export function SummaryInput({
           );
         })}
       </dl>
-      {short !== null && short > 0 ? (
+      {short !== null && short > 0 && variants > 0 ? (
         <Alert variant="info">
-          {t('chat.agent.fitsSome', {
-            count: short,
-            variants: estimate!.variants,
-          })}
+          {t('chat.agent.fitsSome', { count: short, variants })}
         </Alert>
       ) : null}
       {short === 0 ? (
@@ -610,15 +729,26 @@ export function SummaryInput({
             {t('chat.agent.anotherBrand')}
           </Button>
         ) : null}
+        {edit ? (
+          <Button
+            type="button"
+            variant="secondary"
+            size="sm"
+            disabled={busy}
+            onClick={() => onAnswer({ action: 'cancel' })}
+          >
+            {t('chat.agent.cancel')}
+          </Button>
+        ) : null}
         <Button
           type="button"
           size="sm"
           loading={busy}
           disabled={short === 0}
-          onClick={() => onAnswer({ action: 'confirm' })}
+          onClick={() => onAnswer(confirm)}
         >
           <Check aria-hidden="true" />
-          {t('chat.agent.looksGood')}
+          {confirmLabel}
         </Button>
       </div>
     </Dock>

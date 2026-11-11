@@ -23,7 +23,10 @@ export const agentPrompts: Record<string, string> = {
   design_format: 'ماذا نصمم؟',
   design_text: 'ما النص الذي يظهر على التصميم؟',
   design_summary: 'هذا طلبك. هل نبدأ؟',
-  design_saved: 'تم حفظ طلبك. ماذا بعد؟',
+  design_running: 'أعمل على تصاميمك الآن.',
+  design_results: 'هذه تصاميمك.',
+  edit_summary: 'راجع التعديل قبل أن ننفّذه.',
+  edit_changes: 'ماذا نغيّر في التصميم؟',
   blocked: 'باقتك الحالية لا تتيح هويات العلامة التجارية.',
 };
 
@@ -109,19 +112,97 @@ export const steps = {
       balanceUsd: '0.050000000',
     },
   }),
-  saved: (): Ui => ({
-    type: 'choices',
-    step: 'design_saved',
-    options: [
-      { value: 'new_design', labelAr: 'تصميم جديد', labelEn: 'A new design' },
+  editSummary: (): Ui => ({
+    type: 'summary',
+    step: 'edit_summary',
+    items: [
       {
-        value: 'change_brand',
-        labelAr: 'علامة أخرى',
-        labelEn: 'Another brand',
+        field: 'change',
+        labelAr: 'التعديل',
+        labelEn: 'Change',
+        value: 'غيّر اللون إلى الأزرق',
       },
     ],
-    allowText: false,
-    maxLength: 0,
+    editable: [],
+    estimate: null,
+  }),
+  changes: (): Ui => ({
+    type: 'choices',
+    step: 'edit_changes',
+    multiple: true,
+    options: [
+      {
+        value: 'replace_logo',
+        labelAr: 'استبدال الشعار',
+        labelEn: 'Replace the logo',
+      },
+      {
+        value: 'replace_product',
+        labelAr: 'استبدال المنتج',
+        labelEn: 'Replace the product',
+      },
+      {
+        value: 'change_text',
+        labelAr: 'تغيير النص',
+        labelEn: 'Change the text',
+      },
+    ],
+    allowText: true,
+    maxLength: 500,
+  }),
+  progress: (done = 1, total = 2): Ui => ({
+    type: 'progress',
+    step: 'design_running',
+    done,
+    total,
+  }),
+  results: (
+    designs: {
+      outputId: string;
+      attachmentId: string;
+      version?: number;
+      needsReview?: boolean;
+      width?: number;
+      height?: number;
+    }[] = [],
+  ): Ui => ({
+    type: 'results',
+    step: 'design_results',
+    designs: designs.map((d, i) => ({
+      variant: i + 1,
+      width: 1024,
+      height: 1024,
+      version: 1,
+      needsReview: false,
+      editable: true,
+      ...d,
+    })),
+    options:
+      designs.length > 0
+        ? [
+            {
+              value: 'new_design',
+              labelAr: 'تصميم جديد',
+              labelEn: 'A new design',
+            },
+            {
+              value: 'change_brand',
+              labelAr: 'علامة أخرى',
+              labelEn: 'Another brand',
+            },
+          ]
+        : [
+            {
+              value: 'try_again',
+              labelAr: 'حاول مرة أخرى',
+              labelEn: 'Try again',
+            },
+            {
+              value: 'change_brand',
+              labelAr: 'علامة أخرى',
+              labelEn: 'Another brand',
+            },
+          ],
   }),
   blocked: (): Ui => ({ type: 'none', step: 'blocked' }),
 };
@@ -248,7 +329,7 @@ export const agentHandlers = [
         modeKey: null,
         answer: { step: body.step, value: body.value },
       });
-      const nextUi = agentMock.next.shift() ?? steps.saved();
+      const nextUi = agentMock.next.shift() ?? steps.results();
       const next = question(id, nextUi, sequence + 1);
       list.push(reply, next);
       chatMock.messages[id] = list;

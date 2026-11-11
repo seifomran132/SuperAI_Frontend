@@ -68,6 +68,8 @@ interface Values {
   checkModelId: string;
   variants: number;
   marginOverridePct: string;
+  promptInstructions: string;
+  checkInstructions: string;
 }
 
 const valuesOf = (agent: AdminAgentDto): Values => ({
@@ -87,7 +89,12 @@ const valuesOf = (agent: AdminAgentDto): Values => ({
     agent.marginOverridePct === null
       ? ''
       : agent.marginOverridePct.replace(/\.?0+$/, ''),
+  // null = the default instructions; the field shows nothing then.
+  promptInstructions: agent.promptInstructions ?? '',
+  checkInstructions: agent.checkInstructions ?? '',
 });
+
+const INSTRUCTIONS_MAX = 4000;
 
 /** S26 dialog: visibility, texts, plans, models and cost, with a reason. */
 function AgentDialog({
@@ -122,6 +129,11 @@ function AgentDialog({
     if (!v.labelEn.trim()) errors.labelEn = 'agents.required';
     const sort = sortError(v.sortOrder);
     if (sort) errors.sortOrder = sort;
+    for (const key of ['promptInstructions', 'checkInstructions'] as const) {
+      if (v[key].length > INSTRUCTIONS_MAX) {
+        errors[key] = 'agents.instructionsTooLong';
+      }
+    }
     if (v.marginOverridePct.trim()) {
       const margin = percentError(v.marginOverridePct);
       if (margin) errors.marginOverridePct = margin;
@@ -150,6 +162,8 @@ function AgentDialog({
         'checkModelId',
         'variants',
         'marginOverridePct',
+        'promptInstructions',
+        'checkInstructions',
       ]}
       validate={validate}
       fields={({ errors, clearError }) => {
@@ -326,6 +340,51 @@ function AgentDialog({
                 onChange={change('marginOverridePct')}
               />
             </section>
+
+            <details
+              className="border-border-subtle rounded-md border p-3"
+              open={Boolean(
+                v.promptInstructions ||
+                v.checkInstructions ||
+                err('promptInstructions') ||
+                err('checkInstructions'),
+              )}
+            >
+              <summary className="text-fg min-h-11 cursor-pointer content-center font-bold">
+                {a('advanced')}
+              </summary>
+              <div className="mt-3 grid gap-4">
+                <p className="text-fg-muted text-sm">{a('instructionsHint')}</p>
+                {(['promptInstructions', 'checkInstructions'] as const).map(
+                  (key) => (
+                    <div key={key} className="grid gap-1">
+                      <TextAreaField
+                        label={a(key)}
+                        rows={6}
+                        value={v[key]}
+                        error={err(key)}
+                        counter={`${v[key].length} / ${INSTRUCTIONS_MAX}`}
+                        onChange={change(key)}
+                      />
+                      {key === 'checkInstructions' ? (
+                        <Alert variant="warning">{a('checkWarning')}</Alert>
+                      ) : null}
+                      {v[key] ? (
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          className="justify-self-start"
+                          onClick={() => change(key)('')}
+                        >
+                          {a('restoreDefault')}
+                        </Button>
+                      ) : null}
+                    </div>
+                  ),
+                )}
+              </div>
+            </details>
           </div>
         );
       }}
@@ -343,6 +402,9 @@ function AgentDialog({
           checkModelId: v.checkModelId || null,
           variants: v.variants,
           marginOverridePct: v.marginOverridePct.trim() || null,
+          // Empty restores the default (null).
+          promptInstructions: v.promptInstructions.trim() || null,
+          checkInstructions: v.checkInstructions.trim() || null,
         };
         // Plans are sent only once the list is there, so a failed load never clears them.
         if (plans.isSuccess) body.planKeys = v.planKeys;
@@ -395,12 +457,15 @@ export function AgentsPage() {
                     'status',
                     'plans',
                     'sort',
+                    'instructions',
                     'updated',
                     'actions',
                   ] as const
                 ).map((c) => (
                   <th key={c} scope="col" className={th}>
-                    {a(`columns.${c}`)}
+                    {c === 'instructions'
+                      ? a('instructions')
+                      : a(`columns.${c}`)}
                   </th>
                 ))}
               </tr>
@@ -464,6 +529,15 @@ export function AgentsPage() {
                     </td>
                     <td className={td}>
                       <Ltr>{agent.sortOrder}</Ltr>
+                    </td>
+                    <td className={td}>
+                      {agent.promptInstructions || agent.checkInstructions ? (
+                        <Badge tone="info" Icon={Pencil}>
+                          {a('custom')}
+                        </Badge>
+                      ) : (
+                        <span className="text-fg-muted">—</span>
+                      )}
                     </td>
                     <td className={td}>
                       {formatActivityDate(agent.updatedAt, i18n.language, {

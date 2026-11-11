@@ -6,6 +6,7 @@ import { adminVoucherBatchHandlers } from './admin-voucher-batches';
 import { adminVoucherHandlers } from './admin-vouchers';
 import { authHandlers } from './auth';
 import { brandKitHandlers } from './brand-kits';
+import { designHandlers } from './designs';
 import { chatHandlers } from './chat';
 import { reportsHandlers } from './reports';
 import { voucherHandlers } from './vouchers';
@@ -15,6 +16,7 @@ export const server = setupServer(
   // Before the chat handlers: agent conversations are created here.
   ...agentHandlers,
   ...brandKitHandlers,
+  ...designHandlers,
   ...chatHandlers,
   ...adminHandlers,
   ...catalogHandlers,

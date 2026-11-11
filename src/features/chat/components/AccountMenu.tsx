@@ -4,6 +4,7 @@ import {
   BarChart3,
   ChevronDown,
   CreditCard,
+  Images,
   Layers,
   LogOut,
   ShieldCheck,
@@ -99,6 +100,14 @@ export function AccountMenu() {
             <Link to="/brands">
               <Layers aria-hidden="true" className="text-fg-muted size-5" />
               {t('shell.brands')}
+            </Link>
+          </DropdownMenuItem>
+        ) : null}
+        {brandKits ? (
+          <DropdownMenuItem asChild>
+            <Link to="/designs">
+              <Images aria-hidden="true" className="text-fg-muted size-5" />
+              {t('shell.designs')}
             </Link>
           </DropdownMenuItem>
         ) : null}

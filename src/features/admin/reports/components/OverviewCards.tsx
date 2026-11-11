@@ -126,7 +126,7 @@ export function AttentionCard({
   zero,
   link,
 }: {
-  to: '/admin/requests' | '/admin/price-updates';
+  to: '/admin/requests' | '/admin/price-updates' | '/admin/agent-runs';
   title: string;
   help: string;
   count: number;

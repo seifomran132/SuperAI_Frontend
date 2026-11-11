@@ -43,7 +43,9 @@
       "audit": "سجل التدقيق",
       "batchNew": "مجموعة جديدة",
       "batchDetail": "تفاصيل المجموعة",
-      "agents": "المساعدون"
+      "agents": "المساعدون",
+      "agentRuns": "تشغيلات المساعدين",
+      "agentRun": "تفاصيل التشغيل"
     },
     "reports": {
       "usage": {
@@ -248,6 +250,104 @@
           "charged": "المحصَّل",
           "empty": "لا توجد بيانات في هذه الفترة"
         }
+      },
+      "designs": {
+        "title": "التصاميم",
+        "help": "تشغيلات «مصمم جرافيك»، منفصلة عن أرقام المحادثات.",
+        "runs": "التشغيلات",
+        "designs": "التصاميم",
+        "flagged": "للمراجعة",
+        "charged": "المحتسب",
+        "cost": "تكلفة المزوّد",
+        "margin": "الهامش",
+        "absorbed": "الممتص",
+        "userRuns": "عرض تشغيلات هذا المستخدم",
+        "toReview": "تشغيلات تصميم للمراجعة",
+        "toReviewHelp": "تشغيلات لم يُعرف استخدامها الفعلي فاحتُسبت تقديريًا.",
+        "toReviewZero": "لا تشغيلات للمراجعة.",
+        "toReviewLink": "عرض التشغيلات"
+      },
+      "runs": {
+        "tableLabel": "تشغيلات المساعدين",
+        "filterLabel": "الحالة",
+        "chips": {
+          "all": "الكل",
+          "reconciliation_required": "تحتاج مراجعة",
+          "reserved": "جارٍ",
+          "settled": "تمّ",
+          "released": "لم يكتمل"
+        },
+        "status": {
+          "reconciliation_required": "تحتاج مراجعة",
+          "reserved": "جارٍ",
+          "settled": "تمّ",
+          "released": "لم يكتمل"
+        },
+        "kind": {
+          "create": "إنشاء",
+          "edit": "تعديل"
+        },
+        "forUser": "تشغيلات المستخدم {{email}}",
+        "clearUser": "كل المستخدمين",
+        "columns": {
+          "date": "التاريخ",
+          "user": "المستخدم",
+          "kind": "النوع",
+          "status": "الحالة",
+          "designs": "التصاميم",
+          "charged": "المحتسب",
+          "cost": "تكلفة المزوّد"
+        },
+        "designsOf": "{{designs}} من {{variants}}",
+        "open": "فتح التشغيل",
+        "loading": "جارٍ تحميل التشغيلات",
+        "error": "تعذّر تحميل التشغيلات.",
+        "empty": "لا تشغيلات بعد.",
+        "emptyFiltered": "لا تشغيلات بهذه الحالة.",
+        "loadMore": "تحميل المزيد",
+        "back": "تشغيلات المساعدين",
+        "reserved": "المحجوز",
+        "reservedHelp": "المبلغ الذي حُجز من رصيده عند البدء.",
+        "charged": "المحتسب",
+        "chargedHelp": "لا يزيد عن المحجوز.",
+        "cost": "تكلفة المزوّد",
+        "absorbed": "الممتص",
+        "absorbedHelp": "تكلفة تحمّلناها فوق المحتسب.",
+        "facts": "تفاصيل الطلب",
+        "user": "المستخدم",
+        "conversation": "المحادثة",
+        "request": "طلب التصميم",
+        "startedAt": "بدأ في",
+        "settledAt": "انتهى في",
+        "copy": "نسخ {{label}}",
+        "copied": "تم النسخ.",
+        "steps": "خطوات التشغيل",
+        "stepsHelp": "كل استدعاء لنموذج، بالترتيب.",
+        "stepKind": {
+          "prompt": "كتابة الوصف",
+          "image": "إنشاء الصورة",
+          "check": "فحص الصورة"
+        },
+        "stepVariant": "التصميم {{n}}",
+        "retry": "محاولة أخرى",
+        "stepStatus": {
+          "started": "جارٍ",
+          "done": "تمّ",
+          "failed": "فشل"
+        },
+        "stepColumns": {
+          "step": "الخطوة",
+          "model": "النموذج",
+          "status": "الحالة",
+          "usage": "الاستخدام",
+          "cost": "تكلفة المزوّد",
+          "charge": "المحتسب",
+          "error": "الخطأ"
+        },
+        "tokensIn": "إدخال {{n}}",
+        "tokensOut": "إخراج {{n}}",
+        "estimated": "تقديري",
+        "notFound": "لم يُعثر على هذا التشغيل."
       }
     },
     "common": {
@@ -1253,7 +1353,16 @@
       "missing": "ينقصه: {{models}}.",
       "notReadyBody": "تحتاج النماذج أيضًا أن تكون مفعّلة ولها أسعار في صفحة النماذج حتى يعمل التسعير.",
       "onNotReady": "المساعد غير جاهز: لا يمكن تسعير التصاميم بعد.",
-      "required": "هذا الحقل مطلوب."
+      "required": "هذا الحقل مطلوب.",
+      "instructions": "التعليمات",
+      "custom": "مخصّصة",
+      "advanced": "تعليمات متقدمة",
+      "promptInstructions": "تعليمات كتابة الوصف",
+      "checkInstructions": "تعليمات الفحص",
+      "instructionsHint": "اتركها فارغة لاستخدام التعليمات الافتراضية. حتى 4000 حرف.",
+      "checkWarning": "يجب أن يبقى ردّ الفاحص بصيغة JSON التي يقرؤها المساعد، وإلا تفشل الفحوص.",
+      "restoreDefault": "استعادة الافتراضي",
+      "instructionsTooLong": "النص أطول من 4000 حرف."
     }
   }
 }

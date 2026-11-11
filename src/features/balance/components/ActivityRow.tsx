@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import type { ActivityEntryDto } from '~/api/generated/types.gen';
 import { Money } from '~/components/Money';
@@ -34,7 +35,17 @@ export function ActivityRow({ entry }: { entry: ActivityEntryDto }) {
       </span>
       <div className="min-w-0 flex-1">
         <p className="text-fg text-base font-medium">
-          {t(labelKey)}
+          {entry.conversationId ? (
+            <Link
+              to="/chat/$conversationId"
+              params={{ conversationId: entry.conversationId }}
+              className="focus-visible:outline-focus rounded-sm underline-offset-4 outline-hidden hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-solid"
+            >
+              {t(labelKey)}
+            </Link>
+          ) : (
+            t(labelKey)
+          )}
           {/* Design charges name the agent that made them (§11.3). */}
           {entry.agent
             ? ` · ${i18n.language === 'en' ? entry.agent.labelEn : entry.agent.labelAr}`

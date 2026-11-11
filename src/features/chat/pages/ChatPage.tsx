@@ -37,7 +37,13 @@ import {
 } from '../model/useChatQueries';
 import { useResumeRefresh } from '../model/useResumeRefresh';
 import { useSendMessage } from '../model/useSendMessage';
-import { useStartAgent } from '../model/agent';
+import {
+  activeAgentMessage,
+  agentUi,
+  useAgentAnswer,
+  useDesignPolling,
+  useStartAgent,
+} from '../model/agent';
 import { useAttachmentDraft } from '../model/attachment-draft';
 import type { ComposerImageInput } from '../model/image-input';
 import { uploadImage } from '../model/upload-image';
@@ -186,6 +192,17 @@ export function ChatPage({ conversationId }: { conversationId?: string }) {
     ];
   }, [conversationId, send.pending, messagesQuery.messages]);
 
+  // Agent conversations: one answer state for the dock and «تعديل» on results;
+  // the messages are re-read while designs are being made (F15).
+  const agentAnswer = useAgentAnswer(conversationId ?? '');
+  useDesignPolling(agentKey ? conversationId : undefined, messages);
+  const activeAgent = agentKey ? activeAgentMessage(messages) : null;
+  const canEditDesigns =
+    !agentAnswer.busy &&
+    (activeAgent ? agentUi(activeAgent)?.type === 'results' : false);
+  const onEditDesign = (outputId: string) =>
+    void agentAnswer.send('design_results', { action: 'edit', outputId });
+
   // Short result text for screen readers when an answer ends; never the answer itself.
   const [announcement, setAnnouncement] = useState('');
   const lastAssistant = [...messages]
@@ -316,6 +333,8 @@ export function ChatPage({ conversationId }: { conversationId?: string }) {
         onRetry={onRetryAnswer}
         creatingRatio={aspectRatio}
         agentLabel={agentLabel}
+        canEditDesigns={canEditDesigns}
+        onEditDesign={onEditDesign}
         hasOlder={Boolean(messagesQuery.hasOlder)}
         isFetchingOlder={messagesQuery.isFetchingOlder}
         olderFailed={messagesQuery.isFetchNextPageError}
@@ -336,8 +355,8 @@ export function ChatPage({ conversationId }: { conversationId?: string }) {
             {agentKey && conversationId ? (
               <Suspense fallback={null}>
                 <AgentDock
-                  conversationId={conversationId}
                   messages={messages}
+                  answer={agentAnswer}
                   onRequestBalance={openBalanceDialog}
                 />
               </Suspense>

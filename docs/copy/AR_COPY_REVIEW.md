@@ -1,6 +1,6 @@
 # Arabic copy review
 
-Generated from `src/i18n` by `npm run copy:table` — 1703 strings. Do not edit the Arabic here: write the correction in **Notes**, and the frontend team applies it to `ar.json`.
+Generated from `src/i18n` by `npm run copy:table` — 1861 strings. Do not edit the Arabic here: write the correction in **Notes**, and the frontend team applies it to `ar.json`.
 
 - `{{name}}` parts are filled in by the app (brand name, amounts, dates); keep them as they are.
 - `errors.*` strings are shown when the API returns that error code.
@@ -52,6 +52,7 @@ Generated from `src/i18n` by `npm run copy:table` — 1703 strings. Do not edit 
 - [usage.byMode](#usagebymode)
 - [usage.chart](#usagechart)
 - [usage.empty](#usageempty)
+- [usage.designs](#usagedesigns)
 - [reports.period](#reportsperiod)
 - [reports.month](#reportsmonth)
 - [reports.chart](#reportschart)
@@ -96,6 +97,9 @@ Generated from `src/i18n` by `npm run copy:table` — 1703 strings. Do not edit 
 - [brandKits.unsaved](#brandkitsunsaved)
 - [brandKits.leave](#brandkitsleave)
 - [brandKits.delete](#brandkitsdelete)
+- [designs](#designs)
+- [designs.formats](#designsformats)
+- [designs.download](#designsdownload)
 - [errors](#errors)
 
 ## common
@@ -289,6 +293,7 @@ Generated from `src/i18n` by `npm run copy:table` — 1703 strings. Do not edit 
 | `writing` | يكتب… | Typing… | |
 | `adminEntry` | لوحة الإدارة | Admin panel | |
 | `brands` | علاماتي التجارية | My brands | |
+| `designs` | تصاميمي | My designs | |
 
 ## shell.list
 
@@ -484,6 +489,26 @@ Generated from `src/i18n` by `npm run copy:table` — 1703 strings. Do not edit 
 | `inputLabel` | إجابتك | Your answer | |
 | `counter` | {{count}} / {{max}} | {{count}} / {{max}} | |
 | `answering` | جارٍ الإرسال… | Sending… | |
+| `create` | أنشئ التصاميم | Create the designs | |
+| `createSome_one` | أنشئ تصميمًا واحدًا | Create 1 design | |
+| `createSome_two` | أنشئ تصميمين | — | |
+| `createSome_few` | أنشئ {{count}} تصاميم | — | |
+| `createSome_many` | أنشئ {{count}} تصميمًا | — | |
+| `createSome_other` | أنشئ {{count}} تصميم | Create {{count}} designs | |
+| `editIt` | عدّله | Edit it | |
+| `cancel` | إلغاء | Cancel | |
+| `working` | جارٍ التصميم… | Designing… | |
+| `workingCount` | {{done}} من {{total}} | {{done}} of {{total}} | |
+| `leaveNote` | يمكنك مغادرة المحادثة والعودة؛ ستجد تصاميمك هنا. | You can leave the chat and come back; your designs will be here. | |
+| `ready` | تصاميمك جاهزة | Your designs are ready | |
+| `noResults` | لم يخرج تصميم هذه المرة. لم يُحتسب إلا ما نُفّذ. | No design came out this time. Only what ran was charged. | |
+| `editDesign` | تعديل | Edit | |
+| `editDesignLabel` | تعديل التصميم {{n}} | Edit design {{n}} | |
+| `downloadLabel` | تنزيل التصميم {{n}} | Download design {{n}} | |
+| `finishStepFirst` | أكمل الخطوة الحالية أولًا. | Finish the current step first. | |
+| `notReady` | لا يمكن إنشاء التصاميم الآن. حاول لاحقًا. | Designs can't be made right now. Please try again later. | |
+| `next` | ماذا بعد؟ | What next? | |
+| `multipleHint` | اختر كل ما ينطبق. | Pick all that apply. | |
 
 ## balance
 
@@ -654,6 +679,16 @@ Generated from `src/i18n` by `npm run copy:table` — 1703 strings. Do not edit 
 | `body` | لم ترسل أي رسالة في {{month}}. اختر شهرًا آخر من القائمة أعلاه. | You did not send any messages in {{month}}. Pick another month above. | |
 | `bodyCurrent` | لم ترسل أي رسالة في {{month}} بعد. ابدأ محادثة جديدة. | You have not sent any messages in {{month}} yet. Start a new chat. | |
 
+## usage.designs
+
+| Key | العربية | English | Notes |
+|---|---|---|---|
+| `title` | التصاميم | Designs | |
+| `agent` | الوكيل | Agent | |
+| `runs` | مرات التصميم | Design runs | |
+| `designs` | التصاميم | Designs | |
+| `note` | تُحسب التصاميم منفصلة عن إجمالي الرسائل. | Designs are counted apart from the message totals. | |
+
 ## reports.period
 
 | Key | العربية | English | Notes |
@@ -768,6 +803,8 @@ Generated from `src/i18n` by `npm run copy:table` — 1703 strings. Do not edit 
 | `batchNew` | مجموعة جديدة | New batch | |
 | `batchDetail` | تفاصيل المجموعة | Batch details | |
 | `agents` | المساعدون | Agents | |
+| `agentRuns` | تشغيلات المساعدين | Agent runs | |
+| `agentRun` | تفاصيل التشغيل | Run detail | |
 
 ## admin.reports
 
@@ -926,6 +963,86 @@ Generated from `src/i18n` by `npm run copy:table` — 1703 strings. Do not edit 
 | `overview.tops.requests` | الطلبات | Requests | |
 | `overview.tops.charged` | المحصَّل | Charged | |
 | `overview.tops.empty` | لا توجد بيانات في هذه الفترة | No data in this period | |
+| `designs.title` | التصاميم | Designs | |
+| `designs.help` | تشغيلات «مصمم جرافيك»، منفصلة عن أرقام المحادثات. | Graphic designer runs, apart from the chat figures. | |
+| `designs.runs` | التشغيلات | Runs | |
+| `designs.designs` | التصاميم | Designs | |
+| `designs.flagged` | للمراجعة | To review | |
+| `designs.charged` | المحتسب | Charged | |
+| `designs.cost` | تكلفة المزوّد | Provider cost | |
+| `designs.margin` | الهامش | Margin | |
+| `designs.absorbed` | الممتص | Absorbed | |
+| `designs.userRuns` | عرض تشغيلات هذا المستخدم | View this user's runs | |
+| `designs.toReview` | تشغيلات تصميم للمراجعة | Design runs to review | |
+| `designs.toReviewHelp` | تشغيلات لم يُعرف استخدامها الفعلي فاحتُسبت تقديريًا. | Runs whose real usage was unknown, charged by estimate. | |
+| `designs.toReviewZero` | لا تشغيلات للمراجعة. | No runs to review. | |
+| `designs.toReviewLink` | عرض التشغيلات | View runs | |
+| `runs.tableLabel` | تشغيلات المساعدين | Agent runs | |
+| `runs.filterLabel` | الحالة | Status | |
+| `runs.chips.all` | الكل | All | |
+| `runs.chips.reconciliation_required` | تحتاج مراجعة | Needs review | |
+| `runs.chips.reserved` | جارٍ | Running | |
+| `runs.chips.settled` | تمّ | Done | |
+| `runs.chips.released` | لم يكتمل | Not completed | |
+| `runs.status.reconciliation_required` | تحتاج مراجعة | Needs review | |
+| `runs.status.reserved` | جارٍ | Running | |
+| `runs.status.settled` | تمّ | Done | |
+| `runs.status.released` | لم يكتمل | Not completed | |
+| `runs.kind.create` | إنشاء | Create | |
+| `runs.kind.edit` | تعديل | Edit | |
+| `runs.forUser` | تشغيلات المستخدم {{email}} | Runs of {{email}} | |
+| `runs.clearUser` | كل المستخدمين | All users | |
+| `runs.columns.date` | التاريخ | Date | |
+| `runs.columns.user` | المستخدم | User | |
+| `runs.columns.kind` | النوع | Kind | |
+| `runs.columns.status` | الحالة | Status | |
+| `runs.columns.designs` | التصاميم | Designs | |
+| `runs.columns.charged` | المحتسب | Charged | |
+| `runs.columns.cost` | تكلفة المزوّد | Provider cost | |
+| `runs.designsOf` | {{designs}} من {{variants}} | {{designs}} of {{variants}} | |
+| `runs.open` | فتح التشغيل | Open run | |
+| `runs.loading` | جارٍ تحميل التشغيلات | Loading runs | |
+| `runs.error` | تعذّر تحميل التشغيلات. | Could not load the runs. | |
+| `runs.empty` | لا تشغيلات بعد. | No runs yet. | |
+| `runs.emptyFiltered` | لا تشغيلات بهذه الحالة. | No runs with this status. | |
+| `runs.loadMore` | تحميل المزيد | Load more | |
+| `runs.back` | تشغيلات المساعدين | Agent runs | |
+| `runs.reserved` | المحجوز | Held | |
+| `runs.reservedHelp` | المبلغ الذي حُجز من رصيده عند البدء. | Held from the user's balance at the start. | |
+| `runs.charged` | المحتسب | Charged | |
+| `runs.chargedHelp` | لا يزيد عن المحجوز. | Never more than held. | |
+| `runs.cost` | تكلفة المزوّد | Provider cost | |
+| `runs.absorbed` | الممتص | Absorbed | |
+| `runs.absorbedHelp` | تكلفة تحمّلناها فوق المحتسب. | Cost we carried above the charge. | |
+| `runs.facts` | تفاصيل الطلب | Request | |
+| `runs.user` | المستخدم | User | |
+| `runs.conversation` | المحادثة | Conversation | |
+| `runs.request` | طلب التصميم | Design request | |
+| `runs.startedAt` | بدأ في | Started | |
+| `runs.settledAt` | انتهى في | Ended | |
+| `runs.copy` | نسخ {{label}} | Copy {{label}} | |
+| `runs.copied` | تم النسخ. | Copied. | |
+| `runs.steps` | خطوات التشغيل | Run steps | |
+| `runs.stepsHelp` | كل استدعاء لنموذج، بالترتيب. | Every model call, in order. | |
+| `runs.stepKind.prompt` | كتابة الوصف | Write the prompt | |
+| `runs.stepKind.image` | إنشاء الصورة | Create the image | |
+| `runs.stepKind.check` | فحص الصورة | Check the image | |
+| `runs.stepVariant` | التصميم {{n}} | Design {{n}} | |
+| `runs.retry` | محاولة أخرى | Retry | |
+| `runs.stepStatus.started` | جارٍ | Running | |
+| `runs.stepStatus.done` | تمّ | Done | |
+| `runs.stepStatus.failed` | فشل | Failed | |
+| `runs.stepColumns.step` | الخطوة | Step | |
+| `runs.stepColumns.model` | النموذج | Model | |
+| `runs.stepColumns.status` | الحالة | Status | |
+| `runs.stepColumns.usage` | الاستخدام | Usage | |
+| `runs.stepColumns.cost` | تكلفة المزوّد | Provider cost | |
+| `runs.stepColumns.charge` | المحتسب | Charged | |
+| `runs.stepColumns.error` | الخطأ | Error | |
+| `runs.tokensIn` | إدخال {{n}} | In {{n}} | |
+| `runs.tokensOut` | إخراج {{n}} | Out {{n}} | |
+| `runs.estimated` | تقديري | Estimated | |
+| `runs.notFound` | لم يُعثر على هذا التشغيل. | This run was not found. | |
 
 ## admin.common
 
@@ -1879,6 +1996,15 @@ Generated from `src/i18n` by `npm run copy:table` — 1703 strings. Do not edit 
 | `notReadyBody` | تحتاج النماذج أيضًا أن تكون مفعّلة ولها أسعار في صفحة النماذج حتى يعمل التسعير. | The models must also be on and priced on the models page for pricing to work. | |
 | `onNotReady` | المساعد غير جاهز: لا يمكن تسعير التصاميم بعد. | The agent is not ready: designs cannot be priced yet. | |
 | `required` | هذا الحقل مطلوب. | This field is required. | |
+| `instructions` | التعليمات | Instructions | |
+| `custom` | مخصّصة | Custom | |
+| `advanced` | تعليمات متقدمة | Advanced instructions | |
+| `promptInstructions` | تعليمات كتابة الوصف | Prompt instructions | |
+| `checkInstructions` | تعليمات الفحص | Check instructions | |
+| `instructionsHint` | اتركها فارغة لاستخدام التعليمات الافتراضية. حتى 4000 حرف. | Leave empty to use the default instructions. Up to 4000 characters. | |
+| `checkWarning` | يجب أن يبقى ردّ الفاحص بصيغة JSON التي يقرؤها المساعد، وإلا تفشل الفحوص. | The checker must still answer the JSON the agent reads, or checks fail. | |
+| `restoreDefault` | استعادة الافتراضي | Restore default | |
+| `instructionsTooLong` | النص أطول من 4000 حرف. | The text is longer than 4000 characters. | |
 
 ## landing.hero
 
@@ -2169,6 +2295,58 @@ Generated from `src/i18n` by `npm run copy:table` — 1703 strings. Do not edit 
 | `deleted` | حُذفت الهوية. | Brand kit deleted. | |
 | `error` | تعذّر حذف الهوية. حاول مرة أخرى. | Couldn't delete the brand kit. Try again. | |
 
+## designs
+
+| Key | العربية | English | Notes |
+|---|---|---|---|
+| `title` | تصاميمي | My designs | |
+| `intro` | التصاميم التي سلّمها لك «مصمم جرافيك»، الأحدث أولًا. | Designs the Graphic designer delivered to you, newest first. | |
+| `brandFilter` | العلامة التجارية | Brand | |
+| `allBrands` | كل العلامات | All brands | |
+| `deletedBrand` | علامة محذوفة | Deleted brand | |
+| `edited` | تصميم معدَّل | Edited design | |
+| `version` | v{{n}} | v{{n}} | |
+| `needsReview` | تحقّق من النص | Check the text | |
+| `openChat` | فتح المحادثة | Open the chat | |
+| `openViewer` | عرض التصميم بالحجم الكامل | View the design full size | |
+| `designLabel` | التصميم {{n}} | Design {{n}} | |
+| `loadMore` | تحميل المزيد | Load more | |
+| `loading` | جارٍ تحميل التصاميم | Loading designs | |
+| `loadError` | تعذّر تحميل التصاميم. | Couldn't load your designs. | |
+| `loadMoreError` | تعذّر تحميل المزيد. | Couldn't load more. | |
+| `emptyTitle` | لا تصاميم بعد | No designs yet | |
+| `emptyBody` | اطلب تصميمًا من «مصمم جرافيك» في محادثة جديدة، وسيظهر هنا. | Ask the Graphic designer for a design in a new chat, and it will show here. | |
+| `emptyBrand` | لا تصاميم لهذه العلامة بعد. | No designs for this brand yet. | |
+| `startChat` | محادثة جديدة | New chat | |
+| `imageError` | تعذّر عرض التصميم | Couldn't show the design | |
+
+## designs.formats
+
+| Key | العربية | English | Notes |
+|---|---|---|---|
+| `instagram_post` | منشور إنستغرام | Instagram post | |
+| `instagram_story` | ستوري إنستغرام | Instagram story | |
+| `facebook_post` | منشور فيسبوك | Facebook post | |
+| `banner` | بانر | Banner | |
+| `product_image` | صورة منتج | Product image | |
+
+## designs.download
+
+| Key | العربية | English | Notes |
+|---|---|---|---|
+| `action` | تنزيل | Download | |
+| `options` | خيارات التنزيل | Download options | |
+| `type` | النوع | Type | |
+| `size` | الحجم | Size | |
+| `original` | الحجم الأصلي | Original size | |
+| `standard` | مقاس منصات التواصل | Social media size | |
+| `jpgNote` | JPG بخلفية بيضاء. | JPG on a white background. | |
+| `downloading` | جارٍ التنزيل… | Downloading… | |
+| `done` | تم التنزيل. | Downloaded. | |
+| `error` | تعذّر تنزيل التصميم. حاول مرة أخرى. | Couldn't download the design. Try again. | |
+| `title` | تنزيل التصميم | Download the design | |
+| `close` | إغلاق | Close | |
+
 ## errors
 
 | Key | العربية | English | Notes |
@@ -2179,6 +2357,8 @@ Generated from `src/i18n` by `npm run copy:table` — 1703 strings. Do not edit 
 | `ACCOUNT_SUSPENDED` | تم إيقاف حسابك مؤقتًا. يرجى التواصل مع الدعم. | Your account is suspended. Please contact support. | |
 | `AGENT_NOT_AVAILABLE` | هذا المساعد غير متاح في باقتك. | This assistant isn't available on your plan. | |
 | `AGENT_NOT_FOUND` | لم يتم العثور على هذا المساعد. | This agent was not found. | |
+| `AGENT_NOT_READY` | لا يمكن إنشاء التصاميم الآن. حاول لاحقًا. | Designs can't be made right now. Please try again later. | |
+| `AGENT_RUN_NOT_FOUND` | لم يتم العثور على هذا التشغيل. | This agent run was not found. | |
 | `AGENT_STEP_MISMATCH` | تغيّرت المحادثة. حدِّث الصفحة وأجب على السؤال الأخير. | The conversation moved on. Refresh and answer the latest question. | |
 | `ATTACHMENT_ALREADY_USED` | أُرسلت هذه الصورة بالفعل في رسالة أخرى. أرفقها مرة أخرى. | This image was already sent in another message. Attach it again. | |
 | `ATTACHMENT_NOT_FOUND` | لم يتم العثور على الصورة. يرجى إرفاقها مرة أخرى. | Image not found. Please attach it again. | |
@@ -2203,6 +2383,8 @@ Generated from `src/i18n` by `npm run copy:table` — 1703 strings. Do not edit 
 | `CONVERSATION_NOT_AGENT` | هذه المحادثة ليست مع مساعد. | This conversation isn't with an assistant. | |
 | `CONVERSATION_NOT_FOUND` | لم يتم العثور على المحادثة. | Conversation not found. | |
 | `DEFAULT_PLAN_REQUIRED` | يجب أن تكون هناك باقة افتراضية دائمًا. | There must always be a default plan. | |
+| `DESIGN_IN_PROGRESS` | ما زلت أعمل على تصاميمك. انتظر حتى تظهر. | I'm still working on your designs. Wait until they appear. | |
+| `DESIGN_NOT_FOUND` | لم يتم العثور على هذا التصميم. | This design was not found. | |
 | `DUPLICATE_REQUEST` | تم إرسال هذه الرسالة بالفعل. | This message was already sent. | |
 | `EMAIL_NOT_CONFIRMED` | لم يؤكد المستخدم بريده الإلكتروني بعد. | The user hasn't confirmed their email yet. | |
 | `FORBIDDEN` | ليست لديك صلاحية لتنفيذ هذا الإجراء. | You don't have permission to do this. | |

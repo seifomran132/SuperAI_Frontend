@@ -26,6 +26,9 @@ export interface MessageListProps {
   creatingRatio?: AspectRatio | null;
   /** In an agent conversation: the agent's name on its messages (F13). */
   agentLabel?: string;
+  /** At the results step: «تعديل» on any delivered design (F15). */
+  canEditDesigns?: boolean;
+  onEditDesign?: (outputId: string) => void;
   hasOlder: boolean;
   isFetchingOlder: boolean;
   olderFailed: boolean;
@@ -64,6 +67,8 @@ export function MessageList({
   onRetry,
   creatingRatio,
   agentLabel,
+  canEditDesigns,
+  onEditDesign,
   hasOlder,
   isFetchingOlder,
   olderFailed,
@@ -189,6 +194,8 @@ export function MessageList({
               key={message.id}
               message={message}
               label={agentLabel}
+              canEditDesigns={canEditDesigns}
+              onEditDesign={onEditDesign}
             />
           ) : agentLabel !== undefined && message.answer ? (
             <AgentReply key={message.id} message={message} />

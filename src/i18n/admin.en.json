@@ -43,7 +43,9 @@
       "audit": "Audit log",
       "batchNew": "New batch",
       "batchDetail": "Batch details",
-      "agents": "Agents"
+      "agents": "Agents",
+      "agentRuns": "Agent runs",
+      "agentRun": "Run detail"
     },
     "reports": {
       "usage": {
@@ -248,6 +250,104 @@
           "charged": "Charged",
           "empty": "No data in this period"
         }
+      },
+      "designs": {
+        "title": "Designs",
+        "help": "Graphic designer runs, apart from the chat figures.",
+        "runs": "Runs",
+        "designs": "Designs",
+        "flagged": "To review",
+        "charged": "Charged",
+        "cost": "Provider cost",
+        "margin": "Margin",
+        "absorbed": "Absorbed",
+        "userRuns": "View this user's runs",
+        "toReview": "Design runs to review",
+        "toReviewHelp": "Runs whose real usage was unknown, charged by estimate.",
+        "toReviewZero": "No runs to review.",
+        "toReviewLink": "View runs"
+      },
+      "runs": {
+        "tableLabel": "Agent runs",
+        "filterLabel": "Status",
+        "chips": {
+          "all": "All",
+          "reconciliation_required": "Needs review",
+          "reserved": "Running",
+          "settled": "Done",
+          "released": "Not completed"
+        },
+        "status": {
+          "reconciliation_required": "Needs review",
+          "reserved": "Running",
+          "settled": "Done",
+          "released": "Not completed"
+        },
+        "kind": {
+          "create": "Create",
+          "edit": "Edit"
+        },
+        "forUser": "Runs of {{email}}",
+        "clearUser": "All users",
+        "columns": {
+          "date": "Date",
+          "user": "User",
+          "kind": "Kind",
+          "status": "Status",
+          "designs": "Designs",
+          "charged": "Charged",
+          "cost": "Provider cost"
+        },
+        "designsOf": "{{designs}} of {{variants}}",
+        "open": "Open run",
+        "loading": "Loading runs",
+        "error": "Could not load the runs.",
+        "empty": "No runs yet.",
+        "emptyFiltered": "No runs with this status.",
+        "loadMore": "Load more",
+        "back": "Agent runs",
+        "reserved": "Held",
+        "reservedHelp": "Held from the user's balance at the start.",
+        "charged": "Charged",
+        "chargedHelp": "Never more than held.",
+        "cost": "Provider cost",
+        "absorbed": "Absorbed",
+        "absorbedHelp": "Cost we carried above the charge.",
+        "facts": "Request",
+        "user": "User",
+        "conversation": "Conversation",
+        "request": "Design request",
+        "startedAt": "Started",
+        "settledAt": "Ended",
+        "copy": "Copy {{label}}",
+        "copied": "Copied.",
+        "steps": "Run steps",
+        "stepsHelp": "Every model call, in order.",
+        "stepKind": {
+          "prompt": "Write the prompt",
+          "image": "Create the image",
+          "check": "Check the image"
+        },
+        "stepVariant": "Design {{n}}",
+        "retry": "Retry",
+        "stepStatus": {
+          "started": "Running",
+          "done": "Done",
+          "failed": "Failed"
+        },
+        "stepColumns": {
+          "step": "Step",
+          "model": "Model",
+          "status": "Status",
+          "usage": "Usage",
+          "cost": "Provider cost",
+          "charge": "Charged",
+          "error": "Error"
+        },
+        "tokensIn": "In {{n}}",
+        "tokensOut": "Out {{n}}",
+        "estimated": "Estimated",
+        "notFound": "This run was not found."
       }
     },
     "common": {
@@ -1245,7 +1345,16 @@
       "missing": "Missing: {{models}}.",
       "notReadyBody": "The models must also be on and priced on the models page for pricing to work.",
       "onNotReady": "The agent is not ready: designs cannot be priced yet.",
-      "required": "This field is required."
+      "required": "This field is required.",
+      "instructions": "Instructions",
+      "custom": "Custom",
+      "advanced": "Advanced instructions",
+      "promptInstructions": "Prompt instructions",
+      "checkInstructions": "Check instructions",
+      "instructionsHint": "Leave empty to use the default instructions. Up to 4000 characters.",
+      "checkWarning": "The checker must still answer the JSON the agent reads, or checks fail.",
+      "restoreDefault": "Restore default",
+      "instructionsTooLong": "The text is longer than 4000 characters."
     }
   }
 }

@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useQueryClient, type QueryClient } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
 import { toast } from 'sonner';
@@ -34,6 +34,18 @@ export interface AgentOption {
   labelAr: string;
   labelEn: string;
 }
+/** A delivered design in a results message (§11.1). */
+export interface AgentDesign {
+  outputId: string;
+  attachmentId: string;
+  variant: number;
+  width: number;
+  height: number;
+  needsReview: boolean;
+  version: number;
+  editable: boolean;
+}
+
 interface Base {
   step: AgentStep;
   prompt?: Bilingual;
@@ -46,6 +58,8 @@ export type AgentUi = Base &
         options: AgentOption[];
         allowText: boolean;
         maxLength: number;
+        /** Several may be picked: answers `{ choices, text? }` (§11.1). */
+        multiple?: boolean;
       }
     | {
         type: 'upload';
@@ -86,6 +100,12 @@ export type AgentUi = Base &
         /** Request summary only; null while designs can't be priced (§11.3). */
         estimate?: { variants: number; fitsVariants: number } | null;
       }
+    | { type: 'progress'; done: number; total: number }
+    | {
+        type: 'results';
+        designs: AgentDesign[];
+        options: AgentOption[];
+      }
     | { type: 'none' }
   );
 
@@ -97,6 +117,8 @@ const TYPES = new Set([
   'brand_picker',
   'fields',
   'summary',
+  'progress',
+  'results',
   'none',
 ]);
 
@@ -138,6 +160,8 @@ export type AnswerFailure =
   | { kind: 'validation'; error: ApiError }
   | { kind: 'mismatch' }
   | { kind: 'notAvailable' }
+  | { kind: 'notReady' }
+  | { kind: 'balance'; fitsVariants: number | null }
   | { kind: 'kitLimit'; error: ApiError }
   | { kind: 'network' }
   | { kind: 'other'; error: ApiError };
@@ -149,9 +173,21 @@ function classify(error: unknown): AnswerFailure {
       return { kind: 'validation', error };
     case 'AGENT_STEP_MISMATCH':
     case 'CONVERSATION_IS_AGENT':
+    // Designs are still being made: reload, and the progress message keeps polling.
+    case 'DESIGN_IN_PROGRESS':
       return { kind: 'mismatch' };
     case 'AGENT_NOT_AVAILABLE':
       return { kind: 'notAvailable' };
+    case 'AGENT_NOT_READY':
+      return { kind: 'notReady' };
+    case 'INSUFFICIENT_BALANCE': {
+      const data = (error as { data?: { fitsVariants?: unknown } }).data;
+      return {
+        kind: 'balance',
+        fitsVariants:
+          typeof data?.fitsVariants === 'number' ? data.fitsVariants : null,
+      };
+    }
     case 'BRAND_KIT_LIMIT_REACHED':
       return { kind: 'kitLimit', error };
     default:
@@ -273,4 +309,37 @@ export function useStartAgent() {
     [pending, qc, navigate],
   );
   return { start, pending };
+}
+
+/** How often the conversation is re-read while designs are being made (§11.1). */
+export const DESIGN_POLL_MS = 2_000;
+
+/**
+ * Re-reads the messages every 2 s while the newest agent message shows
+ * `progress`, and only while the page is visible; a `results` message (or any
+ * other) ends it. Closing the app doesn't stop the run: on return the
+ * conversation loads where it is.
+ */
+export function useDesignPolling(
+  conversationId: string | undefined,
+  messages: MessageDto[],
+) {
+  const qc = useQueryClient();
+  const active = activeAgentMessage(messages);
+  const working = active ? agentUi(active)?.type === 'progress' : false;
+  useEffect(() => {
+    if (!conversationId || !working) return;
+    const tick = () => {
+      if (document.visibilityState === 'visible') {
+        void refetchMessages(qc, conversationId);
+      }
+    };
+    const timer = window.setInterval(tick, DESIGN_POLL_MS);
+    document.addEventListener('visibilitychange', tick);
+    return () => {
+      window.clearInterval(timer);
+      document.removeEventListener('visibilitychange', tick);
+    };
+  }, [qc, conversationId, working]);
+  return working;
 }

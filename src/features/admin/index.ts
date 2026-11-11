@@ -22,6 +22,7 @@ export {
 export {
   validateAuditSearch,
   validateRequestsSearch,
+  validateAgentRunsSearch,
   type AuditSearch,
   type RequestsSearch,
 } from './reports/model/search';

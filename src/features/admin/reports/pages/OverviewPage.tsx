@@ -24,6 +24,7 @@ import {
   MoneyCard,
   StatCard,
 } from '../components/OverviewCards';
+import { DesignsBlock } from '../components/DesignsBlock';
 import { OverviewSkeleton } from '../components/OverviewSkeleton';
 import { TopLists } from '../components/TopLists';
 import {
@@ -104,7 +105,7 @@ function Report({ data }: { data: OverviewDto }) {
         <h2 id="attention-title" className="text-fg text-lg font-semibold">
           {t(`${P}.attention.title`)}
         </h2>
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <AttentionCard
             to="/admin/requests"
             title={t(`${P}.attention.flagged`)}
@@ -120,6 +121,14 @@ function Report({ data }: { data: OverviewDto }) {
             count={data.openCatalogFindings}
             zero={t(`${P}.attention.findingsZero`)}
             link={t(`${P}.attention.findingsLink`)}
+          />
+          <AttentionCard
+            to="/admin/agent-runs"
+            title={t('admin.reports.designs.toReview')}
+            help={t('admin.reports.designs.toReviewHelp')}
+            count={data.designRunsToReview}
+            zero={t('admin.reports.designs.toReviewZero')}
+            link={t('admin.reports.designs.toReviewLink')}
           />
         </div>
       </section>
@@ -195,6 +204,8 @@ function Report({ data }: { data: OverviewDto }) {
           </dl>
         </StatCard>
       </div>
+
+      <DesignsBlock designs={data.designs} />
 
       <section className="bg-surface border-border-subtle min-w-0 rounded-lg border p-4">
         <DailyChart

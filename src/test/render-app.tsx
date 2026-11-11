@@ -14,6 +14,7 @@ import '~/i18n';
 import { resetAuthMock } from '~/mocks/auth';
 import { resetAgentMock } from '~/mocks/agents';
 import { resetBrandKitsMock } from '~/mocks/brand-kits';
+import { resetDesignsMock } from '~/mocks/designs';
 import { server } from '~/mocks/server';
 import { routeTree } from '~/routeTree.gen';
 
@@ -24,6 +25,7 @@ export function useAuthMocks() {
     resetAuthMock();
     resetBrandKitsMock();
     resetAgentMock();
+    resetDesignsMock();
     clearPendingEmail();
   });
   afterEach(async () => {

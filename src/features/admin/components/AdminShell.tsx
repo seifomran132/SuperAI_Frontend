@@ -33,6 +33,7 @@ function titleKey(pathname: string): string {
   }
   if (area === 'providers' || area === 'settings' || area === 'agents')
     return area;
+  if (area === 'agent-runs') return rest ? 'agentRun' : 'agentRuns';
   if (area === 'price-updates') return 'priceUpdates';
   if (area === 'overview') return 'overview';
   if (area === 'requests') return 'flagged';

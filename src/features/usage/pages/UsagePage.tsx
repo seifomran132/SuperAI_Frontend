@@ -8,6 +8,7 @@ import { RetryAlert } from '~/components/RetryAlert';
 import { Button } from '~/components/ui/button';
 import { currentMonth, formatMonth, validateMonthSearch } from '~/lib/months';
 import { formatCount } from '~/lib/numbers';
+import { ByDesigns } from '../components/ByDesigns';
 import { ByMode } from '../components/ByMode';
 import { UsageChart } from '../components/UsageChart';
 import { useFirstMonth, useMyUsage } from '../model/queries';
@@ -70,7 +71,10 @@ export function UsagePage() {
     });
 
   const data = usage.data;
-  const isEmpty = data?.totals.messages === 0;
+  const designs = data?.designs ?? [];
+  const noMessages = data?.totals.messages === 0;
+  // The empty card only when there were neither messages nor designs (S28).
+  const isEmpty = noMessages && designs.length === 0;
 
   return (
     <PageScroll>
@@ -116,11 +120,16 @@ export function UsagePage() {
             </section>
           ) : (
             <>
-              <ByMode
-                rows={data.byMode}
-                totalCharged={data.totals.chargedUsd}
-              />
-              <UsageChart rows={data.byDay} month={month} />
+              {noMessages ? null : (
+                <>
+                  <ByMode
+                    rows={data.byMode}
+                    totalCharged={data.totals.chargedUsd}
+                  />
+                  <UsageChart rows={data.byDay} month={month} />
+                </>
+              )}
+              {designs.length > 0 ? <ByDesigns rows={designs} /> : null}
             </>
           )}
         </>
